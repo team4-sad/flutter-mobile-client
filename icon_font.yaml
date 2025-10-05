@@ -1,0 +1,14 @@
+icon_font:
+  input_svg_dir: "assets/icons/raw"
+  output_font_file: "assets/icons/icons.otf"
+
+  output_class_file: "lib/generated/icons.g.dart"
+  class_name: "I"
+  format: true
+
+  font_name: "Icons"
+  normalize: true
+  ignore_shapes: true
+
+  recursive: true
+  verbose: false
