@@ -42,7 +42,10 @@ class AppThemeExtension extends ThemeExtension<AppThemeExtension> {
     String? fontFamily
   }) {
     final baseThemeData = ThemeData(
-        fontFamily: fontFamily
+      fontFamily: fontFamily,
+      iconTheme: IconThemeData(
+        color: palette.subText
+      )
     );
     final themeData = switch (appTheme) {
       AppTheme.light => baseThemeData.copyWith(

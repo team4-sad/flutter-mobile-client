@@ -1,6 +1,7 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
+import 'package:miigaik/common/features/bottom-nav-bar/bottom_nav_bar.dart';
 import 'package:miigaik/features/switch-locale/locale_bloc.dart';
 import 'package:miigaik/features/switch-theme/theme_bloc.dart';
 import 'package:miigaik/generated/icons.g.dart';
@@ -14,6 +15,7 @@ class HomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      bottomNavigationBar: BottomNavBar(),
       body: Center(
         child: Column(
           spacing: 14,
@@ -49,7 +51,7 @@ class HomePage extends StatelessWidget {
             ),
             FilledButton(onPressed: (){
               GetIt.I.get<ThemeBloc>().add(NextAppThemeEvent());
-            }, child: Text(T.change_theme))
+            }, child: Text(context.tr(T.change_theme)))
           ],
         )
       ),
