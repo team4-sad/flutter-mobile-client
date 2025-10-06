@@ -3,12 +3,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get_it/get_it.dart';
-import 'package:miigaik/common/features/bottom-nav-bar/bloc/bottom_nav_bar_bloc.dart';
+import 'package:miigaik/features/root/root_page.dart';
 import 'package:miigaik/features/switch-locale/locale_bloc.dart';
-import 'package:miigaik/features/test-home/home_page.dart';
 import 'package:miigaik/theme/app_theme.dart';
 import 'package:miigaik/theme/app_theme_extensions.dart';
-import 'common/features/bottom-nav-bar/items_nav_bar.dart';
+import 'features/root/features/bottom-nav-bar/bloc/bottom_nav_bar_bloc.dart';
+import 'features/root/features/bottom-nav-bar/items_nav_bar.dart';
 import 'features/switch-theme/theme_bloc.dart';
 
 void main() async {
@@ -60,7 +60,7 @@ class MyApp extends StatelessWidget {
               bloc: GetIt.I.get<LocaleBloc>(),
               builder: (context, state) {
                 context.setLocale(state.locale);
-                return HomePage();
+                return RootPage();
               },
             ),
           ),

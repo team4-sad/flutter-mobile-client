@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get_it/get_it.dart';
 import 'package:miigaik/theme/app_theme_extensions.dart';
+import 'package:miigaik/theme/values.dart';
 
 import 'bloc/bottom_nav_bar_bloc.dart';
 import 'items_nav_bar.dart';
@@ -13,20 +14,20 @@ class BottomNavBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: EdgeInsets.only(bottom: 26.h),
+      padding: EdgeInsets.only(bottom: horizontalMarginNavBar.h),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Container(
-            height: 64.w,
+            height: heightNavBar.w,
             decoration: BoxDecoration(
               color: context.palette.background,
               border: Border.all(
                   color: context.palette.container
               ),
-              borderRadius: BorderRadius.circular(20.r)
+              borderRadius: BorderRadius.circular(borderRadiusNavBar.r)
             ),
-            padding: EdgeInsets.symmetric(horizontal: 16.w),
+            padding: EdgeInsets.symmetric(horizontal: horizontalPaddingNavBar.w),
             child: BlocBuilder<BottomNavBarBloc, BottomNavBarState>(
               bloc: GetIt.I.get(),
               builder: (BuildContext context, state) {
@@ -62,12 +63,12 @@ class _ItemBottomNavBar extends StatelessWidget {
         GetIt.I.get<BottomNavBarBloc>().add(GoToEventEvent(item));
       },
       child: SizedBox(
-        width: 58.w,
+        width: widthTapItemNavBar.w,
         child: Center(
           child: Icon(
             item.icon,
             color: (isSelected) ? context.palette.accent : context.palette.subText,
-            size: 24.w,
+            size: sizeIconNavBar.w,
           ),
         ),
       ),
