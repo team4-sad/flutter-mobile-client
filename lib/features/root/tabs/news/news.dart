@@ -3,6 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:miigaik/features/common/extensions/num_widget_extension.dart';
 import 'package:miigaik/features/common/extensions/sliver_widget_extension.dart';
 import 'package:miigaik/features/common/widgets/placeholder_widget.dart';
+import 'package:miigaik/features/root/tabs/news/models/news_model.dart';
 import 'package:miigaik/features/root/tabs/news/widgets/news_item.dart';
 import 'package:miigaik/features/root/tabs/news/widgets/news_item_shimmer.dart';
 import 'package:miigaik/features/root/tabs/news/widgets/no_news.dart';
@@ -41,6 +42,37 @@ class _NewsPageState extends State<NewsPage> {
     super.dispose();
   }
 
+  final items = [
+    NewsModel(
+      id: "6604",
+      title: "Студенты МИИГАиК на фестивале \"Открытый город\"",
+      description: "Студенты МИИГАиК на фестивале \"Открытый город\"Студенты МИИГАиК на фестивале \"Открытый город\"Студенты МИИГАиК на фестивале \"Открытый город\"Студенты МИИГАиК на фестивале \"Открытый город\"Студенты МИИГАиК на фестивале \"Открытый город\"",
+      date: "22.09.2025",
+      imageLink: "https://www.miigaik.ru/upload/iblock/de2/xnkgdh2140swp45nojmanzlsukgamcm1.jpg",
+      newsLink: "https://www.miigaik.ru/about/news/6604/"
+    ),
+    NewsModel(
+      id: "6604",
+      title: "Студенты МИИГАиК на фестивале \"Открытый город\"",
+      date: "22.09.2025",
+      imageLink: "https://www.miigaik.ru/upload/iblock/de2/xnkgdh2140swp45nojmanzlsukgamcm1.jpg",
+      newsLink: "https://www.miigaik.ru/about/news/6604/"
+    ),
+    NewsModel(
+      id: "6604",
+      title: "Студенты МИИГАиК на фестивале \"Открытый город\"",
+      description: "Студенты МИИГАиК на фестивале \"Открытый город\"Студенты МИИГАиК на фестивале \"Открытый город\"Студенты МИИГАиК на фестивале \"Открытый город\"Студенты МИИГАиК на фестивале \"Открытый город\"Студенты МИИГАиК на фестивале \"Открытый город\"",
+      date: "22.09.2025",
+      newsLink: "https://www.miigaik.ru/about/news/6604/"
+    ),
+    NewsModel(
+      id: "6604",
+      title: "Студенты МИИГАиК на фестивале \"Открытый город\"",
+      date: "22.09.2025",
+      newsLink: "https://www.miigaik.ru/about/news/6604/"
+    ),
+  ];
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -63,10 +95,10 @@ class _NewsPageState extends State<NewsPage> {
                 padding: EdgeInsets.only(left: 20.w, right: 20.w),
                 sliver: SliverList.separated(
                   itemBuilder: (context, index) =>
-                    (index % 2 == 0)
-                      ? NewsItemWidget()
-                      : NewsItemShimmerWidget(),
-                  itemCount: 5,
+                    (index == 0)
+                      ? NewsItemShimmerWidget()
+                      : NewsItemWidget(newsModel: items[index-1]),
+                  itemCount: items.length + 1,
                   separatorBuilder: (_, __) => 20.vs(),
                 ),
               ),
@@ -86,7 +118,9 @@ class _NewsPageState extends State<NewsPage> {
                 ).s(),
                 padding: EdgeInsets.symmetric(vertical: 20),
               ),
-              NoNewsPlaceholderWidget().s(),
+              NoNewsPlaceholderWidget.noSearch().s(),
+              18.svs(),
+              NoNewsPlaceholderWidget.empty().s(),
               120.svs()
             ],
           ),

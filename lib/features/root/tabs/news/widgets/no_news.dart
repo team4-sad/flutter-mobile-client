@@ -4,7 +4,27 @@ import 'package:miigaik/theme/app_theme_extensions.dart';
 import 'package:miigaik/theme/text_styles.dart';
 
 class NoNewsPlaceholderWidget extends StatelessWidget {
-  const NoNewsPlaceholderWidget({super.key});
+
+  final String title;
+  final String subTitle;
+
+  const NoNewsPlaceholderWidget({
+    super.key,
+    required this.title,
+    required this.subTitle
+  });
+
+  const NoNewsPlaceholderWidget.noSearch({key}): this(
+    key: key,
+    title: "Новостей нет",
+    subTitle: "Поменяйте запрос\nи попробуйте ещё раз"
+  );
+
+  const NoNewsPlaceholderWidget.empty({key}): this(
+    key: key,
+    title: "Новостей нет",
+    subTitle: "Следите за обновлениями\nвместе с приложением МИИГАиК :)"
+  );
 
   @override
   Widget build(BuildContext context) {
@@ -12,15 +32,15 @@ class NoNewsPlaceholderWidget extends StatelessWidget {
       mainAxisSize: MainAxisSize.min,
       children: [
         Text(
-            "Новостей нет",
-            style: TS.medium20,
-            textAlign: TextAlign.center
+          title,
+          style: TS.medium20,
+          textAlign: TextAlign.center
         ),
         8.vs(),
         Text(
-            "Поменяйте запрос\nи попробуйте ещё раз",
-            style: TS.regular15.use(context.palette.subText),
-            textAlign: TextAlign.center
+          subTitle,
+          style: TS.regular15.use(context.palette.subText),
+          textAlign: TextAlign.center
         ),
       ],
     );

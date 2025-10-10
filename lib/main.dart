@@ -50,22 +50,25 @@ class MyApp extends StatelessWidget {
         );
         return ScreenUtilInit(
           designSize: const Size(360, 750),
-          child: MaterialApp(
-            title: 'MIIGAiK',
-            localizationsDelegates: context.localizationDelegates,
-            supportedLocales: context.supportedLocales,
-            locale: context.locale,
-            theme: appThemeExtension.getThemeData(
-                fontFamily: "Roboto"
-            ),
-            home: BlocBuilder<LocaleBloc, LocaleState>(
-              bloc: GetIt.I.get<LocaleBloc>(),
-              builder: (context, state) {
-                context.setLocale(state.locale);
-                return RootPage();
-              },
-            ),
-          ),
+          builder: (context, child){
+            return MaterialApp(
+              title: 'MIIGAiK',
+              localizationsDelegates: context.localizationDelegates,
+              supportedLocales: context.supportedLocales,
+              locale: context.locale,
+              theme: appThemeExtension.getThemeData(
+                  fontFamily: "Roboto"
+              ),
+              home: child
+            );
+          },
+          child: BlocBuilder<LocaleBloc, LocaleState>(
+            bloc: GetIt.I.get<LocaleBloc>(),
+            builder: (context, state) {
+              context.setLocale(state.locale);
+              return RootPage();
+            },
+          )
         );
       },
     );
