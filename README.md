@@ -9,21 +9,16 @@
 - Bloc
 
 ### Зависимости
+Перечень основных зависимостей
 ```
 flutter_bloc: ^9.1.1
-bloc_concurrency: ^0.3.0
-
 dio: ^5.9.0
-package_info_plus: ^9.0.0
 hive: ^2.2.3
 easy_localization: ^3.0.8
 get_it: ^8.2.0
-
 talker_flutter: ^5.0.1
-talker_dio_logger: ^5.0.1
-talker_bloc_logger: ^5.0.1
 ```
-Детальнее про зависимости можно посмотреть в файле pubspec.yaml
+Детальнее про все зависимости можно посмотреть в файле pubspec.yaml
 
 ## Функционал
 Скоро...

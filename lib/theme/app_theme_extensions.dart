@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:miigaik/theme/palette.dart';
 import 'app_theme.dart';
 
@@ -58,7 +59,21 @@ class AppThemeExtension extends ThemeExtension<AppThemeExtension> {
     return themeData.copyWith(
       primaryColor: palette.accent,
       scaffoldBackgroundColor: palette.background,
-      extensions: [this]
+      extensions: [this],
+      textSelectionTheme: TextSelectionThemeData(
+        cursorColor: palette.accent,
+        selectionColor: palette.accent.withAlpha(48),
+        selectionHandleColor: palette.accent,
+      ),
+      filledButtonTheme: FilledButtonThemeData(
+        style: FilledButton.styleFrom(
+          backgroundColor: palette.accent,
+          foregroundColor: palette.unAccent,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(10.r),
+          ),
+        )
+      )
     );
   }
 }
