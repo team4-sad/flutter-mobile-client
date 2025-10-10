@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:miigaik/theme/app_theme_extensions.dart';
-import 'package:miigaik/theme/text_styles.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:miigaik/features/common/extensions/num_widget_extension.dart';
+import 'package:miigaik/features/root/tabs/news/widgets/news_item.dart';
+import 'package:miigaik/features/root/tabs/news/widgets/news_item_shimmer.dart';
 import 'package:miigaik/theme/values.dart';
 
 import 'news_header.dart';
@@ -38,7 +40,6 @@ class _NewsPageState extends State<NewsPage> {
 
   @override
   Widget build(BuildContext context) {
-    final items = List.generate(50, (i) => 'Элемент $i');
     return Scaffold(
       body: Stack(
         children: [
@@ -55,12 +56,15 @@ class _NewsPageState extends State<NewsPage> {
                   ),
                 ),
               ),
-              SliverList(
-                delegate: SliverChildBuilderDelegate(
-                  (context, index) => ListTile(
-                    title: Text(items[index]),
-                  ),
-                  childCount: items.length,
+              SliverPadding(
+                padding: EdgeInsets.symmetric(horizontal: 20.w),
+                sliver: SliverList.separated(
+                    itemBuilder: (context, index) =>
+                      (index % 2 == 0)
+                        ? NewsItemWidget()
+                        : NewsItemShimmerWidget(),
+                    itemCount: 50,
+                    separatorBuilder: (_, __) => 20.vs(),
                 ),
               ),
             ],

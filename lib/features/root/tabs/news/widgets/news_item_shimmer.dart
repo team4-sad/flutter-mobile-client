@@ -1,0 +1,37 @@
+import 'package:cached_network_image/cached_network_image.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:miigaik/features/common/extensions/num_widget_extension.dart';
+import 'package:miigaik/features/common/widgets/app_shimmer.dart';
+import 'package:miigaik/theme/app_theme_extensions.dart';
+import 'package:miigaik/theme/text_styles.dart';
+import 'package:shimmer_animation/shimmer_animation.dart';
+
+class NewsItemShimmerWidget extends StatelessWidget {
+  const NewsItemShimmerWidget({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      padding: EdgeInsets.only(left: 20, right: 20, bottom: 30, top: 20),
+      decoration: BoxDecoration(
+        color: context.palette.container,
+        borderRadius: BorderRadius.circular(10.r)
+      ),
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          AppShimmer(
+            height: 135.h,
+            width: 1.sw,
+          ),
+          10.vs(),
+          AppShimmer(
+            width: 1.sw,
+            height: 36.h
+          )
+        ],
+      ),
+    );
+  }
+}

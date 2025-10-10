@@ -7,6 +7,7 @@ import 'package:miigaik/features/root/root_page.dart';
 import 'package:miigaik/features/switch-locale/locale_bloc.dart';
 import 'package:miigaik/theme/app_theme.dart';
 import 'package:miigaik/theme/app_theme_extensions.dart';
+import 'features/common/other/http_override.dart';
 import 'features/root/features/bottom-nav-bar/bloc/bottom_nav_bar_bloc.dart';
 import 'features/root/features/bottom-nav-bar/items_nav_bar.dart';
 import 'features/switch-theme/theme_bloc.dart';
@@ -14,6 +15,7 @@ import 'features/switch-theme/theme_bloc.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await EasyLocalization.ensureInitialized();
+  BadCertificateHttpOverrides.setup();
 
   GetIt.I.registerSingleton(ThemeBloc(AppTheme.defaultTheme()));
   GetIt.I.registerSingleton(BottomNavBarBloc(ItemNavBar.defaultItem()));
