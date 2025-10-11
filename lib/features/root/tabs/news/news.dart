@@ -35,77 +35,77 @@ class _NewsPageState extends State<NewsPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Stack(
+      body: Column(
         children: [
-          CustomScrollView(
-            controller: _scrollController,
-            slivers: [
-              PinnedHeaderSliver(
-                child: NewsHeader(
-                  showDivider: _showDivider,
-                  contentPadding: EdgeInsets.only(
-                    left: horizontalPaddingPage,
-                    right: horizontalPaddingPage,
-                    top: paddingTopPage,
-                  ),
-                ),
-              ),
-              SliverPadding(
-                padding: horizontalPaddingPage.w.horizontal(),
-                sliver: BlocBuilder<NewsListBloc, NewsListState>(
-                  bloc: bloc,
-                  builder: (context, state) {
-                    if (state is WithDataNewsListState && state.hasNews) {
-                      return SliverList.list(
-                        children: [
-                          if (state.news != null)
-                          ...state.news!.mapSep(
-                            (e) => NewsItemWidget(newsModel: e),
-                            () => separateSpaceNews.vs()
-                          ),
-                          if (state is NewsListLoading)
-                            Padding(
-                              padding: separateSpaceNews.top(),
-                              child: NewsItemShimmerWidget(),
+          NewsHeader(
+            showDivider: _showDivider,
+            contentPadding: EdgeInsets.only(
+              left: horizontalPaddingPage,
+              right: horizontalPaddingPage,
+              top: paddingTopPage,
+            ),
+          ),
+          Expanded(
+            child: CustomScrollView(
+              controller: _scrollController,
+              slivers: [
+                SliverPadding(
+                  padding: horizontalPaddingPage.w.horizontal(),
+                  sliver: BlocBuilder<NewsListBloc, NewsListState>(
+                    bloc: bloc,
+                    builder: (context, state) {
+                      if (state is WithDataNewsListState && state.hasNews) {
+                        return SliverList.list(
+                          children: [
+                            if (state.news != null)
+                            ...state.news!.mapSep(
+                              (e) => NewsItemWidget(newsModel: e),
+                              () => separateSpaceNews.vs()
                             ),
-                          if (state is NewsListError)
-                            Padding(
-                              padding: separateSpaceNews.top(),
+                            if (state is NewsListLoading)
+                              Padding(
+                                padding: separateSpaceNews.top(),
+                                child: NewsItemShimmerWidget(),
+                              ),
+                            if (state is NewsListError)
+                              Padding(
+                                padding: separateSpaceNews.top(),
+                                child: PlaceholderWidget.somethingWentWrong(
+                                  onButtonPress: _onTapRetry,
+                                ),
+                              ),
+                            heightAreaBottomNavBar.vs()
+                          ]
+                        );
+                      }else if (state is NewsListLoading){
+                        return SliverPadding(
+                          padding: heightAreaBottomNavBar.bottom(),
+                          sliver: SliverList.separated(
+                            itemBuilder: (_, __) => NewsItemShimmerWidget(),
+                            separatorBuilder: (_, __) => separateSpaceNews.vs(),
+                            itemCount: countShimmersLoadingNews
+                          ),
+                        );
+                      } else {
+                        return SliverFillRemaining(
+                          hasScrollBody: false,
+                          child: Padding(
+                            padding: const EdgeInsets.only(
+                              bottom: heightAreaBottomNavBar
+                            ),
+                            child: Center(
                               child: PlaceholderWidget.somethingWentWrong(
                                 onButtonPress: _onTapRetry,
-                              ),
+                              )
                             ),
-                          heightAreaBottomNavBar.vs()
-                        ]
-                      );
-                    }else if (state is NewsListLoading){
-                      return SliverPadding(
-                        padding: heightAreaBottomNavBar.bottom(),
-                        sliver: SliverList.separated(
-                          itemBuilder: (_, __) => NewsItemShimmerWidget(),
-                          separatorBuilder: (_, __) => separateSpaceNews.vs(),
-                          itemCount: countShimmersLoadingNews
-                        ),
-                      );
-                    } else {
-                      return SliverFillRemaining(
-                        hasScrollBody: false,
-                        child: Padding(
-                          padding: const EdgeInsets.only(
-                            bottom: heightAreaBottomNavBar
-                          ),
-                          child: Center(
-                            child: PlaceholderWidget.somethingWentWrong(
-                              onButtonPress: _onTapRetry,
-                            )
-                          ),
-                        )
-                      );
-                    }
-                  },
-                )
-              ),
-            ],
+                          )
+                        );
+                      }
+                    },
+                  )
+                ),
+              ],
+            ),
           ),
         ],
       ),
