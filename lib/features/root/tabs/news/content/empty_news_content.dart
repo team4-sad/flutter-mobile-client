@@ -2,16 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:miigaik/features/common/widgets/placeholder_widget.dart';
 import 'package:miigaik/theme/values.dart';
 
-class NewsSliverErrorNewsContent extends StatelessWidget {
+class EmptyNewsContent extends StatelessWidget {
 
-  final Object _exception;
-  final VoidCallback _onTapRetry;
-
-  const NewsSliverErrorNewsContent({
-    super.key,
-    required Object exception,
-    required void Function() onTapRetry
-  }) : _exception = exception, _onTapRetry = onTapRetry;
+  const EmptyNewsContent({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -22,10 +15,7 @@ class NewsSliverErrorNewsContent extends StatelessWidget {
           bottom: heightAreaBottomNavBar
         ),
         child: Center(
-          child: PlaceholderWidget.fromException(
-            _exception,
-            _onTapRetry,
-          )
+          child: PlaceholderWidget.emptyNews(),
         )
       ),
     );

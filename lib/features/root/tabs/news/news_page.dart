@@ -5,10 +5,10 @@ import 'package:get_it/get_it.dart';
 import 'package:miigaik/features/common/extensions/iterable_extensions.dart';
 import 'package:miigaik/features/common/extensions/num_widget_extension.dart';
 import 'package:miigaik/features/common/widgets/placeholder_widget.dart';
-import 'package:miigaik/features/root/tabs/news/content/news_sliver_emty_news_content.dart';
-import 'package:miigaik/features/root/tabs/news/content/news_sliver_error_content.dart';
-import 'package:miigaik/features/root/tabs/news/content/news_sliver_list_content.dart';
-import 'package:miigaik/features/root/tabs/news/content/news_sliver_loading_content.dart';
+import 'package:miigaik/features/root/tabs/news/content/empty_news_content.dart';
+import 'package:miigaik/features/root/tabs/news/content/error_news_content.dart';
+import 'package:miigaik/features/root/tabs/news/content/list_news_content.dart';
+import 'package:miigaik/features/root/tabs/news/content/loading_news_content.dart';
 import 'package:miigaik/features/root/tabs/news/widgets/news_item.dart';
 import 'package:miigaik/features/root/tabs/news/widgets/news_item_shimmer.dart';
 import 'package:miigaik/theme/values.dart';
@@ -59,13 +59,13 @@ class _NewsPageState extends State<NewsPage> {
                     bloc: newsBloc,
                     builder: (context, state) {
                       if (state is WithDataNewsListState && state.hasNotEmptyNews) {
-                        return NewsSliverListContent(state: state, onTapRetry: _onTapRetry);
+                        return ListNewsContent(state: state, onTapRetry: _onTapRetry);
                       } else if (state is NewsListLoading || state is NewsListInitial){
-                        return NewsSliverLoadingContent();
+                        return LoadingNewsContent();
                       } else if (state is NewsListLoaded && state.hasEmptyNews){
-                        return NewsSliverEmptyNewsContent();
+                        return EmptyNewsContent();
                       } else {
-                        return NewsSliverErrorNewsContent(
+                        return ErrorNewsContent(
                           exception: (state is NewsListError) ? state.error : UnimplementedError(),
                           onTapRetry: _onTapRetry
                         );

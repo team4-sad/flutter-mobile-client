@@ -7,12 +7,12 @@ import 'package:miigaik/features/root/tabs/news/widgets/news_item.dart';
 import 'package:miigaik/features/root/tabs/news/widgets/news_item_shimmer.dart';
 import 'package:miigaik/theme/values.dart';
 
-class NewsSliverListContent extends StatelessWidget {
+class ListNewsContent extends StatelessWidget {
 
   final WithDataNewsListState _state;
   final VoidCallback _onTapRetry;
 
-  const NewsSliverListContent({
+  const ListNewsContent({
     super.key,
     required WithDataNewsListState state,
     required void Function() onTapRetry
