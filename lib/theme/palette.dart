@@ -22,12 +22,12 @@ class Palette {
   static Palette fromAppTheme(AppTheme appTheme) {
     return switch (appTheme) {
       AppTheme.light => Palette(
-          accent: Color(0xFF001A71),
-          unAccent: Color(0xFFFFFFFF),
-          text: Color(0xFF000000),
-          subText: Color(0xFF939396),
-          background: Color(0xFFFFFFFF),
-          container: Color(0xFFF2F3F5)
+        accent: Color(0xFF001A71),
+        unAccent: Color(0xFFFFFFFF),
+        text: Color(0xFF000000),
+        subText: Color(0xFF939396),
+        background: Color(0xFFFFFFFF),
+        container: Color(0xFFF2F3F5)
       ),
       // Пока нет тёмной темы
       AppTheme.dark => Palette(

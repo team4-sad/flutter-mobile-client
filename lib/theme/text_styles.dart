@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 abstract class TS {
   static TextStyle medium25 = TextStyle(
@@ -15,21 +14,21 @@ abstract class TS {
   );
 
   static TextStyle light15 = TextStyle(
-      fontSize: 15,
-      height: 1.2,
-      fontWeight: FontWeight.w300
+    fontSize: 15,
+    height: 1.2,
+    fontWeight: FontWeight.w300
   );
 
   static TextStyle regular15 = TextStyle(
-      fontSize: 15,
-      height: 1.2,
-      fontWeight: FontWeight.normal
+    fontSize: 15,
+    height: 1.2,
+    fontWeight: FontWeight.normal
   );
 
   static TextStyle regular10 = TextStyle(
-      fontSize: 10,
-      height: 1.2,
-      fontWeight: FontWeight.normal
+    fontSize: 10,
+    height: 1.2,
+    fontWeight: FontWeight.normal
   );
 
   static TextStyle medium15 = TextStyle(
@@ -39,15 +38,15 @@ abstract class TS {
   );
 
   static TextStyle medium12 = TextStyle(
-      fontSize: 12,
-      height: 1.2,
-      fontWeight: FontWeight.w500
+    fontSize: 12,
+    height: 1.2,
+    fontWeight: FontWeight.w500
   );
 
   static TextStyle light12 = TextStyle(
-      fontSize: 12,
-      height: 1.2,
-      fontWeight: FontWeight.w300
+    fontSize: 12,
+    height: 1.2,
+    fontWeight: FontWeight.w300
   );
 }
 
