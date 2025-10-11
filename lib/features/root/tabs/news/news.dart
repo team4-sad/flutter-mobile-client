@@ -51,7 +51,7 @@ class _NewsPageState extends State<NewsPage> {
                 ),
               ),
               SliverPadding(
-                padding: EdgeInsets.symmetric(horizontal: horizontalPaddingPage.w),
+                padding: horizontalPaddingPage.w.horizontal(),
                 sliver: BlocBuilder<NewsListBloc, NewsListState>(
                   bloc: bloc,
                   builder: (context, state) {
@@ -65,29 +65,35 @@ class _NewsPageState extends State<NewsPage> {
                           ),
                           if (state is NewsListLoading)
                             Padding(
-                              padding: const EdgeInsets.only(top: separateSpaceNews),
+                              padding: separateSpaceNews.top(),
                               child: NewsItemShimmerWidget(),
                             ),
                           if (state is NewsListError)
                             Padding(
-                              padding: const EdgeInsets.only(top: separateSpaceNews),
+                              padding: separateSpaceNews.top(),
                               child: PlaceholderWidget.somethingWentWrong(
                                 onButtonPress: _onTapRetry,
                               ),
                             ),
+                          heightAreaBottomNavBar.vs()
                         ]
                       );
                     }else if (state is NewsListLoading){
-                      return SliverList.separated(
-                        itemBuilder: (_, __) => NewsItemShimmerWidget(),
-                        separatorBuilder: (_, __) => separateSpaceNews.vs(),
-                        itemCount: countShimmersLoadingNews
+                      return SliverPadding(
+                        padding: heightAreaBottomNavBar.bottom(),
+                        sliver: SliverList.separated(
+                          itemBuilder: (_, __) => NewsItemShimmerWidget(),
+                          separatorBuilder: (_, __) => separateSpaceNews.vs(),
+                          itemCount: countShimmersLoadingNews
+                        ),
                       );
                     } else {
                       return SliverFillRemaining(
                         hasScrollBody: false,
                         child: Padding(
-                          padding: const EdgeInsets.only(bottom: heightAreaBottomNavBar),
+                          padding: const EdgeInsets.only(
+                            bottom: heightAreaBottomNavBar
+                          ),
                           child: Center(
                             child: PlaceholderWidget.somethingWentWrong(
                               onButtonPress: _onTapRetry,
@@ -99,7 +105,6 @@ class _NewsPageState extends State<NewsPage> {
                   },
                 )
               ),
-              heightAreaBottomNavBar.svs()
             ],
           ),
         ],
