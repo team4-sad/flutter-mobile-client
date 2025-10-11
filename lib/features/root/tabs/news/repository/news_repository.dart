@@ -4,9 +4,11 @@ import 'dart:math';
 
 import 'package:dio/dio.dart';
 import 'package:miigaik/features/root/tabs/news/models/news_model.dart';
+import 'package:miigaik/features/root/tabs/news/models/news_pagination_model.dart';
+import 'package:miigaik/features/root/tabs/news/models/news_response_model.dart';
 
 abstract class INewsRepository {
-  Future<List<NewsModel>> fetchNews({int page = 1});
+  Future<NewsResponseModel> fetchNews({int page = 1});
 }
 
 class ApiNewsRepository extends INewsRepository {
@@ -19,17 +21,20 @@ class ApiNewsRepository extends INewsRepository {
   }) : _dio = dio, _baseApiUrl = baseApiUrl;
 
   @override
-  Future<List<NewsModel>> fetchNews({int page = 1}) async {
+  Future<NewsResponseModel> fetchNews({int page = 1}) async {
     throw UnimplementedError();
   }
 }
 
 class MockNewsRepository extends INewsRepository {
   @override
-  Future<List<NewsModel>> fetchNews({int page = 1}) {
+  Future<NewsResponseModel> fetchNews({int page = 1}) {
     return Future.delayed(
       Duration(seconds: 1),
-      () => Random().nextInt(100) > 10 ? fakeData : throw Exception()
+      () => Random().nextInt(100) > 10 ? NewsResponseModel(
+          news: fakeData,
+          pagination: NewsPaginationModel(currentPage: page, hasNext: page < 5)
+      ) : throw Exception()
     );
   }
   

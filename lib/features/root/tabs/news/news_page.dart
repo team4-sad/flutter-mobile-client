@@ -77,7 +77,7 @@ class _NewsPageState extends State<NewsPage> {
                             heightAreaBottomNavBar.vs()
                           ]
                         );
-                      }else if (state is NewsListLoading){
+                      } else if (state is NewsListLoading){
                         return SliverPadding(
                           padding: heightAreaBottomNavBar.bottom(),
                           sliver: SliverList.separated(

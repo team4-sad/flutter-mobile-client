@@ -3,23 +3,27 @@ part of 'news_list_bloc.dart';
 abstract class NewsListState {
   const NewsListState();
 
-  int get nextPage => 1;
+  int? get nextPage => 1;
 }
 
 abstract class WithDataNewsListState extends NewsListState {
   final List<NewsModel>? news;
-  final int? page;
+  final NewsPaginationModel? pagination;
 
-  const WithDataNewsListState({this.news, this.page});
+  const WithDataNewsListState({this.news, this.pagination});
 
-  bool get hasNews => news != null && page != null;
+  bool get hasNews => news != null && pagination != null;
 
-  T copyTo<T extends WithDataNewsListState>(T Function(List<NewsModel>?, int?) creator) {
-    return creator(news, page);
+  T copyTo<T extends WithDataNewsListState>(T Function(List<NewsModel>?, NewsPaginationModel?) creator) {
+    return creator(news, pagination);
   }
 
   @override
-  int get nextPage => (page ?? 0) + 1;
+  int? get nextPage => (pagination != null)
+    ? (pagination!.hasNext)
+      ? pagination!.currentPage + 1
+      : null
+    : 1;
 }
 
 final class NewsListInitial extends NewsListState {
@@ -27,11 +31,11 @@ final class NewsListInitial extends NewsListState {
 }
 
 final class NewsListLoading extends WithDataNewsListState {
-  const NewsListLoading({super.news, super.page});
+  const NewsListLoading({super.news, super.pagination});
 
   factory NewsListLoading.fromState(NewsListState otherState) {
     if (otherState is WithDataNewsListState){
-      return otherState.copyTo((news, page) => NewsListLoading(news: news, page: page));
+      return otherState.copyTo((news, pagination) => NewsListLoading(news: news, pagination: pagination));
     }else {
       return NewsListLoading();
     }
@@ -43,14 +47,14 @@ final class NewsListError extends WithDataNewsListState {
 
   final Object error;
 
-  const NewsListError({required this.error, super.news, super.page});
+  const NewsListError({required this.error, super.news, super.pagination});
 
   factory NewsListError.fromState(Object error, NewsListState otherState) {
     if (otherState is WithDataNewsListState){
-      return otherState.copyTo((news, page) => NewsListError(
+      return otherState.copyTo((news, pagination) => NewsListError(
           error: error,
           news: news,
-          page: page
+          pagination: pagination
         )
       );
     }else {
@@ -60,20 +64,20 @@ final class NewsListError extends WithDataNewsListState {
 }
 
 final class NewsListLoaded extends WithDataNewsListState {
-  const NewsListLoaded({required super.news, required super.page});
+  const NewsListLoaded({required super.news, required super.pagination});
 
   factory NewsListLoaded.fromState(
     List<NewsModel> newNews,
-    int newPage,
+    NewsPaginationModel pagination,
     NewsListState otherState
   ) {
     if (otherState is WithDataNewsListState){
       return otherState.copyTo((news, page) => NewsListLoaded(
         news: (news ?? []) + newNews,
-        page: newPage,
+        pagination: pagination,
       ));
     }else {
-      return NewsListLoaded(news: newNews, page: newPage);
+      return NewsListLoaded(news: newNews, pagination: pagination);
     }
   }
 }
