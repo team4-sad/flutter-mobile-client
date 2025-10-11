@@ -32,8 +32,10 @@ class MockNewsRepository extends INewsRepository {
     return Future.delayed(
       Duration(seconds: 1),
       () => Random().nextInt(100) > 10 ? NewsResponseModel(
-          news: fakeData,
-          pagination: NewsPaginationModel(currentPage: page, hasNext: page < 5)
+        news: fakeData,
+        pagination: NewsPaginationModel(currentPage: page, hasNext: page < 5)
+        // news: [],
+        // pagination: NewsPaginationModel(currentPage: 1, hasNext: false)
       ) : throw Exception()
     );
   }

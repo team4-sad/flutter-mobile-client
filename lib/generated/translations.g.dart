@@ -11,5 +11,7 @@ abstract class  LocaleKeys {
   static const empty_placeholder = 'empty_placeholder';
   static const news_title = 'news_title';
   static const news_search = 'news_search';
+  static const no_news = 'no_news';
+  static const no_news_sub = 'no_news_sub';
 
 }

@@ -5,6 +5,10 @@ import 'package:get_it/get_it.dart';
 import 'package:miigaik/features/common/extensions/iterable_extensions.dart';
 import 'package:miigaik/features/common/extensions/num_widget_extension.dart';
 import 'package:miigaik/features/common/widgets/placeholder_widget.dart';
+import 'package:miigaik/features/root/tabs/news/content/news_sliver_emty_news_content.dart';
+import 'package:miigaik/features/root/tabs/news/content/news_sliver_error_content.dart';
+import 'package:miigaik/features/root/tabs/news/content/news_sliver_list_content.dart';
+import 'package:miigaik/features/root/tabs/news/content/news_sliver_loading_content.dart';
 import 'package:miigaik/features/root/tabs/news/widgets/news_item.dart';
 import 'package:miigaik/features/root/tabs/news/widgets/news_item_shimmer.dart';
 import 'package:miigaik/theme/values.dart';
@@ -54,54 +58,16 @@ class _NewsPageState extends State<NewsPage> {
                   sliver: BlocBuilder<NewsListBloc, NewsListState>(
                     bloc: newsBloc,
                     builder: (context, state) {
-                      if (state is WithDataNewsListState && state.hasNews) {
-                        return SliverList.list(
-                          children: [
-                            if (state.news != null)
-                              ...state.news!.mapSep(
-                                (e) => NewsItemWidget(newsModel: e),
-                                () => separateNews.vs()
-                              ),
-                            if (state is NewsListError)
-                              Padding(
-                                padding: separateNews.top(),
-                                child: PlaceholderWidget.fromException(
-                                  state.error, _onTapRetry
-                                ),
-                              ),
-                            if (state is NewsListLoading)
-                              Padding(
-                                padding: separateNews.top(),
-                                child: NewsItemShimmerWidget(),
-                              ),
-                            heightAreaBottomNavBar.vs()
-                          ]
-                        );
-                      } else if (state is NewsListLoading){
-                        return SliverPadding(
-                          padding: heightAreaBottomNavBar.bottom(),
-                          sliver: SliverList.separated(
-                            itemBuilder: (_, __) => NewsItemShimmerWidget(),
-                            separatorBuilder: (_, __) => separateNews.vs(),
-                            itemCount: countShimmersLoadingNews
-                          ),
-                        );
+                      if (state is WithDataNewsListState && state.hasNotEmptyNews) {
+                        return NewsSliverListContent(state: state, onTapRetry: _onTapRetry);
+                      } else if (state is NewsListLoading || state is NewsListInitial){
+                        return NewsSliverLoadingContent();
+                      } else if (state is NewsListLoaded && state.hasEmptyNews){
+                        return NewsSliverEmptyNewsContent();
                       } else {
-                        return SliverFillRemaining(
-                          hasScrollBody: false,
-                          child: Padding(
-                            padding: const EdgeInsets.only(
-                              bottom: heightAreaBottomNavBar
-                            ),
-                            child: Center(
-                              child: PlaceholderWidget.fromException(
-                                (state is NewsListError)
-                                  ? state.error
-                                  : UnimplementedError(),
-                                _onTapRetry,
-                              )
-                            ),
-                          )
+                        return NewsSliverErrorNewsContent(
+                          exception: (state is NewsListError) ? state.error : UnimplementedError(),
+                          onTapRetry: _onTapRetry
                         );
                       }
                     },

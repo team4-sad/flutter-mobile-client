@@ -12,7 +12,9 @@ abstract class WithDataNewsListState extends NewsListState {
 
   const WithDataNewsListState({this.news, this.pagination});
 
-  bool get hasNews => news != null && pagination != null;
+  bool get hasNotEmptyNews => news != null && pagination != null && news!.isNotEmpty;
+  bool get hasEmptyNews => news != null && pagination != null && news!.isEmpty;
+  bool get hasInvalid => news == null || pagination == null;
 
   T copyTo<T extends WithDataNewsListState>(T Function(List<NewsModel>?, NewsPaginationModel?) creator) {
     return creator(news, pagination);

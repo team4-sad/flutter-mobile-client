@@ -6,5 +6,7 @@
   "something_went_wrong": "Something went wrong",
   "empty_placeholder": "Something will be here soon 😉",
   "news_title": "News",
-  "news_search": "Search news"
+  "news_search": "Search news",
+  "no_news": "No news",
+  "no_news_sub": "Stay tuned\ntogether with the MIIGAiK application :)"
 }

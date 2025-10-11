@@ -43,6 +43,14 @@ class PlaceholderWidget extends StatelessWidget {
       onButtonPress: onButtonPress
   );
 
+  PlaceholderWidget.emptyNews({
+    key,
+  }): this(
+      key: key,
+      title: S.no_news.tr(),
+      subTitle: S.no_news_sub.tr(),
+  );
+
   factory PlaceholderWidget.fromException(
     Object obj,
     VoidCallback? onButtonPress,
@@ -64,9 +72,12 @@ class PlaceholderWidget extends StatelessWidget {
         if (title != null)
           Text(title!, style: TS.medium20, textAlign: TextAlign.center),
         if (subTitle != null)
-          Text(
-            subTitle!, style: TS.regular15.use(context.palette.subText),
-            textAlign: TextAlign.center
+          Padding(
+            padding: 8.top(),
+            child: Text(
+              subTitle!, style: TS.regular15.use(context.palette.subText),
+              textAlign: TextAlign.center
+            ),
           ),
         if (title != null || subTitle != null)
           15.vs(),
