@@ -2,7 +2,7 @@ import 'dart:async';
 import 'package:bloc_concurrency/bloc_concurrency.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_it/get_it.dart';
-import 'package:miigaik/features/network-connection/connection_status.dart';
+import 'package:miigaik/features/network-connection/enum/connection_status.dart';
 import 'package:miigaik/features/network-connection/services/network_connection_service.dart';
 
 part 'network_connection_event.dart';

@@ -1,12 +1,12 @@
 import 'dart:async';
 
 import 'package:connectivity_plus/connectivity_plus.dart';
-import 'package:miigaik/features/network-connection/connection_status.dart';
+import 'package:miigaik/features/network-connection/enum/connection_status.dart';
 
 class NetworkConnectionService {
   StreamSubscription<List<ConnectivityResult>>? _connectivitySubscription;
 
-  final _controller = StreamController<ConnectionStatus>();
+  final _controller = StreamController<ConnectionStatus>.broadcast();
   ConnectionStatus? _lastStatus;
   ConnectionStatus? get lastStatus => _lastStatus;
 
@@ -40,5 +40,6 @@ class NetworkConnectionService {
     _connectivitySubscription?.cancel();
   }
 
-  Stream<ConnectionStatus> get onConnectionChanged => _controller.stream;
+  Stream<ConnectionStatus> get onConnectionChanged =>
+      _controller.stream.asBroadcastStream();
 }
