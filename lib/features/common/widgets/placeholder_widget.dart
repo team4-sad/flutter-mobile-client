@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:miigaik/features/common/extensions/num_widget_extension.dart';
+import 'package:miigaik/features/network-connection/exception/no_network_exception.dart';
 import 'package:miigaik/theme/app_theme_extensions.dart';
 import 'package:miigaik/theme/text_styles.dart';
 
@@ -39,6 +40,18 @@ class PlaceholderWidget extends StatelessWidget {
       textButton: "Повторить попытку",
       onButtonPress: onButtonPress
   );
+
+  factory PlaceholderWidget.fromException(
+    Object obj,
+    VoidCallback? onButtonPress,
+  ){
+    switch(obj.runtimeType){
+      case const (NoNetworkException):
+        return PlaceholderWidget.noConnection(onButtonPress: onButtonPress);
+      default:
+        return PlaceholderWidget.somethingWentWrong(onButtonPress: onButtonPress);
+    }
+  }
 
   @override
   Widget build(BuildContext context) {

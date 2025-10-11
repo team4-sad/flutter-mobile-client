@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get_it/get_it.dart';
+import 'package:miigaik/features/network-connection/bloc/network_connection_bloc.dart';
+import 'package:miigaik/features/network-connection/services/network_connection_service.dart';
 import 'package:miigaik/features/root/root_page.dart';
 import 'package:miigaik/features/root/tabs/news/bloc/news_list_bloc/news_list_bloc.dart';
 import 'package:miigaik/features/root/tabs/news/repository/news_repository.dart';
@@ -19,8 +21,13 @@ void main() async {
   await EasyLocalization.ensureInitialized();
   BadCertificateHttpOverrides.setup();
 
+  final networkConnectionService = NetworkConnectionService();
+  await networkConnectionService.launch();
+  GetIt.I.registerSingleton(networkConnectionService);
+
   GetIt.I.registerSingleton(ThemeBloc(AppTheme.defaultTheme()));
   GetIt.I.registerSingleton(BottomNavBarBloc(ItemNavBar.defaultItem()));
+  GetIt.I.registerSingleton(NetworkConnectionBloc()..listen());
 
   final INewsRepository newsRepository = NewsRepository();
   GetIt.I.registerSingleton(NewsListBloc(newsRepository));

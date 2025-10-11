@@ -5,12 +5,13 @@ import 'package:get_it/get_it.dart';
 import 'package:miigaik/features/common/extensions/iterable_extensions.dart';
 import 'package:miigaik/features/common/extensions/num_widget_extension.dart';
 import 'package:miigaik/features/common/widgets/placeholder_widget.dart';
+import 'package:miigaik/features/network-connection/bloc/network_connection_bloc.dart';
 import 'package:miigaik/features/root/tabs/news/widgets/news_item.dart';
 import 'package:miigaik/features/root/tabs/news/widgets/news_item_shimmer.dart';
 import 'package:miigaik/theme/values.dart';
 
 import 'bloc/news_list_bloc/news_list_bloc.dart';
-import 'news_header.dart';
+import 'widgets/news_header.dart';
 
 class NewsPage extends StatefulWidget {
   const NewsPage({super.key});
@@ -23,13 +24,13 @@ class _NewsPageState extends State<NewsPage> {
   final ScrollController _scrollController = ScrollController();
   bool _showDivider = false;
 
-  final NewsListBloc bloc = GetIt.I.get();
+  final NewsListBloc newsBloc = GetIt.I.get();
 
   @override
   void initState() {
     super.initState();
     _scrollController.addListener(_onScroll);
-    bloc.add(FetchNewsListEvent());
+    newsBloc.add(FetchNewsListEvent());
   }
 
   @override
@@ -52,27 +53,27 @@ class _NewsPageState extends State<NewsPage> {
                 SliverPadding(
                   padding: horizontalPaddingPage.w.horizontal(),
                   sliver: BlocBuilder<NewsListBloc, NewsListState>(
-                    bloc: bloc,
+                    bloc: newsBloc,
                     builder: (context, state) {
                       if (state is WithDataNewsListState && state.hasNews) {
                         return SliverList.list(
                           children: [
                             if (state.news != null)
-                            ...state.news!.mapSep(
-                              (e) => NewsItemWidget(newsModel: e),
-                              () => separateSpaceNews.vs()
-                            ),
-                            if (state is NewsListLoading)
-                              Padding(
-                                padding: separateSpaceNews.top(),
-                                child: NewsItemShimmerWidget(),
+                              ...state.news!.mapSep(
+                                (e) => NewsItemWidget(newsModel: e),
+                                () => separateNews.vs()
                               ),
                             if (state is NewsListError)
                               Padding(
-                                padding: separateSpaceNews.top(),
-                                child: PlaceholderWidget.somethingWentWrong(
-                                  onButtonPress: _onTapRetry,
+                                padding: separateNews.top(),
+                                child: PlaceholderWidget.fromException(
+                                  state.error, _onTapRetry
                                 ),
+                              ),
+                            if (state is NewsListLoading)
+                              Padding(
+                                padding: separateNews.top(),
+                                child: NewsItemShimmerWidget(),
                               ),
                             heightAreaBottomNavBar.vs()
                           ]
@@ -82,7 +83,7 @@ class _NewsPageState extends State<NewsPage> {
                           padding: heightAreaBottomNavBar.bottom(),
                           sliver: SliverList.separated(
                             itemBuilder: (_, __) => NewsItemShimmerWidget(),
-                            separatorBuilder: (_, __) => separateSpaceNews.vs(),
+                            separatorBuilder: (_, __) => separateNews.vs(),
                             itemCount: countShimmersLoadingNews
                           ),
                         );
@@ -94,8 +95,11 @@ class _NewsPageState extends State<NewsPage> {
                               bottom: heightAreaBottomNavBar
                             ),
                             child: Center(
-                              child: PlaceholderWidget.somethingWentWrong(
-                                onButtonPress: _onTapRetry,
+                              child: PlaceholderWidget.fromException(
+                                (state is NewsListError)
+                                  ? state.error
+                                  : UnimplementedError(),
+                                _onTapRetry,
                               )
                             ),
                           )
@@ -120,7 +124,7 @@ class _NewsPageState extends State<NewsPage> {
   }
 
   void _onTapRetry(){
-    bloc.add(RetryFetchNewsListEvent());
+    newsBloc.add(RetryFetchNewsListEvent());
   }
 
   void _onScroll() {
@@ -128,7 +132,7 @@ class _NewsPageState extends State<NewsPage> {
       setState(() => _showDivider = _isScrolled);
     }
     if (_isBottom) {
-      bloc.add(FetchNewsListEvent());
+      newsBloc.add(FetchNewsListEvent());
     }
   }
 
@@ -139,6 +143,6 @@ class _NewsPageState extends State<NewsPage> {
     final maxScroll = _scrollController.position.maxScrollExtent;
     final current = _scrollController.offset;
     // срабатывает чуть раньше конца
-    return current >= (maxScroll * 0.9);
+    return current >= (maxScroll * 0.95);
   }
 }

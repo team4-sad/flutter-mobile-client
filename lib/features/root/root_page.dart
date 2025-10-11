@@ -6,7 +6,7 @@ import 'package:miigaik/features/root/features/bottom-nav-bar/bottom_nav_bar.dar
 import 'package:miigaik/features/root/features/bottom-nav-bar/bottom_nav_bar_gradient.dart';
 import 'package:miigaik/features/root/features/bottom-nav-bar/items_nav_bar.dart';
 import 'package:miigaik/features/root/tabs/empty/emty_page.dart';
-import 'package:miigaik/features/root/tabs/news/news.dart';
+import 'package:miigaik/features/root/tabs/news/news_page.dart';
 
 class RootPage extends StatelessWidget {
   const RootPage({super.key});

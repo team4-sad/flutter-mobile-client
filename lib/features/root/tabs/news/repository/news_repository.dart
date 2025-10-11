@@ -13,7 +13,7 @@ class NewsRepository extends INewsRepository {
   Future<List<NewsModel>> fetchNews({int page = 1}) {
     return Future.delayed(
       Duration(seconds: 1),
-      () => Random().nextBool() ? fakeData : throw Exception()
+      () => Random().nextInt(100) > 10 ? fakeData : throw Exception()
     );
   }
   

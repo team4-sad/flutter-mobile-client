@@ -1,5 +1,9 @@
 import 'package:bloc_concurrency/bloc_concurrency.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:get_it/get_it.dart';
+import 'package:miigaik/features/network-connection/connection_status.dart';
+import 'package:miigaik/features/network-connection/exception/no_network_exception.dart';
+import 'package:miigaik/features/network-connection/services/network_connection_service.dart';
 import 'package:miigaik/features/root/tabs/news/models/news_model.dart';
 import 'package:miigaik/features/root/tabs/news/repository/news_repository.dart';
 
@@ -8,9 +12,17 @@ part 'news_list_state.dart';
 
 class NewsListBloc extends Bloc<NewsListEvent, NewsListState> {
 
-  NewsListBloc(INewsRepository repository): super(NewsListInitial()) {
+  final NetworkConnectionService connectionService = GetIt.I.get();
+
+  NewsListBloc(
+    INewsRepository repository,
+  ): super(NewsListInitial()) {
     on<FetchNewsListEvent>((event, emit) async {
       if (state is NewsListError){
+        return;
+      }
+      if (connectionService.lastStatus != ConnectionStatus.exist){
+        emit(NewsListError.fromState(NoNetworkException(), state));
         return;
       }
       emit(NewsListLoading.fromState(state));
@@ -26,6 +38,10 @@ class NewsListBloc extends Bloc<NewsListEvent, NewsListState> {
 
     on<RetryFetchNewsListEvent>((event, emit) async {
       if (state is! NewsListError){
+        return;
+      }
+      if (connectionService.lastStatus != ConnectionStatus.exist){
+        emit(NewsListError.fromState(NoNetworkException(), state));
         return;
       }
       final current = state as NewsListError;
