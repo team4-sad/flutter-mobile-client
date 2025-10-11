@@ -71,7 +71,7 @@ dart run flutter_launcher_icons
 #### Перевод
 Для кодогенерации строковых ключей на разных языках используется библиотека easy_localization. [Языковые json файлы](https://github.com/team4-sad/flutter-mobile-client/tree/main/assets/translations) преобразовываются в [dart класс](https://github.com/team4-sad/flutter-mobile-client/blob/main/lib/generated/translations.g.dart) c ключами через команду:
 ```
-dart run easy_localization:generate --source-dir=assets/translations --format=keys --output-dir=lib/theme/ --output-file=translations.g.dart 
+dart run easy_localization:generate --source-dir=assets/translations --format=keys --output-dir=lib/generated/ --output-file=translations.g.dart 
 ```
 
 ## Архитектура

@@ -1,5 +1,10 @@
 {
-  "test": "Hello World!",
-  "change_locale": "Change Locale",
-  "change_theme": "Change Theme"
+  "no_connection": "No internet connection",
+  "check_connection": "Check your internet connection\nand try again",
+  "retry": "Repeat",
+  "try_again": "Try again",
+  "something_went_wrong": "Something went wrong",
+  "empty_placeholder": "Something will be here soon 😉",
+  "news_title": "News",
+  "news_search": "Search news"
 }

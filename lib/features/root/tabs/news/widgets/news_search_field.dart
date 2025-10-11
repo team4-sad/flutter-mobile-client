@@ -1,6 +1,8 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:miigaik/generated/icons.g.dart';
+import 'package:miigaik/generated/types.dart';
 import 'package:miigaik/theme/app_theme_extensions.dart';
 import 'package:miigaik/theme/text_styles.dart';
 
@@ -10,10 +12,11 @@ class NewsSearchField extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return TextField(
+      style: TS.regular15.use(context.palette.text),
       decoration: InputDecoration(
         fillColor: context.palette.container,
         filled: true,
-        hintText: 'Поиск новостей',
+        hintText: S.news_search.tr(),
         hintStyle: TS.regular15.use(context.palette.subText),
         prefixIcon: Padding(
           padding: const EdgeInsets.only(left: 14, right: 1),

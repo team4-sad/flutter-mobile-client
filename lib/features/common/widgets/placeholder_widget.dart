@@ -1,6 +1,8 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:miigaik/features/common/extensions/num_widget_extension.dart';
 import 'package:miigaik/features/network-connection/exception/no_network_exception.dart';
+import 'package:miigaik/generated/types.dart';
 import 'package:miigaik/theme/app_theme_extensions.dart';
 import 'package:miigaik/theme/text_styles.dart';
 
@@ -19,25 +21,25 @@ class PlaceholderWidget extends StatelessWidget {
     this.onButtonPress
   });
 
-  const PlaceholderWidget.noConnection({
+  PlaceholderWidget.noConnection({
     key,
     VoidCallback? onButtonPress,
   }): this(
     key: key,
-    title: "Нет соединения",
-    subTitle: "Проверьте соединение с\nсетью и попробуйте ещё раз",
-    textButton: "Повторить попытку",
+    title: S.no_connection.tr(),
+    subTitle: S.check_connection.tr(),
+    textButton: S.retry.tr(),
     onButtonPress: onButtonPress
   );
 
-  const PlaceholderWidget.somethingWentWrong({
+  PlaceholderWidget.somethingWentWrong({
     key,
     VoidCallback? onButtonPress,
   }): this(
       key: key,
-      title: "Что-то пошло не так",
-      subTitle: "Попробуйте ещё раз",
-      textButton: "Повторить попытку",
+      title: S.something_went_wrong.tr(),
+      subTitle: S.try_again.tr(),
+      textButton: S.retry.tr(),
       onButtonPress: onButtonPress
   );
 
@@ -72,7 +74,7 @@ class PlaceholderWidget extends StatelessWidget {
           FilledButton(
             onPressed: onButtonPress,
             child: Text(
-              textButton ?? "Повторить попытку",
+              textButton ?? S.retry,
               style: TS.medium15,
             )
           )
