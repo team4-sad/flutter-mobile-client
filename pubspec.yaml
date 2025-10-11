@@ -23,6 +23,7 @@ dependencies:
   cached_network_image: ^3.4.1
   shimmer_animation: ^2.1.0
   connectivity_plus: ^7.0.0
+  flutter_dotenv: ^6.0.0
 
   talker_flutter: ^5.0.1
   talker_dio_logger: ^5.0.1
@@ -41,6 +42,7 @@ flutter:
 
   assets:
     - assets/translations/
+    - config/.env
   
   fonts:
     - family: Roboto

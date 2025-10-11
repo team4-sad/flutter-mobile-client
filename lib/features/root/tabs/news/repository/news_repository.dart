@@ -2,13 +2,29 @@
 
 import 'dart:math';
 
+import 'package:dio/dio.dart';
 import 'package:miigaik/features/root/tabs/news/models/news_model.dart';
 
 abstract class INewsRepository {
   Future<List<NewsModel>> fetchNews({int page = 1});
 }
 
-class NewsRepository extends INewsRepository {
+class ApiNewsRepository extends INewsRepository {
+  final String _baseApiUrl;
+  final Dio _dio;
+
+  ApiNewsRepository({
+    required Dio dio,
+    required String baseApiUrl,
+  }) : _dio = dio, _baseApiUrl = baseApiUrl;
+
+  @override
+  Future<List<NewsModel>> fetchNews({int page = 1}) async {
+    throw UnimplementedError();
+  }
+}
+
+class MockNewsRepository extends INewsRepository {
   @override
   Future<List<NewsModel>> fetchNews({int page = 1}) {
     return Future.delayed(

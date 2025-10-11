@@ -5,7 +5,6 @@ import 'package:get_it/get_it.dart';
 import 'package:miigaik/features/common/extensions/iterable_extensions.dart';
 import 'package:miigaik/features/common/extensions/num_widget_extension.dart';
 import 'package:miigaik/features/common/widgets/placeholder_widget.dart';
-import 'package:miigaik/features/network-connection/bloc/network_connection_bloc.dart';
 import 'package:miigaik/features/root/tabs/news/widgets/news_item.dart';
 import 'package:miigaik/features/root/tabs/news/widgets/news_item_shimmer.dart';
 import 'package:miigaik/theme/values.dart';
