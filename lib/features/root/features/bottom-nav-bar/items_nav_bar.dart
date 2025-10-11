@@ -14,5 +14,5 @@ enum ItemNavBar {
 
   static ItemNavBar defaultItem() => ItemNavBar.schedule;
 
-  bool isFirstOrLast() => [values.first, values.last].contains(this);
+  bool isFirstOrLast() => values.first == this || values.last == this;
 }
