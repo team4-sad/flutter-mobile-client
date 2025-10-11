@@ -4,6 +4,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get_it/get_it.dart';
 import 'package:miigaik/features/root/root_page.dart';
+import 'package:miigaik/features/root/tabs/news/bloc/news_list_bloc/news_list_bloc.dart';
+import 'package:miigaik/features/root/tabs/news/repository/news_repository.dart';
 import 'package:miigaik/features/switch-locale/locale_bloc.dart';
 import 'package:miigaik/theme/app_theme.dart';
 import 'package:miigaik/theme/app_theme_extensions.dart';
@@ -19,6 +21,9 @@ void main() async {
 
   GetIt.I.registerSingleton(ThemeBloc(AppTheme.defaultTheme()));
   GetIt.I.registerSingleton(BottomNavBarBloc(ItemNavBar.defaultItem()));
+
+  final INewsRepository newsRepository = NewsRepository();
+  GetIt.I.registerSingleton(NewsListBloc(newsRepository));
 
   runApp(
     EasyLocalization(
@@ -37,8 +42,8 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     if (!GetIt.I.isRegistered<LocaleBloc>()){
       GetIt.I.registerSingleton(LocaleBloc(
-          context.supportedLocales,
-          context.locale
+        context.supportedLocales,
+        context.locale
       ));
     }
 
@@ -57,7 +62,7 @@ class MyApp extends StatelessWidget {
               supportedLocales: context.supportedLocales,
               locale: context.locale,
               theme: appThemeExtension.getThemeData(
-                  fontFamily: "Roboto"
+                fontFamily: "Roboto"
               ),
               home: child
             );
