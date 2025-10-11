@@ -8,5 +8,6 @@
   "news_title": "News",
   "news_search": "Search news",
   "no_news": "No news",
-  "no_news_sub": "Stay tuned\ntogether with the MIIGAiK application :)"
+  "no_news_sub": "Stay tuned\ntogether with the MIIGAiK application :)",
+  "no_news_description": "There is no description for the news"
 }

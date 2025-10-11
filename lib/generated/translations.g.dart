@@ -13,5 +13,6 @@ abstract class  LocaleKeys {
   static const news_search = 'news_search';
   static const no_news = 'no_news';
   static const no_news_sub = 'no_news_sub';
+  static const no_news_description = 'no_news_description';
 
 }

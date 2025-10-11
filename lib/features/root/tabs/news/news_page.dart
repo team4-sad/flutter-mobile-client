@@ -2,15 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get_it/get_it.dart';
-import 'package:miigaik/features/common/extensions/iterable_extensions.dart';
 import 'package:miigaik/features/common/extensions/num_widget_extension.dart';
-import 'package:miigaik/features/common/widgets/placeholder_widget.dart';
 import 'package:miigaik/features/root/tabs/news/content/empty_news_content.dart';
 import 'package:miigaik/features/root/tabs/news/content/error_news_content.dart';
 import 'package:miigaik/features/root/tabs/news/content/list_news_content.dart';
 import 'package:miigaik/features/root/tabs/news/content/loading_news_content.dart';
-import 'package:miigaik/features/root/tabs/news/widgets/news_item.dart';
-import 'package:miigaik/features/root/tabs/news/widgets/news_item_shimmer.dart';
 import 'package:miigaik/theme/values.dart';
 
 import 'bloc/news_list_bloc/news_list_bloc.dart';
