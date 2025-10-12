@@ -31,7 +31,9 @@ class ListNewsContent extends StatelessWidget {
                 onTap: (){
                   Navigator.push(
                     context,
-                    MaterialPageRoute(builder: (_) => SingleNewsPage())
+                    MaterialPageRoute(builder: (_) => SingleNewsPage(
+                      newsId: e.id
+                    ))
                   );
                 },
               ),

@@ -21,15 +21,9 @@ class NewsItemShimmerWidget extends StatelessWidget {
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
-          AppShimmer(
-            height: 135.h,
-            width: 1.sw,
-          ),
+          AppShimmer.image(width: 1.sw),
           10.vs(),
-          AppShimmer(
-            width: 1.sw,
-            height: 36.h
-          )
+          AppShimmer.bigText(width: 1.sw)
         ],
       ),
     );
