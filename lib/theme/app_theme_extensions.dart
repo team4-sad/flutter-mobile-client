@@ -65,6 +65,9 @@ class AppThemeExtension extends ThemeExtension<AppThemeExtension> {
         selectionColor: palette.accent.withAlpha(48),
         selectionHandleColor: palette.accent,
       ),
+      progressIndicatorTheme: ProgressIndicatorThemeData(
+        color: palette.accent,
+      ),
       filledButtonTheme: FilledButtonThemeData(
         style: FilledButton.styleFrom(
           backgroundColor: palette.accent,

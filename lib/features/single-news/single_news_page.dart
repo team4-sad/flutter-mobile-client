@@ -4,6 +4,7 @@ import 'package:flutter_widget_from_html/flutter_widget_from_html.dart';
 import 'package:miigaik/features/common/extensions/num_widget_extension.dart';
 import 'package:miigaik/features/common/extensions/sliver_widget_extension.dart';
 import 'package:miigaik/features/common/extensions/widget_extension.dart';
+import 'package:miigaik/features/common/widgets/app_shimmer.dart';
 import 'package:miigaik/generated/icons.g.dart';
 import 'package:miigaik/theme/app_theme_extensions.dart';
 import 'package:miigaik/theme/text_styles.dart';
@@ -18,17 +19,14 @@ class SingleNewsPage extends StatelessWidget {
       context: context,
       builder: (context) => Dialog(
         backgroundColor: Colors.transparent,
-        insetPadding: const EdgeInsets.all(20),
-        child: Expanded(
-          child: PhotoView(
-            backgroundDecoration: const BoxDecoration(
-              color: Colors.transparent,
-            ),
-            tightMode: true,
-            imageProvider: NetworkImage(imageUrl),
-            minScale: PhotoViewComputedScale.contained * 1,
-            maxScale: PhotoViewComputedScale.covered * 2,
+        child: PhotoView(
+          backgroundDecoration: const BoxDecoration(
+            color: Colors.transparent,
           ),
+          tightMode: true,
+          imageProvider: NetworkImage(imageUrl),
+          minScale: PhotoViewComputedScale.contained * 1,
+          maxScale: PhotoViewComputedScale.covered * 2,
         ),
       ),
       barrierColor: Colors.black87,
@@ -141,6 +139,9 @@ class SingleNewsPage extends StatelessWidget {
             onTapUrl: (rawUrl) async {
               final Uri url = Uri.parse(rawUrl);
               return !await launchUrl(url);
+            },
+            onLoadingBuilder: (context, _, __){
+              return AppShimmer(width: 1.sw, height: 180);
             },
           ).sp(25.horizontal())
         ],
