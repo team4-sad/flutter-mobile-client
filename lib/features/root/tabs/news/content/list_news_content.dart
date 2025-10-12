@@ -5,7 +5,7 @@ import 'package:miigaik/features/common/widgets/placeholder_widget.dart';
 import 'package:miigaik/features/root/tabs/news/bloc/news_list_bloc/news_list_bloc.dart';
 import 'package:miigaik/features/root/tabs/news/widgets/news_item.dart';
 import 'package:miigaik/features/root/tabs/news/widgets/news_item_shimmer.dart';
-import 'package:miigaik/features/single-news/signle_news_page.dart';
+import 'package:miigaik/features/single-news/single_news_page.dart';
 import 'package:miigaik/theme/values.dart';
 
 class ListNewsContent extends StatelessWidget {

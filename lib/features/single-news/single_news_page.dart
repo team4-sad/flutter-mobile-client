@@ -7,9 +7,33 @@ import 'package:miigaik/features/common/extensions/widget_extension.dart';
 import 'package:miigaik/generated/icons.g.dart';
 import 'package:miigaik/theme/app_theme_extensions.dart';
 import 'package:miigaik/theme/text_styles.dart';
+import 'package:photo_view/photo_view.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class SingleNewsPage extends StatelessWidget {
   const SingleNewsPage({super.key});
+
+  void showZoomableImageDialog(BuildContext context, String imageUrl) {
+    showDialog(
+      context: context,
+      builder: (context) => Dialog(
+        backgroundColor: Colors.transparent,
+        insetPadding: const EdgeInsets.all(20),
+        child: Expanded(
+          child: PhotoView(
+            backgroundDecoration: const BoxDecoration(
+              color: Colors.transparent,
+            ),
+            tightMode: true,
+            imageProvider: NetworkImage(imageUrl),
+            minScale: PhotoViewComputedScale.contained * 1,
+            maxScale: PhotoViewComputedScale.covered * 2,
+          ),
+        ),
+      ),
+      barrierColor: Colors.black87,
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -108,6 +132,16 @@ class SingleNewsPage extends StatelessWidget {
               return null;
             },
             textStyle: TS.light15,
+            onTapImage: (metadata) async {
+              final image = metadata.sources.firstOrNull;
+              if (image != null){
+                showZoomableImageDialog(context, image.url);
+              }
+            },
+            onTapUrl: (rawUrl) async {
+              final Uri url = Uri.parse(rawUrl);
+              return !await launchUrl(url);
+            },
           ).sp(25.horizontal())
         ],
       ),
