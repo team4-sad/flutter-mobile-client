@@ -37,7 +37,8 @@ class SingleNewsPage extends StatelessWidget {
                 slivers: [
                   TopSingleNewsWidget().s(),
                   20.svs(),
-                  NewsHtmlWidget(html: state.singleNews.htmlContent).sp(25.horizontal())
+                  NewsHtmlWidget(html: state.singleNews.htmlContent).sp(25.horizontal()),
+                  48.svs(),
                 ],
               );
             case SingleNewsErrorState():

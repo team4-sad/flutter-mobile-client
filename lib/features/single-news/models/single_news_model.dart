@@ -11,8 +11,8 @@ class SingleNewsModel {
 
   factory SingleNewsModel.fromJson(Map<String, dynamic> json) =>
     SingleNewsModel(
-      title: json["title"]!.toString(),
-      htmlContent: json["html_content"]!.toString(),
-      date: json["date"]!.toString()
+      title: json["header"]!.toString(),
+      htmlContent: json["content_html"]!.toString(),
+      date: json["date_created"]!.toString()
     );
 }

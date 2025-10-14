@@ -8,7 +8,7 @@ class NewsResponseModel {
   NewsResponseModel({required this.news, required this.pagination});
 
   factory NewsResponseModel.fromJson(Map<String, dynamic> json) => NewsResponseModel(
-    news: (json["news"]! as List).map((e) => NewsModel.fromJson(e)).toList(),
+    news: (json["news_list"]! as List).map((e) => NewsModel.fromJson(e)).toList(),
     pagination: NewsPaginationModel.fromJson(json["pagination"])
   );
 }

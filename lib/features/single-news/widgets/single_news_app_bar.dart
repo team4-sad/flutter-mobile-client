@@ -13,6 +13,7 @@ class SingleNewsAppBar extends StatelessWidget implements PreferredSizeWidget {
       surfaceTintColor: context.palette.background,
       leadingWidth: 70,
       leading: GestureDetector(
+        behavior: HitTestBehavior.opaque,
         onTap: () {
           Navigator.pop(context);
         },
@@ -22,5 +23,5 @@ class SingleNewsAppBar extends StatelessWidget implements PreferredSizeWidget {
   }
 
   @override
-  Size get preferredSize => Size(1.sw, 60);
+  Size get preferredSize => Size(1.sw, kToolbarHeight);
 }

@@ -33,15 +33,13 @@ void main() async {
   await networkConnectionService.launch();
   GetIt.I.registerSingleton(networkConnectionService);
 
-  final INewsRepository mockNewsRepository = MockNewsRepository();
-  final INewsRepository apiNewsRepository = ApiNewsRepository(
-      dio: Dio(),
-      baseApiUrl: Config.apiUrl.conf()
-  );
-  GetIt.I.registerSingleton(NewsListBloc(mockNewsRepository));
+  final dio = Dio(BaseOptions(baseUrl: Config.apiUrl.conf()));
 
-  final ISingleNewsRepository mockSingleNewsRepository = MockSingleNewsRepository();
-  GetIt.I.registerSingleton(mockSingleNewsRepository);
+  final INewsRepository apiNewsRepository = ApiNewsRepository(dio: dio);
+  GetIt.I.registerSingleton(NewsListBloc(apiNewsRepository));
+
+  final ISingleNewsRepository apSingleNewsRepository = ApiSingleNewsRepository(dio: dio);
+  GetIt.I.registerSingleton(apSingleNewsRepository);
 
   GetIt.I.registerSingleton(ThemeBloc(AppTheme.defaultTheme()));
   GetIt.I.registerSingleton(BottomNavBarBloc(ItemNavBar.defaultItem()));

@@ -12,17 +12,16 @@ abstract class INewsRepository {
 }
 
 class ApiNewsRepository extends INewsRepository {
-  final String _baseApiUrl;
   final Dio _dio;
 
   ApiNewsRepository({
     required Dio dio,
-    required String baseApiUrl,
-  }) : _dio = dio, _baseApiUrl = baseApiUrl;
+  }) : _dio = dio;
 
   @override
   Future<NewsResponseModel> fetchNews({int page = 1}) async {
-    throw UnimplementedError();
+    var response = await _dio.get("news", queryParameters: {"page": page});
+    return NewsResponseModel.fromJson(response.data);
   }
 }
 

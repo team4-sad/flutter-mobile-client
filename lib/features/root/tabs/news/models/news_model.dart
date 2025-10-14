@@ -21,20 +21,20 @@ class NewsModel {
   factory NewsModel.fromJson(Map<String, dynamic> json) {
     return NewsModel(
       id: json['id']!.toString(),
-      title: json['title']!.toString(),
-      date: json['date']!.toString(),
+      title: json['header']!.toString(),
+      date: json['date_created']!.toString(),
       newsLink: json['news_link']!.toString(),
-      imageLink: json['image_link']!.toString(),
-      description: json['description']!.toString(),
+      imageLink: json['image_link']?.toString(),
+      description: json['description']?.toString(),
     );
   }
 
   Map<String, dynamic> toJson() => {
     'id': id,
-    'title': title,
+    'header': title,
     'description': description,
     'image_link': imageLink,
-    'date': date,
     'news_link': newsLink,
+    'date_created': date,
   };
 }
