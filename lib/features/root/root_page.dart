@@ -9,30 +9,43 @@ import 'package:miigaik/features/root/tabs/empty/emty_page.dart';
 import 'package:miigaik/features/root/tabs/news/news_page.dart';
 
 class RootPage extends StatelessWidget {
-  const RootPage({super.key});
+  RootPage({super.key});
 
+  final Map<ItemNavBar, int> _itemNavBarToIndex = {};
+  final List<Widget> _loadedScreens = [];
+
+  void _updateLazyBuild(ItemNavBar itemNavBar) {
+    if (!_itemNavBarToIndex.containsKey(itemNavBar)) {
+      final Widget widget = switch(itemNavBar){
+        ItemNavBar.schedule => const EmptyPage(),
+        ItemNavBar.map => const EmptyPage(),
+        ItemNavBar.news => const NewsPage(),
+        ItemNavBar.notes => const EmptyPage(),
+        ItemNavBar.profile => const EmptyPage()
+      };
+      var index = _loadedScreens.length;
+      _loadedScreens.add(widget);
+      _itemNavBarToIndex[itemNavBar] = index;
+    }
+  }
+  
   @override
   Widget build(BuildContext context) {
-
-    final pages = ItemNavBar.values.map((e) => switch(e){
-      ItemNavBar.schedule => EmptyPage(),
-      ItemNavBar.map => EmptyPage(),
-      ItemNavBar.news => NewsPage(),
-      ItemNavBar.notes => EmptyPage(),
-      ItemNavBar.profile => EmptyPage(),
-    }).toList();
-
+    _updateLazyBuild(ItemNavBar.defaultItem());
     return Scaffold(
       body: Stack(
         children: [
-          BlocBuilder(
+          BlocConsumer<BottomNavBarBloc, BottomNavBarState>(
             bloc: GetIt.I.get<BottomNavBarBloc>(),
-            builder: (context, BottomNavBarState state) {
+            listener: (context, state){
+              _updateLazyBuild(state.currentItem);
+            },
+            builder: (context, state){
               return IndexedStack(
-                index: state.currentItem.index,
-                children: pages,
+                index: _itemNavBarToIndex[state.currentItem],
+                children: _loadedScreens,
               );
-            }
+            },
           ),
           Align(
             alignment: Alignment.bottomCenter,
