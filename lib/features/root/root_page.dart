@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_it/get_it.dart';
@@ -7,6 +8,7 @@ import 'package:miigaik/features/root/features/bottom-nav-bar/bottom_nav_bar_gra
 import 'package:miigaik/features/root/features/bottom-nav-bar/items_nav_bar.dart';
 import 'package:miigaik/features/root/tabs/empty/emty_page.dart';
 import 'package:miigaik/features/root/tabs/news/news_page.dart';
+import 'package:talker_flutter/talker_flutter.dart';
 
 class RootPage extends StatelessWidget {
   RootPage({super.key});
@@ -47,11 +49,23 @@ class RootPage extends StatelessWidget {
               );
             },
           ),
-          Align(
-            alignment: Alignment.bottomCenter,
-            child: BottomNavBarGradient(
-              bottomNavBar: BottomNavBar()
-            )
+          GestureDetector(
+            onLongPress: (){
+              if (kDebugMode) {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (_) => TalkerScreen(talker: GetIt.I.get())
+                  )
+                );
+              }
+            },
+            child: Align(
+              alignment: Alignment.bottomCenter,
+              child: BottomNavBarGradient(
+                bottomNavBar: BottomNavBar()
+              )
+            ),
           )
         ],
       ),

@@ -16,6 +16,10 @@ import 'package:miigaik/features/single-news/repository/single_news_repository.d
 import 'package:miigaik/features/switch-locale/locale_bloc.dart';
 import 'package:miigaik/theme/app_theme.dart';
 import 'package:miigaik/theme/app_theme_extensions.dart';
+import 'package:talker_bloc_logger/talker_bloc_logger_observer.dart';
+import 'package:talker_dio_logger/talker_dio_logger_interceptor.dart';
+import 'package:talker_dio_logger/talker_dio_logger_settings.dart';
+import 'package:talker_flutter/talker_flutter.dart';
 import 'features/common/other/http_override.dart';
 import 'features/config/config.dart';
 import 'features/root/features/bottom-nav-bar/bloc/bottom_nav_bar_bloc.dart';
@@ -29,11 +33,21 @@ void main() async {
   await EasyLocalization.ensureInitialized();
   BadCertificateHttpOverrides.setup();
 
+  final talker = Talker();
+  GetIt.I.registerSingleton(talker);
+  Bloc.observer = TalkerBlocObserver(talker: talker);
+
   final networkConnectionService = NetworkConnectionService();
   await networkConnectionService.launch();
   GetIt.I.registerSingleton(networkConnectionService);
 
   final dio = Dio(BaseOptions(baseUrl: Config.apiUrl.conf()));
+  dio.interceptors.add(
+    TalkerDioLogger(
+      talker: talker,
+      settings: const TalkerDioLoggerSettings(),
+    ),
+  );
 
   final INewsRepository apiNewsRepository = ApiNewsRepository(dio: dio);
   GetIt.I.registerSingleton(NewsListBloc(apiNewsRepository));
