@@ -48,7 +48,7 @@ class NewsItemWidget extends StatelessWidget {
                         imageUrl: _newsModel.imageLink!,
                         height: 135.h,
                         width: 1.sw,
-                        fit: BoxFit.fitWidth,
+                        fit: BoxFit.cover,
                         placeholder: (context, _) => AppShimmer.image(width: 1.sw),
                       ),
                       Align(
