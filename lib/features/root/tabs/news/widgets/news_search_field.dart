@@ -6,12 +6,11 @@ import 'package:miigaik/generated/types.dart';
 import 'package:miigaik/theme/app_theme_extensions.dart';
 import 'package:miigaik/theme/text_styles.dart';
 
-class NewsSearchField extends StatelessWidget {
+class NewsSearchField extends StatefulWidget {
   final void Function(bool) _onChangeFocusSearchField;
   final void Function(String) _onChangeText;
-  final _focusNode = FocusNode();
 
-  NewsSearchField({
+  const NewsSearchField({
     super.key,
     required void Function(bool) onChangeFocusSearchField,
     required void Function(String) onChangeText
@@ -20,14 +19,21 @@ class NewsSearchField extends StatelessWidget {
     _onChangeText = onChangeText;
 
   @override
+  State<NewsSearchField> createState() => _NewsSearchFieldState();
+}
+
+class _NewsSearchFieldState extends State<NewsSearchField> {
+  final _focusNode = FocusNode();
+
+  @override
   Widget build(BuildContext context) {
     return Focus(
-      onFocusChange: _onChangeFocusSearchField,
+      onFocusChange: widget._onChangeFocusSearchField,
       child: TextField(
         onTapOutside: (_){
           _focusNode.unfocus();
         },
-        onChanged: _onChangeText,
+        onChanged: widget._onChangeText,
         focusNode: _focusNode,
         style: TS.regular15.use(context.palette.text),
         decoration: InputDecoration(
@@ -57,5 +63,4 @@ class NewsSearchField extends StatelessWidget {
       ),
     );
   }
-
 }

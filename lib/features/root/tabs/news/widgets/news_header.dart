@@ -1,30 +1,27 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:miigaik/features/common/extensions/num_widget_extension.dart';
+import 'package:miigaik/features/common/extensions/widget_extension.dart';
 import 'package:miigaik/features/root/tabs/news/widgets/news_search_field.dart';
 import 'package:miigaik/generated/types.dart';
 import 'package:miigaik/theme/app_theme_extensions.dart';
 import 'package:miigaik/theme/text_styles.dart';
 
 class NewsHeader extends StatelessWidget {
-
-  final bool _showDivider;
-  final EdgeInsets _contentPadding;
-  final void Function(bool) _onChangeFocusSearchField;
-  final void Function(String) _onChangeText;
+  final bool showDivider;
+  final EdgeInsets contentPadding;
+  final void Function(bool) onChangeFocusSearchField;
+  final void Function(String) onChangeText;
+  final bool showTitle;
 
   const NewsHeader({
     super.key,
-    required bool showDivider,
-    required EdgeInsets contentPadding,
-    required void Function(bool) onChangeFocusSearchField,
-    required void Function(String) onChangeText
-  }):
-    _showDivider = showDivider,
-    _onChangeFocusSearchField = onChangeFocusSearchField,
-    _contentPadding = contentPadding,
-    _onChangeText = onChangeText;
-
+    required this.showDivider,
+    required this.contentPadding,
+    required this.onChangeFocusSearchField,
+    required this.onChangeText,
+    required this.showTitle,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -34,17 +31,34 @@ class NewsHeader extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Padding(
-            padding: _contentPadding,
+            padding: contentPadding,
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               mainAxisSize: MainAxisSize.min,
               children: [
-                Text(S.news_title.tr(), style: TS.medium25.use(context.palette.text)),
-                10.vs(),
+                AnimatedSwitcher(
+                  duration: const Duration(milliseconds: 200),
+                  transitionBuilder: (Widget child, Animation<double> animation) {
+                    return FadeTransition(
+                      opacity: animation,
+                      child: SizeTransition(
+                        sizeFactor: animation,
+                        axisAlignment: -1.0,
+                        child: child,
+                      ),
+                    );
+                  },
+                  child: showTitle ? Text(
+                    S.news_title.tr(),
+                    key: const ValueKey('title'),
+                    style: TS.medium25.use(context.palette.text),
+                  ).p(10.bottom())
+                    : const SizedBox.shrink(key: ValueKey('empty')),
+                ),
                 NewsSearchField(
-                  onChangeFocusSearchField: _onChangeFocusSearchField,
-                  onChangeText: _onChangeText,
-                )
+                  onChangeFocusSearchField: onChangeFocusSearchField,
+                  onChangeText: onChangeText,
+                ),
               ],
             ),
           ),
@@ -52,7 +66,7 @@ class NewsHeader extends StatelessWidget {
           AnimatedContainer(
             duration: const Duration(milliseconds: 200),
             height: 1,
-            color: _showDivider
+            color: showDivider
                 ? context.palette.container
                 : context.palette.container.withAlpha(0),
           ),
@@ -60,5 +74,4 @@ class NewsHeader extends StatelessWidget {
       ),
     );
   }
-
 }

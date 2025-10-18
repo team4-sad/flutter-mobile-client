@@ -15,20 +15,16 @@ class ListNewsContent extends StatelessWidget {
 
   final WithDataState<NewsModel> _state;
   final VoidCallback _onTapRetry;
-  final ScrollController _controller;
 
   const ListNewsContent({
     super.key,
     required WithDataState<NewsModel> state,
-    required void Function() onTapRetry,
-    required ScrollController controller
-  }) : _onTapRetry = onTapRetry, _state = state, _controller = controller;
+    required void Function() onTapRetry
+  }) : _onTapRetry = onTapRetry, _state = state;
 
   @override
   Widget build(BuildContext context) {
-    return ListView(
-      padding: EdgeInsets.zero,
-      controller: _controller,
+    return SliverList.list(
       children: [
         if (_state.data != null)
           if (_state.data!.isNotEmpty)

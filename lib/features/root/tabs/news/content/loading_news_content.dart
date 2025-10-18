@@ -8,11 +8,13 @@ class LoadingNewsContent extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ListView.separated(
-      padding: EdgeInsets.zero,
-      itemBuilder: (_, __) => NewsItemShimmerWidget(),
-      separatorBuilder: (_, __) => separateNews.vs(),
-      itemCount: countShimmersLoadingNews
+    return SliverPadding(
+      padding: heightAreaBottomNavBar.bottom(),
+      sliver: SliverList.separated(
+          itemBuilder: (_, __) => NewsItemShimmerWidget(),
+          separatorBuilder: (_, __) => separateNews.vs(),
+          itemCount: countShimmersLoadingNews
+      ),
     );
   }
 }

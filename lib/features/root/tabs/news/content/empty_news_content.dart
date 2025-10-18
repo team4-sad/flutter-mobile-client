@@ -8,13 +8,16 @@ class EmptyNewsContent extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.only(
-        bottom: heightAreaBottomNavBar
+    return SliverFillRemaining(
+      hasScrollBody: false,
+      child: Padding(
+        padding: const EdgeInsets.only(
+            bottom: heightAreaBottomNavBar
+        ),
+        child: Center(
+          child: PlaceholderWidget.emptyNews(),
+        )
       ),
-      child: Center(
-        child: PlaceholderWidget.emptyNews(),
-      )
     );
   }
 }
