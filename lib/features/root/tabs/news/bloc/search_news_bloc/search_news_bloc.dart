@@ -2,6 +2,9 @@ import 'package:bloc_concurrency/bloc_concurrency.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_it/get_it.dart';
 import 'package:miigaik/features/common/bloc/initial_state.dart';
+import 'package:miigaik/features/common/bloc/pagination_error_state.dart';
+import 'package:miigaik/features/common/bloc/pagination_loading_state.dart';
+import 'package:miigaik/features/common/other/debouncer.dart';
 import 'package:miigaik/features/network-connection/enum/connection_status.dart';
 import 'package:miigaik/features/network-connection/exception/no_network_exception.dart';
 import 'package:miigaik/features/network-connection/services/network_connection_service.dart';
@@ -18,6 +21,7 @@ class NewsSearchBloc extends Bloc<SearchNewsEvent, NewsSearchState> {
 
   final NetworkConnectionService connectionService = GetIt.I.get();
   final ISearchNewsRepository repository = GetIt.I.get();
+  final _debouncer = Debouncer(duration: Duration(milliseconds: 500));
 
   NewsSearchBloc() : super(NewsSearchInitial()) {
 
@@ -27,9 +31,7 @@ class NewsSearchBloc extends Bloc<SearchNewsEvent, NewsSearchState> {
         state is NewsSearchError &&
         (state as NewsSearchError).error is NoNetworkException
       ){
-        add(
-          RetrySearchEvent(searchText: (state as NewsSearchError).searchText!)
-        );
+        add(RetrySearchEvent());
       }
     });
 
@@ -44,30 +46,30 @@ class NewsSearchBloc extends Bloc<SearchNewsEvent, NewsSearchState> {
             page: event.page,
             searchText: event.searchText
         );
-        emit(NewsSearchLoaded.fromState(
-            response.news,
-            response.pagination,
-            event.searchText,
-            state
-        ));
+        if (state is NewsSearchLoading){
+          emit(NewsSearchLoaded.fromState(
+              response.news,
+              response.pagination,
+              event.searchText,
+              state
+          ));
+        }
       } on Object catch(e){
         emit(NewsSearchError.fromState(e, state));
       }
     }, transformer: restartable());
 
-    on<LaunchSearchEvent>((event, emit){
-      switch(state){
-        case NewsSearchLoaded():
-          final s = state as NewsSearchLoaded;
-          if (s.nextPage != null) {
-            add(FetchPageSearchEvent(page: s.nextPage!, searchText: event.searchText));
-          }
-        case NewsSearchInitial():
-          add(FetchPageSearchEvent(page: 1, searchText: event.searchText));
-        case NewsSearchLoading():;
-        case NewsSearchError():
-          return;
+    on<TypingEvent>((event, emit){
+      if (event.searchText.isEmpty){
+        emit(NewsSearchInitial());
+        _debouncer.cancel();
+        return;
+      }else if (state is! NewsSearchLoading) {
+        emit(NewsSearchLoading());
       }
+      _debouncer(() {
+        add(FetchPageSearchEvent(searchText: event.searchText, page: 1));
+      });
     }, transformer: restartable());
 
     on<RetrySearchEvent>((event, emit){
@@ -76,7 +78,33 @@ class NewsSearchBloc extends Bloc<SearchNewsEvent, NewsSearchState> {
       }
       final current = state as NewsSearchError;
       final currentPage = current.pagination?.currentPage ?? 1;
-      add(FetchPageSearchEvent(page: currentPage, searchText: event.searchText));
+      if (current.searchText != null){
+        add(FetchPageSearchEvent(page: currentPage, searchText: current.searchText!));
+      }
     }, transformer: restartable());
+
+    on<NextPageSearchEvent>((event, emit) {
+      if (state is! NewsSearchLoaded) {
+        return;
+      }
+      final s = state as NewsSearchLoaded;
+      if (s.hasInvalid){
+        emit(
+          NewsSearchError(
+            error: ArgumentError(
+              "Invalid NewsSearchLoaded state - pagination is null"
+            ),
+            searchText: ""
+          )
+        );
+        return;
+      }
+      if (s.pagination!.hasNext) {
+        add(FetchPageSearchEvent(
+          searchText: s.searchText!,
+          page: s.pagination!.currentPage + 1
+        ));
+      }
+    });
   }
 }

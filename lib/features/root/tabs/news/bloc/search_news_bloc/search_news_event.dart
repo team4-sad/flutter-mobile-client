@@ -12,14 +12,12 @@ class FetchPageSearchEvent extends SearchNewsEvent {
   });
 }
 
-class LaunchSearchEvent extends SearchNewsEvent {
+class NextPageSearchEvent extends SearchNewsEvent {}
+
+class RetrySearchEvent extends SearchNewsEvent {}
+
+class TypingEvent extends SearchNewsEvent {
   final String searchText;
 
-  LaunchSearchEvent({required this.searchText});
-}
-
-class RetrySearchEvent extends SearchNewsEvent {
-  final String searchText;
-
-  RetrySearchEvent({required this.searchText});
+  TypingEvent({required this.searchText});
 }

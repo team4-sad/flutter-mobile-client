@@ -17,6 +17,115 @@ class MockSearchNewsRepository extends ISearchNewsRepository {
           date: "18.10.2025",
           newsLink: "LINK"
         ),
+        NewsModel(
+            id: "0",
+            title: "TEST",
+            date: "18.10.2025",
+            newsLink: "LINK"
+        ),
+        NewsModel(
+            id: "0",
+            title: "TEST",
+            date: "18.10.2025",
+            newsLink: "LINK"
+        ),
+        NewsModel(
+            id: "0",
+            title: "TEST",
+            date: "18.10.2025",
+            newsLink: "LINK"
+        ),
+        NewsModel(
+            id: "0",
+            title: "TEST",
+            date: "18.10.2025",
+            newsLink: "LINK"
+        ),
+        NewsModel(
+            id: "0",
+            title: "TEST",
+            date: "18.10.2025",
+            newsLink: "LINK"
+        ),
+        NewsModel(
+            id: "0",
+            title: "TEST",
+            date: "18.10.2025",
+            newsLink: "LINK"
+        ),
+        NewsModel(
+            id: "0",
+            title: "TEST",
+            date: "18.10.2025",
+            newsLink: "LINK"
+        ),
+        NewsModel(
+            id: "0",
+            title: "TEST",
+            date: "18.10.2025",
+            newsLink: "LINK"
+        ),
+        NewsModel(
+            id: "0",
+            title: "TEST",
+            date: "18.10.2025",
+            newsLink: "LINK"
+        ),
+        NewsModel(
+            id: "0",
+            title: "TEST",
+            date: "18.10.2025",
+            newsLink: "LINK"
+        ),
+        NewsModel(
+            id: "0",
+            title: "TEST",
+            date: "18.10.2025",
+            newsLink: "LINK"
+        ),NewsModel(
+            id: "0",
+            title: "TEST",
+            date: "18.10.2025",
+            newsLink: "LINK"
+        ),NewsModel(
+            id: "0",
+            title: "TEST",
+            date: "18.10.2025",
+            newsLink: "LINK"
+        ),
+        NewsModel(
+            id: "0",
+            title: "TEST",
+            date: "18.10.2025",
+            newsLink: "LINK"
+        ),
+        NewsModel(
+            id: "0",
+            title: "TEST",
+            date: "18.10.2025",
+            newsLink: "LINK"
+        ),
+        NewsModel(
+            id: "0",
+            title: "TEST",
+            date: "18.10.2025",
+            newsLink: "LINK"
+        ),
+        NewsModel(
+            id: "0",
+            title: "TEST",
+            date: "18.10.2025",
+            newsLink: "LINK"
+        ),NewsModel(
+            id: "0",
+            title: "TEST",
+            date: "18.10.2025",
+            newsLink: "LINK"
+        ),
+
+
+
+
       ],
       pagination: PaginationModel(currentPage: page, hasNext: true)
     ));

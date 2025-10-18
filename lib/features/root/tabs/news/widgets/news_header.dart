@@ -11,16 +11,19 @@ class NewsHeader extends StatelessWidget {
   final bool _showDivider;
   final EdgeInsets _contentPadding;
   final void Function(bool) _onChangeFocusSearchField;
+  final void Function(String) _onChangeText;
 
   const NewsHeader({
     super.key,
     required bool showDivider,
     required EdgeInsets contentPadding,
-    required void Function(bool) onChangeFocusSearchField
+    required void Function(bool) onChangeFocusSearchField,
+    required void Function(String) onChangeText
   }):
     _showDivider = showDivider,
     _onChangeFocusSearchField = onChangeFocusSearchField,
-    _contentPadding = contentPadding;
+    _contentPadding = contentPadding,
+    _onChangeText = onChangeText;
 
 
   @override
@@ -38,7 +41,10 @@ class NewsHeader extends StatelessWidget {
               children: [
                 Text(S.news_title.tr(), style: TS.medium25.use(context.palette.text)),
                 10.vs(),
-                NewsSearchField(onChangeFocusSearchField: _onChangeFocusSearchField)
+                NewsSearchField(
+                  onChangeFocusSearchField: _onChangeFocusSearchField,
+                  onChangeText: _onChangeText,
+                )
               ],
             ),
           ),

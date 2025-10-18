@@ -8,12 +8,16 @@ import 'package:miigaik/theme/text_styles.dart';
 
 class NewsSearchField extends StatelessWidget {
   final void Function(bool) _onChangeFocusSearchField;
+  final void Function(String) _onChangeText;
   final _focusNode = FocusNode();
 
   NewsSearchField({
     super.key,
-    required void Function(bool) onChangeFocusSearchField
-  }): _onChangeFocusSearchField = onChangeFocusSearchField;
+    required void Function(bool) onChangeFocusSearchField,
+    required void Function(String) onChangeText
+  }):
+    _onChangeFocusSearchField = onChangeFocusSearchField,
+    _onChangeText = onChangeText;
 
   @override
   Widget build(BuildContext context) {
@@ -23,6 +27,7 @@ class NewsSearchField extends StatelessWidget {
         onTapOutside: (_){
           _focusNode.unfocus();
         },
+        onChanged: _onChangeText,
         focusNode: _focusNode,
         style: TS.regular15.use(context.palette.text),
         decoration: InputDecoration(

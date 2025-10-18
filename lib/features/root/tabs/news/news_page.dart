@@ -9,9 +9,6 @@ import 'package:miigaik/features/common/bloc/with_data_state.dart';
 import 'package:miigaik/features/common/extensions/num_widget_extension.dart';
 import 'package:miigaik/features/common/extensions/widget_extension.dart';
 import 'package:miigaik/features/root/tabs/news/bloc/search_news_bloc/search_news_bloc.dart';
-import 'package:miigaik/features/root/tabs/news/content/empty_news_content.dart';
-import 'package:miigaik/features/root/tabs/news/content/error_news_content.dart';
-import 'package:miigaik/features/root/tabs/news/content/list_news_content.dart';
 import 'package:miigaik/features/root/tabs/news/content/loading_news_content.dart';
 import 'package:miigaik/features/root/tabs/news/enum/news_page_mode.dart';
 import 'package:miigaik/features/root/tabs/news/models/news_model.dart';
@@ -19,6 +16,9 @@ import 'package:miigaik/theme/values.dart';
 
 import 'bloc/news_list_bloc/news_list_bloc.dart';
 import 'bloc/news_page_mode_bloc/news_page_mode_bloc.dart';
+import 'content/empty_news_content.dart';
+import 'content/error_news_content.dart';
+import 'content/list_news_content.dart';
 import 'widgets/news_header.dart';
 
 class NewsPage extends StatefulWidget {
@@ -77,9 +77,14 @@ class _NewsPageState extends State<NewsPage> {
               right: horizontalPaddingPage,
               top: paddingTopPage,
             ),
+            onChangeText: (searchText){
+              searchBloc.add(TypingEvent(searchText: searchText));
+            },
             onChangeFocusSearchField: (isFocus){
-              final newMode = (isFocus) ? NewsPageMode.search : NewsPageMode.list;
-              modeBloc.add(ChangeMode(newMode: newMode));
+              if (searchBloc.state is NewsSearchInitial){
+                final newMode = (isFocus) ? NewsPageMode.search : NewsPageMode.list;
+                modeBloc.add(ChangeMode(newMode: newMode));
+              }
             },
           ),
           BlocBuilder<NewsPageModeBloc, NewsPageModeState>(
@@ -112,7 +117,12 @@ class _NewsPageState extends State<NewsPage> {
   }
 
   void _onTapRetry() {
-    newsBloc.add(RetryFetchNewsListEvent());
+    switch(modeBloc.state.currentMode){
+      case NewsPageMode.list:
+        newsBloc.add(RetryFetchNewsListEvent());
+      case NewsPageMode.search:
+        searchBloc.add(RetrySearchEvent());
+    }
   }
 
   void _onScroll() {
@@ -120,7 +130,16 @@ class _NewsPageState extends State<NewsPage> {
       setState(() => _showDivider = _isScrolled);
     }
     if (_isBottom) {
-      newsBloc.add(FetchNewsListEvent());
+      _fetchNextPage();
+    }
+  }
+
+  void _fetchNextPage(){
+    switch(modeBloc.state.currentMode){
+      case NewsPageMode.list:
+        newsBloc.add(FetchNewsListEvent());
+      case NewsPageMode.search:
+        searchBloc.add(NextPageSearchEvent());
     }
   }
 

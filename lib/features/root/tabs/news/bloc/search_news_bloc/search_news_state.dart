@@ -16,9 +16,12 @@ sealed class WithSearchResult extends WithPaginationState<NewsModel> implements 
     super.pagination,
     required this.searchText
   }): super(data: news);
+
+  @override
+  bool get hasInvalid => super.hasInvalid || searchText == null;
 }
 
-final class NewsSearchLoading extends WithSearchResult implements NewsSearchState {
+final class NewsSearchLoading extends WithSearchResult implements NewsSearchState, PaginationLoadingState<NewsModel> {
   NewsSearchLoading({
     super.news,
     super.pagination,
@@ -38,8 +41,9 @@ final class NewsSearchLoading extends WithSearchResult implements NewsSearchStat
   }
 }
 
-final class NewsSearchError extends WithSearchResult implements NewsSearchState {
+final class NewsSearchError extends WithSearchResult implements NewsSearchState, PaginationErrorState<NewsModel> {
 
+  @override
   final Object error;
 
   NewsSearchError({
@@ -68,7 +72,7 @@ final class NewsSearchError extends WithSearchResult implements NewsSearchState 
 
 final class NewsSearchLoaded extends WithSearchResult implements NewsSearchState {
   NewsSearchLoaded({
-    required List<NewsModel> news,
+    required super.news,
     required super.pagination,
     required super.searchText
   });
@@ -79,11 +83,11 @@ final class NewsSearchLoaded extends WithSearchResult implements NewsSearchState
     String searchText,
     NewsSearchState otherState
   ) {
-    if (otherState is WithSearchResult){
+    if (otherState is NewsSearchLoading){
       return NewsSearchLoaded(
           news: (otherState.data ?? []) + newNews,
           pagination: pagination,
-          searchText: otherState.searchText
+          searchText: searchText
       );
     }
     return NewsSearchLoaded(
