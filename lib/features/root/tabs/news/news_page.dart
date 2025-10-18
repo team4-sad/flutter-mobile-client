@@ -54,8 +54,12 @@ class _NewsPageState extends State<NewsPage> {
                   top: paddingTopPage,
                 ),
                 showTitle: state.currentMode == NewsPageMode.list,
+                showBack: state.currentMode == NewsPageMode.search,
                 onChangeText: (searchText) {
                   searchBloc.add(TypingEvent(searchText: searchText));
+                },
+                onBackTap: (){
+                  modeBloc.add(ChangeMode(newMode: NewsPageMode.list));
                 },
                 onChangeFocusSearchField: (isFocus) {
                   if (searchBloc.state is NewsSearchInitial) {

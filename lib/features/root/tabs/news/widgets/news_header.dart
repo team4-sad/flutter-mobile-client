@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:miigaik/features/common/extensions/num_widget_extension.dart';
 import 'package:miigaik/features/common/extensions/widget_extension.dart';
 import 'package:miigaik/features/root/tabs/news/widgets/news_search_field.dart';
+import 'package:miigaik/generated/icons.g.dart';
 import 'package:miigaik/generated/types.dart';
 import 'package:miigaik/theme/app_theme_extensions.dart';
 import 'package:miigaik/theme/text_styles.dart';
@@ -13,6 +14,8 @@ class NewsHeader extends StatelessWidget {
   final void Function(bool) onChangeFocusSearchField;
   final void Function(String) onChangeText;
   final bool showTitle;
+  final bool showBack;
+  final VoidCallback? onBackTap;
 
   const NewsHeader({
     super.key,
@@ -21,6 +24,8 @@ class NewsHeader extends StatelessWidget {
     required this.onChangeFocusSearchField,
     required this.onChangeText,
     required this.showTitle,
+    required this.showBack,
+    this.onBackTap
   });
 
   @override
@@ -55,9 +60,19 @@ class NewsHeader extends StatelessWidget {
                   ).p(10.bottom())
                     : const SizedBox.shrink(key: ValueKey('empty')),
                 ),
-                NewsSearchField(
-                  onChangeFocusSearchField: onChangeFocusSearchField,
-                  onChangeText: onChangeText,
+                Row(
+                  children: [
+                    (showBack) ? GestureDetector(
+                        key: const ValueKey("back-btn"),
+                        onTap: onBackTap,
+                        child: Icon(I.back)
+                    ).p(10.right())
+                        : SizedBox.shrink(key: ValueKey("empty-btn")),
+                    NewsSearchField(
+                      onChangeFocusSearchField: onChangeFocusSearchField,
+                      onChangeText: onChangeText,
+                    ).e(),
+                  ],
                 ),
               ],
             ),
