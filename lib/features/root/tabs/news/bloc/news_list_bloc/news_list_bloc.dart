@@ -1,6 +1,7 @@
 import 'package:bloc_concurrency/bloc_concurrency.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_it/get_it.dart';
+import 'package:miigaik/features/common/bloc/with_pagination_state.dart';
 import 'package:miigaik/features/network-connection/enum/connection_status.dart';
 import 'package:miigaik/features/network-connection/exception/no_network_exception.dart';
 import 'package:miigaik/features/network-connection/services/network_connection_service.dart';
@@ -47,11 +48,17 @@ class NewsListBloc extends Bloc<NewsListEvent, NewsListState> {
     }, transformer: droppable());
 
     on<FetchNewsListEvent>((event, emit) async {
-      if (state is! NewsListInitial && state is! NewsListLoaded){
-        return;
-      }
-      if (state.nextPage != null) {
-        add(FetchPageNewsListEvent(page: state.nextPage!));
+      switch(state){
+        case NewsListLoaded():
+          final s = state as NewsListLoaded;
+          if (s.nextPage != null) {
+            add(FetchPageNewsListEvent(page: s.nextPage!));
+          }
+        case NewsListInitial():
+          add(FetchPageNewsListEvent(page: 1));
+        case NewsListLoading():;
+        case NewsListError():
+          return;
       }
     }, transformer: droppable());
 

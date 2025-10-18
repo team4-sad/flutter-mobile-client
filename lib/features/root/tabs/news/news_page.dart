@@ -2,11 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get_it/get_it.dart';
+import 'package:miigaik/features/common/bloc/with_data_state.dart';
 import 'package:miigaik/features/common/extensions/num_widget_extension.dart';
 import 'package:miigaik/features/root/tabs/news/content/empty_news_content.dart';
 import 'package:miigaik/features/root/tabs/news/content/error_news_content.dart';
 import 'package:miigaik/features/root/tabs/news/content/list_news_content.dart';
 import 'package:miigaik/features/root/tabs/news/content/loading_news_content.dart';
+import 'package:miigaik/features/root/tabs/news/models/news_model.dart';
 import 'package:miigaik/theme/values.dart';
 
 import 'bloc/news_list_bloc/news_list_bloc.dart';
@@ -54,15 +56,23 @@ class _NewsPageState extends State<NewsPage> {
                   sliver: BlocBuilder<NewsListBloc, NewsListState>(
                     bloc: newsBloc,
                     builder: (context, state) {
-                      if (state is WithDataNewsListState && state.hasNotEmptyNews) {
-                        return ListNewsContent(state: state, onTapRetry: _onTapRetry);
+                      if (
+                        state is WithDataState<NewsModel> &&
+                        (state as WithDataState<NewsModel>).hasNotEmptyData
+                      ) {
+                        return ListNewsContent(
+                          state: (state as WithDataState<NewsModel>),
+                          onTapRetry: _onTapRetry
+                        );
                       } else if (state is NewsListLoading || state is NewsListInitial){
                         return LoadingNewsContent();
-                      } else if (state is NewsListLoaded && state.hasEmptyNews){
+                      } else if (state is NewsListLoaded && state.hasEmptyData){
                         return EmptyNewsContent();
                       } else {
                         return ErrorNewsContent(
-                          exception: (state is NewsListError) ? state.error : UnimplementedError(),
+                          exception: (state is NewsListError)
+                            ? state.error
+                            : UnimplementedError(),
                           onTapRetry: _onTapRetry
                         );
                       }
