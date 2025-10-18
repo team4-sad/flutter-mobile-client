@@ -4,7 +4,7 @@ sealed class NewsSearchState {
   const NewsSearchState();
 }
 
-final class NewsSearchInitial extends NewsSearchState {
+final class NewsSearchInitial extends NewsSearchState implements InitialState {
   const NewsSearchInitial();
 }
 

@@ -4,7 +4,7 @@ sealed class NewsListState {
   const NewsListState();
 }
 
-final class NewsListInitial extends NewsListState {
+final class NewsListInitial extends NewsListState implements InitialState {
   const NewsListInitial();
 }
 

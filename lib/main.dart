@@ -10,6 +10,7 @@ import 'package:miigaik/features/network-connection/bloc/network_connection_bloc
 import 'package:miigaik/features/network-connection/services/network_connection_service.dart';
 import 'package:miigaik/features/root/root_page.dart';
 import 'package:miigaik/features/root/tabs/news/bloc/news_list_bloc/news_list_bloc.dart';
+import 'package:miigaik/features/root/tabs/news/bloc/news_page_mode_bloc/news_page_mode_bloc.dart';
 import 'package:miigaik/features/root/tabs/news/bloc/search_news_bloc/search_news_bloc.dart';
 import 'package:miigaik/features/root/tabs/news/repository/news_repository.dart';
 import 'package:miigaik/features/root/tabs/news/repository/search_news_repository.dart';
@@ -65,7 +66,8 @@ void main() async {
   GetIt.I.registerSingleton(NetworkConnectionBloc()..listen());
   GetIt.I.registerSingleton(NewsListBloc());
   GetIt.I.registerSingleton(SingleNewsBloc());
-  GetIt.I.registerSingleton(SearchNewsBloc());
+  GetIt.I.registerSingleton(NewsSearchBloc());
+  GetIt.I.registerSingleton(NewsPageModeBloc());
 
   runApp(
     EasyLocalization(

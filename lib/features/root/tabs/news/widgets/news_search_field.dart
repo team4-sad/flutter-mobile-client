@@ -7,35 +7,48 @@ import 'package:miigaik/theme/app_theme_extensions.dart';
 import 'package:miigaik/theme/text_styles.dart';
 
 class NewsSearchField extends StatelessWidget {
-  const NewsSearchField({super.key});
+  final void Function(bool) _onChangeFocusSearchField;
+  final _focusNode = FocusNode();
+
+  NewsSearchField({
+    super.key,
+    required void Function(bool) onChangeFocusSearchField
+  }): _onChangeFocusSearchField = onChangeFocusSearchField;
 
   @override
   Widget build(BuildContext context) {
-    return TextField(
-      style: TS.regular15.use(context.palette.text),
-      decoration: InputDecoration(
-        fillColor: context.palette.container,
-        filled: true,
-        hintText: S.news_search.tr(),
-        hintStyle: TS.regular15.use(context.palette.subText),
-        prefixIcon: Padding(
-          padding: const EdgeInsets.only(left: 14, right: 1),
-          child: Icon(
-            I.search,
-            color: context.palette.subText,
-            size: 22,
+    return Focus(
+      onFocusChange: _onChangeFocusSearchField,
+      child: TextField(
+        onTapOutside: (_){
+          _focusNode.unfocus();
+        },
+        focusNode: _focusNode,
+        style: TS.regular15.use(context.palette.text),
+        decoration: InputDecoration(
+          fillColor: context.palette.container,
+          filled: true,
+          hintText: S.news_search.tr(),
+          hintStyle: TS.regular15.use(context.palette.subText),
+          prefixIcon: Padding(
+            padding: const EdgeInsets.only(left: 14, right: 1),
+            child: Icon(
+              I.search,
+              color: context.palette.subText,
+              size: 22,
+            ),
           ),
+          prefixIconConstraints: BoxConstraints(
+            minWidth: 0,
+            minHeight: 0,
+          ),
+          border: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(10.r),
+            borderSide: BorderSide.none
+          ),
+          constraints: BoxConstraints(),
+          contentPadding: const EdgeInsets.symmetric(vertical: 14),
         ),
-        prefixIconConstraints: BoxConstraints(
-          minWidth: 0,
-          minHeight: 0,
-        ),
-        border: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(10.r),
-          borderSide: BorderSide.none
-        ),
-        constraints: BoxConstraints(),
-        contentPadding: const EdgeInsets.symmetric(vertical: 14),
       ),
     );
   }
