@@ -12,7 +12,7 @@ class MockNewsRepository extends INewsRepository {
         Duration(seconds: 1),
             () => NewsResponseModel(
             news: fakeData,
-            pagination: NewsPaginationModel(currentPage: page, hasNext: page < 5)
+            pagination: PaginationModel(currentPage: page, hasNext: page < 5)
         )
     );
   }

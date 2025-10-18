@@ -1,15 +1,16 @@
-class NewsPaginationModel {
+class PaginationModel {
   final int currentPage;
   final bool hasNext;
 
-  NewsPaginationModel({
+  PaginationModel({
     required this.currentPage,
     required this.hasNext
   });
 
-  factory NewsPaginationModel.fromJson(Map<String, dynamic> json) =>
-    NewsPaginationModel(
+  factory PaginationModel.fromJson(Map<String, dynamic> json) =>
+    PaginationModel(
       currentPage: json["current_page"]!,
-      hasNext: json["is_next_page"]!
+      // @TODO
+      hasNext: json["is_next_page"] ?? json["has_next_page"]!
     );
 }

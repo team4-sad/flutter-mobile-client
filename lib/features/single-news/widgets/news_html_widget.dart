@@ -35,6 +35,10 @@ class NewsHtmlWidget extends StatelessWidget {
             "border-radius": "15px"
           };
         }
+        if (element.localName == "iframe"){
+          final attrs = element.attributes;
+          return null;
+        }
         return null;
       },
       textStyle: TS.light15,
@@ -45,10 +49,15 @@ class NewsHtmlWidget extends StatelessWidget {
         }
       },
       onTapUrl: (rawUrl) async {
+        // if (!rawUrl.contains("vkvideo")) {
+        //   final Uri url = Uri.parse(rawUrl);
+        //   return !await launchUrl(url);
+        // }
+        // return false;
         final Uri url = Uri.parse(rawUrl);
         return !await launchUrl(url);
       },
-      onLoadingBuilder: (context, _, __){
+      onLoadingBuilder: (context, element, __){
         return AppShimmer(width: 1.sw, height: 180);
       },
     );
