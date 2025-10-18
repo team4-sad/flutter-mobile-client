@@ -41,9 +41,9 @@ final class NewsListError extends WithPaginationState<NewsModel> implements News
     if (otherState is WithPaginationState<NewsModel>){
       final s = otherState as WithPaginationState<NewsModel>;
       return NewsListError(
-          error: error,
-          news: s.data,
-          pagination: s.pagination
+        error: error,
+        news: s.data,
+        pagination: s.pagination
       );
     }else {
       return NewsListError(error: error);

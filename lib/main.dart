@@ -10,7 +10,9 @@ import 'package:miigaik/features/network-connection/bloc/network_connection_bloc
 import 'package:miigaik/features/network-connection/services/network_connection_service.dart';
 import 'package:miigaik/features/root/root_page.dart';
 import 'package:miigaik/features/root/tabs/news/bloc/news_list_bloc/news_list_bloc.dart';
+import 'package:miigaik/features/root/tabs/news/bloc/search_news_bloc/search_news_bloc.dart';
 import 'package:miigaik/features/root/tabs/news/repository/news_repository.dart';
+import 'package:miigaik/features/root/tabs/news/repository/search_news_repository.dart';
 import 'package:miigaik/features/single-news/bloc/single_news_bloc.dart';
 import 'package:miigaik/features/single-news/repository/single_news_repository.dart';
 import 'package:miigaik/features/switch-locale/locale_bloc.dart';
@@ -50,15 +52,20 @@ void main() async {
   );
 
   final INewsRepository apiNewsRepository = ApiNewsRepository(dio: dio);
-  GetIt.I.registerSingleton(NewsListBloc(apiNewsRepository));
+  GetIt.I.registerSingleton(apiNewsRepository);
 
-  final ISingleNewsRepository apSingleNewsRepository = ApiSingleNewsRepository(dio: dio);
-  GetIt.I.registerSingleton(apSingleNewsRepository);
+  final ISingleNewsRepository apiSingleNewsRepository = ApiSingleNewsRepository(dio: dio);
+  GetIt.I.registerSingleton(apiSingleNewsRepository);
+
+  final ISearchNewsRepository mockSearchNewsRepository = MockSearchNewsRepository();
+  GetIt.I.registerSingleton(mockSearchNewsRepository);
 
   GetIt.I.registerSingleton(ThemeBloc(AppTheme.defaultTheme()));
   GetIt.I.registerSingleton(BottomNavBarBloc(ItemNavBar.defaultItem()));
   GetIt.I.registerSingleton(NetworkConnectionBloc()..listen());
+  GetIt.I.registerSingleton(NewsListBloc());
   GetIt.I.registerSingleton(SingleNewsBloc());
+  GetIt.I.registerSingleton(SearchNewsBloc());
 
   runApp(
     EasyLocalization(

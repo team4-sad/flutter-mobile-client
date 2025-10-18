@@ -16,10 +16,9 @@ part 'news_list_state.dart';
 class NewsListBloc extends Bloc<NewsListEvent, NewsListState> {
 
   final NetworkConnectionService connectionService = GetIt.I.get();
+  final INewsRepository repository = GetIt.I.get();
 
-  NewsListBloc(
-    INewsRepository repository,
-  ): super(NewsListInitial()) {
+  NewsListBloc(): super(NewsListInitial()) {
 
     connectionService.onConnectionChanged.listen((status){
       if (
