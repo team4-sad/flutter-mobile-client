@@ -1,6 +1,7 @@
 import 'package:bloc_concurrency/bloc_concurrency.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_it/get_it.dart';
+import 'package:miigaik/features/common/bloc/pagination_loading_state.dart';
 import 'package:miigaik/features/common/bloc/with_pagination_state.dart';
 import 'package:miigaik/features/network-connection/enum/connection_status.dart';
 import 'package:miigaik/features/network-connection/exception/no_network_exception.dart';

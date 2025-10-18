@@ -15,19 +15,16 @@ class ErrorNewsContent extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SliverFillRemaining(
-      hasScrollBody: false,
-      child: Padding(
-        padding: const EdgeInsets.only(
-          bottom: heightAreaBottomNavBar
-        ),
-        child: Center(
-          child: PlaceholderWidget.fromException(
-            _exception,
-            _onTapRetry,
-          )
-        )
+    return Padding(
+      padding: const EdgeInsets.only(
+        bottom: heightAreaBottomNavBar
       ),
+      child: Center(
+        child: PlaceholderWidget.fromException(
+          _exception,
+          _onTapRetry,
+        )
+      )
     );
   }
 }

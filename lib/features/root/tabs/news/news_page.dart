@@ -4,6 +4,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get_it/get_it.dart';
 import 'package:miigaik/features/common/bloc/with_data_state.dart';
 import 'package:miigaik/features/common/extensions/num_widget_extension.dart';
+import 'package:miigaik/features/common/extensions/widget_extension.dart';
 import 'package:miigaik/features/root/tabs/news/content/empty_news_content.dart';
 import 'package:miigaik/features/root/tabs/news/content/error_news_content.dart';
 import 'package:miigaik/features/root/tabs/news/content/list_news_content.dart';
@@ -47,41 +48,32 @@ class _NewsPageState extends State<NewsPage> {
               top: paddingTopPage,
             ),
           ),
-          Expanded(
-            child: CustomScrollView(
-              controller: _scrollController,
-              slivers: [
-                SliverPadding(
-                  padding: horizontalPaddingPage.w.horizontal(),
-                  sliver: BlocBuilder<NewsListBloc, NewsListState>(
-                    bloc: newsBloc,
-                    builder: (context, state) {
-                      if (
-                        state is WithDataState<NewsModel> &&
-                        (state as WithDataState<NewsModel>).hasNotEmptyData
-                      ) {
-                        return ListNewsContent(
-                          state: (state as WithDataState<NewsModel>),
-                          onTapRetry: _onTapRetry
-                        );
-                      } else if (state is NewsListLoading || state is NewsListInitial){
-                        return LoadingNewsContent();
-                      } else if (state is NewsListLoaded && state.hasEmptyData){
-                        return EmptyNewsContent();
-                      } else {
-                        return ErrorNewsContent(
-                          exception: (state is NewsListError)
-                            ? state.error
-                            : UnimplementedError(),
-                          onTapRetry: _onTapRetry
-                        );
-                      }
-                    },
-                  )
-                ),
-              ],
-            ),
-          ),
+          BlocBuilder<NewsListBloc, NewsListState>(
+            bloc: newsBloc,
+            builder: (context, state) {
+              if (
+                state is WithDataState<NewsModel> &&
+                (state as WithDataState<NewsModel>).hasNotEmptyData
+              ) {
+                return ListNewsContent(
+                  state: (state as WithDataState<NewsModel>),
+                  onTapRetry: _onTapRetry,
+                  controller: _scrollController,
+                );
+              } else if (state is NewsListLoading || state is NewsListInitial){
+                return LoadingNewsContent();
+              } else if (state is NewsListLoaded && state.hasEmptyData){
+                return EmptyNewsContent();
+              } else {
+                return ErrorNewsContent(
+                  exception: (state is NewsListError)
+                    ? state.error
+                    : UnimplementedError(),
+                  onTapRetry: _onTapRetry
+                );
+              }
+            },
+          ).p(horizontalPaddingPage.w.horizontal()).e(),
         ],
       ),
     );

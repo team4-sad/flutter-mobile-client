@@ -8,17 +8,17 @@ final class NewsListInitial extends NewsListState {
   const NewsListInitial();
 }
 
-final class NewsListLoading extends WithPaginationState<NewsModel> implements NewsListState {
+final class NewsListLoading extends PaginationLoadingState<NewsModel> implements NewsListState {
   NewsListLoading({
-    List<NewsModel>? news,
+    super.data,
     super.pagination
-  }): super(data: news);
+  });
 
   factory NewsListLoading.fromState(NewsListState otherState) {
     if (otherState is WithPaginationState<NewsModel>){
       final s = otherState as WithPaginationState<NewsModel>;
       return NewsListLoading(
-        news: s.data,
+        data: s.data,
         pagination: s.pagination
       );
     }else {
@@ -33,16 +33,16 @@ final class NewsListError extends WithPaginationState<NewsModel> implements News
 
   NewsListError({
     required this.error,
-    List<NewsModel>? news,
+    super.data,
     super.pagination
-  }): super(data: news);
+  });
 
   factory NewsListError.fromState(Object error, NewsListState otherState) {
     if (otherState is WithPaginationState<NewsModel>){
       final s = otherState as WithPaginationState<NewsModel>;
       return NewsListError(
         error: error,
-        news: s.data,
+        data: s.data,
         pagination: s.pagination
       );
     }else {
@@ -53,9 +53,9 @@ final class NewsListError extends WithPaginationState<NewsModel> implements News
 
 final class NewsListLoaded extends WithPaginationState<NewsModel> implements NewsListState {
   NewsListLoaded({
-    required List<NewsModel> news,
+    required super.data,
     required super.pagination
-  }): super(data: news);
+  });
 
   factory NewsListLoaded.fromState(
     List<NewsModel> newNews,
@@ -65,11 +65,11 @@ final class NewsListLoaded extends WithPaginationState<NewsModel> implements New
     if (otherState is WithPaginationState){
       final s = otherState as WithPaginationState<NewsModel>;
       return NewsListLoaded(
-        news: (s.data ?? []) + newNews,
+        data: (s.data ?? []) + newNews,
         pagination: pagination
       );
     }else {
-      return NewsListLoaded(news: newNews, pagination: pagination);
+      return NewsListLoaded(data: newNews, pagination: pagination);
     }
   }
 }

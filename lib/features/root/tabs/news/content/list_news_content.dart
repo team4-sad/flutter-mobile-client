@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:miigaik/features/common/bloc/pagination_error_state.dart';
+import 'package:miigaik/features/common/bloc/pagination_loading_state.dart';
 import 'package:miigaik/features/common/bloc/with_data_state.dart';
 import 'package:miigaik/features/common/bloc/with_pagination_state.dart';
 import 'package:miigaik/features/common/extensions/iterable_extensions.dart';
@@ -15,16 +17,20 @@ class ListNewsContent extends StatelessWidget {
 
   final WithDataState<NewsModel> _state;
   final VoidCallback _onTapRetry;
+  final ScrollController _controller;
 
   const ListNewsContent({
     super.key,
     required WithDataState<NewsModel> state,
-    required void Function() onTapRetry
-  }) : _onTapRetry = onTapRetry, _state = state;
+    required void Function() onTapRetry,
+    required ScrollController controller
+  }) : _onTapRetry = onTapRetry, _state = state, _controller = controller;
 
   @override
   Widget build(BuildContext context) {
-    return SliverList.list(
+    return ListView(
+      padding: EdgeInsets.zero,
+      controller: _controller,
       children: [
         if (_state.data != null)
           if (_state.data!.isNotEmpty)
@@ -42,14 +48,15 @@ class ListNewsContent extends StatelessWidget {
               ),
               () => separateNews.vs()
             ),
-        if (_state is NewsListError)
+        if (_state is PaginationErrorState)
           Padding(
             padding: separateNews.top(),
             child: PlaceholderWidget.fromException(
-              _state.error, _onTapRetry
+              (_state as PaginationErrorState).error,
+              _onTapRetry
             ),
           ),
-        if (_state is NewsListLoading)
+        if (_state is PaginationLoadingState)
           Padding(
             padding: separateNews.top(),
             child: NewsItemShimmerWidget(),
@@ -58,5 +65,4 @@ class ListNewsContent extends StatelessWidget {
       ]
     );
   }
-
 }
