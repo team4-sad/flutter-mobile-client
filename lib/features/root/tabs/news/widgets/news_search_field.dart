@@ -40,7 +40,11 @@ class _NewsSearchFieldState extends State<NewsSearchField> {
         onTapOutside: (_){
           _focusNode.unfocus();
         },
-        onChanged: widget._onChangeText,
+        onChanged: (text){
+          setState(() {
+            widget._onChangeText(text);
+          });
+        },
         focusNode: _focusNode,
         style: TS.regular15.use(context.palette.text),
         decoration: InputDecoration(
@@ -60,7 +64,9 @@ class _NewsSearchFieldState extends State<NewsSearchField> {
             minWidth: 0,
             minHeight: 0,
           ),
-          suffixIcon: (widget._showClear) ? GestureDetector(
+          suffixIcon: (
+              widget._showClear && widget._textEditingController.text.isNotEmpty
+          ) ? GestureDetector(
             onTap: widget._onTapClear,
             child: Icon(
               I.close,
