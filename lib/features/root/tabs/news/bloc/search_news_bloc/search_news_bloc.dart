@@ -1,10 +1,10 @@
 import 'package:bloc_concurrency/bloc_concurrency.dart';
+import 'package:bloc_event_transformers/bloc_event_transformers.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_it/get_it.dart';
 import 'package:miigaik/features/common/bloc/initial_state.dart';
 import 'package:miigaik/features/common/bloc/pagination_error_state.dart';
 import 'package:miigaik/features/common/bloc/pagination_loading_state.dart';
-import 'package:miigaik/features/common/other/debouncer.dart';
 import 'package:miigaik/features/network-connection/enum/connection_status.dart';
 import 'package:miigaik/features/network-connection/exception/no_network_exception.dart';
 import 'package:miigaik/features/network-connection/services/network_connection_service.dart';
@@ -21,7 +21,6 @@ class NewsSearchBloc extends Bloc<SearchNewsEvent, NewsSearchState> {
 
   final NetworkConnectionService connectionService = GetIt.I.get();
   final ISearchNewsRepository repository = GetIt.I.get();
-  final _debouncer = Debouncer(duration: Duration(milliseconds: 500));
 
   NewsSearchBloc() : super(NewsSearchInitial()) {
 
@@ -40,20 +39,20 @@ class NewsSearchBloc extends Bloc<SearchNewsEvent, NewsSearchState> {
         emit(NewsSearchError.fromState(NoNetworkException(), state));
         return;
       }
-      emit(NewsSearchLoading.fromState(state));
+      if (state is! NewsSearchLoading) {
+        emit(NewsSearchLoading.fromState(state));
+      }
       try {
         final NewsResponseModel response = await repository.searchNews(
             page: event.page,
             searchText: event.searchText
         );
-        if (state is NewsSearchLoading){
-          emit(NewsSearchLoaded.fromState(
-              response.news,
-              response.pagination,
-              event.searchText,
-              state
-          ));
-        }
+        emit(NewsSearchLoaded.fromState(
+            response.news,
+            response.pagination,
+            event.searchText,
+            state
+        ));
       } on Object catch(e){
         emit(NewsSearchError.fromState(e, state));
       }
@@ -62,15 +61,12 @@ class NewsSearchBloc extends Bloc<SearchNewsEvent, NewsSearchState> {
     on<TypingEvent>((event, emit){
       if (event.searchText.isEmpty){
         emit(NewsSearchInitial());
-        _debouncer.cancel();
         return;
       }else if (state is! NewsSearchLoading) {
         emit(NewsSearchLoading());
       }
-      _debouncer(() {
-        add(FetchPageSearchEvent(searchText: event.searchText, page: 1));
-      });
-    }, transformer: restartable());
+      add(FetchPageSearchEvent(searchText: event.searchText, page: 1));
+    }, transformer: debounce(Duration(milliseconds: 400)));
 
     on<RetrySearchEvent>((event, emit){
       if (state is! NewsSearchError){
@@ -105,6 +101,6 @@ class NewsSearchBloc extends Bloc<SearchNewsEvent, NewsSearchState> {
           page: s.pagination!.currentPage + 1
         ));
       }
-    });
+    }, transformer: droppable());
   }
 }

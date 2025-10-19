@@ -13,7 +13,7 @@ class MockSearchNewsRepository extends ISearchNewsRepository {
       news: [
         NewsModel(
           id: "0",
-          title: "TEST",
+          title: "$searchText TEST",
           date: "18.10.2025",
           newsLink: "LINK"
         ),
