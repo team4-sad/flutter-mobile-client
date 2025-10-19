@@ -1,10 +1,12 @@
 import 'package:dio/dio.dart';
 import 'package:easy_localization/easy_localization.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get_it/get_it.dart';
+import 'package:miigaik/features/common/extensions/package_info_extension.dart';
 import 'package:miigaik/features/config/extension.dart';
 import 'package:miigaik/features/network-connection/bloc/network_connection_bloc.dart';
 import 'package:miigaik/features/network-connection/services/network_connection_service.dart';
@@ -19,6 +21,7 @@ import 'package:miigaik/features/single-news/repository/single_news_repository.d
 import 'package:miigaik/features/switch-locale/locale_bloc.dart';
 import 'package:miigaik/theme/app_theme.dart';
 import 'package:miigaik/theme/app_theme_extensions.dart';
+import 'package:package_info_plus/package_info_plus.dart';
 import 'package:talker_bloc_logger/talker_bloc_logger_observer.dart';
 import 'package:talker_dio_logger/talker_dio_logger_interceptor.dart';
 import 'package:talker_dio_logger/talker_dio_logger_settings.dart';
@@ -35,6 +38,9 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await EasyLocalization.ensureInitialized();
   BadCertificateHttpOverrides.setup();
+
+  PackageInfo packageInfo = await PackageInfo.fromPlatform();
+  GetIt.I.registerSingleton(packageInfo);
 
   final talker = Talker();
   GetIt.I.registerSingleton(talker);
@@ -105,10 +111,27 @@ class MyApp extends StatelessWidget {
               localizationsDelegates: context.localizationDelegates,
               supportedLocales: context.supportedLocales,
               locale: context.locale,
+              debugShowCheckedModeBanner: false,
               theme: appThemeExtension.getThemeData(
                 fontFamily: "Roboto"
               ),
-              home: child
+              home: Stack(children: [
+                ?child,
+                if (kDebugMode)
+                  Align(
+                    alignment: Alignment.topRight,
+                    child: Container(
+                      padding: const EdgeInsets.only(top: 55, right: 50),
+                      child: Transform.scale(
+                        scale: 1.2,
+                        child: Banner(
+                          message: GetIt.I.get<PackageInfo>().fullVersion,
+                          location: BannerLocation.bottomStart,
+                        ),
+                      ),
+                    ),
+                  ),
+              ])
             );
           },
           child: BlocBuilder<LocaleBloc, LocaleState>(
