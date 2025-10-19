@@ -15,3 +15,9 @@ class AddSignatureEvent extends SignatureScheduleEvent {
 
   AddSignatureEvent({required this.newSignature});
 }
+
+class RemoveSignatureEvent extends SignatureScheduleEvent {
+  final SignatureScheduleModel deleteSignature;
+
+  RemoveSignatureEvent({required this.deleteSignature});
+}

@@ -51,5 +51,29 @@ class SignatureScheduleBloc extends Bloc<SignatureScheduleEvent, SignatureSchedu
         emit(SignatureScheduleError(error: e));
       }
     }, transformer: sequential());
+
+    on<RemoveSignatureEvent>((event, emit) async {
+      try {
+        await _repository.remove(event.deleteSignature);
+        if (state is SignatureScheduleLoaded){
+          final s = state as SignatureScheduleLoaded;
+          if (s.hasSelected && event.deleteSignature == s.selected){
+            await _repository.unSelect();
+            emit(SignatureScheduleLoaded(
+              data: s.data..remove(event.deleteSignature),
+            ));
+          }else{
+            emit(SignatureScheduleLoaded(
+              data: s.data..remove(event.deleteSignature),
+              selected: s.selected
+            ));
+          }
+        }else{
+          add(FetchSignaturesEvent());
+        }
+      } on Object catch(e){
+        emit(SignatureScheduleError(error: e));
+      }
+    }, transformer: sequential());
   }
 }

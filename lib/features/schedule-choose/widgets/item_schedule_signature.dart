@@ -10,12 +10,14 @@ class ItemScheduleSignature extends StatelessWidget {
 
   final SignatureScheduleModel signatureModel;
   final void Function(SignatureScheduleModel) onTap;
+  final void Function(SignatureScheduleModel) onLongTap;
   final bool isSelected;
 
   const ItemScheduleSignature({
     super.key,
     required this.signatureModel,
     required this.onTap,
+    required this.onLongTap,
     this.isSelected = false
   });
 
@@ -24,6 +26,9 @@ class ItemScheduleSignature extends StatelessWidget {
     return GestureDetector(
       onTap: (){
         onTap(signatureModel);
+      },
+      onLongPress: (){
+        onLongTap(signatureModel);
       },
       child: Container(
         padding: 14.all(),

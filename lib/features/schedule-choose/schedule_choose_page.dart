@@ -94,11 +94,14 @@ class ScheduleChoosePage extends StatelessWidget {
                     itemBuilder: (_, index) {
                       final signature = state.data[index];
                       return ItemScheduleSignature(
-                          signatureModel: signature,
-                          onTap: (_){
-                            bloc.add(SelectSignatureEvent(selectedSignature: signature));
-                          },
-                          isSelected: state.selected == signature
+                        signatureModel: signature,
+                        onTap: (signature){
+                          bloc.add(SelectSignatureEvent(selectedSignature: signature));
+                        },
+                        onLongTap: (signature){
+                          bloc.add(RemoveSignatureEvent(deleteSignature: signature));
+                        },
+                        isSelected: state.selected == signature
                       );
                     },
                     separatorBuilder: (_, __) => 20.vs(),

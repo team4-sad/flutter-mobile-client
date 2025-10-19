@@ -5,6 +5,7 @@ abstract class ISignatureScheduleRepository {
   Future<void> add(SignatureScheduleModel model);
   Future<void> remove(SignatureScheduleModel model);
   Future<void> select(SignatureScheduleModel selectedModel);
+  Future<void> unSelect();
   Future<SignatureScheduleModel?> getSelected();
   Future<List<SignatureScheduleModel>> fetchAll();
 }
@@ -42,5 +43,10 @@ class SignatureScheduleRepository extends ISignatureScheduleRepository {
   @override
   Future<List<SignatureScheduleModel>> fetchAll() async {
     return _box.values.toList();
+  }
+
+  @override
+  Future<void> unSelect() async {
+    return _box.delete(_selectKey);
   }
 }
