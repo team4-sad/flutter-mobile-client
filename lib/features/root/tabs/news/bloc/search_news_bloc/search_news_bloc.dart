@@ -39,9 +39,7 @@ class NewsSearchBloc extends Bloc<SearchNewsEvent, NewsSearchState> {
         emit(NewsSearchError.fromState(NoNetworkException(), state));
         return;
       }
-      if (state is! NewsSearchLoading) {
-        return;
-      }
+      emit(NewsSearchLoading.fromState(state));
       try {
         final NewsResponseModel response = await repository.searchNews(
             page: event.page,
@@ -66,7 +64,7 @@ class NewsSearchBloc extends Bloc<SearchNewsEvent, NewsSearchState> {
         emit(NewsSearchInitial());
         return;
       }else if (state is! NewsSearchLoading) {
-        emit(NewsSearchLoading());
+        emit(NewsSearchLoading(searchText: event.searchText));
       }
       add(FetchPageSearchEvent(searchText: event.searchText, page: 1));
     }, transformer: debounce(Duration(milliseconds: 400)));
