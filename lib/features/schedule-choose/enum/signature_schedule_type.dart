@@ -1,6 +1,16 @@
+import 'package:hive/hive.dart';
+
+part 'signature_schedule_type.g.dart';
+
+@HiveType(typeId: 1)
 enum SignatureScheduleType {
+  @HiveField(0)
   group(display: "Группа"),
+
+  @HiveField(1)
   audience(display: "Аудитория"),
+
+  @HiveField(2)
   teacher(display: "Преподаватель");
 
   final String display;

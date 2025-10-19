@@ -7,6 +7,8 @@ import 'package:miigaik/features/common/extensions/widget_extension.dart';
 import 'package:miigaik/features/common/widgets/placeholder_widget.dart';
 import 'package:miigaik/features/schedule-choose/bloc/signature_schedule_bloc.dart';
 import 'package:miigaik/features/schedule-choose/content/loading_schedule_choose_content.dart';
+import 'package:miigaik/features/schedule-choose/enum/signature_schedule_type.dart';
+import 'package:miigaik/features/schedule-choose/models/signature_schedule_model.dart';
 import 'package:miigaik/features/schedule-choose/widgets/item_schedule_signature.dart';
 import 'package:miigaik/generated/icons.g.dart';
 import 'package:miigaik/theme/app_theme_extensions.dart';
@@ -41,6 +43,11 @@ class ScheduleChoosePage extends StatelessWidget {
         ))
       ),
       floatingActionButton: GestureDetector(
+        onTap: (){
+          bloc.add(AddSignatureEvent(
+              newSignature: SignatureScheduleModel(type: SignatureScheduleType.group, title: '2023-ФГиИБ-ИСиТибикс-1м ', id: '0')
+          ));
+        },
         child: Container(
           width: 60,
           height: 60,
@@ -75,20 +82,29 @@ class ScheduleChoosePage extends StatelessWidget {
                   )
                 );
               case SignatureScheduleLoaded():
-                return ListView.separated(
-                  itemBuilder: (_, index) {
-                    final signature = state.data[index];
-                    return ItemScheduleSignature(
-                      signatureModel: signature,
-                      onTap: (_){
-                        bloc.add(SelectSignatureEvent(selectedSignature: signature));
-                      },
-                      isSelected: state.selected == signature
-                    );
-                  },
-                  separatorBuilder: (_, __) => 20.vs(),
-                  itemCount: 4
-                );
+                if (state.hasEmptyData){
+                  return Center(
+                    child: PlaceholderWidget(
+                      title: "Расписаний нет",
+                      subTitle: "Добавьте новое расписание",
+                    ),
+                  );
+                }else{
+                  return ListView.separated(
+                    itemBuilder: (_, index) {
+                      final signature = state.data[index];
+                      return ItemScheduleSignature(
+                          signatureModel: signature,
+                          onTap: (_){
+                            bloc.add(SelectSignatureEvent(selectedSignature: signature));
+                          },
+                          isSelected: state.selected == signature
+                      );
+                    },
+                    separatorBuilder: (_, __) => 20.vs(),
+                    itemCount: state.data.length
+                  );
+                }
             }
           },
         ),

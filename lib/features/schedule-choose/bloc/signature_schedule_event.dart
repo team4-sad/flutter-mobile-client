@@ -9,3 +9,9 @@ class SelectSignatureEvent extends SignatureScheduleEvent {
 
   SelectSignatureEvent({required this.selectedSignature});
 }
+
+class AddSignatureEvent extends SignatureScheduleEvent {
+  final SignatureScheduleModel newSignature;
+
+  AddSignatureEvent({required this.newSignature});
+}

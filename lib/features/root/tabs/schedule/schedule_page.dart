@@ -31,9 +31,9 @@ class SchedulePage extends StatelessWidget {
                 BlocBuilder<SignatureScheduleBloc, SignatureScheduleState>(
                   bloc: GetIt.I.get(),
                   builder: (context, state) {
-                    if (state is SignatureScheduleLoaded) {
+                    if (state is SignatureScheduleLoaded && state.hasSelected) {
                       return Text(
-                        state.selected.title,
+                        state.selected!.title,
                         style: TS.medium15.use(context.palette.unAccent),
                       );
                     }else{
@@ -47,8 +47,8 @@ class SchedulePage extends StatelessWidget {
                 20.hs(),
                 IconButton(onPressed: () {
                   Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (_) => ScheduleChoosePage())
+                    context,
+                    MaterialPageRoute(builder: (_) => ScheduleChoosePage())
                   );
                 }, icon: Icon(
                   I.choose,
