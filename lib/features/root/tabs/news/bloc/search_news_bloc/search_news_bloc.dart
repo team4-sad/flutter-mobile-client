@@ -40,13 +40,16 @@ class NewsSearchBloc extends Bloc<SearchNewsEvent, NewsSearchState> {
         return;
       }
       if (state is! NewsSearchLoading) {
-        emit(NewsSearchLoading.fromState(state));
+        return;
       }
       try {
         final NewsResponseModel response = await repository.searchNews(
             page: event.page,
             searchText: event.searchText
         );
+        if (state is! NewsSearchLoading) {
+          return;
+        }
         emit(NewsSearchLoaded.fromState(
             response.news,
             response.pagination,
@@ -78,6 +81,10 @@ class NewsSearchBloc extends Bloc<SearchNewsEvent, NewsSearchState> {
         add(FetchPageSearchEvent(page: currentPage, searchText: current.searchText!));
       }
     }, transformer: restartable());
+
+    on<DropSearchResult>((event, emit){
+      emit(NewsSearchInitial());
+    });
 
     on<NextPageSearchEvent>((event, emit) {
       if (state is! NewsSearchLoaded) {

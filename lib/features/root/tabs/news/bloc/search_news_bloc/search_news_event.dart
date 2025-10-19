@@ -21,3 +21,5 @@ class TypingEvent extends SearchNewsEvent {
 
   TypingEvent({required this.searchText});
 }
+
+class DropSearchResult extends SearchNewsEvent {}

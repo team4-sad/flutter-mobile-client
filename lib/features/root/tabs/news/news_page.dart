@@ -24,29 +24,31 @@ class NewsPage extends StatefulWidget {
 }
 
 class _NewsPageState extends State<NewsPage> {
-  final ScrollController _scrollController = ScrollController();
+  final _scrollController = ScrollController();
+  final _textEditingController = TextEditingController();
   bool _showDivider = false;
 
-  final NewsListBloc newsBloc = GetIt.I.get();
-  final NewsSearchBloc searchBloc = GetIt.I.get();
-  final NewsPageModeBloc modeBloc = GetIt.I.get();
+  final NewsListBloc _newsBloc = GetIt.I.get();
+  final NewsSearchBloc _searchBloc = GetIt.I.get();
+  final NewsPageModeBloc _modeBloc = GetIt.I.get();
 
   @override
   void initState() {
     super.initState();
     _scrollController.addListener(_onScroll);
-    newsBloc.add(FetchNewsListEvent());
+    _newsBloc.add(FetchNewsListEvent());
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: BlocBuilder<NewsPageModeBloc, NewsPageModeState>(
-        bloc: modeBloc,
+        bloc: _modeBloc,
         builder: (context, state) {
           return Column(
             children: [
               NewsHeader(
+                textController: _textEditingController,
                 showDivider: _showDivider,
                 contentPadding: EdgeInsets.only(
                   left: horizontalPaddingPage,
@@ -55,18 +57,25 @@ class _NewsPageState extends State<NewsPage> {
                 ),
                 showTitle: state.currentMode == NewsPageMode.list,
                 showBack: state.currentMode == NewsPageMode.search,
+                showClear: state.currentMode == NewsPageMode.search,
                 onChangeText: (searchText) {
-                  searchBloc.add(TypingEvent(searchText: searchText));
+                  _searchBloc.add(TypingEvent(searchText: searchText));
+                },
+                onClearTap: (){
+                  _textEditingController.clear();
+                  _searchBloc.add(DropSearchResult());
                 },
                 onBackTap: (){
-                  modeBloc.add(ChangeMode(newMode: NewsPageMode.list));
+                  _textEditingController.clear();
+                  _searchBloc.add(DropSearchResult());
+                  _modeBloc.add(ChangeMode(newMode: NewsPageMode.list));
                 },
                 onChangeFocusSearchField: (isFocus) {
-                  if (searchBloc.state is NewsSearchInitial) {
+                  if (_searchBloc.state is NewsSearchInitial) {
                     final newMode = (isFocus)
                         ? NewsPageMode.search
                         : NewsPageMode.list;
-                    modeBloc.add(ChangeMode(newMode: newMode));
+                    _modeBloc.add(ChangeMode(newMode: newMode));
                   }
                 },
               ),
@@ -78,14 +87,14 @@ class _NewsPageState extends State<NewsPage> {
                       NewsPageMode.list => OnBottomScrollWidget(
                         controller: _scrollController,
                         onBottom: () {
-                          newsBloc.add(FetchNewsListEvent());
+                          _newsBloc.add(FetchNewsListEvent());
                         },
                         child: ListContent(),
                       ),
                       NewsPageMode.search => OnBottomScrollWidget(
                         controller: _scrollController,
                         onBottom: () {
-                          searchBloc.add(NextPageSearchEvent());
+                          _searchBloc.add(NextPageSearchEvent());
                         },
                         child: SearchContent(),
                       )

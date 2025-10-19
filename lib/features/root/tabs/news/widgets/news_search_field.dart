@@ -9,12 +9,18 @@ import 'package:miigaik/theme/text_styles.dart';
 class NewsSearchField extends StatefulWidget {
   final void Function(bool) _onChangeFocusSearchField;
   final void Function(String) _onChangeText;
+  final TextEditingController _textEditingController;
+  final bool _showClear;
+  final VoidCallback? _onTapClear;
 
   const NewsSearchField({
     super.key,
+    required TextEditingController textEditingController,
     required void Function(bool) onChangeFocusSearchField,
-    required void Function(String) onChangeText
-  }):
+    required void Function(String) onChangeText,
+    required bool showClear,
+    required void Function()? onTapClear
+  }): _onTapClear = onTapClear, _showClear = showClear, _textEditingController = textEditingController,
     _onChangeFocusSearchField = onChangeFocusSearchField,
     _onChangeText = onChangeText;
 
@@ -30,6 +36,7 @@ class _NewsSearchFieldState extends State<NewsSearchField> {
     return Focus(
       onFocusChange: widget._onChangeFocusSearchField,
       child: TextField(
+        controller: widget._textEditingController,
         onTapOutside: (_){
           _focusNode.unfocus();
         },
@@ -53,6 +60,14 @@ class _NewsSearchFieldState extends State<NewsSearchField> {
             minWidth: 0,
             minHeight: 0,
           ),
+          suffixIcon: (widget._showClear) ? GestureDetector(
+            onTap: widget._onTapClear,
+            child: Icon(
+              I.close,
+              size: 18,
+              color: context.palette.subText
+            )
+          ) : SizedBox.shrink(),
           border: OutlineInputBorder(
             borderRadius: BorderRadius.circular(10.r),
             borderSide: BorderSide.none

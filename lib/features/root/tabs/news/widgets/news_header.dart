@@ -16,15 +16,21 @@ class NewsHeader extends StatelessWidget {
   final bool showTitle;
   final bool showBack;
   final VoidCallback? onBackTap;
+  final bool showClear;
+  final VoidCallback? onClearTap;
+  final TextEditingController textController;
 
   const NewsHeader({
     super.key,
+    required this.textController,
     required this.showDivider,
     required this.contentPadding,
     required this.onChangeFocusSearchField,
     required this.onChangeText,
     required this.showTitle,
     required this.showBack,
+    required this.showClear,
+    required this.onClearTap,
     this.onBackTap
   });
 
@@ -63,14 +69,17 @@ class NewsHeader extends StatelessWidget {
                 Row(
                   children: [
                     (showBack) ? GestureDetector(
-                        key: const ValueKey("back-btn"),
-                        onTap: onBackTap,
-                        child: Icon(I.back)
+                      key: const ValueKey("back-btn"),
+                      onTap: onBackTap,
+                      child: Icon(I.back)
                     ).p(10.right())
                         : SizedBox.shrink(key: ValueKey("empty-btn")),
                     NewsSearchField(
+                      textEditingController: textController,
                       onChangeFocusSearchField: onChangeFocusSearchField,
                       onChangeText: onChangeText,
+                      onTapClear: onClearTap,
+                      showClear: showClear,
                     ).e(),
                   ],
                 ),
