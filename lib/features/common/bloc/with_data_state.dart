@@ -7,3 +7,11 @@ abstract class WithDataState<T> {
   bool get hasEmptyData => data != null && data!.isEmpty;
   bool get hasInvalid => data == null;
 }
+
+abstract class WithAbsoluteDataState<T> {
+  final List<T> data;
+
+  WithAbsoluteDataState({required this.data});
+
+  bool get hasEmptyData => data.isEmpty;
+}

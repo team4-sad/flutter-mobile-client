@@ -8,6 +8,7 @@ import 'package:miigaik/features/root/features/bottom-nav-bar/bottom_nav_bar_gra
 import 'package:miigaik/features/root/features/bottom-nav-bar/items_nav_bar.dart';
 import 'package:miigaik/features/root/tabs/empty/emty_page.dart';
 import 'package:miigaik/features/root/tabs/news/news_page.dart';
+import 'package:miigaik/features/root/tabs/schedule/schedule_page.dart';
 import 'package:talker_flutter/talker_flutter.dart';
 
 class RootPage extends StatelessWidget {
@@ -19,7 +20,7 @@ class RootPage extends StatelessWidget {
   void _updateLazyBuild(ItemNavBar itemNavBar) {
     if (!_itemNavBarToIndex.containsKey(itemNavBar)) {
       final Widget widget = switch(itemNavBar){
-        ItemNavBar.schedule => const EmptyPage(),
+        ItemNavBar.schedule => const SchedulePage(),
         ItemNavBar.map => const EmptyPage(),
         ItemNavBar.news => const NewsPage(),
         ItemNavBar.notes => const EmptyPage(),

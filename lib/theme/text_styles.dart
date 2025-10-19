@@ -25,6 +25,12 @@ abstract class TS {
     fontWeight: FontWeight.normal
   );
 
+  static TextStyle regular12 = TextStyle(
+      fontSize: 12,
+      height: 1.2,
+      fontWeight: FontWeight.normal
+  );
+
   static TextStyle regular10 = TextStyle(
     fontSize: 10,
     height: 1.2,

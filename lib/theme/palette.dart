@@ -10,13 +10,16 @@ class Palette {
   final Color background;
   final Color container;
 
+  final Color lightText;
+
   Palette({
     required this.accent,
     required this.unAccent,
     required this.text,
     required this.subText,
     required this.background,
-    required this.container
+    required this.container,
+    required this.lightText,
   });
 
   static Palette fromAppTheme(AppTheme appTheme) {
@@ -27,7 +30,8 @@ class Palette {
         text: Color(0xFF000000),
         subText: Color(0xFF939396),
         background: Color(0xFFFFFFFF),
-        container: Color(0xFFF2F3F5)
+        container: Color(0xFFF2F3F5),
+        lightText: Color(0xFF2A2929)
       ),
       // Пока нет тёмной темы
       AppTheme.dark => Palette(
@@ -36,7 +40,8 @@ class Palette {
         text: Color(0xFFFFFFFF),
         subText: Color(0xFF939396),
         background: Color(0xFF000000),
-        container: Color(0xFF313131)
+        container: Color(0xFF313131),
+        lightText: Color(0xFF2A2929)
       ),
     };
   }
@@ -48,7 +53,8 @@ class Palette {
       text: Color.lerp(first.text, other.text, t)!,
       subText: Color.lerp(first.subText, other.subText, t)!,
       background: Color.lerp(first.background, other.background, t)!,
-      container: Color.lerp(first.container, other.container, t)!
+      container: Color.lerp(first.container, other.container, t)!,
+      lightText: Color.lerp(first.lightText, other.lightText, t)!,
     );
   }
 }
