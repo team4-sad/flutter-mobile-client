@@ -42,7 +42,8 @@ class SignatureScheduleRepository extends ISignatureScheduleRepository {
 
   @override
   Future<List<SignatureScheduleModel>> fetchAll() async {
-    return _box.values.toList();
+    final selected = await getSelected();
+    return _box.values.toList()..remove(selected);
   }
 
   @override

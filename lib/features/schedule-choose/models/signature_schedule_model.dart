@@ -1,10 +1,11 @@
+import 'package:equatable/equatable.dart';
 import 'package:hive/hive.dart';
 import 'package:miigaik/features/schedule-choose/enum/signature_schedule_type.dart';
 
 part 'signature_schedule_model.g.dart';
 
 @HiveType(typeId: 0)
-class SignatureScheduleModel extends HiveObject {
+class SignatureScheduleModel extends Equatable with HiveObjectMixin {
   @HiveField(0)
   final SignatureScheduleType type;
 
@@ -23,4 +24,7 @@ class SignatureScheduleModel extends HiveObject {
   SignatureScheduleModel copy() => SignatureScheduleModel(
       type: type, title: title, id: id
   );
+
+  @override
+  List<Object?> get props => [type, title, id];
 }

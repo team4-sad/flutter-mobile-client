@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -45,7 +47,11 @@ class ScheduleChoosePage extends StatelessWidget {
       floatingActionButton: GestureDetector(
         onTap: (){
           bloc.add(AddSignatureEvent(
-              newSignature: SignatureScheduleModel(type: SignatureScheduleType.group, title: '2023-ФГиИБ-ИСиТибикс-1м ', id: '0')
+            newSignature: SignatureScheduleModel(
+              type: SignatureScheduleType.group,
+              title: '2023-ФГиИБ-ИСиТибикс-1м ${Random().nextInt(255)}',
+              id: '0'
+            )
           ));
         },
         child: Container(
