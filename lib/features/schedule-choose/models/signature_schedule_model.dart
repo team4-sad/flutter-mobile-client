@@ -19,4 +19,8 @@ class SignatureScheduleModel extends HiveObject {
     required this.title,
     required this.id
   });
+
+  SignatureScheduleModel copy() => SignatureScheduleModel(
+      type: type, title: title, id: id
+  );
 }

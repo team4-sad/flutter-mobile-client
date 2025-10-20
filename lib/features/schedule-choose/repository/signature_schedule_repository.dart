@@ -32,7 +32,7 @@ class SignatureScheduleRepository extends ISignatureScheduleRepository {
 
   @override
   Future<void> select(SignatureScheduleModel selectedModel) async {
-    await _box.put(_selectKey, selectedModel);
+    await _box.put(_selectKey, selectedModel.copy());
   }
 
   @override

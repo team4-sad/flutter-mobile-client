@@ -12,8 +12,21 @@ import 'package:miigaik/theme/text_styles.dart';
 import 'package:miigaik/theme/values.dart';
 import 'package:sheet/sheet.dart';
 
-class SchedulePage extends StatelessWidget {
+class SchedulePage extends StatefulWidget {
   const SchedulePage({super.key});
+
+  @override
+  State<SchedulePage> createState() => _SchedulePageState();
+}
+
+class _SchedulePageState extends State<SchedulePage> {
+  final SignatureScheduleBloc _signatureBloc = GetIt.I.get();
+
+  @override
+  void initState() {
+    super.initState();
+    _signatureBloc.add(FetchSignaturesEvent());
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -29,7 +42,7 @@ class SchedulePage extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 BlocBuilder<SignatureScheduleBloc, SignatureScheduleState>(
-                  bloc: GetIt.I.get(),
+                  bloc: _signatureBloc,
                   builder: (context, state) {
                     if (state is SignatureScheduleLoaded && state.hasSelected) {
                       return Text(
@@ -66,5 +79,4 @@ class SchedulePage extends StatelessWidget {
         )
     );
   }
-
 }

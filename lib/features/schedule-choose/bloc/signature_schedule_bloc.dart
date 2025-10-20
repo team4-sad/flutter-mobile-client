@@ -27,12 +27,17 @@ class SignatureScheduleBloc extends Bloc<SignatureScheduleEvent, SignatureSchedu
       }
     }, transformer: droppable());
 
-    on<SelectSignatureEvent>((event, emit) {
+    on<SelectSignatureEvent>((event, emit) async {
       if (state is! SignatureScheduleLoaded){
         return;
       }
       final s = state as SignatureScheduleLoaded;
-      emit(SignatureScheduleLoaded(data: s.data, selected: event.selectedSignature));
+      try{
+        await _repository.select(event.selectedSignature);
+        emit(SignatureScheduleLoaded(data: s.data, selected: event.selectedSignature));
+      } on Object catch(e){
+        emit(SignatureScheduleError(error: e));
+      }
     }, transformer: droppable());
 
     on<AddSignatureEvent>((event, emit) async {
