@@ -5,6 +5,7 @@ import 'package:miigaik/features/schedule-choose/enum/signature_schedule_type.da
 part 'signature_schedule_model.g.dart';
 
 @HiveType(typeId: 0)
+// ignore: must_be_immutable
 class SignatureScheduleModel extends Equatable with HiveObjectMixin {
   @HiveField(0)
   final SignatureScheduleType type;

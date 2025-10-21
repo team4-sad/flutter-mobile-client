@@ -36,7 +36,7 @@ class NewsHtmlWidget extends StatelessWidget {
           };
         }
         if (element.localName == "iframe"){
-          final attrs = element.attributes;
+          // final attrs = element.attributes;
           return null;
         }
         return null;
