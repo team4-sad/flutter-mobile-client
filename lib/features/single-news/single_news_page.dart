@@ -35,9 +35,14 @@ class SingleNewsPage extends StatelessWidget {
             case SingleNewsLoadedState():
               return CustomScrollView(
                 slivers: [
-                  TopSingleNewsWidget(title: state.singleNews.title,).s(),
+                  TopSingleNewsWidget(
+                    title: state.singleNews.title, 
+                    date: state.singleNews.date,
+                  ).s(),
                   20.svs(),
-                  NewsHtmlWidget(html: state.singleNews.htmlContent).sp(25.horizontal()),
+                  NewsHtmlWidget(
+                    html: state.singleNews.htmlContent
+                  ).sp(25.horizontal()),
                   48.svs(),
                 ],
               );
