@@ -6,7 +6,10 @@ import 'package:miigaik/theme/app_theme_extensions.dart';
 import 'package:miigaik/theme/text_styles.dart';
 
 class TopSingleNewsWidget extends StatelessWidget {
-  const TopSingleNewsWidget({super.key});
+
+  final String title;
+
+  const TopSingleNewsWidget({super.key, required this.title});
 
   @override
   Widget build(BuildContext context) {
@@ -31,9 +34,7 @@ class TopSingleNewsWidget extends StatelessWidget {
                     )
                 ),
               ),
-              Text(
-                  "Студенты МИИГАиК на фестивале \"Открытый город\"",
-                  style: TS.medium20.use(context.palette.text)
+              Text(title, style: TS.medium20.use(context.palette.text)
               ).p(15.horizontal()).e(),
             ],
           ),
