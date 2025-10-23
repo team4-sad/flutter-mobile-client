@@ -79,8 +79,8 @@ void main() async {
   final ISingleNewsRepository apiSingleNewsRepository = ApiSingleNewsRepository(dio: dio);
   GetIt.I.registerSingleton(apiSingleNewsRepository);
 
-  final ISearchNewsRepository mockSearchNewsRepository = MockSearchNewsRepository();
-  GetIt.I.registerSingleton(mockSearchNewsRepository);
+  final ISearchNewsRepository apiSearchNewsRepository = ApiSearchNewsRepository(dio: dio);
+  GetIt.I.registerSingleton(apiSearchNewsRepository);
 
   GetIt.I.registerSingleton(ThemeBloc(AppTheme.defaultTheme()));
   GetIt.I.registerSingleton(BottomNavBarBloc(ItemNavBar.defaultItem()));

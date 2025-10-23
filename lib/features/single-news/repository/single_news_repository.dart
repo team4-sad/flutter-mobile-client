@@ -13,7 +13,7 @@ class ApiSingleNewsRepository extends ISingleNewsRepository {
 
   @override
   Future<SingleNewsModel> fetchSingleNews(String newsId) async {
-    final response = await _dio.get("news/$newsId");
+    final response = await _dio.get("news/item/$newsId");
     return SingleNewsModel.fromJson(response.data);
   }
 }
