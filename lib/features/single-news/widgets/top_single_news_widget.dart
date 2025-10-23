@@ -6,10 +6,14 @@ import 'package:miigaik/theme/app_theme_extensions.dart';
 import 'package:miigaik/theme/text_styles.dart';
 
 class TopSingleNewsWidget extends StatelessWidget {
-
   final String title;
+  final String date;
 
-  const TopSingleNewsWidget({super.key, required this.title});
+  const TopSingleNewsWidget({
+    super.key, 
+    required this.title, 
+    required this.date
+    });
 
   @override
   Widget build(BuildContext context) {
@@ -17,8 +21,7 @@ class TopSingleNewsWidget extends StatelessWidget {
       mainAxisSize: MainAxisSize.min,
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(
-            "01.10.2025", style: TS.light15.use(context.palette.text)
+        Text(date, style: TS.light15.use(context.palette.text),
         ).p(25.horizontal()),
         4.vs(),
         IntrinsicHeight(
@@ -27,14 +30,16 @@ class TopSingleNewsWidget extends StatelessWidget {
               Container(
                 width: 10,
                 decoration: BoxDecoration(
-                    color: context.palette.accent,
-                    borderRadius: BorderRadius.only(
-                      topRight: Radius.circular(5.r),
-                      bottomRight: Radius.circular(5.r),
-                    )
+                  color: context.palette.accent,
+                  borderRadius: BorderRadius.only(
+                    topRight: Radius.circular(5.r),
+                    bottomRight: Radius.circular(5.r),
+                  ),
                 ),
               ),
-              Text(title, style: TS.medium20.use(context.palette.text)
+              Text(
+                title,
+                style: TS.medium20.use(context.palette.text),
               ).p(15.horizontal()).e(),
             ],
           ),
@@ -42,5 +47,4 @@ class TopSingleNewsWidget extends StatelessWidget {
       ],
     );
   }
-
 }
