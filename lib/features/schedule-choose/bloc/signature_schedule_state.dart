@@ -15,10 +15,12 @@ final class SignatureScheduleError extends SignatureScheduleState {
 final class SignatureScheduleLoaded extends WithAbsoluteDataState<SignatureScheduleModel> implements SignatureScheduleState{
   SignatureScheduleLoaded({
     required super.data,
+    this.isNewSelection = false,
     this.selected,
   });
 
   final SignatureScheduleModel? selected;
+  final bool isNewSelection;
 
   bool get hasSelected => selected != null;
 }

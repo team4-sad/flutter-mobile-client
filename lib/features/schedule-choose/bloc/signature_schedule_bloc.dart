@@ -34,7 +34,11 @@ class SignatureScheduleBloc extends Bloc<SignatureScheduleEvent, SignatureSchedu
       final s = state as SignatureScheduleLoaded;
       try{
         await _repository.select(event.selectedSignature);
-        emit(SignatureScheduleLoaded(data: s.data, selected: event.selectedSignature));
+        emit(SignatureScheduleLoaded(
+          data: s.data, 
+          selected: event.selectedSignature,
+          isNewSelection: true
+        ));
       } on Object catch(e){
         emit(SignatureScheduleError(error: e));
       }

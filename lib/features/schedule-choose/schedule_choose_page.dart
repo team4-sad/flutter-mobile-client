@@ -19,54 +19,60 @@ import 'package:miigaik/theme/values.dart';
 
 class ScheduleChoosePage extends StatelessWidget {
   ScheduleChoosePage({super.key});
-  
-  final SignatureScheduleBloc bloc = GetIt.I.get(); 
-  
+
+  final SignatureScheduleBloc bloc = GetIt.I.get();
+
   @override
   Widget build(BuildContext context) {
     bloc.add(FetchSignaturesEvent());
     return Scaffold(
       appBar: PreferredSize(
         preferredSize: Size.fromHeight(kToolbarHeight),
-        child: Row(
-          children: [
-            GestureDetector(
-              onTap: (){Navigator.pop(context);},
-              child: Icon(I.back, color: context.palette.text,),
+        child:
+            Row(
+              children: [
+                GestureDetector(
+                  onTap: () {
+                    Navigator.pop(context);
+                  },
+                  child: Icon(I.back, color: context.palette.text),
+                ),
+                10.hs(),
+                Text(
+                  "Выбор расписания",
+                  style: TS.medium20.use(context.palette.text),
+                ),
+              ],
+            ).p(
+              EdgeInsets.only(
+                left: horizontalPaddingPage,
+                right: horizontalPaddingPage,
+                top: 59,
+                bottom: 20,
+              ),
             ),
-            10.hs(),
-            Text("Выбор расписания", style: TS.medium20.use(context.palette.text)),
-          ],
-        ).p(EdgeInsets.only(
-          left: horizontalPaddingPage,
-          right: horizontalPaddingPage,
-          top: 59,
-          bottom: 20
-        ))
       ),
       floatingActionButton: GestureDetector(
-        onTap: (){
-          bloc.add(AddSignatureEvent(
-            newSignature: SignatureScheduleModel(
-              type: SignatureScheduleType.group,
-              title: '2023-ФГиИБ-ИСиТибикс-1м ${Random().nextInt(255)}',
-              id: '0'
-            )
-          ));
+        onTap: () {
+          bloc.add(
+            AddSignatureEvent(
+              newSignature: SignatureScheduleModel(
+                type: SignatureScheduleType.group,
+                title: '2023-ФГиИБ-ИСиТибикс-1м ${Random().nextInt(255)}',
+                id: '0',
+              ),
+            ),
+          );
         },
         child: Container(
           width: 60,
           height: 60,
           decoration: BoxDecoration(
             color: context.palette.lightText,
-            borderRadius: BorderRadius.circular(10.r)
+            borderRadius: BorderRadius.circular(10.r),
           ),
           child: Center(
-            child: Icon(
-              I.plus,
-              color: context.palette.unAccent,
-              size: 36,
-            ),
+            child: Icon(I.plus, color: context.palette.unAccent, size: 36),
           ),
         ),
       ),
@@ -75,43 +81,45 @@ class ScheduleChoosePage extends StatelessWidget {
         child: BlocBuilder<SignatureScheduleBloc, SignatureScheduleState>(
           bloc: bloc,
           builder: (context, state) {
-            switch(state){
+            switch (state) {
               case SignatureScheduleLoading():
               case SignatureScheduleInitial():
                 return LoadingScheduleChooseContent();
               case SignatureScheduleError():
                 return Center(
-                  child: PlaceholderWidget.fromException(
-                    state.error, (){
-                      bloc.add(FetchSignaturesEvent());
-                    }
-                  )
+                  child: PlaceholderWidget.fromException(state.error, () {
+                    bloc.add(FetchSignaturesEvent());
+                  }),
                 );
               case SignatureScheduleLoaded():
-                if (state.hasEmptyData){
+                if (state.hasEmptyData) {
                   return Center(
                     child: PlaceholderWidget(
                       title: "Расписаний нет",
                       subTitle: "Добавьте новое расписание",
                     ),
                   );
-                }else{
+                } else {
                   return ListView.separated(
                     itemBuilder: (_, index) {
                       final signature = state.data[index];
                       return ItemScheduleSignature(
                         signatureModel: signature,
-                        onTap: (signature){
-                          bloc.add(SelectSignatureEvent(selectedSignature: signature));
+                        onTap: (signature) {
+                          bloc.add(
+                            SelectSignatureEvent(selectedSignature: signature),
+                          );
                         },
-                        onLongTap: (signature){
-                          bloc.add(RemoveSignatureEvent(deleteSignature: signature));
+                        onLongTap: (signature) {
+                          bloc.add(
+                            RemoveSignatureEvent(deleteSignature: signature),
+                          );
                         },
-                        isSelected: state.selected == signature
+                        isSelected: state.selected == signature,
                       );
                     },
-                    separatorBuilder: (_, __) => 20.vs(),
-                    itemCount: state.data.length
+                    separatorBuilder: (_, __) => 10.vs(),
+                    itemCount: state.data.length,
                   );
                 }
             }
