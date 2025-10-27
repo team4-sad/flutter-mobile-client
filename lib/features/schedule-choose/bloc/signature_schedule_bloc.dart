@@ -2,6 +2,7 @@ import 'package:bloc_concurrency/bloc_concurrency.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_it/get_it.dart';
 import 'package:miigaik/features/common/bloc/with_data_state.dart';
+import 'package:miigaik/features/common/bloc/with_error_state.dart';
 import 'package:miigaik/features/schedule-choose/models/signature_schedule_model.dart';
 import 'package:miigaik/features/schedule-choose/repository/signature_schedule_repository.dart';
 

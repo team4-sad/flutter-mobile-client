@@ -8,21 +8,30 @@ import 'package:miigaik/theme/app_theme_extensions.dart';
 import 'package:miigaik/theme/text_styles.dart';
 
 class WeekWidget extends StatelessWidget {
+
   const WeekWidget({super.key});
 
   @override
   Widget build(BuildContext context) {
+    final bloc = GetIt.I.get<CurrentDayBloc>();
+    final dateTimeStartWeek = startOfWeek(bloc.state.currentOnlyDate);
     return Row(
-      children: [
-        _WeekItemWidget(dateTime: DateTime.parse("2025-10-27")),
-        _WeekItemWidget(dateTime: DateTime.parse("2025-10-28")),
-        _WeekItemWidget(dateTime: DateTime.parse("2025-10-29")),
-        _WeekItemWidget(dateTime: DateTime.parse("2025-10-30")),
-        _WeekItemWidget(dateTime: DateTime.parse("2025-10-31")),
-        _WeekItemWidget(dateTime: DateTime.parse("2025-11-01")),
-        _WeekItemWidget(dateTime: DateTime.parse("2025-11-02")),
-      ],
+      children: List.generate(
+        7, (index) => _WeekItemWidget(
+          dateTime: dateTimeStartWeek.add(Duration(days: index))
+        )
+      ),
     );
+  }
+
+  DateTime startOfWeek(DateTime date, {int startWeekday = DateTime.monday}) {
+    int diff = date.weekday - startWeekday;
+    if (diff < 0) diff += 7;
+    return DateTime(
+      date.year,
+      date.month,
+      date.day,
+    ).subtract(Duration(days: diff));
   }
 }
 

@@ -58,8 +58,8 @@ class ScheduleChoosePage extends StatelessWidget {
             AddSignatureEvent(
               newSignature: SignatureScheduleModel(
                 type: SignatureScheduleType.group,
-                title: '2023-ФГиИБ-ИСиТибикс-1м ${Random().nextInt(255)}',
-                id: '0',
+                title: '2023-ФГиИБ-ПИ-1б ${Random().nextInt(255)}',
+                id: '1274',
               ),
             ),
           );

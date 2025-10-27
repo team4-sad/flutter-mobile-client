@@ -6,10 +6,8 @@ final class SignatureScheduleInitial extends SignatureScheduleState {}
 
 final class SignatureScheduleLoading extends SignatureScheduleState {}
 
-final class SignatureScheduleError extends SignatureScheduleState {
-  final Object error;
-
-  SignatureScheduleError({required this.error});
+final class SignatureScheduleError extends WithErrorState implements SignatureScheduleState {
+  SignatureScheduleError({required super.error});
 }
 
 final class SignatureScheduleLoaded extends WithAbsoluteDataState<SignatureScheduleModel> implements SignatureScheduleState{

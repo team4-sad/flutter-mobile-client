@@ -18,6 +18,8 @@ import 'package:miigaik/features/root/tabs/news/bloc/search_news_bloc/search_new
 import 'package:miigaik/features/root/tabs/news/repository/news_repository.dart';
 import 'package:miigaik/features/root/tabs/news/repository/search_news_repository.dart';
 import 'package:miigaik/features/root/tabs/schedule/bloc/current_day_bloc/current_day_bloc.dart';
+import 'package:miigaik/features/root/tabs/schedule/bloc/schedule_bloc/schedule_bloc_bloc.dart';
+import 'package:miigaik/features/root/tabs/schedule/repository/schedule_repository.dart';
 import 'package:miigaik/features/schedule-choose/bloc/signature_schedule_bloc.dart';
 import 'package:miigaik/features/schedule-choose/enum/signature_schedule_type.dart';
 import 'package:miigaik/features/schedule-choose/models/signature_schedule_model.dart';
@@ -50,9 +52,11 @@ void main() async {
   Hive.registerAdapter(SignatureScheduleTypeAdapter());
 
   final boxSignaturesSchedules = await Hive.openBox<SignatureScheduleModel>(
-    "box_for_signatures_schedules"
+    "box_for_signatures_schedules",
   );
-  final signatureScheduleRepository = SignatureScheduleRepository(box: boxSignaturesSchedules);
+  final signatureScheduleRepository = SignatureScheduleRepository(
+    box: boxSignaturesSchedules,
+  );
   GetIt.I.registerSingleton(signatureScheduleRepository);
 
   PackageInfo packageInfo = await PackageInfo.fromPlatform();
@@ -68,20 +72,31 @@ void main() async {
 
   final dio = Dio(BaseOptions(baseUrl: Config.apiUrl.conf()));
   dio.interceptors.add(
-    TalkerDioLogger(
-      talker: talker,
-      settings: const TalkerDioLoggerSettings(),
-    ),
+    TalkerDioLogger(talker: talker, settings: const TalkerDioLoggerSettings()),
+  );
+
+  // TODO: Надо переехать на нашу апи
+  final otherApiDio = Dio(BaseOptions(baseUrl: "https://study.miigaik.ru/api/v1/"));
+  otherApiDio.interceptors.add(
+    TalkerDioLogger(talker: talker, settings: const TalkerDioLoggerSettings()),
   );
 
   final INewsRepository apiNewsRepository = ApiNewsRepository(dio: dio);
   GetIt.I.registerSingleton(apiNewsRepository);
 
-  final ISingleNewsRepository apiSingleNewsRepository = ApiSingleNewsRepository(dio: dio);
+  final ISingleNewsRepository apiSingleNewsRepository = ApiSingleNewsRepository(
+    dio: dio,
+  );
   GetIt.I.registerSingleton(apiSingleNewsRepository);
 
-  final ISearchNewsRepository apiSearchNewsRepository = ApiSearchNewsRepository(dio: dio);
+  final ISearchNewsRepository apiSearchNewsRepository = ApiSearchNewsRepository(
+    dio: dio,
+  );
   GetIt.I.registerSingleton(apiSearchNewsRepository);
+
+  final IScheduleRepository otherApiScheduleRepository =
+      OtherApiScheduleRepository(otherApiDio: otherApiDio);
+  GetIt.I.registerSingleton(otherApiScheduleRepository);
 
   GetIt.I.registerSingleton(ThemeBloc(AppTheme.defaultTheme()));
   GetIt.I.registerSingleton(BottomNavBarBloc(ItemNavBar.defaultItem()));
@@ -92,13 +107,14 @@ void main() async {
   GetIt.I.registerSingleton(NewsPageModeBloc());
   GetIt.I.registerSingleton(SignatureScheduleBloc());
   GetIt.I.registerSingleton(CurrentDayBloc());
+  GetIt.I.registerSingleton(ScheduleBloc());
 
   runApp(
     EasyLocalization(
       supportedLocales: [Locale('en'), Locale("ru")],
       path: 'assets/translations',
       fallbackLocale: Locale('en'),
-      child: const MyApp()
+      child: const MyApp(),
     ),
   );
 }
@@ -108,48 +124,47 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    if (!GetIt.I.isRegistered<LocaleBloc>()){
-      GetIt.I.registerSingleton(LocaleBloc(
-        context.supportedLocales,
-        context.locale
-      ));
+    if (!GetIt.I.isRegistered<LocaleBloc>()) {
+      GetIt.I.registerSingleton(
+        LocaleBloc(context.supportedLocales, context.locale),
+      );
     }
 
     return BlocBuilder<ThemeBloc, ThemeState>(
       bloc: GetIt.I.get<ThemeBloc>(),
       builder: (context, state) {
         final appThemeExtension = AppThemeExtension.fromAppTheme(
-            state.appTheme
+          state.appTheme,
         );
         return ScreenUtilInit(
           designSize: const Size(360, 750),
-          builder: (context, child){
+          builder: (context, child) {
             return MaterialApp(
               title: 'MIIGAiK',
               localizationsDelegates: context.localizationDelegates,
               supportedLocales: context.supportedLocales,
               locale: context.locale,
               debugShowCheckedModeBanner: false,
-              theme: appThemeExtension.getThemeData(
-                fontFamily: "Roboto"
-              ),
-              home: Stack(children: [
-                ?child,
-                if (kDebugMode)
-                  Align(
-                    alignment: Alignment.topRight,
-                    child: Container(
-                      padding: const EdgeInsets.only(top: 55, right: 50),
-                      child: Transform.scale(
-                        scale: 1.2,
-                        child: Banner(
-                          message: GetIt.I.get<PackageInfo>().fullVersion,
-                          location: BannerLocation.bottomStart,
+              theme: appThemeExtension.getThemeData(fontFamily: "Roboto"),
+              home: Stack(
+                children: [
+                  ?child,
+                  if (kDebugMode)
+                    Align(
+                      alignment: Alignment.topRight,
+                      child: Container(
+                        padding: const EdgeInsets.only(top: 55, right: 50),
+                        child: Transform.scale(
+                          scale: 1.2,
+                          child: Banner(
+                            message: GetIt.I.get<PackageInfo>().fullVersion,
+                            location: BannerLocation.bottomStart,
+                          ),
                         ),
                       ),
                     ),
-                  ),
-              ])
+                ],
+              ),
             );
           },
           child: BlocBuilder<LocaleBloc, LocaleState>(
@@ -158,7 +173,7 @@ class MyApp extends StatelessWidget {
               context.setLocale(state.locale);
               return RootPage();
             },
-          )
+          ),
         );
       },
     );
