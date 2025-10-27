@@ -45,45 +45,48 @@ class RootPage extends StatelessWidget {
     }
   }
 
+
   @override
   Widget build(BuildContext context) {
     _updateLazyBuild(ItemNavBar.defaultItem());
-    return BlocConsumer<BottomNavBarBloc, BottomNavBarState>(
-      bloc: GetIt.I.get<BottomNavBarBloc>(),
-      listener: (context, state) {
-        _updateLazyBuild(state.currentItem);
-      },
-      builder: (context, state) {
-        return Scaffold(
-          body: AnnotatedRegion<SystemUiOverlayStyle>(
-            value: _getUiOverlayStyle(state.currentItem),
-            child: Stack(
-              children: [
-                IndexedStack(
+    return Scaffold(
+      body: Stack(
+        children: [
+          BlocConsumer<BottomNavBarBloc, BottomNavBarState>(
+            bloc: GetIt.I.get<BottomNavBarBloc>(),
+            listener: (context, state){
+              _updateLazyBuild(state.currentItem);
+            },
+            builder: (context, state){
+              return AnnotatedRegion<SystemUiOverlayStyle>(
+                value: _getUiOverlayStyle(state.currentItem),
+                child: IndexedStack(
                   index: _itemNavBarToIndex[state.currentItem],
                   children: _loadedScreens,
                 ),
-                GestureDetector(
-                  onLongPress: () {
-                    if (kDebugMode) {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (_) => TalkerScreen(talker: GetIt.I.get()),
-                        ),
-                      );
-                    }
-                  },
-                  child: Align(
-                    alignment: Alignment.bottomCenter,
-                    child: BottomNavBarGradient(bottomNavBar: BottomNavBar()),
-                  ),
-                ),
-              ],
-            ),
+              );
+            },
           ),
-        );
-      },
+          GestureDetector(
+            onLongPress: (){
+              if (kDebugMode) {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (_) => TalkerScreen(talker: GetIt.I.get())
+                  )
+                );
+              }
+            },
+            child: Align(
+              alignment: Alignment.bottomCenter,
+              child: BottomNavBarGradient(
+                bottomNavBar: BottomNavBar()
+              )
+            ),
+          )
+        ],
+      ),
     );
   }
 }
