@@ -4,6 +4,6 @@ extension SliverWidgetExtension on Widget {
   SliverToBoxAdapter s() => SliverToBoxAdapter(child: this);
   SliverPadding sp(EdgeInsets edgeInsets) => SliverPadding(
     padding: edgeInsets,
-    sliver: (this is SingleChildRenderObjectWidget) ? this : s(),
+    sliver: this,
   );
 }

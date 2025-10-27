@@ -1,7 +1,6 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_widget_from_html/flutter_widget_from_html.dart';
-import 'package:miigaik/features/common/widgets/app_shimmer.dart';
 import 'package:miigaik/features/common/widgets/image_dialog.dart';
 import 'package:miigaik/features/config/config.dart';
 import 'package:miigaik/features/config/extension.dart';
@@ -13,12 +12,15 @@ class NewsHtmlWidget extends StatelessWidget {
 
   const NewsHtmlWidget({super.key, required this.html});
 
+  static final _ignoreDomains = <String>[];
+
   @override
   Widget build(BuildContext context) {
     return HtmlWidget(
       html,
-      enableCaching: true,
+      enableCaching: !kDebugMode,
       baseUrl: Uri.parse(Config.baseImageUrl.conf()),
+      renderMode: RenderMode.sliverList,
       customStylesBuilder: (element) {
         if (element.className == "news-item-image") {
           return {"margin-bottom": "10px"};
@@ -30,8 +32,12 @@ class NewsHtmlWidget extends StatelessWidget {
           return {"border-radius": "15px"};
         }
         if (element.localName == "iframe") {
-          // final attrs = element.attributes;
-          return null;
+          final attrs = element.attributes;
+          if (attrs.containsKey("src")) {
+            final fullUrl = attrs["src"]!.toString();
+            final domain = _getDomain(fullUrl);
+            _ignoreDomains.add(domain);
+          }
         }
         return null;
       },
@@ -43,20 +49,21 @@ class NewsHtmlWidget extends StatelessWidget {
         }
       },
       onTapUrl: (rawUrl) async {
-        // if (!rawUrl.contains("vkvideo")) {
-        //   final Uri url = Uri.parse(rawUrl);
-        //   return !await launchUrl(url);
-        // }
-        // return false;
+        final domain = _getDomain(rawUrl);
+        if (_ignoreDomains.contains(domain)) {
+          return true;
+        }
         final Uri url = Uri.parse(rawUrl);
         return !await launchUrl(url);
       },
       onLoadingBuilder: (context, element, progress) {
         return SizedBox(
           height: 100,
-          child: Center(child: CircularProgressIndicator())
+          child: Center(child: CircularProgressIndicator()),
         );
       },
     );
   }
+
+  String _getDomain(String url) => Uri.parse(url).host;
 }

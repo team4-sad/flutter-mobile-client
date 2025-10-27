@@ -48,9 +48,10 @@ class SingleNewsPage extends StatelessWidget {
               );
             case SingleNewsErrorState():
               return Center(
-                child: PlaceholderWidget.fromException(state.error, (){
-                  _addFetchSingleNews();
-                })
+                child: PlaceholderWidget.fromException(
+                  state.error, 
+                  _addFetchSingleNews
+                )
               );
             case SingleNewsInitialState():
             case SingleNewsLoadingState():
