@@ -73,10 +73,10 @@ class _SchedulePageState extends State<SchedulePage> {
           )
         ),
         body: Sheet(
-          minExtent: 222,
-          maxExtent: 560.h,
-          child: Container(color: context.palette.background),
-        )
+            minExtent: 222,
+            maxExtent: 560.h,
+            child: Container(color: context.palette.background),
+          )
     );
   }
 }

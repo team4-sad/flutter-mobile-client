@@ -44,81 +44,81 @@ class _NewsPageState extends State<NewsPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: BlocConsumer<NewsPageModeBloc, NewsPageModeState>(
-        bloc: _modeBloc,
-        listener: (context, state){
-          _refreshDivider(state);
-        },
-        builder: (context, state) {
-          return Column(
-            children: [
-              NewsHeader(
-                textController: _textEditingController,
-                showDivider: _showDivider,
-                contentPadding: EdgeInsets.only(
-                  left: horizontalPaddingPage,
-                  right: horizontalPaddingPage,
-                  top: paddingTopPage,
+        body: BlocConsumer<NewsPageModeBloc, NewsPageModeState>(
+          bloc: _modeBloc,
+          listener: (context, state){
+            _refreshDivider(state);
+          },
+          builder: (context, state) {
+            return Column(
+              children: [
+                NewsHeader(
+                  textController: _textEditingController,
+                  showDivider: _showDivider,
+                  contentPadding: EdgeInsets.only(
+                    left: horizontalPaddingPage,
+                    right: horizontalPaddingPage,
+                    top: paddingTopPage,
+                  ),
+                  showTitle: state.currentMode == NewsPageMode.list,
+                  showBack: state.currentMode == NewsPageMode.search,
+                  showClear: state.currentMode == NewsPageMode.search,
+                  onChangeText: (searchText) {
+                    _searchBloc.add(TypingEvent(searchText: searchText));
+                  },
+                  onClearTap: (){
+                    _textEditingController.clear();
+                    _searchBloc.add(DropSearchResult());
+                  },
+                  onBackTap: (){
+                    _textEditingController.clear();
+                    _searchBloc.add(DropSearchResult());
+                    _modeBloc.add(ChangeMode(newMode: NewsPageMode.list));
+                  },
+                  onChangeFocusSearchField: (isFocus) {
+                    if (_searchBloc.state is NewsSearchInitial) {
+                      final newMode = (isFocus)
+                          ? NewsPageMode.search
+                          : NewsPageMode.list;
+                      _modeBloc.add(ChangeMode(newMode: newMode));
+                    }
+                  },
                 ),
-                showTitle: state.currentMode == NewsPageMode.list,
-                showBack: state.currentMode == NewsPageMode.search,
-                showClear: state.currentMode == NewsPageMode.search,
-                onChangeText: (searchText) {
-                  _searchBloc.add(TypingEvent(searchText: searchText));
-                },
-                onClearTap: (){
-                  _textEditingController.clear();
-                  _searchBloc.add(DropSearchResult());
-                },
-                onBackTap: (){
-                  _textEditingController.clear();
-                  _searchBloc.add(DropSearchResult());
-                  _modeBloc.add(ChangeMode(newMode: NewsPageMode.list));
-                },
-                onChangeFocusSearchField: (isFocus) {
-                  if (_searchBloc.state is NewsSearchInitial) {
-                    final newMode = (isFocus)
-                        ? NewsPageMode.search
-                        : NewsPageMode.list;
-                    _modeBloc.add(ChangeMode(newMode: newMode));
-                  }
-                },
-              ),
-              Expanded(
-                child: IndexedStack(
-                  index: state.currentMode.index,
-                  children: [
-                    CustomScrollView(
-                      controller: _listScrollController,
-                      slivers: [
-                        OnBottomScrollWidget(
-                          controller: _listScrollController,
-                          onBottom: () {
-                            _newsBloc.add(FetchNewsListEvent());
-                          },
-                          child: ListContent(),
-                        ),
-                      ],
-                    ),
-                    CustomScrollView(
-                      controller: _searchScrollController,
-                      slivers: [
-                        OnBottomScrollWidget(
-                          controller: _searchScrollController,
-                          onBottom: () {
-                            _searchBloc.add(NextPageSearchEvent());
-                          },
-                          child: SearchContent(),
-                        )
-                      ],
-                    )
-                  ],
-                ).p(horizontalPaddingPage.w.horizontal()),
-              ),
-            ],
-          );
-        },
-      ),
+                Expanded(
+                  child: IndexedStack(
+                    index: state.currentMode.index,
+                    children: [
+                      CustomScrollView(
+                        controller: _listScrollController,
+                        slivers: [
+                          OnBottomScrollWidget(
+                            controller: _listScrollController,
+                            onBottom: () {
+                              _newsBloc.add(FetchNewsListEvent());
+                            },
+                            child: ListContent(),
+                          ),
+                        ],
+                      ),
+                      CustomScrollView(
+                        controller: _searchScrollController,
+                        slivers: [
+                          OnBottomScrollWidget(
+                            controller: _searchScrollController,
+                            onBottom: () {
+                              _searchBloc.add(NextPageSearchEvent());
+                            },
+                            child: SearchContent(),
+                          )
+                        ],
+                      )
+                    ],
+                  ).p(horizontalPaddingPage.w.horizontal()),
+                ),
+              ],
+            );
+          },
+        ),
     );
   }
 

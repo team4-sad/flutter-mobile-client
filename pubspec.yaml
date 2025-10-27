@@ -2,7 +2,7 @@ name: miigaik
 description: "MIIGAiK mobile application"
 publish_to: 'none'
 
-version: 0.1.1+3
+version: 0.1.1+4
 
 environment:
   sdk: ^3.8.1

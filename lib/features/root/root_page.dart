@@ -1,5 +1,6 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_it/get_it.dart';
 import 'package:miigaik/features/root/features/bottom-nav-bar/bloc/bottom_nav_bar_bloc.dart';
@@ -19,57 +20,70 @@ class RootPage extends StatelessWidget {
 
   void _updateLazyBuild(ItemNavBar itemNavBar) {
     if (!_itemNavBarToIndex.containsKey(itemNavBar)) {
-      final Widget widget = switch(itemNavBar){
+      final Widget widget = switch (itemNavBar) {
         ItemNavBar.schedule => const SchedulePage(),
         ItemNavBar.map => const EmptyPage(),
         ItemNavBar.news => const NewsPage(),
         ItemNavBar.notes => const EmptyPage(),
-        ItemNavBar.profile => const EmptyPage()
+        ItemNavBar.profile => const EmptyPage(),
       };
       var index = _loadedScreens.length;
       _loadedScreens.add(widget);
       _itemNavBarToIndex[itemNavBar] = index;
     }
   }
-  
+
+  SystemUiOverlayStyle _getUiOverlayStyle(ItemNavBar itemNavBar) {
+    switch (itemNavBar) {
+      case ItemNavBar.schedule:
+        return SystemUiOverlayStyle.light;
+      case ItemNavBar.map:
+      case ItemNavBar.news:
+      case ItemNavBar.notes:
+      case ItemNavBar.profile:
+        return SystemUiOverlayStyle.dark;
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     _updateLazyBuild(ItemNavBar.defaultItem());
-    return Scaffold(
-      body: Stack(
-        children: [
-          BlocConsumer<BottomNavBarBloc, BottomNavBarState>(
-            bloc: GetIt.I.get<BottomNavBarBloc>(),
-            listener: (context, state){
-              _updateLazyBuild(state.currentItem);
-            },
-            builder: (context, state){
-              return IndexedStack(
-                index: _itemNavBarToIndex[state.currentItem],
-                children: _loadedScreens,
-              );
-            },
-          ),
-          GestureDetector(
-            onLongPress: (){
-              if (kDebugMode) {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      builder: (_) => TalkerScreen(talker: GetIt.I.get())
-                  )
-                );
-              }
-            },
-            child: Align(
-              alignment: Alignment.bottomCenter,
-              child: BottomNavBarGradient(
-                bottomNavBar: BottomNavBar()
-              )
+    return BlocConsumer<BottomNavBarBloc, BottomNavBarState>(
+      bloc: GetIt.I.get<BottomNavBarBloc>(),
+      listener: (context, state) {
+        _updateLazyBuild(state.currentItem);
+      },
+      builder: (context, state) {
+        return Scaffold(
+          body: AnnotatedRegion<SystemUiOverlayStyle>(
+            value: _getUiOverlayStyle(state.currentItem),
+            child: Stack(
+              children: [
+                IndexedStack(
+                  index: _itemNavBarToIndex[state.currentItem],
+                  children: _loadedScreens,
+                ),
+                GestureDetector(
+                  onLongPress: () {
+                    if (kDebugMode) {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (_) => TalkerScreen(talker: GetIt.I.get()),
+                        ),
+                      );
+                    }
+                  },
+                  child: Align(
+                    alignment: Alignment.bottomCenter,
+                    child: BottomNavBarGradient(bottomNavBar: BottomNavBar()),
+                  ),
+                ),
+              ],
             ),
-          )
-        ],
-      ),
+          ),
+        );
+      },
     );
   }
 }
