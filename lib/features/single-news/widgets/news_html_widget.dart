@@ -20,22 +20,16 @@ class NewsHtmlWidget extends StatelessWidget {
       enableCaching: true,
       baseUrl: Uri.parse(Config.baseImageUrl.conf()),
       customStylesBuilder: (element) {
-        if (element.className == "news-item-image"){
-          return {
-            "margin-bottom": "10px"
-          };
+        if (element.className == "news-item-image") {
+          return {"margin-bottom": "10px"};
         }
-        if (element.localName == "hr"){
-          return {
-            "display": "none"
-          };
+        if (element.localName == "hr") {
+          return {"display": "none"};
         }
-        if (element.localName == "img"){
-          return {
-            "border-radius": "15px"
-          };
+        if (element.localName == "img") {
+          return {"border-radius": "15px"};
         }
-        if (element.localName == "iframe"){
+        if (element.localName == "iframe") {
           // final attrs = element.attributes;
           return null;
         }
@@ -44,7 +38,7 @@ class NewsHtmlWidget extends StatelessWidget {
       textStyle: TS.light15,
       onTapImage: (metadata) async {
         final image = metadata.sources.firstOrNull;
-        if (image != null){
+        if (image != null) {
           showNetworkImageDialog(context, image.url);
         }
       },
@@ -57,8 +51,11 @@ class NewsHtmlWidget extends StatelessWidget {
         final Uri url = Uri.parse(rawUrl);
         return !await launchUrl(url);
       },
-      onLoadingBuilder: (context, element, __){
-        return AppShimmer(width: 1.sw, height: 180);
+      onLoadingBuilder: (context, element, progress) {
+        return SizedBox(
+          height: 100,
+          child: Center(child: CircularProgressIndicator())
+        );
       },
     );
   }

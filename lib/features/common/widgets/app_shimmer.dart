@@ -5,13 +5,13 @@ import 'package:shimmer_animation/shimmer_animation.dart';
 
 class AppShimmer extends StatelessWidget {
 
-  final double height;
-  final double width;
+  final double? height;
+  final double? width;
 
   const AppShimmer({
     super.key,
-    required this.width,
-    required this.height
+    this.width,
+    this.height
   });
 
   AppShimmer.text({
