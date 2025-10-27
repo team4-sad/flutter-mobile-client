@@ -9,11 +9,19 @@ class LoadingScheduleContent extends StatelessWidget {
   Widget build(BuildContext context) {
     return SliverList.list(children: [
       AppShimmer.container(height: 152),
-      15.svs(),
+      15.vs(),
       AppShimmer.container(height: 40),
-      15.svs(),
+      15.vs(),
       AppShimmer.container(height: 152),
-      90.svs(),
+      15.vs(),
+      AppShimmer.container(height: 40),
+      15.vs(),
+      AppShimmer.container(height: 152),
+      15.vs(),
+      AppShimmer.container(height: 40),
+      15.vs(),
+      AppShimmer.container(height: 152),
+      90.vs(),
     ], );
   }
 }

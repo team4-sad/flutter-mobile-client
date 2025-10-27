@@ -52,7 +52,7 @@ class PlaceholderWidget extends StatelessWidget {
   );
 
   factory PlaceholderWidget.fromException(
-    Object obj,
+    Object? obj,
     VoidCallback? onButtonPress,
   ){
     switch(obj.runtimeType){

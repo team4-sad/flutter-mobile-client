@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:miigaik/features/common/extensions/num_widget_extension.dart';
 import 'package:miigaik/features/common/extensions/sliver_widget_extension.dart';
 import 'package:miigaik/features/common/extensions/widget_extension.dart';
-import 'package:miigaik/features/root/tabs/schedule/widgets/item_schedule.dart';
+import 'package:miigaik/features/root/tabs/schedule/content/error_schedule_content.dart';
+import 'package:miigaik/features/root/tabs/schedule/content/loaded_schedule_content.dart';
 import 'package:miigaik/features/root/tabs/schedule/widgets/schedule_app_bar.dart';
 import 'package:miigaik/theme/app_theme_extensions.dart';
 import 'package:miigaik/theme/text_styles.dart';
@@ -51,10 +51,7 @@ class SchedulePage extends StatelessWidget {
                           padding: EdgeInsetsGeometry.symmetric(vertical: 30),
                           sliver: Text("Расписание", style: TS.medium20,).s()
                         ),
-                        SliverList.separated(
-                          itemBuilder: (context, index) => ItemSchedule(),
-                          separatorBuilder: (context, index) => 15.vs(),
-                        )
+                        LoadedScheduleContent()
                       ],
                     ),
                   ),
