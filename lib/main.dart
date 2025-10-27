@@ -17,6 +17,7 @@ import 'package:miigaik/features/root/tabs/news/bloc/news_page_mode_bloc/news_pa
 import 'package:miigaik/features/root/tabs/news/bloc/search_news_bloc/search_news_bloc.dart';
 import 'package:miigaik/features/root/tabs/news/repository/news_repository.dart';
 import 'package:miigaik/features/root/tabs/news/repository/search_news_repository.dart';
+import 'package:miigaik/features/root/tabs/schedule/bloc/current_day_bloc/current_day_bloc.dart';
 import 'package:miigaik/features/schedule-choose/bloc/signature_schedule_bloc.dart';
 import 'package:miigaik/features/schedule-choose/enum/signature_schedule_type.dart';
 import 'package:miigaik/features/schedule-choose/models/signature_schedule_model.dart';
@@ -90,6 +91,7 @@ void main() async {
   GetIt.I.registerSingleton(NewsSearchBloc());
   GetIt.I.registerSingleton(NewsPageModeBloc());
   GetIt.I.registerSingleton(SignatureScheduleBloc());
+  GetIt.I.registerSingleton(CurrentDayBloc());
 
   runApp(
     EasyLocalization(
