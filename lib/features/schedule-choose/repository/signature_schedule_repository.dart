@@ -11,14 +11,12 @@ abstract class ISignatureScheduleRepository {
 }
 
 class SignatureScheduleRepository extends ISignatureScheduleRepository {
-
   final Box<SignatureScheduleModel> _box;
 
   static const _selectKey = "select-signature-schedule";
 
-  SignatureScheduleRepository({
-    required Box<SignatureScheduleModel> box
-  }) : _box = box;
+  SignatureScheduleRepository({required Box<SignatureScheduleModel> box})
+    : _box = box;
 
   @override
   Future<void> add(SignatureScheduleModel model) async {
@@ -43,7 +41,17 @@ class SignatureScheduleRepository extends ISignatureScheduleRepository {
   @override
   Future<List<SignatureScheduleModel>> fetchAll() async {
     final selected = await getSelected();
-    return _box.values.toList()..remove(selected);
+    final allModels = _box.values.toList();
+    int? lastIndex;
+    for (int i = 0; i < allModels.length; i++) {
+      if (allModels[i] == selected) {
+        lastIndex = i;
+      }
+    }
+    if (lastIndex != null) {
+      allModels.removeAt(lastIndex);
+    }
+    return allModels;
   }
 
   @override
