@@ -9,7 +9,7 @@ class Palette {
   final Color subText;
   final Color background;
   final Color container;
-
+  final Color calendar;
   final Color lightText;
 
   Palette({
@@ -20,6 +20,7 @@ class Palette {
     required this.background,
     required this.container,
     required this.lightText,
+    required this.calendar,
   });
 
   static Palette fromAppTheme(AppTheme appTheme) {
@@ -31,7 +32,8 @@ class Palette {
         subText: Color(0xFF939396),
         background: Color(0xFFFFFFFF),
         container: Color(0xFFF2F3F5),
-        lightText: Color(0xFF2A2929)
+        lightText: Color(0xFF2A2929),
+        calendar: Color(0xFF3B3C51)
       ),
       // Пока нет тёмной темы
       AppTheme.dark => Palette(
@@ -41,7 +43,8 @@ class Palette {
         subText: Color(0xFF939396),
         background: Color(0xFF000000),
         container: Color(0xFF313131),
-        lightText: Color(0xFF2A2929)
+        lightText: Color(0xFF2A2929),
+        calendar: Color(0xFF3B3C51)
       ),
     };
   }
@@ -55,6 +58,7 @@ class Palette {
       background: Color.lerp(first.background, other.background, t)!,
       container: Color.lerp(first.container, other.container, t)!,
       lightText: Color.lerp(first.lightText, other.lightText, t)!,
+      calendar: Color.lerp(first.calendar, other.calendar, t)!,
     );
   }
 }

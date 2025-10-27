@@ -29,6 +29,11 @@ class AppShimmer extends StatelessWidget {
     required this.width
   }): height = 135.h;
 
+  AppShimmer.container({
+    super.key,
+    required this.height
+  }): width = 1.sp;
+
   @override
   Widget build(BuildContext context) {
     return SizedBox(
