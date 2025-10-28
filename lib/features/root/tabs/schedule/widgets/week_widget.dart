@@ -48,8 +48,8 @@ class _WeekItemWidget extends StatelessWidget {
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(45),
             color: (isSelect)
-                ? context.palette.unAccent
-                : context.palette.calendar,
+              ? context.palette.unAccent
+              : context.palette.calendar,
           ),
           child: Column(
             mainAxisSize: MainAxisSize.min,
@@ -58,8 +58,8 @@ class _WeekItemWidget extends StatelessWidget {
                 weekName,
                 style: TS.medium15.use(
                   (isSelect)
-                      ? context.palette.calendar
-                      : context.palette.unAccent,
+                    ? context.palette.calendar
+                    : context.palette.unAccent,
                 ),
               ),
               32.vs(),
@@ -67,8 +67,8 @@ class _WeekItemWidget extends StatelessWidget {
                 dateTime.day.toString(),
                 style: TS.medium15.use(
                   (isSelect)
-                      ? context.palette.calendar
-                      : context.palette.unAccent,
+                    ? context.palette.calendar
+                    : context.palette.unAccent,
                 ),
               ),
             ],

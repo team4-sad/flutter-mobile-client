@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'package:easy_localization/easy_localization.dart';
+import 'package:miigaik/features/common/extensions/date_time_extensions.dart';
 
 import 'teacher_model.dart';
 
@@ -90,19 +91,28 @@ class LessonModel {
   factory LessonModel.fromJson(String source) =>
       LessonModel.fromMap(json.decode(source) as Map<String, dynamic>);
 
-  DateTime get start => DateFormat("HH:mm:ss").parse(lessonStartTime);
-  DateTime get end => DateFormat("HH:mm:ss").parse(lessonEndTime);
+  DateTime get onlyDate => DateTime.parse(lessonDate);
 
-  String get displayStartTime => DateFormat("HH:mm").format(start);
-  String get displayEndTime => DateFormat("HH:mm").format(end);
+  DateTime get startTime => DateFormat("HH:mm:ss").parse(lessonStartTime);
+  DateTime get startDateTime => startTime.setDate(onlyDate);
+
+  DateTime get endTime => DateFormat("HH:mm:ss").parse(lessonEndTime);
+  DateTime get endDateTime => endTime.setDate(onlyDate);
+
+  String get displayStartTime => DateFormat("HH:mm").format(startTime);
+  String get displayEndTime => DateFormat("HH:mm").format(endTime);
 
   String get displayTime => "$displayStartTime-$displayEndTime";
 
   Duration calcDurationBetweenLessons(LessonModel other) {
-    if (other.start.isAfter(end)) {
-      return other.start.difference(end);
+    if (other.startTime.isAfter(endTime)) {
+      return other.startTime.difference(endTime);
     } else {
-      return other.end.difference(start);
+      return other.endTime.difference(startTime);
     }
+  }
+
+  bool isAlreadyUnderway(DateTime currentDateTime) {
+    return currentDateTime.isBetween(startDateTime, endDateTime);
   }
 }

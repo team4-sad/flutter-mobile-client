@@ -302,6 +302,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.3.8"
+  datetime_loop:
+    dependency: "direct main"
+    description:
+      name: datetime_loop
+      sha256: "13a5b2171b8269c8dba4037623586bf9458e031c689d05e9c34d1f951f60ff1c"
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.5.0"
   dbus:
     dependency: transitive
     description:

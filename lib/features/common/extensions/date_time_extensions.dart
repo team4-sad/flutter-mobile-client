@@ -22,4 +22,19 @@ extension DateTimeExtensions on DateTime {
   }
 
   DateTime onlyDate() => DateTime(year, month, day);
+
+  bool isBetween(DateTime start, DateTime end) {
+    return start.isBefore(this) && end.isAfter(this);
+  }
+
+  DateTime setDate(DateTime onlyDate) {
+    return DateTime(
+      onlyDate.year,
+      onlyDate.month,
+      onlyDate.day,
+      hour,
+      minute,
+      second,
+    );
+  }
 }

@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:get_it/get_it.dart';
 import 'package:miigaik/features/common/extensions/num_widget_extension.dart';
+import 'package:miigaik/features/root/tabs/schedule/bloc/current_time_cubit/current_time_cubit.dart';
 import 'package:miigaik/features/root/tabs/schedule/models/lesson_model.dart';
 import 'package:miigaik/generated/icons.g.dart';
 import 'package:miigaik/theme/app_theme_extensions.dart';
@@ -12,85 +15,96 @@ class ItemSchedule extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      decoration: BoxDecoration(
-        color: context.palette.container,
-        borderRadius: BorderRadius.circular(10),
-      ),
-      padding: EdgeInsets.all(14),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Row(
+    return BlocBuilder<CurrentTimeCubit, CurrentTimeState>(
+      bloc: GetIt.I.get(),
+      builder: (BuildContext context, CurrentTimeState state) {
+        return Container(
+          decoration: BoxDecoration(
+            color: context.palette.container,
+            borderRadius: BorderRadius.circular(10),
+            border: BoxBorder.all(
+              color: lessonModel.isAlreadyUnderway(state.currentDateTime) 
+                ? context.palette.calendar 
+                : Colors.transparent,
+              width: 2
+            )
+          ),
+          padding: EdgeInsets.all(14),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Container(
-                width: 28,
-                height: 28,
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(4),
-                  color: context.palette.calendar,
-                ),
-                child: Center(
-                  child: Text(
-                    lessonModel.lessonOrderNumber.toString(),
-                    style: TS.regular14.use(context.palette.unAccent),
-                  ),
-                ),
-              ),
-              10.hs(),
-              Expanded(
-                child: Text(
-                  lessonModel.displayTime,
-                  style: TS.medium14.use(context.palette.calendar),
-                ),
-              ),
-              10.hs(),
-              GestureDetector(
-                child: Container(
-                  width: 28,
-                  height: 28,
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(4),
-                    color: context.palette.calendar,
-                  ),
-                  child: Center(
-                    child: Icon(
-                      I.map,
-                      color: context.palette.unAccent,
-                      size: 18,
+              Row(
+                children: [
+                  Container(
+                    width: 28,
+                    height: 28,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(4),
+                      color: context.palette.calendar,
+                    ),
+                    child: Center(
+                      child: Text(
+                        lessonModel.lessonOrderNumber.toString(),
+                        style: TS.regular14.use(context.palette.unAccent),
+                      ),
                     ),
                   ),
-                ),
+                  10.hs(),
+                  Expanded(
+                    child: Text(
+                      lessonModel.displayTime,
+                      style: TS.medium14.use(context.palette.calendar),
+                    ),
+                  ),
+                  10.hs(),
+                  GestureDetector(
+                    child: Container(
+                      width: 28,
+                      height: 28,
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(4),
+                        color: context.palette.calendar,
+                      ),
+                      child: Center(
+                        child: Icon(
+                          I.map,
+                          color: context.palette.unAccent,
+                          size: 18,
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+              14.vs(),
+              Text(
+                lessonModel.disciplineName,
+                style: TS.medium16.use(context.palette.text),
+              ),
+              22.vs(),
+              Wrap(
+                spacing: 4,
+                runSpacing: 4,
+                children: [
+                  ...lessonModel.teachers.map(
+                    (e) => GestureDetector(
+                      onTap: () {
+                        showDialog(
+                          context: context,
+                          builder: (context) => AlertDialog(title: Text(e.fio)),
+                        );
+                      },
+                      child: _TagWidget(title: e.displayName),
+                    ),
+                  ),
+                  _TagWidget(title: lessonModel.lessonType),
+                  _TagWidget(title: lessonModel.classroomName),
+                ],
               ),
             ],
           ),
-          14.vs(),
-          Text(
-            lessonModel.disciplineName,
-            style: TS.medium16.use(context.palette.text),
-          ),
-          22.vs(),
-          Wrap(
-            spacing: 4,
-            runSpacing: 4,
-            children: [
-              ...lessonModel.teachers.map(
-                (e) => GestureDetector(
-                  onTap: () {
-                    showDialog(
-                      context: context,
-                      builder: (context) => AlertDialog(title: Text(e.fio)),
-                    );
-                  },
-                  child: _TagWidget(title: e.displayName),
-                ),
-              ),
-              _TagWidget(title: lessonModel.lessonType),
-              _TagWidget(title: lessonModel.classroomName),
-            ],
-          ),
-        ],
-      ),
+        );
+      },
     );
   }
 }
