@@ -32,4 +32,6 @@ class TeacherModel {
       TeacherModel.fromMap(json.decode(source) as Map<String, dynamic>);
 
   String get displayName => "$lastName ${firstName[0]}.${patronymic[0]}.";
+
+  String get fio => "$lastName $firstName $patronymic";
 }

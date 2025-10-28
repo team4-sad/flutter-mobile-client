@@ -74,25 +74,41 @@ class ItemSchedule extends StatelessWidget {
             spacing: 4,
             runSpacing: 4,
             children: [
-              ...lessonModel.teachers.map((e) => e.displayName), 
-              lessonModel.lessonType, 
-              lessonModel.classroomName
-            ].map(
-              (e) => Container(
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(6),
-                  color: context.palette.calendar,
-                ),
-                padding: EdgeInsets.symmetric(vertical: 7, horizontal: 12),
-                child: Text(
-                  e,
-                  style: TS.regular14.use(context.palette.unAccent),
+              ...lessonModel.teachers.map(
+                (e) => GestureDetector(
+                  onTap: () {
+                    showDialog(
+                      context: context,
+                      builder: (context) => AlertDialog(title: Text(e.fio)),
+                    );
+                  },
+                  child: _TagWidget(title: e.displayName),
                 ),
               ),
-            ).toList(),
+              _TagWidget(title: lessonModel.lessonType),
+              _TagWidget(title: lessonModel.classroomName),
+            ],
           ),
         ],
       ),
+    );
+  }
+}
+
+class _TagWidget extends StatelessWidget {
+  final String title;
+
+  const _TagWidget({required this.title});
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(6),
+        color: context.palette.calendar,
+      ),
+      padding: EdgeInsets.symmetric(vertical: 7, horizontal: 12),
+      child: Text(title, style: TS.regular14.use(context.palette.unAccent)),
     );
   }
 }
