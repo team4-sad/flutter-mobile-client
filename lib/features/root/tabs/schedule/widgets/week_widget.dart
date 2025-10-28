@@ -2,6 +2,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_it/get_it.dart';
+import 'package:miigaik/features/common/extensions/date_time_extensions.dart';
 import 'package:miigaik/features/common/extensions/num_widget_extension.dart';
 import 'package:miigaik/features/root/tabs/schedule/bloc/current_day_bloc/current_day_bloc.dart';
 import 'package:miigaik/theme/app_theme_extensions.dart';
@@ -14,7 +15,7 @@ class WeekWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final bloc = GetIt.I.get<CurrentDayBloc>();
-    final dateTimeStartWeek = startOfWeek(bloc.state.currentOnlyDate);
+    final dateTimeStartWeek = bloc.state.currentOnlyDate.startOfWeek();
     return Row(
       children: List.generate(
         7, (index) => _WeekItemWidget(
@@ -22,16 +23,6 @@ class WeekWidget extends StatelessWidget {
         )
       ),
     );
-  }
-
-  DateTime startOfWeek(DateTime date, {int startWeekday = DateTime.monday}) {
-    int diff = date.weekday - startWeekday;
-    if (diff < 0) diff += 7;
-    return DateTime(
-      date.year,
-      date.month,
-      date.day,
-    ).subtract(Duration(days: diff));
   }
 }
 
@@ -43,7 +34,7 @@ class _WeekItemWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final bloc = GetIt.I.get<CurrentDayBloc>();
-    final weekName = getWeekdayShortName(context);
+    final weekName = bloc.state.currentOnlyDate.getWeekdayShortName(context.locale);
     return Expanded(
       child: GestureDetector(
         onTap: () {
@@ -87,16 +78,5 @@ class _WeekItemWidget extends StatelessWidget {
         ),
       ),
     );
-  }
-
-  String getWeekdayShortName(BuildContext context) {
-    final int weekday = dateTime.weekday;
-    if (weekday < 1 || weekday > 7) {
-      throw ArgumentError('День недели должен быть от 1 до 7');
-    }
-    final date = DateTime(2024, 1, weekday);
-    final formatter = DateFormat.E(context.locale.countryCode);
-    final shortName = formatter.format(date);
-    return shortName.substring(0, 2).toLowerCase();
   }
 }
