@@ -20,4 +20,6 @@ extension DateTimeExtensions on DateTime {
   String getWeekdayShortName(Locale locale) {
     return weekday.asWeekdayShortName(locale);
   }
+
+  DateTime onlyDate() => DateTime(year, month, day);
 }

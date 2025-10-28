@@ -40,6 +40,7 @@ import 'features/root/features/bottom-nav-bar/bloc/bottom_nav_bar_bloc.dart';
 import 'features/root/features/bottom-nav-bar/items_nav_bar.dart';
 import 'features/switch-theme/theme_bloc.dart';
 
+
 void main() async {
   await dotenv.load(fileName: "config/.env");
 
