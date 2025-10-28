@@ -12,19 +12,22 @@ class SheetWidget extends StatelessWidget {
   final Widget child;
 
   const SheetWidget({
-    super.key, 
-    required this.title, 
+    super.key,
+    required this.title,
     required this.child,
-    this.controller
+    this.controller,
   });
+
+  static double maxSize = 0.8;
+  static double minSize = 0.3;
 
   @override
   Widget build(BuildContext context) {
     return DraggableScrollableSheet(
       controller: controller,
-      initialChildSize: 0.8,
-      minChildSize: 233.h / 1.sh,
-      maxChildSize: 0.8,
+      initialChildSize: maxSize,
+      minChildSize: minSize,
+      maxChildSize: maxSize,
       snap: true,
       builder: (context, controller) {
         return Column(

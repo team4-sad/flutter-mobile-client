@@ -11,7 +11,10 @@ import 'package:miigaik/theme/app_theme_extensions.dart';
 import 'package:miigaik/theme/text_styles.dart';
 
 class CalendarWidget extends StatefulWidget {
-  const CalendarWidget({super.key});
+
+  final void Function(DateTime) onTap;
+
+  const CalendarWidget({super.key, required this.onTap});
 
   @override
   State<CalendarWidget> createState() => _CalendarWidgetState();
@@ -91,8 +94,10 @@ class _CalendarWidgetState extends State<CalendarWidget> {
               return _DayCalendarWidget();
             }
             final dayIndex = index - offsetLastMonth - _daysInWeek;
-            return _DayCalendarWidget(
-              dateTime: _dateTimeStartMonth.add(Duration(days: dayIndex)),
+            final dateTime = _dateTimeStartMonth.add(Duration(days: dayIndex));
+            return GestureDetector(
+              onTap: () => widget.onTap(dateTime),
+              child: _DayCalendarWidget(dateTime: dateTime),
             );
           },
         ).e(),
@@ -152,42 +157,36 @@ class _DayCalendarWidget extends StatelessWidget {
     final currentDate = DateTime.now().onlyDate();
     return (dateTime == null)
         ? SizedBox()
-        : GestureDetector(
-            onTap: () {
-              bloc.add(SelectDayEvent(selectedDateTime: dateTime!));
-            },
-            child:
-                BlocBuilder<ScheduleSelectedDayBloc, ScheduleSelectedDayState>(
-                  bloc: bloc,
-                  builder: (context, state) {
-                    final isSelected = state.currentOnlyDate == dateTime!;
-                    return Container(
-                      padding: EdgeInsets.all(12),
-                      margin: EdgeInsets.all(1),
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(42),
-                        color: (isSelected)
-                            ? context.palette.background
-                            : Colors.transparent,
-                        border: BoxBorder.all(
-                          color: (currentDate == dateTime)
-                              ? context.palette.unAccent
-                              : Colors.transparent,
-                        ),
-                      ),
-                      child: Center(
-                        child: Text(
-                          dateTime!.day.toString(),
-                          style: TS.regular15.use(
-                            (isSelected)
-                                ? context.palette.calendar
-                                : context.palette.unAccent,
-                          ),
-                        ),
-                      ),
-                    );
-                  },
+        : BlocBuilder<ScheduleSelectedDayBloc, ScheduleSelectedDayState>(
+          bloc: bloc,
+          builder: (context, state) {
+            final isSelected = state.currentOnlyDate == dateTime!;
+            return Container(
+              padding: EdgeInsets.all(12),
+              margin: EdgeInsets.all(1),
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(42),
+                color: (isSelected)
+                    ? context.palette.background
+                    : Colors.transparent,
+                border: BoxBorder.all(
+                  color: (currentDate == dateTime)
+                      ? context.palette.unAccent
+                      : Colors.transparent,
                 ),
-          );
+              ),
+              child: Center(
+                child: Text(
+                  dateTime!.day.toString(),
+                  style: TS.regular15.use(
+                    (isSelected)
+                        ? context.palette.calendar
+                        : context.palette.unAccent,
+                  ),
+                ),
+              ),
+            );
+          },
+        );
   }
 }
