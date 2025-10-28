@@ -1,4 +1,3 @@
-import 'package:datetime_loop/datetime_loop.dart';
 import 'package:flutter/material.dart';
 import 'package:miigaik/features/root/tabs/schedule/models/lesson_model.dart';
 import 'package:miigaik/features/root/tabs/schedule/widgets/item_between_lessons.dart';
