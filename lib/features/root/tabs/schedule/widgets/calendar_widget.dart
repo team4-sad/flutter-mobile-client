@@ -5,7 +5,7 @@ import 'package:get_it/get_it.dart';
 import 'package:miigaik/features/common/extensions/date_time_extensions.dart';
 import 'package:miigaik/features/common/extensions/int_extensions.dart';
 import 'package:miigaik/features/common/extensions/widget_extension.dart';
-import 'package:miigaik/features/root/tabs/schedule/bloc/current_day_bloc/current_day_bloc.dart';
+import 'package:miigaik/features/root/tabs/schedule/bloc/schedule_selected_day_bloc/schedule_selected_day_bloc.dart';
 import 'package:miigaik/generated/icons.g.dart';
 import 'package:miigaik/theme/app_theme_extensions.dart';
 import 'package:miigaik/theme/text_styles.dart';
@@ -20,7 +20,7 @@ class CalendarWidget extends StatefulWidget {
 class _CalendarWidgetState extends State<CalendarWidget> {
   static const _daysInWeek = 7;
 
-  final _bloc = GetIt.I.get<CurrentDayBloc>();
+  final _bloc = GetIt.I.get<ScheduleSelectedDayBloc>();
   late DateTime _dateTimeStartMonth;
 
   @override
@@ -148,7 +148,7 @@ class _DayCalendarWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final bloc = GetIt.I.get<CurrentDayBloc>();
+    final bloc = GetIt.I.get<ScheduleSelectedDayBloc>();
     final currentDate = DateTime.now().onlyDate();
     return (dateTime == null)
         ? SizedBox()
@@ -156,37 +156,38 @@ class _DayCalendarWidget extends StatelessWidget {
             onTap: () {
               bloc.add(SelectDayEvent(selectedDateTime: dateTime!));
             },
-            child: BlocBuilder<CurrentDayBloc, CurrentDayState>(
-              bloc: bloc,
-              builder: (context, state) {
-                final isSelected = state.currentOnlyDate == dateTime!;
-                return Container(
-                  padding: EdgeInsets.all(12),
-                  margin: EdgeInsets.all(1),
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(42),
-                    color: (isSelected)
-                        ? context.palette.background
-                        : Colors.transparent,
-                    border: BoxBorder.all(
-                      color: (currentDate == dateTime) 
-                        ? context.palette.unAccent 
-                        : Colors.transparent
-                    )
-                  ),
-                  child: Center(
-                    child: Text(
-                      dateTime!.day.toString(),
-                      style: TS.regular15.use(
-                        (isSelected)
-                            ? context.palette.calendar
-                            : context.palette.unAccent,
+            child:
+                BlocBuilder<ScheduleSelectedDayBloc, ScheduleSelectedDayState>(
+                  bloc: bloc,
+                  builder: (context, state) {
+                    final isSelected = state.currentOnlyDate == dateTime!;
+                    return Container(
+                      padding: EdgeInsets.all(12),
+                      margin: EdgeInsets.all(1),
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(42),
+                        color: (isSelected)
+                            ? context.palette.background
+                            : Colors.transparent,
+                        border: BoxBorder.all(
+                          color: (currentDate == dateTime)
+                              ? context.palette.unAccent
+                              : Colors.transparent,
+                        ),
                       ),
-                    ),
-                  ),
-                );
-              },
-            ),
+                      child: Center(
+                        child: Text(
+                          dateTime!.day.toString(),
+                          style: TS.regular15.use(
+                            (isSelected)
+                                ? context.palette.calendar
+                                : context.palette.unAccent,
+                          ),
+                        ),
+                      ),
+                    );
+                  },
+                ),
           );
   }
 }

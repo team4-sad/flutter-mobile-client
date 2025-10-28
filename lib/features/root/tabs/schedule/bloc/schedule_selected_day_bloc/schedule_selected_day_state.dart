@@ -1,11 +1,11 @@
-part of 'current_day_bloc.dart';
+part of 'schedule_selected_day_bloc.dart';
 
-class CurrentDayState extends Equatable {
+class ScheduleSelectedDayState extends Equatable {
   final DateTime currentDateTime;
 
   DateTime get currentOnlyDate => currentDateTime.onlyDate();
 
-  const CurrentDayState({required this.currentDateTime});
+  const ScheduleSelectedDayState({required this.currentDateTime});
 
   @override
   List<Object> get props => [currentDateTime];

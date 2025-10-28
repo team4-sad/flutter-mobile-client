@@ -17,7 +17,7 @@ import 'package:miigaik/features/root/tabs/news/bloc/news_page_mode_bloc/news_pa
 import 'package:miigaik/features/root/tabs/news/bloc/search_news_bloc/search_news_bloc.dart';
 import 'package:miigaik/features/root/tabs/news/repository/news_repository.dart';
 import 'package:miigaik/features/root/tabs/news/repository/search_news_repository.dart';
-import 'package:miigaik/features/root/tabs/schedule/bloc/current_day_bloc/current_day_bloc.dart';
+import 'package:miigaik/features/root/tabs/schedule/bloc/schedule_selected_day_bloc/schedule_selected_day_bloc.dart';
 import 'package:miigaik/features/root/tabs/schedule/bloc/schedule_bloc/schedule_bloc_bloc.dart';
 import 'package:miigaik/features/root/tabs/schedule/repository/schedule_repository.dart';
 import 'package:miigaik/features/schedule-choose/bloc/signature_schedule_bloc.dart';
@@ -39,7 +39,6 @@ import 'features/config/config.dart';
 import 'features/root/features/bottom-nav-bar/bloc/bottom_nav_bar_bloc.dart';
 import 'features/root/features/bottom-nav-bar/items_nav_bar.dart';
 import 'features/switch-theme/theme_bloc.dart';
-
 
 void main() async {
   await dotenv.load(fileName: "config/.env");
@@ -77,7 +76,9 @@ void main() async {
   );
 
   // TODO: Надо переехать на нашу апи
-  final otherApiDio = Dio(BaseOptions(baseUrl: "https://study.miigaik.ru/api/v1/"));
+  final otherApiDio = Dio(
+    BaseOptions(baseUrl: "https://study.miigaik.ru/api/v1/"),
+  );
   otherApiDio.interceptors.add(
     TalkerDioLogger(talker: talker, settings: const TalkerDioLoggerSettings()),
   );
@@ -107,7 +108,7 @@ void main() async {
   GetIt.I.registerSingleton(NewsSearchBloc());
   GetIt.I.registerSingleton(NewsPageModeBloc());
   GetIt.I.registerSingleton(SignatureScheduleBloc());
-  GetIt.I.registerSingleton(CurrentDayBloc());
+  GetIt.I.registerSingleton(ScheduleSelectedDayBloc());
   GetIt.I.registerSingleton(ScheduleBloc());
 
   runApp(

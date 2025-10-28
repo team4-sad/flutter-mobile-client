@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 import 'package:miigaik/features/common/bloc/multi_bloc.dart';
 import 'package:miigaik/features/common/bloc/with_error_state.dart';
-import 'package:miigaik/features/root/tabs/schedule/bloc/current_day_bloc/current_day_bloc.dart';
+import 'package:miigaik/features/root/tabs/schedule/bloc/schedule_selected_day_bloc/schedule_selected_day_bloc.dart';
 import 'package:miigaik/features/root/tabs/schedule/bloc/schedule_bloc/schedule_bloc_bloc.dart';
 import 'package:miigaik/features/root/tabs/schedule/content/empty_schedule_content.dart';
 import 'package:miigaik/features/root/tabs/schedule/content/error_schedule_content.dart';
@@ -15,7 +15,7 @@ class MainScheduleContent extends StatelessWidget {
   MainScheduleContent({super.key});
 
   final SignatureScheduleBloc signatureBloc = GetIt.I.get();
-  final CurrentDayBloc currentDayBloc = GetIt.I.get();
+  final ScheduleSelectedDayBloc currentDayBloc = GetIt.I.get();
   final ScheduleBloc scheduleBloc = GetIt.I.get();
 
   void _fetchSchedule() {
@@ -38,7 +38,7 @@ class MainScheduleContent extends StatelessWidget {
       blocs: [signatureBloc, scheduleBloc, currentDayBloc],
       listener: (context, states) {
         final scheduleState = states.get<ScheduleState>();
-        final currentDayState = states.get<CurrentDayState>();
+        final currentDayState = states.get<ScheduleSelectedDayState>();
         final signatureState = states.get<SignatureScheduleState>();
 
         if (scheduleState is ScheduleLoaded &&
