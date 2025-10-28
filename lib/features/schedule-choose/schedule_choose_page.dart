@@ -27,7 +27,7 @@ class ScheduleChoosePage extends StatelessWidget {
     bloc.add(FetchSignaturesEvent());
     return Scaffold(
       appBar: PreferredSize(
-        preferredSize: Size.fromHeight(kToolbarHeight),
+        preferredSize: Size.fromHeight(kToolbarHeight + 59),
         child:
             Row(
               children: [
