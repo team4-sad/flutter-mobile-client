@@ -1,4 +1,6 @@
 import 'package:dio/dio.dart';
+import 'package:easy_localization/easy_localization.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:get_it/get_it.dart';
 import 'package:hive_flutter/hive_flutter.dart';
@@ -24,6 +26,7 @@ import 'package:miigaik/features/schedule-choose/models/signature_schedule_model
 import 'package:miigaik/features/schedule-choose/repository/signature_schedule_repository.dart';
 import 'package:miigaik/features/single-news/bloc/single_news_bloc.dart';
 import 'package:miigaik/features/single-news/repository/single_news_repository.dart';
+import 'package:miigaik/features/switch-locale/locale_bloc.dart';
 import 'package:miigaik/features/switch-theme/theme_bloc.dart';
 import 'package:miigaik/theme/app_theme.dart';
 import 'package:package_info_plus/package_info_plus.dart';
@@ -35,14 +38,14 @@ class DI {
   static const String defaultDioName = "default_dio";
   static const String scheduleApiDioName = "schedule_api_dio";
 
-  static void init() async {
+  static Future<void> init() async {
     initLogger();
     await initPackageInfo();
     await initConfig();
-    initHive();
+    await initHive();
     initDio();
     initRepositoies();
-    initServices();
+    await initServices();
     initBlocs();
   }
 
@@ -59,24 +62,24 @@ class DI {
     final signatureScheduleRepository = SignatureScheduleRepository(
       box: GetIt.I.get(),
     );
-    GetIt.I.registerSingleton(signatureScheduleRepository);
+    GetIt.I.registerSingleton<ISignatureScheduleRepository>(signatureScheduleRepository);
 
     final defaultDio = GetIt.I.get<Dio>(instanceName: defaultDioName);
     final scheduleApiDio = GetIt.I.get<Dio>(instanceName: scheduleApiDioName);
 
     final apiNewsRepository = ApiNewsRepository(dio: defaultDio);
-    GetIt.I.registerSingleton(apiNewsRepository);
+    GetIt.I.registerSingleton<INewsRepository>(apiNewsRepository);
 
     final apiSingleNewsRepository = ApiSingleNewsRepository(dio: defaultDio);
-    GetIt.I.registerSingleton(apiSingleNewsRepository);
+    GetIt.I.registerSingleton<ISingleNewsRepository>(apiSingleNewsRepository);
 
     final apiSearchNewsRepository = ApiSearchNewsRepository(dio: defaultDio);
-    GetIt.I.registerSingleton(apiSearchNewsRepository);
+    GetIt.I.registerSingleton<ISearchNewsRepository>(apiSearchNewsRepository);
 
     final otherApiScheduleRepository = OtherApiScheduleRepository(
       dio: scheduleApiDio,
     );
-    GetIt.I.registerSingleton(otherApiScheduleRepository);
+    GetIt.I.registerSingleton<IScheduleRepository>(otherApiScheduleRepository);
   }
 
   static void initBlocs() {
@@ -138,6 +141,17 @@ class DI {
         settings: const TalkerDioLoggerSettings(),
       ),
     );
-    GetIt.I.registerSingleton(dio, instanceName: scheduleApiDioName);
+    GetIt.I.registerSingleton(scheduleApiDio, instanceName: scheduleApiDioName);
+  }
+
+  static void safeInitWithContext(BuildContext context) {
+    if (!context.mounted) {
+      return;
+    }
+    if (!GetIt.I.isRegistered<LocaleBloc>()) {
+      GetIt.I.registerSingleton(
+        LocaleBloc(context.supportedLocales, context.locale),
+      );
+    }
   }
 }

@@ -11,7 +11,7 @@ part 'signature_schedule_state.dart';
 
 class SignatureScheduleBloc extends Bloc<SignatureScheduleEvent, SignatureScheduleState> {
 
-  final SignatureScheduleRepository _repository = GetIt.I.get();
+  final ISignatureScheduleRepository _repository = GetIt.I.get();
 
   SignatureScheduleBloc() : super(SignatureScheduleInitial()) {
     on<FetchSignaturesEvent>((event, emit) async {
