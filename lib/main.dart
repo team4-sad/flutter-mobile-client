@@ -16,7 +16,7 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await EasyLocalization.ensureInitialized();
 
-  DI.init();
+  await DI.init();
 
   runApp(
     EasyLocalization(
@@ -33,11 +33,7 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    if (!GetIt.I.isRegistered<LocaleBloc>()) {
-      GetIt.I.registerSingleton(
-        LocaleBloc(context.supportedLocales, context.locale),
-      );
-    }
+    DI.safeInitWithContext(context);
 
     return BlocBuilder<ThemeBloc, ThemeState>(
       bloc: GetIt.I.get<ThemeBloc>(),

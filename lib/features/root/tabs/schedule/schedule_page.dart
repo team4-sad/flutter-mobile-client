@@ -93,13 +93,10 @@ class _SchedulePageState extends State<SchedulePage> {
                     )
             ),
           ),
-
-          Expanded(
-            child: SheetWidget(
-              title: "Расписание",
-              controller: controller,
-              child: MainScheduleContent(),
-            ),
+          SheetWidget(
+            title: "Расписание",
+            controller: controller,
+            child: MainScheduleContent(),
           ),
         ],
       ),
