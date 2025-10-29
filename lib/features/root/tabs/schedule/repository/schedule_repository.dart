@@ -10,9 +10,9 @@ abstract class IScheduleRepository {
 }
 
 class OtherApiScheduleRepository extends IScheduleRepository {
-  final Dio otherApiDio;
+  final Dio dio;
 
-  OtherApiScheduleRepository({required this.otherApiDio});
+  OtherApiScheduleRepository({required this.dio});
 
   @override
   Future<List<LessonModel>> fetchDayLessons({
@@ -20,7 +20,7 @@ class OtherApiScheduleRepository extends IScheduleRepository {
     required DateTime day,
   }) async {
     final formattedDay = DateFormat("yyyy-MM-dd").format(day);
-    final response = await otherApiDio.get(
+    final response = await dio.get(
       "group/$groupId",
       queryParameters: {"dateStart": formattedDay, "dateEnd": formattedDay},
     );
