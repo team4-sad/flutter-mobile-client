@@ -9,7 +9,10 @@ final class ScheduleInitial extends ScheduleState {}
 final class ScheduleLoading extends ScheduleState {}
 
 final class ScheduleError extends WithErrorState implements ScheduleState {
-  ScheduleError({required super.error});
+  final String groupId;
+  final DateTime date;
+
+  ScheduleError({required super.error, required this.date, required this.groupId});
 }
 
 final class ScheduleLoaded extends ScheduleState {
