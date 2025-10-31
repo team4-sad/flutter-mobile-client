@@ -1,4 +1,5 @@
 import 'dart:ui';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:miigaik/features/common/extensions/int_extensions.dart';
 
 extension DateTimeExtensions on DateTime {
@@ -37,4 +38,6 @@ extension DateTimeExtensions on DateTime {
       second,
     );
   }
+
+  String get displayDate => DateFormat("dd MMMM yyyy").format(this);
 }
