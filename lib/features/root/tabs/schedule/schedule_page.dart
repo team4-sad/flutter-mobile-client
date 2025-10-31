@@ -56,7 +56,7 @@ class _SchedulePageState extends State<SchedulePage> {
         children: [
           Padding(
             padding: const EdgeInsets.symmetric(
-              horizontal: horizontalPaddingPage,
+              horizontal: 8,
               vertical: 20,
             ),
             child: AnimatedSwitcher(
