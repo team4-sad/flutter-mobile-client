@@ -39,9 +39,7 @@ class SheetWidget extends StatelessWidget {
           child: ClipRRect(
             borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
             child: Padding(
-              padding: EdgeInsets.symmetric(
-                horizontal: horizontalPaddingPage,
-              ),
+              padding: EdgeInsets.symmetric(horizontal: horizontalPaddingPage),
               child: CustomScrollView(
                 controller: controller,
                 slivers: [
@@ -52,7 +50,7 @@ class SheetWidget extends StatelessWidget {
                       height: 4,
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(8),
-                        color: context.palette.subText
+                        color: context.palette.subText,
                       ),
                     ),
                   ).s(),
@@ -64,7 +62,7 @@ class SheetWidget extends StatelessWidget {
               ),
             ),
           ),
-        ).e();
+        );
       },
     );
   }

@@ -22,6 +22,6 @@ class LoadingScheduleContent extends StatelessWidget {
       15.vs(),
       AppShimmer.container(height: 152),
       90.vs(),
-    ], );
+    ]);
   }
 }

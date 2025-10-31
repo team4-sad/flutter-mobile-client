@@ -9,7 +9,6 @@ import 'package:miigaik/features/root/tabs/schedule/widgets/schedule_app_bar.dar
 import 'package:miigaik/features/root/tabs/schedule/widgets/sheet_widget.dart';
 import 'package:miigaik/features/root/tabs/schedule/widgets/week_widget.dart';
 import 'package:miigaik/theme/app_theme_extensions.dart';
-import 'package:miigaik/theme/values.dart';
 
 class SchedulePage extends StatefulWidget {
   const SchedulePage({super.key});
