@@ -11,7 +11,6 @@ import 'package:miigaik/theme/app_theme_extensions.dart';
 import 'package:miigaik/theme/text_styles.dart';
 
 class CalendarWidget extends StatefulWidget {
-
   final void Function(DateTime) onTap;
 
   const CalendarWidget({super.key, required this.onTap});
@@ -21,38 +20,31 @@ class CalendarWidget extends StatefulWidget {
 }
 
 class _CalendarWidgetState extends State<CalendarWidget> {
-  static const _daysInWeek = 7;
-
   final _bloc = GetIt.I.get<ScheduleSelectedDayBloc>();
-  late DateTime _dateTimeStartMonth;
+  late DateTime _initialDateTimeStartMonth;
+  late DateTime _showDateTimeStartMonth;
+
+  final _pageController = PageController(initialPage: 10000);
 
   @override
   void initState() {
     super.initState();
-    _dateTimeStartMonth = _bloc.state.currentOnlyDate.startOfMonth();
-  }
-
-  void _addMonth(int month) {
-    setState(() {
-      _dateTimeStartMonth = DateTime(
-        _dateTimeStartMonth.year,
-        _dateTimeStartMonth.month + month,
-        _dateTimeStartMonth.day,
-      );
-    });
+    _initialDateTimeStartMonth = _bloc.state.currentOnlyDate.startOfMonth();
+    _showDateTimeStartMonth = _initialDateTimeStartMonth;
   }
 
   @override
   Widget build(BuildContext context) {
-    final offsetLastMonth = _dateTimeStartMonth.weekday - 1;
-    final countDays = _dateTimeStartMonth.calcCountDaysInMonth();
     return Column(
       children: [
         Row(
           children: [
             IconButton(
               onPressed: () {
-                _addMonth(-1);
+                _pageController.previousPage(
+                  duration: Duration(milliseconds: 200),
+                  curve: Curves.linear,
+                );
               },
               icon: Icon(
                 I.leftarrow,
@@ -61,13 +53,16 @@ class _CalendarWidgetState extends State<CalendarWidget> {
               ),
             ),
             Text(
-              _getMonthYear(_dateTimeStartMonth),
+              _getMonthYear(_showDateTimeStartMonth),
               style: TS.medium15.use(context.palette.unAccent),
               textAlign: TextAlign.center,
             ).e(),
             IconButton(
               onPressed: () {
-                _addMonth(1);
+                _pageController.nextPage(
+                  duration: Duration(milliseconds: 200),
+                  curve: Curves.linear,
+                );
               },
               icon: Icon(
                 I.rightarrow,
@@ -77,27 +72,23 @@ class _CalendarWidgetState extends State<CalendarWidget> {
             ),
           ],
         ),
-        GridView.builder(
-          gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-            crossAxisCount: _daysInWeek,
-            childAspectRatio: 1,
-          ),
-          physics: NeverScrollableScrollPhysics(),
-          itemCount: countDays + offsetLastMonth + _daysInWeek,
-          itemBuilder: (context, index) {
-            if (index < _daysInWeek) {
-              return _WeekDayWidget(
-                weekday: (index + 1).asWeekdayShortName(context.locale),
+        PageView.builder(
+          controller: _pageController,
+          onPageChanged: (pageIndex) {
+            int realIndex = pageIndex - _pageController.initialPage;
+            setState(() {
+              _showDateTimeStartMonth = _initialDateTimeStartMonth.addMonth(
+                realIndex,
               );
-            }
-            if (index < (offsetLastMonth + _daysInWeek)) {
-              return _DayCalendarWidget();
-            }
-            final dayIndex = index - offsetLastMonth - _daysInWeek;
-            final dateTime = _dateTimeStartMonth.add(Duration(days: dayIndex));
-            return GestureDetector(
-              onTap: () => widget.onTap(dateTime),
-              child: _DayCalendarWidget(dateTime: dateTime),
+            });
+          },
+          itemBuilder: (context, pageIndex) {
+            int realIndex = pageIndex - _pageController.initialPage;
+            return _CalendarPageWidget(
+              onTap: widget.onTap,
+              dateTimeStartMonth: _initialDateTimeStartMonth.addMonth(
+                realIndex,
+              ),
             );
           },
         ).e(),
@@ -130,6 +121,47 @@ class _CalendarWidgetState extends State<CalendarWidget> {
   }
 }
 
+class _CalendarPageWidget extends StatelessWidget {
+  static const _daysInWeek = 7;
+  final void Function(DateTime) onTap;
+  final DateTime _dateTimeStartMonth;
+
+  const _CalendarPageWidget({
+    required DateTime dateTimeStartMonth,
+    required this.onTap,
+  }) : _dateTimeStartMonth = dateTimeStartMonth;
+
+  @override
+  Widget build(BuildContext context) {
+    final offsetLastMonth = _dateTimeStartMonth.weekday - 1;
+    final countDays = _dateTimeStartMonth.calcCountDaysInMonth();
+    return GridView.builder(
+      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+        crossAxisCount: _daysInWeek,
+        childAspectRatio: 1,
+      ),
+      physics: NeverScrollableScrollPhysics(),
+      itemCount: countDays + offsetLastMonth + _daysInWeek,
+      itemBuilder: (context, index) {
+        if (index < _daysInWeek) {
+          return _WeekDayWidget(
+            weekday: (index + 1).asWeekdayShortName(context.locale),
+          );
+        }
+        if (index < (offsetLastMonth + _daysInWeek)) {
+          return _DayCalendarWidget();
+        }
+        final dayIndex = index - offsetLastMonth - _daysInWeek;
+        final dateTime = _dateTimeStartMonth.add(Duration(days: dayIndex));
+        return GestureDetector(
+          onTap: () => onTap(dateTime),
+          child: _DayCalendarWidget(dateTime: dateTime),
+        );
+      },
+    );
+  }
+}
+
 class _WeekDayWidget extends StatelessWidget {
   final String weekday;
 
@@ -158,35 +190,35 @@ class _DayCalendarWidget extends StatelessWidget {
     return (dateTime == null)
         ? SizedBox()
         : BlocBuilder<ScheduleSelectedDayBloc, ScheduleSelectedDayState>(
-          bloc: bloc,
-          builder: (context, state) {
-            final isSelected = state.currentOnlyDate == dateTime!;
-            return Container(
-              padding: EdgeInsets.all(12),
-              margin: EdgeInsets.all(1),
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(42),
-                color: (isSelected)
-                    ? context.palette.background
-                    : Colors.transparent,
-                border: BoxBorder.all(
-                  color: (currentDate == dateTime)
-                      ? context.palette.unAccent
+            bloc: bloc,
+            builder: (context, state) {
+              final isSelected = state.currentOnlyDate == dateTime!;
+              return Container(
+                padding: EdgeInsets.all(12),
+                margin: EdgeInsets.all(1),
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(42),
+                  color: (isSelected)
+                      ? context.palette.background
                       : Colors.transparent,
-                ),
-              ),
-              child: Center(
-                child: Text(
-                  dateTime!.day.toString(),
-                  style: TS.regular15.use(
-                    (isSelected)
-                        ? context.palette.calendar
-                        : context.palette.unAccent,
+                  border: BoxBorder.all(
+                    color: (currentDate == dateTime)
+                        ? context.palette.unAccent
+                        : Colors.transparent,
                   ),
                 ),
-              ),
-            );
-          },
-        );
+                child: Center(
+                  child: Text(
+                    dateTime!.day.toString(),
+                    style: TS.regular15.use(
+                      (isSelected)
+                          ? context.palette.calendar
+                          : context.palette.unAccent,
+                    ),
+                  ),
+                ),
+              );
+            },
+          );
   }
 }

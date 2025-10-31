@@ -266,10 +266,10 @@ packages:
     dependency: transitive
     description:
       name: cross_file
-      sha256: "7caf6a750a0c04effbb52a676dce9a4a592e10ad35c34d6d2d0e4811160d5670"
+      sha256: "942a4791cd385a68ccb3b32c71c427aba508a1bb949b86dff2adbe4049f16239"
       url: "https://pub.dev"
     source: hosted
-    version: "0.3.4+2"
+    version: "0.3.5"
   crypto:
     dependency: transitive
     description:
@@ -306,10 +306,10 @@ packages:
     dependency: "direct main"
     description:
       name: datetime_loop
-      sha256: "13a5b2171b8269c8dba4037623586bf9458e031c689d05e9c34d1f951f60ff1c"
+      sha256: "9aa2a5313b95d0270103e3e67ba411d00a4668a2f146e7cb88fffcd89f887de0"
       url: "https://pub.dev"
     source: hosted
-    version: "1.5.0"
+    version: "1.6.0"
   dbus:
     dependency: transitive
     description:

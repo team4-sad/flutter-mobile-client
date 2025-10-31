@@ -10,26 +10,53 @@ import 'package:miigaik/features/root/tabs/schedule/bloc/schedule_selected_day_b
 import 'package:miigaik/theme/app_theme_extensions.dart';
 import 'package:miigaik/theme/text_styles.dart';
 
-class WeekWidget extends StatelessWidget {
+class WeekWidget extends StatefulWidget {
   final void Function(DateTime) onTap;
 
   const WeekWidget({super.key, required this.onTap});
 
   @override
+  State<WeekWidget> createState() => _WeekWidgetState();
+}
+
+class _WeekWidgetState extends State<WeekWidget> {
+  final bloc = GetIt.I.get<ScheduleSelectedDayBloc>();
+  late DateTime dateTimeStartWeek;
+
+  final _pageController = PageController(initialPage: 10000);
+
+  @override
+  void initState() {
+    super.initState();
+    dateTimeStartWeek = bloc.state.currentOnlyDate.startOfWeek();
+  }
+
+  @override
   Widget build(BuildContext context) {
-    final bloc = GetIt.I.get<ScheduleSelectedDayBloc>();
-    final dateTimeStartWeek = bloc.state.currentOnlyDate.startOfWeek();
-    return Row(
-      children: List.generate(7, (index) {
-        final dateTime = dateTimeStartWeek.add(Duration(days: index));
-        return GestureDetector(
-          onTap: () => onTap(dateTime),
-          child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 3),
-            child: _WeekItemWidget(dateTime: dateTime),
-          ),
-        ).e();
-      }),
+    return Center(
+      child: PageView.builder(
+        controller: _pageController,
+        itemBuilder: (context, pageIndex) {
+          int realPageIndex = pageIndex - _pageController.initialPage;
+          return Align(
+            alignment: Alignment.topCenter,
+            child: Row(
+              children: List.generate(7, (index) {
+                final dateTime = dateTimeStartWeek.add(
+                  Duration(days: index + realPageIndex * 7),
+                );
+                return GestureDetector(
+                  onTap: () => widget.onTap(dateTime),
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 3),
+                    child: _WeekItemWidget(dateTime: dateTime),
+                  ),
+                ).e();
+              }),
+            ),
+          );
+        },
+      ),
     );
   }
 }
@@ -56,11 +83,12 @@ class _WeekItemWidget extends StatelessWidget {
                 ? context.palette.unAccent
                 : context.palette.calendar,
             border: Border.all(
-              color: (currentDateBloc.state.currentDateTime.onlyDate() == dateTime) 
-                ? context.palette.unAccent 
-                : Colors.transparent,
-              width: 1
-            )
+              color:
+                  (currentDateBloc.state.currentDateTime.onlyDate() == dateTime)
+                  ? context.palette.unAccent
+                  : Colors.transparent,
+              width: 1,
+            ),
           ),
           child: Column(
             mainAxisSize: MainAxisSize.min,
