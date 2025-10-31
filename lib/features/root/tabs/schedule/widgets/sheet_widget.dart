@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:miigaik/features/common/extensions/num_widget_extension.dart';
 import 'package:miigaik/features/common/extensions/sliver_widget_extension.dart';
 import 'package:miigaik/features/common/extensions/widget_extension.dart';
 import 'package:miigaik/theme/app_theme_extensions.dart';
@@ -18,7 +19,7 @@ class SheetWidget extends StatelessWidget {
     this.controller,
   });
 
-  static double maxSize = 0.8;
+  static double maxSize = 0.83;
   static double minSize = 0.3;
 
   @override
@@ -30,43 +31,42 @@ class SheetWidget extends StatelessWidget {
       maxChildSize: maxSize,
       snap: true,
       builder: (context, controller) {
-        return Column(
-          spacing: 4,
-          children: [
-            Container(
-              width: 80.w,
-              height: 4,
-              decoration: BoxDecoration(
-                color: context.palette.background,
-                borderRadius: BorderRadius.circular(8),
+        return Container(
+          decoration: BoxDecoration(
+            color: context.palette.background,
+            borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
+          ),
+          child: ClipRRect(
+            borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
+            child: Padding(
+              padding: EdgeInsets.symmetric(
+                horizontal: horizontalPaddingPage,
+              ),
+              child: CustomScrollView(
+                controller: controller,
+                slivers: [
+                  12.svs(),
+                  UnconstrainedBox(
+                    child: Container(
+                      width: 80.w,
+                      height: 4,
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(8),
+                        color: context.palette.subText
+                      ),
+                    ),
+                  ).s(),
+                  18.svs(),
+                  SliverPadding(
+                    padding: EdgeInsetsGeometry.only(bottom: 30),
+                    sliver: Text(title, style: TS.medium20).s(),
+                  ),
+                  child,
+                ],
               ),
             ),
-            Container(
-              decoration: BoxDecoration(
-                color: context.palette.background,
-                borderRadius: BorderRadius.vertical(top: Radius.circular(40)),
-              ),
-              child: ClipRRect(
-                borderRadius: BorderRadius.vertical(top: Radius.circular(40)),
-                child: Padding(
-                  padding: EdgeInsets.symmetric(
-                    horizontal: horizontalPaddingPage,
-                  ),
-                  child: CustomScrollView(
-                    controller: controller,
-                    slivers: [
-                      SliverPadding(
-                        padding: EdgeInsetsGeometry.symmetric(vertical: 30),
-                        sliver: Text(title, style: TS.medium20).s(),
-                      ),
-                      child,
-                    ],
-                  ),
-                ),
-              ),
-            ).e(),
-          ],
-        );
+          ),
+        ).e();
       },
     );
   }

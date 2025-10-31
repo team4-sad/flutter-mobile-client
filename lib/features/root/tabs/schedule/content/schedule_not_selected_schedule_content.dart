@@ -8,6 +8,7 @@ class ScheduleNotSelectedScheduleContent extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SliverFillRemaining(
+      hasScrollBody: false,
       child: Padding(
         padding: const EdgeInsets.only(bottom: 90),
         child: Center(

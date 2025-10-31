@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
+import 'package:miigaik/features/common/extensions/date_time_extensions.dart';
+import 'package:miigaik/features/common/extensions/string_extension.dart';
 import 'package:miigaik/features/root/tabs/schedule/bloc/schedule_selected_day_bloc/schedule_selected_day_bloc.dart';
 import 'package:miigaik/features/root/tabs/schedule/content/main_schedule_content.dart';
 import 'package:miigaik/features/root/tabs/schedule/widgets/calendar_widget.dart';
@@ -61,27 +63,28 @@ class _SchedulePageState extends State<SchedulePage> {
               duration: const Duration(milliseconds: 300),
               switchInCurve: Curves.easeInOut,
               switchOutCurve: Curves.easeInOut,
-                transitionBuilder: (child, animation) {
-                  return FadeTransition(
-                    opacity: animation,
-                    child: SlideTransition(
-                      position: Tween<Offset>(
-                        begin: const Offset(0, 0.02),
-                        end: Offset.zero,
-                      ).animate(animation),
-                      child: child,
-                    ),
-                  );
-                },
-                layoutBuilder: (currentChild, previousChildren) {
-                  return Stack(
-                    alignment: Alignment.topCenter,
-                    children: [
-                      ...previousChildren, // предыдущий виджет снизу
-                      if (currentChild != null) currentChild, // новый поверх старого
-                    ],
-                  );
-                },
+              transitionBuilder: (child, animation) {
+                return FadeTransition(
+                  opacity: animation,
+                  child: SlideTransition(
+                    position: Tween<Offset>(
+                      begin: const Offset(0, 0.02),
+                      end: Offset.zero,
+                    ).animate(animation),
+                    child: child,
+                  ),
+                );
+              },
+              layoutBuilder: (currentChild, previousChildren) {
+                return Stack(
+                  alignment: Alignment.topCenter,
+                  children: [
+                    ...previousChildren, // предыдущий виджет снизу
+                    if (currentChild != null)
+                      currentChild, // новый поверх старого
+                  ],
+                );
+              },
               child: showWeek
                   ? WeekWidget(
                       key: const ValueKey('week'),
@@ -90,11 +93,11 @@ class _SchedulePageState extends State<SchedulePage> {
                   : CalendarWidget(
                       key: const ValueKey('calendar'),
                       onTap: _changeSelectedDateTime,
-                    )
+                    ),
             ),
           ),
           SheetWidget(
-            title: "Расписание",
+            title: bloc.state.currentOnlyDate.displayDate.title,
             controller: controller,
             child: MainScheduleContent(),
           ),
