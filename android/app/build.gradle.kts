@@ -30,6 +30,19 @@ android {
         versionName = flutter.versionName
     }
 
+    applicationVariants.all {
+        val variant = this
+        variant.outputs
+            .map { it as com.android.build.gradle.internal.api.BaseVariantOutputImpl }
+            .forEach { output ->
+                val versionCode = variant.versionCode // Gets versionCode from the current variant
+                val versionName = variant.versionName // Gets versionName from the current variant
+                val mode = variant.buildType.name
+                val formattedName = "МИИГАиК v${versionName}+${versionCode}-${mode}.apk"
+                output.outputFileName = formattedName
+            }
+    }
+
     buildTypes {
         release {
             // TODO: Add your own signing config for the release build.
