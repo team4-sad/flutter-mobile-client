@@ -10,6 +10,7 @@ class ErrorScheduleContent extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SliverFillRemaining(
+      hasScrollBody: false,
       child: Padding(
         padding: EdgeInsets.only(bottom: 90),
         child: Center(child: PlaceholderWidget.fromException(exception, onTap)),

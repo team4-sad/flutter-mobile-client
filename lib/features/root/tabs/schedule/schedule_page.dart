@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_it/get_it.dart';
 import 'package:miigaik/features/common/extensions/date_time_extensions.dart';
 import 'package:miigaik/features/common/extensions/string_extension.dart';
@@ -54,10 +55,7 @@ class _SchedulePageState extends State<SchedulePage> {
       body: Stack(
         children: [
           Padding(
-            padding: const EdgeInsets.symmetric(
-              horizontal: 8,
-              vertical: 20,
-            ),
+            padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 20),
             child: AnimatedSwitcher(
               duration: const Duration(milliseconds: 300),
               switchInCurve: Curves.easeInOut,
@@ -95,10 +93,15 @@ class _SchedulePageState extends State<SchedulePage> {
                     ),
             ),
           ),
-          SheetWidget(
-            title: bloc.state.currentOnlyDate.displayDate.title,
-            controller: controller,
-            child: MainScheduleContent(),
+          BlocBuilder<ScheduleSelectedDayBloc, ScheduleSelectedDayState>(
+            bloc: bloc,
+            builder: (context, state) {
+              return SheetWidget(
+                title: bloc.state.currentOnlyDate.displayDate.title,
+                controller: controller,
+                child: MainScheduleContent(),
+              );
+            },
           ),
         ],
       ),
