@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:miigaik/features/common/extensions/date_time_extensions.dart';
-import 'package:miigaik/features/root/tabs/schedule/models/lesson_model.dart';
 import 'package:miigaik/features/root/tabs/schedule/models/response_schedule_model.dart';
 import 'package:miigaik/features/root/tabs/schedule/widgets/item_between_lessons.dart';
 import 'package:miigaik/features/root/tabs/schedule/widgets/item_schedule.dart';

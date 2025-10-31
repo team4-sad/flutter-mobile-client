@@ -6,7 +6,6 @@ import 'package:miigaik/features/common/bloc/with_error_state.dart';
 import 'package:miigaik/features/network-connection/enum/connection_status.dart';
 import 'package:miigaik/features/network-connection/exception/no_network_exception.dart';
 import 'package:miigaik/features/network-connection/services/network_connection_service.dart';
-import 'package:miigaik/features/root/tabs/schedule/models/lesson_model.dart';
 import 'package:miigaik/features/root/tabs/schedule/models/response_schedule_model.dart';
 import 'package:miigaik/features/root/tabs/schedule/repository/schedule_repository.dart';
 

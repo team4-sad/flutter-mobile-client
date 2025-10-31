@@ -40,4 +40,6 @@ extension DateTimeExtensions on DateTime {
   }
 
   String get displayDate => DateFormat("dd MMMM yyyy").format(this);
+
+  String get yyyyMMdd => DateFormat("yyyy-MM-dd").format(this);
 }

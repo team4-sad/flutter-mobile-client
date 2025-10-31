@@ -1,5 +1,5 @@
 import 'package:dio/dio.dart';
-import 'package:easy_localization/easy_localization.dart';
+import 'package:miigaik/features/common/extensions/date_time_extensions.dart';
 import 'package:miigaik/features/root/tabs/schedule/models/response_schedule_model.dart';
 
 abstract class IScheduleRepository {
@@ -19,7 +19,7 @@ class ApiScheduleRepository extends IScheduleRepository {
     required String groupId,
     required DateTime day,
   }) async {
-    final formattedDay = DateFormat("yyyy-MM-dd").format(day);
+    final formattedDay = day.yyyyMMdd;
     final response = await dio.get(
       "group/$groupId",
       queryParameters: {"dateStart": formattedDay, "dateEnd": formattedDay},
