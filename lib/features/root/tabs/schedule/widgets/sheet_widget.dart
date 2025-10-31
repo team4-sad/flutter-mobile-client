@@ -57,15 +57,8 @@ class SheetWidget extends StatelessWidget {
                     ),
                   ).s(),
                   18.svs(),
-<<<<<<< HEAD
-                  SliverPadding(
-                    padding: EdgeInsetsGeometry.only(bottom: 30),
-                    sliver: Text(title, style: TS.medium20).s(),
-                  ),
-=======
                   Text(title, style: TS.medium20).s(),
                   30.svs(),
->>>>>>> 382a1ede48d0aacb68bd20d4b2f71b0b6ae6eb8e
                   child,
                 ],
               ),
