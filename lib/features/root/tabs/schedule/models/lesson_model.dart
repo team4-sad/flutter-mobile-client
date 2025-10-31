@@ -52,16 +52,16 @@ class LessonModel {
   factory LessonModel.fromMap(Map<String, dynamic> map) {
     return LessonModel(
       subgroup: map['subgroup'] as String,
-      lessonOrderNumber: map['lessonOrderNumber'] as int,
-      lessonStartTime: map['lessonStartTime'] as String,
-      lessonEndTime: map['lessonEndTime'] as String,
-      lessonType: map['lessonType'] as String,
-      classroomId: map['classroomId'].toInt() as int,
-      classroomName: map['classroomName'] as String,
-      classroomFloor: map['classroomFloor'].toInt() as int,
-      classroomType: map['classroomType'] as String,
-      classroomBuilding: map['classroomBuilding'] as String,
-      disciplineName: map['disciplineName'] as String,
+      lessonOrderNumber: map['lesson_order_number'] as int,
+      lessonStartTime: map['lesson_start_time'] as String,
+      lessonEndTime: map['lesson_end_time'] as String,
+      lessonType: map['classroom_type'] as String,
+      classroomId: map['classroom_id'].toInt() as int,
+      classroomName: map['classroom_name'] as String,
+      classroomFloor: map['classroom_floor'].toInt() as int,
+      classroomType: map['lesson_type'] as String,
+      classroomBuilding: map['classroom_building'] as String,
+      disciplineName: map['discipline_name'] as String,
       teachers: List<TeacherModel>.from(
         (map['teachers'] as List).map<TeacherModel>(
           (x) => TeacherModel.fromMap(x as Map<String, dynamic>),

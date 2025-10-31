@@ -55,7 +55,7 @@ class SheetWidget extends StatelessWidget {
                   ).s(),
                   18.svs(),
                   Text(title, style: TS.medium20).s(),
-                  30.svs(),
+                  20.svs(),
                   child,
                 ],
               ),

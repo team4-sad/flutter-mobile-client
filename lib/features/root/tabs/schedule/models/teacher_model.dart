@@ -20,8 +20,8 @@ class TeacherModel {
 
   factory TeacherModel.fromMap(Map<String, dynamic> map) {
     return TeacherModel(
-      firstName: map['firstName'] as String,
-      lastName: map['lastName'] as String,
+      firstName: map['first_name'] as String,
+      lastName: map['last_name'] as String,
       patronymic: map['patronymic'] as String,
     );
   }

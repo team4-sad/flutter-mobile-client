@@ -21,8 +21,8 @@ class ApiScheduleRepository extends IScheduleRepository {
   }) async {
     final formattedDay = day.yyyyMMdd;
     final response = await dio.get(
-      "group/$groupId",
-      queryParameters: {"dateStart": formattedDay, "dateEnd": formattedDay},
+      "schedule/group/$groupId",
+      queryParameters: {"start_date": formattedDay, "end_date": formattedDay},
     );
 
     final model = ResponseScheduleModel.fromMap(response.data);
