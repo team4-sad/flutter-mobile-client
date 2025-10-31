@@ -16,9 +16,9 @@ final class ScheduleError extends WithErrorState implements ScheduleState {
 }
 
 final class ScheduleLoaded extends ScheduleState {
-  final List<LessonModel> lessons;
+  final DayScheduleModel? daySchedule;
   final String groupId;
   final DateTime date;
 
-  const ScheduleLoaded({required this.lessons, required this.groupId, required this.date});
+  const ScheduleLoaded({required this.daySchedule, required this.groupId, required this.date});
 }

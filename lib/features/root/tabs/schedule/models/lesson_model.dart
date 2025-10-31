@@ -5,10 +5,7 @@ import 'package:miigaik/features/common/extensions/date_time_extensions.dart';
 import 'teacher_model.dart';
 
 class LessonModel {
-  final String groupName;
   final String subgroup;
-  final int dayOfWeek;
-  final String lessonDate;
   final int lessonOrderNumber;
   final String lessonStartTime;
   final String lessonEndTime;
@@ -19,13 +16,9 @@ class LessonModel {
   final String classroomType;
   final String classroomBuilding;
   final String disciplineName;
-  final String link;
   final List<TeacherModel> teachers;
   LessonModel({
-    required this.groupName,
     required this.subgroup,
-    required this.dayOfWeek,
-    required this.lessonDate,
     required this.lessonOrderNumber,
     required this.lessonStartTime,
     required this.lessonEndTime,
@@ -36,16 +29,12 @@ class LessonModel {
     required this.classroomType,
     required this.classroomBuilding,
     required this.disciplineName,
-    required this.link,
     required this.teachers,
   });
 
   Map<String, dynamic> toMap() {
     return <String, dynamic>{
-      'groupName': groupName,
       'subgroup': subgroup,
-      'dayOfWeek': dayOfWeek,
-      'lessonDate': lessonDate,
       'lessonOrderNumber': lessonOrderNumber,
       'lessonStartTime': lessonStartTime,
       'lessonEndTime': lessonEndTime,
@@ -56,18 +45,14 @@ class LessonModel {
       'classroomType': classroomType,
       'classroomBuilding': classroomBuilding,
       'disciplineName': disciplineName,
-      'link': link,
       'teachers': teachers.map((x) => x.toMap()).toList(),
     };
   }
 
   factory LessonModel.fromMap(Map<String, dynamic> map) {
     return LessonModel(
-      groupName: map['groupName'] as String,
       subgroup: map['subgroup'] as String,
-      dayOfWeek: map['dayOfWeek'].toInt() as int,
-      lessonDate: map['lessonDate'] as String,
-      lessonOrderNumber: map['lessonOrderNumber'].toInt() as int,
+      lessonOrderNumber: map['lessonOrderNumber'] as int,
       lessonStartTime: map['lessonStartTime'] as String,
       lessonEndTime: map['lessonEndTime'] as String,
       lessonType: map['lessonType'] as String,
@@ -77,7 +62,6 @@ class LessonModel {
       classroomType: map['classroomType'] as String,
       classroomBuilding: map['classroomBuilding'] as String,
       disciplineName: map['disciplineName'] as String,
-      link: map['link'] as String,
       teachers: List<TeacherModel>.from(
         (map['teachers'] as List).map<TeacherModel>(
           (x) => TeacherModel.fromMap(x as Map<String, dynamic>),
@@ -91,13 +75,11 @@ class LessonModel {
   factory LessonModel.fromJson(String source) =>
       LessonModel.fromMap(json.decode(source) as Map<String, dynamic>);
 
-  DateTime get onlyDate => DateTime.parse(lessonDate);
-
   DateTime get startTime => DateFormat("HH:mm:ss").parse(lessonStartTime);
-  DateTime get startDateTime => startTime.setDate(onlyDate);
+  DateTime startDateTime(DateTime onlyDate) => startTime.setDate(onlyDate);
 
   DateTime get endTime => DateFormat("HH:mm:ss").parse(lessonEndTime);
-  DateTime get endDateTime => endTime.setDate(onlyDate);
+  DateTime endDateTime(DateTime onlyDate) => endTime.setDate(onlyDate);
 
   String get displayStartTime => DateFormat("HH:mm").format(startTime);
   String get displayEndTime => DateFormat("HH:mm").format(endTime);
@@ -112,7 +94,10 @@ class LessonModel {
     }
   }
 
-  bool isAlreadyUnderway(DateTime currentDateTime) {
-    return currentDateTime.isBetween(startDateTime, endDateTime);
+  bool isAlreadyUnderway(DateTime currentDateTime, DateTime onlyDate) {
+    return currentDateTime.isBetween(
+      startDateTime(onlyDate), 
+      endDateTime(onlyDate)
+    );
   }
 }

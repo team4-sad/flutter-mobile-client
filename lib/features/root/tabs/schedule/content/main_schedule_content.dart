@@ -73,10 +73,10 @@ class MainScheduleContent extends StatelessWidget {
         }
 
         if (scheduleState is ScheduleLoaded) {
-          if (scheduleState.lessons.isEmpty) {
+          if (scheduleState.daySchedule == null) {
             return EmptyScheduleContent();
           }
-          return LoadedScheduleContent(lessons: scheduleState.lessons);
+          return LoadedScheduleContent(dayScheduleModel: scheduleState.daySchedule!);
         }
 
         return LoadingScheduleContent();

@@ -1,21 +1,21 @@
 import 'package:dio/dio.dart';
 import 'package:easy_localization/easy_localization.dart';
-import 'package:miigaik/features/root/tabs/schedule/models/lesson_model.dart';
+import 'package:miigaik/features/root/tabs/schedule/models/response_schedule_model.dart';
 
 abstract class IScheduleRepository {
-  Future<List<LessonModel>> fetchDayLessons({
+  Future<ResponseScheduleModel> fetchDaySchedule({
     required String groupId,
     required DateTime day,
   });
 }
 
-class OtherApiScheduleRepository extends IScheduleRepository {
+class ApiScheduleRepository extends IScheduleRepository {
   final Dio dio;
 
-  OtherApiScheduleRepository({required this.dio});
+  ApiScheduleRepository({required this.dio});
 
   @override
-  Future<List<LessonModel>> fetchDayLessons({
+  Future<ResponseScheduleModel> fetchDaySchedule({
     required String groupId,
     required DateTime day,
   }) async {
@@ -24,12 +24,8 @@ class OtherApiScheduleRepository extends IScheduleRepository {
       "group/$groupId",
       queryParameters: {"dateStart": formattedDay, "dateEnd": formattedDay},
     );
-    final body = response.data as Map<String, dynamic>;
-    final scheduleValue = body["schedule"] as Map<String, dynamic>;
-    if (scheduleValue.keys.isEmpty) {
-      return [];
-    }
-    final rawLessons = scheduleValue[scheduleValue.keys.first] as List;
-    return rawLessons.map((e) => LessonModel.fromMap(e)).toList();
+
+    final model = ResponseScheduleModel.fromMap(response.data);
+    return model;
   }
 }

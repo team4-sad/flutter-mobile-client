@@ -9,9 +9,14 @@ import 'package:miigaik/theme/app_theme_extensions.dart';
 import 'package:miigaik/theme/text_styles.dart';
 
 class ItemSchedule extends StatelessWidget {
+  final DateTime onlyDate;
   final LessonModel lessonModel;
 
-  const ItemSchedule({super.key, required this.lessonModel});
+  const ItemSchedule({
+    super.key, 
+    required this.lessonModel,
+    required this.onlyDate,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -23,8 +28,9 @@ class ItemSchedule extends StatelessWidget {
             color: context.palette.container,
             borderRadius: BorderRadius.circular(10),
             border: BoxBorder.all(
-              color: lessonModel.isAlreadyUnderway(state.currentDateTime) 
-                ? context.palette.calendar 
+              color: lessonModel.isAlreadyUnderway(
+                state.currentDateTime, onlyDate 
+              ) ? context.palette.calendar 
                 : Colors.transparent,
               width: 2
             )

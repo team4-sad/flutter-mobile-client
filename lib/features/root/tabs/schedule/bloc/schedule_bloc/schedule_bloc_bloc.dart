@@ -7,6 +7,7 @@ import 'package:miigaik/features/network-connection/enum/connection_status.dart'
 import 'package:miigaik/features/network-connection/exception/no_network_exception.dart';
 import 'package:miigaik/features/network-connection/services/network_connection_service.dart';
 import 'package:miigaik/features/root/tabs/schedule/models/lesson_model.dart';
+import 'package:miigaik/features/root/tabs/schedule/models/response_schedule_model.dart';
 import 'package:miigaik/features/root/tabs/schedule/repository/schedule_repository.dart';
 
 part 'schedule_bloc_event.dart';
@@ -41,13 +42,14 @@ class ScheduleBloc extends Bloc<ScheduleBlocEvent, ScheduleState> {
         return;
       }
       try {
-        final lessons = await repository.fetchDayLessons(
+        final response = await repository.fetchDaySchedule(
           groupId: event.groupId,
           day: event.day,
         );
+        final daySchedule = response.schedule.firstOrNull;
         emit(
           ScheduleLoaded(
-            lessons: lessons,
+            daySchedule: daySchedule,
             groupId: event.groupId,
             date: event.day,
           ),

@@ -65,7 +65,6 @@ class DI {
     GetIt.I.registerSingleton<ISignatureScheduleRepository>(signatureScheduleRepository);
 
     final defaultDio = GetIt.I.get<Dio>(instanceName: defaultDioName);
-    final scheduleApiDio = GetIt.I.get<Dio>(instanceName: scheduleApiDioName);
 
     final apiNewsRepository = ApiNewsRepository(dio: defaultDio);
     GetIt.I.registerSingleton<INewsRepository>(apiNewsRepository);
@@ -76,10 +75,10 @@ class DI {
     final apiSearchNewsRepository = ApiSearchNewsRepository(dio: defaultDio);
     GetIt.I.registerSingleton<ISearchNewsRepository>(apiSearchNewsRepository);
 
-    final otherApiScheduleRepository = OtherApiScheduleRepository(
-      dio: scheduleApiDio,
+    final apiScheduleRepository = ApiScheduleRepository(
+      dio: defaultDio,
     );
-    GetIt.I.registerSingleton<IScheduleRepository>(otherApiScheduleRepository);
+    GetIt.I.registerSingleton<IScheduleRepository>(apiScheduleRepository);
   }
 
   static void initBlocs() {
