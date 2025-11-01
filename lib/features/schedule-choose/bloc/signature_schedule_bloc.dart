@@ -56,7 +56,6 @@ class SignatureScheduleBloc
           if (s.data.contains(event.newSignature)) {
             return;
           }
-          final hasSelected = s.hasSelected;
           emit(
             SignatureScheduleLoaded(
               data: List<SignatureScheduleModel>.from(s.data)
@@ -64,9 +63,7 @@ class SignatureScheduleBloc
               selected: s.selected,
             ),
           );
-          if (!hasSelected) {
-            add(SelectSignatureEvent(selectedSignature: event.newSignature));
-          }
+          add(SelectSignatureEvent(selectedSignature: event.newSignature));
         } else {
           add(FetchSignaturesEvent());
         }

@@ -93,6 +93,7 @@ class ItemSchedule extends StatelessWidget {
                 spacing: 4,
                 runSpacing: 4,
                 children: [
+                  TagWidget(title: lessonModel.classroomName),
                   ...lessonModel.teachers.map(
                     (e) => GestureDetector(
                       onTap: () {
@@ -105,7 +106,6 @@ class ItemSchedule extends StatelessWidget {
                     ),
                   ),
                   TagWidget(title: lessonModel.lessonType),
-                  TagWidget(title: lessonModel.classroomName),
                 ],
               ),
             ],
