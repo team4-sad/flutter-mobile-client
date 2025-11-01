@@ -9,10 +9,10 @@ sealed class ScheduleBlocEvent extends Equatable {
 
 class FetchScheduleEvent extends ScheduleBlocEvent {
   final DateTime day;
-  final String groupId;
+  final SignatureScheduleModel signature;
 
-  const FetchScheduleEvent({required this.day, required this.groupId});
+  const FetchScheduleEvent({required this.day, required this.signature});
 
   @override
-  List<Object> get props => [day, groupId];
+  List<Object> get props => [day, signature];
 }

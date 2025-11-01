@@ -8,6 +8,7 @@ import 'package:miigaik/features/network-connection/exception/no_network_excepti
 import 'package:miigaik/features/network-connection/services/network_connection_service.dart';
 import 'package:miigaik/features/root/tabs/schedule/models/response_schedule_model.dart';
 import 'package:miigaik/features/root/tabs/schedule/repository/schedule_repository.dart';
+import 'package:miigaik/features/schedule-choose/models/signature_schedule_model.dart';
 
 part 'schedule_bloc_event.dart';
 part 'schedule_bloc_state.dart';
@@ -22,7 +23,7 @@ class ScheduleBloc extends Bloc<ScheduleBlocEvent, ScheduleState> {
           state is ScheduleError &&
           (state as ScheduleError).error is NoNetworkException) {
         final s = state as ScheduleError;
-        add(FetchScheduleEvent(groupId: s.groupId, day: s.date));
+        add(FetchScheduleEvent(signature: s.signature, day: s.date));
       }
     });
 
@@ -34,7 +35,7 @@ class ScheduleBloc extends Bloc<ScheduleBlocEvent, ScheduleState> {
         emit(
           ScheduleError(
             error: NoNetworkException(),
-            groupId: event.groupId,
+            signature: event.signature,
             date: event.day,
           ),
         );
@@ -42,19 +43,19 @@ class ScheduleBloc extends Bloc<ScheduleBlocEvent, ScheduleState> {
       }
       try {
         final response = await repository.fetchDaySchedule(
-          groupId: event.groupId,
+          groupId: event.signature.id,
           day: event.day,
         );
         final daySchedule = response.schedule.firstOrNull;
         emit(
           ScheduleLoaded(
             daySchedule: daySchedule,
-            groupId: event.groupId,
+            signature: event.signature,
             date: event.day,
           ),
         );
       } on Object catch (e) {
-        emit(ScheduleError(error: e, groupId: event.groupId, date: event.day));
+        emit(ScheduleError(error: e, signature: event.signature, date: event.day));
       }
     }, transformer: restartable());
   }

@@ -26,7 +26,7 @@ class MainScheduleContent extends StatelessWidget {
       scheduleBloc.add(
         FetchScheduleEvent(
           day: currentDayState.currentDateTime,
-          groupId: signatureState.selected!.id,
+          signature: signatureState.selected!,
         ),
       );
     }
@@ -48,6 +48,12 @@ class MainScheduleContent extends StatelessWidget {
         if (signatureState is SignatureScheduleLoaded &&
             scheduleState is ScheduleInitial) {
           _fetchSchedule();
+        }
+        // TODO: проверить и не на группах
+        if (scheduleState is ScheduleLoaded &&
+            signatureState is SignatureScheduleLoaded &&
+            scheduleState.signature != signatureState.selected!) {
+            _fetchSchedule();
         }
       },
       builder: (context, states) {
@@ -76,7 +82,9 @@ class MainScheduleContent extends StatelessWidget {
           if (scheduleState.daySchedule == null) {
             return EmptyScheduleContent();
           }
-          return LoadedScheduleContent(dayScheduleModel: scheduleState.daySchedule!);
+          return LoadedScheduleContent(
+            dayScheduleModel: scheduleState.daySchedule!,
+          );
         }
 
         return LoadingScheduleContent();
