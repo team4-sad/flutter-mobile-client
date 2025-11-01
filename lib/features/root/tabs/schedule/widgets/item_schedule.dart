@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_it/get_it.dart';
 import 'package:miigaik/features/common/extensions/num_widget_extension.dart';
+import 'package:miigaik/features/common/widgets/tag_widget.dart';
 import 'package:miigaik/features/root/tabs/schedule/bloc/current_time_cubit/current_time_cubit.dart';
 import 'package:miigaik/features/root/tabs/schedule/models/lesson_model.dart';
 import 'package:miigaik/generated/icons.g.dart';
@@ -100,35 +101,17 @@ class ItemSchedule extends StatelessWidget {
                           builder: (context) => AlertDialog(title: Text(e.fio)),
                         );
                       },
-                      child: _TagWidget(title: e.displayName),
+                      child: TagWidget(title: e.displayName),
                     ),
                   ),
-                  _TagWidget(title: lessonModel.lessonType),
-                  _TagWidget(title: lessonModel.classroomName),
+                  TagWidget(title: lessonModel.lessonType),
+                  TagWidget(title: lessonModel.classroomName),
                 ],
               ),
             ],
           ),
         );
       },
-    );
-  }
-}
-
-class _TagWidget extends StatelessWidget {
-  final String title;
-
-  const _TagWidget({required this.title});
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(6),
-        color: context.palette.calendar,
-      ),
-      padding: EdgeInsets.symmetric(vertical: 7, horizontal: 12),
-      child: Text(title, style: TS.regular14.use(context.palette.unAccent)),
     );
   }
 }

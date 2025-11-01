@@ -1,20 +1,16 @@
-import 'dart:math';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get_it/get_it.dart';
+import 'package:miigaik/features/add-schedule/add_schedule_page.dart';
 import 'package:miigaik/features/common/extensions/num_widget_extension.dart';
-import 'package:miigaik/features/common/extensions/widget_extension.dart';
 import 'package:miigaik/features/common/widgets/placeholder_widget.dart';
+import 'package:miigaik/features/common/widgets/simple_app_bar.dart';
 import 'package:miigaik/features/schedule-choose/bloc/signature_schedule_bloc.dart';
 import 'package:miigaik/features/schedule-choose/content/loading_schedule_choose_content.dart';
-import 'package:miigaik/features/schedule-choose/enum/signature_schedule_type.dart';
-import 'package:miigaik/features/schedule-choose/models/signature_schedule_model.dart';
 import 'package:miigaik/features/schedule-choose/widgets/item_schedule_signature.dart';
 import 'package:miigaik/generated/icons.g.dart';
 import 'package:miigaik/theme/app_theme_extensions.dart';
-import 'package:miigaik/theme/text_styles.dart';
 import 'package:miigaik/theme/values.dart';
 
 class ScheduleChoosePage extends StatelessWidget {
@@ -26,42 +22,12 @@ class ScheduleChoosePage extends StatelessWidget {
   Widget build(BuildContext context) {
     bloc.add(FetchSignaturesEvent());
     return Scaffold(
-      appBar: PreferredSize(
-        preferredSize: Size.fromHeight(kToolbarHeight + 59),
-        child:
-            Row(
-              children: [
-                GestureDetector(
-                  onTap: () {
-                    Navigator.pop(context);
-                  },
-                  child: Icon(I.back, color: context.palette.text),
-                ),
-                10.hs(),
-                Text(
-                  "Выбор расписания",
-                  style: TS.medium20.use(context.palette.text),
-                ),
-              ],
-            ).p(
-              EdgeInsets.only(
-                left: horizontalPaddingPage,
-                right: horizontalPaddingPage,
-                top: 59,
-                bottom: 20,
-              ),
-            ),
-      ),
+      appBar: SimpleAppBar(title: "Выбор расписания"),
       floatingActionButton: GestureDetector(
         onTap: () {
-          bloc.add(
-            AddSignatureEvent(
-              newSignature: SignatureScheduleModel(
-                type: SignatureScheduleType.group,
-                title: '2023-ФГиИБ-ПИ-1б ${Random().nextInt(255)}',
-                id: '1274',
-              ),
-            ),
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (_) => AddSchedulePage()),
           );
         },
         child: Container(

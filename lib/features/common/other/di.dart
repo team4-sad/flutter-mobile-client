@@ -4,6 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:get_it/get_it.dart';
 import 'package:hive_flutter/hive_flutter.dart';
+import 'package:miigaik/features/add-schedule/bloc/news_signatures_bloc/new_signatures_bloc.dart';
+import 'package:miigaik/features/add-schedule/repository/signature_schedule_repository.dart';
 import 'package:miigaik/features/common/other/http_override.dart';
 import 'package:miigaik/features/config/config.dart';
 import 'package:miigaik/features/config/extension.dart';
@@ -36,7 +38,7 @@ import 'package:talker_flutter/talker_flutter.dart';
 
 class DI {
   static const String defaultDioName = "default_dio";
-  static const String scheduleApiDioName = "schedule_api_dio";
+  static const String miigaikApiDioName = "miigaik_api_dio";
 
   static Future<void> init() async {
     initLogger();
@@ -62,9 +64,12 @@ class DI {
     final signatureScheduleRepository = SignatureScheduleRepository(
       box: GetIt.I.get(),
     );
-    GetIt.I.registerSingleton<ISignatureScheduleRepository>(signatureScheduleRepository);
+    GetIt.I.registerSingleton<ISignatureScheduleRepository>(
+      signatureScheduleRepository,
+    );
 
     final defaultDio = GetIt.I.get<Dio>(instanceName: defaultDioName);
+    final miigaikApiDio = GetIt.I.get<Dio>(instanceName: miigaikApiDioName);
 
     final apiNewsRepository = ApiNewsRepository(dio: defaultDio);
     GetIt.I.registerSingleton<INewsRepository>(apiNewsRepository);
@@ -75,10 +80,14 @@ class DI {
     final apiSearchNewsRepository = ApiSearchNewsRepository(dio: defaultDio);
     GetIt.I.registerSingleton<ISearchNewsRepository>(apiSearchNewsRepository);
 
-    final apiScheduleRepository = ApiScheduleRepository(
-      dio: defaultDio,
-    );
+    final apiScheduleRepository = ApiScheduleRepository(dio: defaultDio);
     GetIt.I.registerSingleton<IScheduleRepository>(apiScheduleRepository);
+
+    final miigaikNewSignaturesRepository =
+        MiigaikApiSignatureScheduleRepository(dio: miigaikApiDio);
+    GetIt.I.registerSingleton<INewSignatureScheduleRepository>(
+      miigaikNewSignaturesRepository,
+    );
   }
 
   static void initBlocs() {
@@ -140,7 +149,7 @@ class DI {
         settings: const TalkerDioLoggerSettings(),
       ),
     );
-    GetIt.I.registerSingleton(scheduleApiDio, instanceName: scheduleApiDioName);
+    GetIt.I.registerSingleton(scheduleApiDio, instanceName: miigaikApiDioName);
   }
 
   static void safeInitWithContext(BuildContext context) {

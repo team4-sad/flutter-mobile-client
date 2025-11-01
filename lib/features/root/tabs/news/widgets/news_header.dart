@@ -2,7 +2,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:miigaik/features/common/extensions/num_widget_extension.dart';
 import 'package:miigaik/features/common/extensions/widget_extension.dart';
-import 'package:miigaik/features/root/tabs/news/widgets/news_search_field.dart';
+import 'package:miigaik/features/common/widgets/search_field_widget.dart';
 import 'package:miigaik/generated/icons.g.dart';
 import 'package:miigaik/generated/types.dart';
 import 'package:miigaik/theme/app_theme_extensions.dart';
@@ -31,7 +31,7 @@ class NewsHeader extends StatelessWidget {
     required this.showBack,
     required this.showClear,
     required this.onClearTap,
-    this.onBackTap
+    this.onBackTap,
   });
 
   @override
@@ -49,37 +49,41 @@ class NewsHeader extends StatelessWidget {
               children: [
                 AnimatedSwitcher(
                   duration: const Duration(milliseconds: 200),
-                  transitionBuilder: (Widget child, Animation<double> animation) {
-                    return FadeTransition(
-                      opacity: animation,
-                      child: SizeTransition(
-                        sizeFactor: animation,
-                        axisAlignment: -1.0,
-                        child: child,
-                      ),
-                    );
-                  },
-                  child: showTitle ? Text(
-                    S.news_title.tr(),
-                    key: const ValueKey('title'),
-                    style: TS.medium25.use(context.palette.text),
-                  ).p(10.bottom())
-                    : const SizedBox.shrink(key: ValueKey('empty')),
+                  transitionBuilder:
+                      (Widget child, Animation<double> animation) {
+                        return FadeTransition(
+                          opacity: animation,
+                          child: SizeTransition(
+                            sizeFactor: animation,
+                            axisAlignment: -1.0,
+                            child: child,
+                          ),
+                        );
+                      },
+                  child: showTitle
+                      ? Text(
+                          S.news_title.tr(),
+                          key: const ValueKey('title'),
+                          style: TS.medium25.use(context.palette.text),
+                        ).p(10.bottom())
+                      : const SizedBox.shrink(key: ValueKey('empty')),
                 ),
                 Row(
                   children: [
-                    (showBack) ? GestureDetector(
-                      key: const ValueKey("back-btn"),
-                      onTap: onBackTap,
-                      child: Icon(I.back)
-                    ).p(10.right())
+                    (showBack)
+                        ? GestureDetector(
+                            key: const ValueKey("back-btn"),
+                            onTap: onBackTap,
+                            child: Icon(I.back),
+                          ).p(10.right())
                         : SizedBox.shrink(key: ValueKey("empty-btn")),
-                    NewsSearchField(
+                    SearchFieldWidget(
                       textEditingController: textController,
                       onChangeFocusSearchField: onChangeFocusSearchField,
                       onChangeText: onChangeText,
                       onTapClear: onClearTap,
-                      showClear: showClear,
+                      enableClear: showClear,
+                      hint: S.news_search.tr(),
                     ).e(),
                   ],
                 ),

@@ -42,7 +42,7 @@ class _CalendarWidgetState extends State<CalendarWidget> {
             IconButton(
               onPressed: () {
                 _pageController.previousPage(
-                  duration: Duration(milliseconds: 200),
+                  duration: Duration(milliseconds: 300),
                   curve: Curves.linear,
                 );
               },
@@ -60,7 +60,7 @@ class _CalendarWidgetState extends State<CalendarWidget> {
             IconButton(
               onPressed: () {
                 _pageController.nextPage(
-                  duration: Duration(milliseconds: 200),
+                  duration: Duration(milliseconds: 300),
                   curve: Curves.linear,
                 );
               },

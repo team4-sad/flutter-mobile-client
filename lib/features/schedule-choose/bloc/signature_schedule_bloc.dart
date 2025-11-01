@@ -9,13 +9,14 @@ import 'package:miigaik/features/schedule-choose/repository/signature_schedule_r
 part 'signature_schedule_event.dart';
 part 'signature_schedule_state.dart';
 
-class SignatureScheduleBloc extends Bloc<SignatureScheduleEvent, SignatureScheduleState> {
-
+class SignatureScheduleBloc
+    extends Bloc<SignatureScheduleEvent, SignatureScheduleState> {
   final ISignatureScheduleRepository _repository = GetIt.I.get();
 
   SignatureScheduleBloc() : super(SignatureScheduleInitial()) {
     on<FetchSignaturesEvent>((event, emit) async {
-      if (state is SignatureScheduleLoading || state is SignatureScheduleLoaded){
+      if (state is SignatureScheduleLoading ||
+          state is SignatureScheduleLoaded) {
         return;
       }
       emit(SignatureScheduleLoading());
@@ -23,41 +24,53 @@ class SignatureScheduleBloc extends Bloc<SignatureScheduleEvent, SignatureSchedu
         final result = await _repository.fetchAll();
         final selected = await _repository.getSelected();
         emit(SignatureScheduleLoaded(data: result, selected: selected));
-      } on Object catch(e){
+      } on Object catch (e) {
         emit(SignatureScheduleError(error: e));
       }
     }, transformer: droppable());
 
     on<SelectSignatureEvent>((event, emit) async {
-      if (state is! SignatureScheduleLoaded){
+      if (state is! SignatureScheduleLoaded) {
         return;
       }
       final s = state as SignatureScheduleLoaded;
-      try{
+      try {
         await _repository.select(event.selectedSignature);
-        emit(SignatureScheduleLoaded(
-          data: s.data, 
-          selected: event.selectedSignature,
-          isNewSelection: true
-        ));
-      } on Object catch(e){
+        emit(
+          SignatureScheduleLoaded(
+            data: s.data,
+            selected: event.selectedSignature,
+            isNewSelection: true,
+          ),
+        );
+      } on Object catch (e) {
         emit(SignatureScheduleError(error: e));
       }
-    }, transformer: droppable());
+    }, transformer: restartable());
 
     on<AddSignatureEvent>((event, emit) async {
       try {
         await _repository.add(event.newSignature);
-        if (state is SignatureScheduleLoaded){
+        if (state is SignatureScheduleLoaded) {
           final s = state as SignatureScheduleLoaded;
-          emit(SignatureScheduleLoaded(
-            data: s.data..add(event.newSignature),
-            selected: s.selected
-          ));
-        }else{
+          if (s.data.contains(event.newSignature)) {
+            return;
+          }
+          final hasSelected = s.hasSelected;
+          emit(
+            SignatureScheduleLoaded(
+              data: List<SignatureScheduleModel>.from(s.data)
+                ..add(event.newSignature),
+              selected: s.selected,
+            ),
+          );
+          if (!hasSelected) {
+            add(SelectSignatureEvent(selectedSignature: event.newSignature));
+          }
+        } else {
           add(FetchSignaturesEvent());
         }
-      } on Object catch(e){
+      } on Object catch (e) {
         emit(SignatureScheduleError(error: e));
       }
     }, transformer: sequential());
@@ -65,23 +78,29 @@ class SignatureScheduleBloc extends Bloc<SignatureScheduleEvent, SignatureSchedu
     on<RemoveSignatureEvent>((event, emit) async {
       try {
         await _repository.remove(event.deleteSignature);
-        if (state is SignatureScheduleLoaded){
+        if (state is SignatureScheduleLoaded) {
           final s = state as SignatureScheduleLoaded;
-          if (s.hasSelected && event.deleteSignature == s.selected){
+          if (s.hasSelected && event.deleteSignature == s.selected) {
             await _repository.unSelect();
-            emit(SignatureScheduleLoaded(
-              data: s.data..remove(event.deleteSignature),
-            ));
-          }else{
-            emit(SignatureScheduleLoaded(
-              data: s.data..remove(event.deleteSignature),
-              selected: s.selected
-            ));
+            emit(
+              SignatureScheduleLoaded(
+                data: List<SignatureScheduleModel>.from(s.data)
+                  ..remove(event.deleteSignature),
+              ),
+            );
+          } else {
+            emit(
+              SignatureScheduleLoaded(
+                data: List<SignatureScheduleModel>.from(s.data)
+                  ..remove(event.deleteSignature),
+                selected: s.selected,
+              ),
+            );
           }
-        }else{
+        } else {
           add(FetchSignaturesEvent());
         }
-      } on Object catch(e){
+      } on Object catch (e) {
         emit(SignatureScheduleError(error: e));
       }
     }, transformer: sequential());
