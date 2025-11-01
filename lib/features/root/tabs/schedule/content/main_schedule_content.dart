@@ -50,8 +50,9 @@ class MainScheduleContent extends StatelessWidget {
           _fetchSchedule();
         }
         if (scheduleState is ScheduleLoaded &&
-            signatureState is SignatureScheduleLoaded &&
-            scheduleState.signature != signatureState.selected!) {
+            signatureState is SignatureScheduleLoaded && 
+            signatureState.hasSelected &&
+            (scheduleState.signature != signatureState.selected!)) {
             _fetchSchedule();
         }
       },

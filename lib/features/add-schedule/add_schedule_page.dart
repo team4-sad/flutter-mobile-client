@@ -143,7 +143,7 @@ class AddSchedulePage extends StatelessWidget {
                                   ? !(blocSignatures.state as SignatureScheduleLoaded).data.contains(e)
                                   : true
                               ).toList()
-                            ).e()
+                            )
                             : Center(
                                 child: PlaceholderWidget(
                                   title: "Расписание не найдено",
