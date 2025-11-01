@@ -88,7 +88,7 @@ class ItemSchedule extends StatelessWidget {
                 lessonModel.disciplineName,
                 style: TS.medium16.use(context.palette.text),
               ),
-              22.vs(),
+              14.vs(),
               Wrap(
                 spacing: 4,
                 runSpacing: 4,

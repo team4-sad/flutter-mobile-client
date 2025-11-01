@@ -49,7 +49,6 @@ class MainScheduleContent extends StatelessWidget {
             scheduleState is ScheduleInitial) {
           _fetchSchedule();
         }
-        // TODO: проверить и не на группах
         if (scheduleState is ScheduleLoaded &&
             signatureState is SignatureScheduleLoaded &&
             scheduleState.signature != signatureState.selected!) {
