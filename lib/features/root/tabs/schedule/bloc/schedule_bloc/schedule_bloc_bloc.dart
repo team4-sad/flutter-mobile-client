@@ -8,6 +8,7 @@ import 'package:miigaik/features/network-connection/exception/no_network_excepti
 import 'package:miigaik/features/network-connection/services/network_connection_service.dart';
 import 'package:miigaik/features/root/tabs/schedule/models/response_schedule_model.dart';
 import 'package:miigaik/features/root/tabs/schedule/repository/schedule_repository.dart';
+import 'package:miigaik/features/schedule-choose/enum/signature_schedule_type.dart';
 import 'package:miigaik/features/schedule-choose/models/signature_schedule_model.dart';
 
 part 'schedule_bloc_event.dart';
@@ -42,10 +43,20 @@ class ScheduleBloc extends Bloc<ScheduleBlocEvent, ScheduleState> {
         return;
       }
       try {
-        final response = await repository.fetchDaySchedule(
-          groupId: event.signature.id,
-          day: event.day,
-        );
+        final response = await switch (event.signature.type) {
+          SignatureScheduleType.group => repository.fetchDayGroupSchedule(
+            groupId: event.signature.id,
+            day: event.day,
+          ),
+          SignatureScheduleType.audience => repository.fetchDayAudienceSchedule(
+            audienceId: event.signature.id,
+            day: event.day,
+          ),
+          SignatureScheduleType.teacher => repository.fetchDayTeacherSchedule(
+            teacherId: event.signature.id,
+            day: event.day,
+          ),
+        };
         final daySchedule = response.schedule.firstOrNull;
         emit(
           ScheduleLoaded(
@@ -55,7 +66,9 @@ class ScheduleBloc extends Bloc<ScheduleBlocEvent, ScheduleState> {
           ),
         );
       } on Object catch (e) {
-        emit(ScheduleError(error: e, signature: event.signature, date: event.day));
+        emit(
+          ScheduleError(error: e, signature: event.signature, date: event.day),
+        );
       }
     }, transformer: restartable());
   }

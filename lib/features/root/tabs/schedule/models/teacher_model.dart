@@ -26,6 +26,14 @@ class TeacherModel {
     );
   }
 
+  factory TeacherModel.fromMiigaikMap(Map<String, dynamic> map) {
+    return TeacherModel(
+      firstName: map['firstName'] as String,
+      lastName: map['lastName'] as String,
+      patronymic: map['patronymic'] as String,
+    );
+  }
+
   String toJson() => json.encode(toMap());
 
   factory TeacherModel.fromJson(String source) =>

@@ -3,10 +3,62 @@ import 'package:miigaik/features/common/extensions/date_time_extensions.dart';
 import 'package:miigaik/features/root/tabs/schedule/models/response_schedule_model.dart';
 
 abstract class IScheduleRepository {
-  Future<ResponseScheduleModel> fetchDaySchedule({
+  Future<ResponseGroupScheduleModel> fetchDayGroupSchedule({
     required String groupId,
     required DateTime day,
   });
+
+  Future<ResponseAudienceScheduleModel> fetchDayAudienceSchedule({
+    required String audienceId,
+    required DateTime day,
+  });
+
+  Future<ResponseTeacherScheduleModel> fetchDayTeacherSchedule({
+    required String teacherId,
+    required DateTime day,
+  });
+}
+
+class MiigaikScheduleRepopsitory extends IScheduleRepository {
+  final Dio dio;
+
+  MiigaikScheduleRepopsitory({required this.dio});
+
+  @override
+  Future<ResponseAudienceScheduleModel> fetchDayAudienceSchedule({
+    required String audienceId,
+    required DateTime day,
+  }) async {
+    final response = await dio.get(
+      "classroom/$audienceId",
+      queryParameters: {"dateStart": day.yyyyMMdd, "dateEnd": day.yyyyMMdd},
+    );
+    return ResponseAudienceScheduleModel.fromMiigaikMap(response.data);
+  }
+
+  @override
+  Future<ResponseGroupScheduleModel> fetchDayGroupSchedule({
+    required String groupId,
+    required DateTime day,
+  }) async {
+    final response = await dio.get(
+      "group/$groupId",
+      queryParameters: {"dateStart": day.yyyyMMdd, "dateEnd": day.yyyyMMdd},
+    );
+    return ResponseGroupScheduleModel.fromMiigaikMap(response.data);
+  }
+
+  @override
+  Future<ResponseTeacherScheduleModel> fetchDayTeacherSchedule({
+    required String teacherId,
+    required DateTime day,
+  }) async {
+    final response = await dio.get(
+      "teacher/$teacherId",
+      queryParameters: {"dateStart": day.yyyyMMdd, "dateEnd": day.yyyyMMdd},
+    );
+    return ResponseTeacherScheduleModel.fromMiigaikMap(response.data);
+  }
 }
 
 class ApiScheduleRepository extends IScheduleRepository {
@@ -15,7 +67,7 @@ class ApiScheduleRepository extends IScheduleRepository {
   ApiScheduleRepository({required this.dio});
 
   @override
-  Future<ResponseScheduleModel> fetchDaySchedule({
+  Future<ResponseGroupScheduleModel> fetchDayGroupSchedule({
     required String groupId,
     required DateTime day,
   }) async {
@@ -25,7 +77,27 @@ class ApiScheduleRepository extends IScheduleRepository {
       queryParameters: {"start_date": formattedDay, "end_date": formattedDay},
     );
 
-    final model = ResponseScheduleModel.fromMap(response.data);
+    final model = ResponseGroupScheduleModel.fromMap(response.data);
     return model;
+  }
+
+  @override
+  Future<ResponseAudienceScheduleModel> fetchDayAudienceSchedule({
+    required String audienceId,
+    required DateTime day,
+  }) {
+    throw UnimplementedError(
+      "В нашем API пока нет получения расписания адитории",
+    );
+  }
+
+  @override
+  Future<ResponseTeacherScheduleModel> fetchDayTeacherSchedule({
+    required String teacherId,
+    required DateTime day,
+  }) {
+    throw UnimplementedError(
+      "В нашем API пока нет получения расписания преподавателя",
+    );
   }
 }

@@ -19,7 +19,7 @@ class SheetWidget extends StatelessWidget {
   });
 
   static double maxSize = 0.83;
-  static double minSize = 0.3;
+  static double minSize = 0.4;
 
   @override
   Widget build(BuildContext context) {

@@ -5,7 +5,7 @@ import 'package:miigaik/features/common/extensions/date_time_extensions.dart';
 import 'teacher_model.dart';
 
 class LessonModel {
-  final String subgroup;
+  final String? subgroup;
   final int lessonOrderNumber;
   final String lessonStartTime;
   final String lessonEndTime;
@@ -16,9 +16,11 @@ class LessonModel {
   final String classroomType;
   final String classroomBuilding;
   final String disciplineName;
-  final List<TeacherModel> teachers;
+  final List<TeacherModel>? teachers;
+  final List<String>? groups;
+
   LessonModel({
-    required this.subgroup,
+    this.subgroup,
     required this.lessonOrderNumber,
     required this.lessonStartTime,
     required this.lessonEndTime,
@@ -29,7 +31,8 @@ class LessonModel {
     required this.classroomType,
     required this.classroomBuilding,
     required this.disciplineName,
-    required this.teachers,
+    this.teachers,
+    this.groups,
   });
 
   Map<String, dynamic> toMap() {
@@ -45,13 +48,14 @@ class LessonModel {
       'classroomType': classroomType,
       'classroomBuilding': classroomBuilding,
       'disciplineName': disciplineName,
-      'teachers': teachers.map((x) => x.toMap()).toList(),
+      'teachers': teachers?.map((x) => x.toMap()).toList(),
+      'groups': groups,
     };
   }
 
   factory LessonModel.fromMap(Map<String, dynamic> map) {
     return LessonModel(
-      subgroup: map['subgroup'] as String,
+      subgroup: map['subgroup'] as String?,
       lessonOrderNumber: map['lesson_order_number'] as int,
       lessonStartTime: map['lesson_start_time'] as String,
       lessonEndTime: map['lesson_end_time'] as String,
@@ -62,11 +66,30 @@ class LessonModel {
       classroomType: map['lesson_type'] as String,
       classroomBuilding: map['classroom_building'] as String,
       disciplineName: map['discipline_name'] as String,
-      teachers: List<TeacherModel>.from(
-        (map['teachers'] as List).map<TeacherModel>(
-          (x) => TeacherModel.fromMap(x as Map<String, dynamic>),
-        ),
-      ),
+      teachers: (map['teachers'] as List?)?.map<TeacherModel>(
+        (x) => TeacherModel.fromMap(x as Map<String, dynamic>),
+      ).toList(),
+      groups: (map["groups"] as List?)?.map((e) => e as String).toList()
+    );
+  }
+
+  factory LessonModel.fromMiigaikMap(Map<String, dynamic> map) {
+    return LessonModel(
+      subgroup: map['subgroup'] as String?,
+      lessonOrderNumber: map['lessonOrderNumber'] as int,
+      lessonStartTime: map['lessonStartTime'] as String,
+      lessonEndTime: map['lessonEndTime'] as String,
+      lessonType: map['lessonType'] as String,
+      classroomId: map['classroomId'].toInt() as int,
+      classroomName: map['classroomName'] as String,
+      classroomFloor: map['classroomFloor'].toInt() as int,
+      classroomType: map['lessonType'] as String,
+      classroomBuilding: map['classroomBuilding'] as String,
+      disciplineName: map['disciplineName'] as String,
+      teachers: (map['teachers'] as List?)?.map<TeacherModel>(
+        (x) => TeacherModel.fromMap(x as Map<String, dynamic>),
+      ).toList(),
+      groups: (map["groups"] as List?)?.map((e) => e as String).toList()
     );
   }
 

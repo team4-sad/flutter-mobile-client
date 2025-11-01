@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:get_it/get_it.dart';
 import 'package:hive_flutter/hive_flutter.dart';
-import 'package:miigaik/features/add-schedule/bloc/news_signatures_bloc/new_signatures_bloc.dart';
 import 'package:miigaik/features/add-schedule/repository/signature_schedule_repository.dart';
 import 'package:miigaik/features/common/other/http_override.dart';
 import 'package:miigaik/features/config/config.dart';
@@ -80,7 +79,7 @@ class DI {
     final apiSearchNewsRepository = ApiSearchNewsRepository(dio: defaultDio);
     GetIt.I.registerSingleton<ISearchNewsRepository>(apiSearchNewsRepository);
 
-    final apiScheduleRepository = ApiScheduleRepository(dio: defaultDio);
+    final apiScheduleRepository = MiigaikScheduleRepopsitory(dio: miigaikApiDio);
     GetIt.I.registerSingleton<IScheduleRepository>(apiScheduleRepository);
 
     final miigaikNewSignaturesRepository =
