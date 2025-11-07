@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_it/get_it.dart';
-import 'package:miigaik/features/common/extensions/widget_extension.dart';
 import 'package:miigaik/features/schedule-choose/bloc/signature_schedule_bloc.dart';
 import 'package:miigaik/features/schedule-choose/schedule_choose_page.dart';
 import 'package:miigaik/theme/app_theme_extensions.dart';
