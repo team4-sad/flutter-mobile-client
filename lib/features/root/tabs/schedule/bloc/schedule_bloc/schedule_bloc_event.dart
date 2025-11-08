@@ -1,4 +1,4 @@
-part of 'schedule_bloc_bloc.dart';
+part of 'schedule_bloc.dart';
 
 sealed class ScheduleBlocEvent extends Equatable {
   const ScheduleBlocEvent();
