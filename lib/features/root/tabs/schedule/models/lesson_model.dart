@@ -87,7 +87,7 @@ class LessonModel {
       classroomBuilding: map['classroomBuilding'] as String,
       disciplineName: map['disciplineName'] as String,
       teachers: (map['teachers'] as List?)?.map<TeacherModel>(
-        (x) => TeacherModel.fromMap(x as Map<String, dynamic>),
+        (x) => TeacherModel.fromMiigaikMap(x as Map<String, dynamic>),
       ).toList(),
       groups: (map["groups"] as List?)?.map((e) => e as String).toList()
     );

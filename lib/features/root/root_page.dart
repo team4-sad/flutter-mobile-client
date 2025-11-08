@@ -9,6 +9,7 @@ import 'package:miigaik/features/root/features/bottom-nav-bar/bottom_nav_bar_gra
 import 'package:miigaik/features/root/features/bottom-nav-bar/items_nav_bar.dart';
 import 'package:miigaik/features/root/tabs/empty/emty_page.dart';
 import 'package:miigaik/features/root/tabs/news/news_page.dart';
+import 'package:miigaik/features/root/tabs/profile/profile_page.dart';
 import 'package:miigaik/features/root/tabs/schedule/schedule_page.dart';
 import 'package:talker_flutter/talker_flutter.dart';
 
@@ -25,7 +26,7 @@ class RootPage extends StatelessWidget {
         ItemNavBar.map => const EmptyPage(),
         ItemNavBar.news => const NewsPage(),
         ItemNavBar.notes => const EmptyPage(),
-        ItemNavBar.profile => const EmptyPage(),
+        ItemNavBar.profile => const ProfilePage(),
       };
       var index = _loadedScreens.length;
       _loadedScreens.add(widget);
