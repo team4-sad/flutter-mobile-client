@@ -15,14 +15,14 @@ class ProfilePage extends StatelessWidget {
             FilledButton(onPressed: () {
               Navigator.push(
                 context,
-                MaterialPageRoute(builder: (context) => EdiniDekanatPage()),
+                MaterialPageRoute(builder: (context) => EdiniDekanatPage.spravki()),
               );
             }, child: Text("Заказать справку")),
             FilledButton(
               onPressed: () {
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => EdiniDekanatPage()),
+                  MaterialPageRoute(builder: (context) => EdiniDekanatPage.dopuski()),
                 );
               },
               child: Text("Заказать допуск"),
