@@ -105,6 +105,7 @@ class _EdiniDekanatPageState extends State<EdiniDekanatPage> {
                 onLoadStop: (controller, url) async {
                   _controller = controller;
                   YandexFormInAppWebViewJsInjector(
+                    palette: context.palette,
                     controller: controller,
                   ).inject();
                   // При вызове указанной выше JS функции содержимое формы

@@ -1,4 +1,6 @@
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
+import 'package:miigaik/features/common/extensions/color_extensions.dart';
+import 'package:miigaik/theme/palette.dart';
 
 abstract class IJsInjector {
   Future<void> inject();
@@ -6,8 +8,12 @@ abstract class IJsInjector {
 
 class YandexFormInAppWebViewJsInjector extends IJsInjector {
   final InAppWebViewController controller;
+  final Palette palette;
 
-  YandexFormInAppWebViewJsInjector({required this.controller});
+  YandexFormInAppWebViewJsInjector({
+    required this.controller,
+    required this.palette,
+  });
 
   @override
   Future<void> inject() async {
@@ -48,8 +54,8 @@ class YandexFormInAppWebViewJsInjector extends IJsInjector {
               padding-right: 12px !important;
             }
             .SurveyPage-Button {
-              --g-button-background-color: #4964BE !important;
-              --g-button-background-color-hover: #4964BE !important;
+              --g-button-background-color: ${palette.accent.toHex(includeAlpha: false)} !important;
+              --g-button-background-color-hover: ${palette.accent.toHex(includeAlpha: false)} !important;
               color: white !important;
               margin: 0 !important
             }
