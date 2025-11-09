@@ -104,14 +104,14 @@ class _EdiniDekanatPageState extends State<EdiniDekanatPage> {
                 },
                 onLoadStop: (controller, url) async {
                   _controller = controller;
-                  YandexFormInAppWebViewJsInjector(
+                  await YandexFormInAppWebViewJsInjector(
                     palette: context.palette,
                     controller: controller,
                   ).inject();
-                  // При вызове указанной выше JS функции содержимое формы
+                  // При вызове ииъекции JS функции содержимое формы
                   // появляется снизу и мгновенно перемещается наверх.
                   // Задержка нужна чтобы пользователь этого не видел.
-                  Future.delayed(Duration(milliseconds: 300)).then((_) {
+                  Future.delayed(Duration(milliseconds: 100)).then((_) {
                     setState(() {
                       isLoading = false;
                     });
