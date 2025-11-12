@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get_it/get_it.dart';
@@ -41,13 +42,17 @@ class _EdiniDekanatPageState extends State<EdiniDekanatPage> {
   bool isLoading = true;
   bool isError = false;
   bool isErrorConnection = false;
-
+  bool isExiting = false;
+  CookieManager cookieManager = CookieManager.instance();
   InAppWebViewController? _controller;
   final NetworkConnectionService _connectionService = GetIt.I.get();
   StreamSubscription? _subscription;
 
   void _reload() {
-    _controller?.reload();
+    try {
+      _controller?.reload();
+    } on MissingPluginException catch (_) {}
+
     setState(() {
       isLoading = true;
       isError = false;
@@ -69,6 +74,7 @@ class _EdiniDekanatPageState extends State<EdiniDekanatPage> {
   void dispose() {
     super.dispose();
     _subscription?.cancel();
+    _controller?.dispose();
   }
 
   void _onChangeNetworkStatus(status) {
@@ -85,7 +91,9 @@ class _EdiniDekanatPageState extends State<EdiniDekanatPage> {
         children: [
           if (!isError && !isErrorConnection)
             Padding(
-              padding: const EdgeInsets.symmetric(horizontal: horizontalPaddingPage),
+              padding: const EdgeInsets.symmetric(
+                horizontal: horizontalPaddingPage,
+              ),
               child: InAppWebView(
                 initialUrlRequest: URLRequest(url: WebUri(widget.url)),
                 initialSettings: InAppWebViewSettings(
@@ -95,12 +103,22 @@ class _EdiniDekanatPageState extends State<EdiniDekanatPage> {
                   transparentBackground: true,
                   verticalScrollBarEnabled: false,
                   horizontalScrollBarEnabled: false,
+                  cacheEnabled: false,
                 ),
                 onReceivedError: (controller, request, error) {
                   _controller = controller;
                   setState(() {
                     isError = true;
                   });
+                },
+                onWebViewCreated: (controller) async {
+                  _controller = controller;
+                  await InAppWebViewController.clearAllCache();
+
+                  final cookieManager = CookieManager.instance();
+                  await cookieManager.deleteAllCookies();
+
+                  await WebStorageManager.instance().deleteAllData();
                 },
                 onLoadStop: (controller, url) async {
                   _controller = controller;
