@@ -74,7 +74,7 @@ class YandexFormInAppWebViewJsInjector extends IJsInjector {
             .g-card {
               box-shadow: none !important;
             }
-            header, footer, .Promo, .Share, .SuccessMessage-Buttons, .TopLineAdv, h1.g-color-text.g-text.g-text_variant_display-3.MarkdownText.SurveyPage-Name {
+            header, footer, .gdpr-popup-v3-main, .Promo, .Share, .SuccessMessage-Buttons, .TopLineAdv, h1.g-color-text.g-text.g-text_variant_display-3.MarkdownText.SurveyPage-Name {
               display: none !important;
             }
           `;
