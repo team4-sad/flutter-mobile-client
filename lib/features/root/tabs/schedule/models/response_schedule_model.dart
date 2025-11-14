@@ -71,7 +71,7 @@ class ResponseTeacherScheduleModel extends BaseScheduleModel {
 
   factory ResponseTeacherScheduleModel.fromMap(Map<String, dynamic> map) {
     return ResponseTeacherScheduleModel(
-      teacher: TeacherModel.fromMiigaikMap(map["teacher"]),
+      teacher: TeacherModel.fromMap(map["teacher"]),
       schedule: (map["schedule"] as List)
           .map((e) => DayScheduleModel.fromMap(e))
           .toList(),

@@ -8,6 +8,39 @@ abstract class INewSignatureScheduleRepository {
   Future<List<SignatureScheduleModel>> fetchTeachers(String teacher);
 }
 
+class ApiSignatureScheduleRepository extends INewSignatureScheduleRepository {
+  final Dio dio;
+
+  ApiSignatureScheduleRepository({required this.dio});
+
+  @override
+  Future<List<SignatureScheduleModel>> fetchAudiences(String audience) async {
+    final response = await dio.get("schedule/classrooms/$audience");
+    final data = response.data as List;
+    return data.map(
+      (e) => SignatureScheduleModel.fromAudienceMap(e as Map<String, dynamic>)
+    ).toList();
+  }
+
+  @override
+  Future<List<SignatureScheduleModel>> fetchGroups(String groupName) async {
+    final response = await dio.get("schedule/groups/$groupName");
+    final data = response.data as List;
+    return data.map(
+      (e) => SignatureScheduleModel.fromGroupMap(e as Map<String, dynamic>)
+    ).toList();
+  }
+
+  @override
+  Future<List<SignatureScheduleModel>> fetchTeachers(String teacher) async {
+    final response = await dio.get("schedule/teachers/$teacher");
+    final data = response.data as List;
+    return data.map(
+      (e) => SignatureScheduleModel.fromTeacherMap(e as Map<String, dynamic>)
+    ).toList();
+  }
+}
+
 class MiigaikApiSignatureScheduleRepository
     extends INewSignatureScheduleRepository {
   final Dio dio;

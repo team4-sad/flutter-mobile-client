@@ -1,5 +1,6 @@
 import 'package:equatable/equatable.dart';
 import 'package:hive/hive.dart';
+import 'package:miigaik/features/root/tabs/schedule/models/teacher_model.dart';
 import 'package:miigaik/features/schedule-choose/enum/signature_schedule_type.dart';
 
 part 'signature_schedule_model.g.dart';
@@ -19,13 +20,33 @@ class SignatureScheduleModel extends Equatable with HiveObjectMixin {
   SignatureScheduleModel({
     required this.type,
     required this.title,
-    required this.id
+    required this.id,
   });
 
-  SignatureScheduleModel copy() => SignatureScheduleModel(
-      type: type, title: title, id: id
-  );
+  SignatureScheduleModel copy() =>
+      SignatureScheduleModel(type: type, title: title, id: id);
 
   @override
   List<Object?> get props => [type, title, id];
+
+  factory SignatureScheduleModel.fromAudienceMap(Map<String, dynamic> map) =>
+      SignatureScheduleModel( 
+        type: SignatureScheduleType.audience, 
+        title: map["classroom_name"].toString(), 
+        id: map["classroom_id"].toString()
+      );
+  
+  factory SignatureScheduleModel.fromTeacherMap(Map<String, dynamic> map) =>
+      SignatureScheduleModel( 
+        type: SignatureScheduleType.teacher, 
+        id: map["id"].toString(),
+        title: TeacherModel.fromMap(map["teacher"]).fio, 
+      );
+
+  factory SignatureScheduleModel.fromGroupMap(Map<String, dynamic> map) =>
+      SignatureScheduleModel( 
+        type: SignatureScheduleType.group, 
+        id: map["id"].toString(),
+        title: map["group_name"].toString(), 
+      );
 }

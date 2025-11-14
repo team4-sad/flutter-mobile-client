@@ -85,19 +85,27 @@ class ApiScheduleRepository extends IScheduleRepository {
   Future<ResponseAudienceScheduleModel> fetchDayAudienceSchedule({
     required String audienceId,
     required DateTime day,
-  }) {
-    throw UnimplementedError(
-      "В нашем API пока нет получения расписания адитории",
+  }) async {
+    final formattedDay = day.yyyyMMdd;
+    final response = await dio.get(
+      "schedule/classroom/$audienceId",
+      queryParameters: {"start_date": formattedDay, "end_date": formattedDay},
     );
+    final model = ResponseAudienceScheduleModel.fromMap(response.data);
+    return model;
   }
 
   @override
   Future<ResponseTeacherScheduleModel> fetchDayTeacherSchedule({
     required String teacherId,
     required DateTime day,
-  }) {
-    throw UnimplementedError(
-      "В нашем API пока нет получения расписания преподавателя",
+  }) async {
+    final formattedDay = day.yyyyMMdd;
+    final response = await dio.get(
+      "schedule/teacher/$teacherId",
+      queryParameters: {"start_date": formattedDay, "end_date": formattedDay},
     );
+    final model = ResponseTeacherScheduleModel.fromMap(response.data);
+    return model;
   }
 }

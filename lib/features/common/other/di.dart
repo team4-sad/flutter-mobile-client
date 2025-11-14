@@ -68,7 +68,7 @@ class DI {
     );
 
     final defaultDio = GetIt.I.get<Dio>(instanceName: defaultDioName);
-    final miigaikApiDio = GetIt.I.get<Dio>(instanceName: miigaikApiDioName);
+    // final miigaikApiDio = GetIt.I.get<Dio>(instanceName: miigaikApiDioName);
 
     final apiNewsRepository = ApiNewsRepository(dio: defaultDio);
     GetIt.I.registerSingleton<INewsRepository>(apiNewsRepository);
@@ -79,13 +79,12 @@ class DI {
     final apiSearchNewsRepository = ApiSearchNewsRepository(dio: defaultDio);
     GetIt.I.registerSingleton<ISearchNewsRepository>(apiSearchNewsRepository);
 
-    final apiScheduleRepository = MiigaikScheduleRepopsitory(dio: miigaikApiDio);
+    final apiScheduleRepository = ApiScheduleRepository(dio: defaultDio);
     GetIt.I.registerSingleton<IScheduleRepository>(apiScheduleRepository);
 
-    final miigaikNewSignaturesRepository =
-        MiigaikApiSignatureScheduleRepository(dio: miigaikApiDio);
+    final apiSignaturesRepository = ApiSignatureScheduleRepository(dio: defaultDio);
     GetIt.I.registerSingleton<INewSignatureScheduleRepository>(
-      miigaikNewSignaturesRepository,
+      apiSignaturesRepository,
     );
   }
 
