@@ -83,8 +83,13 @@ class _EdiniDekanatPageState extends State<EdiniDekanatPage> {
     }
   }
 
+  bool _isVisible = true;
+
   @override
   Widget build(BuildContext context) {
+    if (!_isVisible) {
+      return const SizedBox.shrink();
+    }
     return Scaffold(
       appBar: SimpleAppBar(title: widget.title),
       body: Stack(
@@ -94,47 +99,56 @@ class _EdiniDekanatPageState extends State<EdiniDekanatPage> {
               padding: const EdgeInsets.symmetric(
                 horizontal: horizontalPaddingPage,
               ),
-              child: InAppWebView(
-                initialUrlRequest: URLRequest(url: WebUri(widget.url)),
-                initialSettings: InAppWebViewSettings(
-                  useShouldOverrideUrlLoading: true,
-                  userAgent: Config.webWiewUserAgent.conf(),
-                  javaScriptEnabled: true,
-                  transparentBackground: true,
-                  verticalScrollBarEnabled: false,
-                  horizontalScrollBarEnabled: false,
-                  cacheEnabled: false,
-                ),
-                onReceivedError: (controller, request, error) {
-                  _controller = controller;
-                  setState(() {
-                    isError = true;
-                  });
-                },
-                onWebViewCreated: (controller) async {
-                  _controller = controller;
-                  await InAppWebViewController.clearAllCache();
-
-                  final cookieManager = CookieManager.instance();
-                  await cookieManager.deleteAllCookies();
-
-                  await WebStorageManager.instance().deleteAllData();
-                },
-                onLoadStop: (controller, url) async {
-                  _controller = controller;
-                  await YandexFormInAppWebViewJsInjector(
-                    palette: context.palette,
-                    controller: controller,
-                  ).inject();
-                  // При вызове ииъекции JS функции содержимое формы
-                  // появляется снизу и мгновенно перемещается наверх.
-                  // Задержка нужна чтобы пользователь этого не видел.
-                  Future.delayed(Duration(milliseconds: 100)).then((_) {
+              child: PopScope(
+                onPopInvokedWithResult: (didPop, _) {
+                  if (didPop) {
                     setState(() {
-                      isLoading = false;
+                      _isVisible = false;
                     });
-                  });
+                  }
                 },
+                child: InAppWebView(
+                  initialUrlRequest: URLRequest(url: WebUri(widget.url)),
+                  initialSettings: InAppWebViewSettings(
+                    useShouldOverrideUrlLoading: true,
+                    userAgent: Config.webWiewUserAgent.conf(),
+                    javaScriptEnabled: true,
+                    transparentBackground: true,
+                    verticalScrollBarEnabled: false,
+                    horizontalScrollBarEnabled: false,
+                    cacheEnabled: false,
+                  ),
+                  onReceivedError: (controller, request, error) {
+                    _controller = controller;
+                    setState(() {
+                      isError = true;
+                    });
+                  },
+                  onWebViewCreated: (controller) async {
+                    _controller = controller;
+                    await InAppWebViewController.clearAllCache();
+
+                    final cookieManager = CookieManager.instance();
+                    await cookieManager.deleteAllCookies();
+
+                    await WebStorageManager.instance().deleteAllData();
+                  },
+                  onLoadStop: (controller, url) async {
+                    _controller = controller;
+                    await YandexFormInAppWebViewJsInjector(
+                      palette: context.palette,
+                      controller: controller,
+                    ).inject();
+                    // При вызове ииъекции JS функции содержимое формы
+                    // появляется снизу и мгновенно перемещается наверх.
+                    // Задержка нужна чтобы пользователь этого не видел.
+                    Future.delayed(Duration(milliseconds: 100)).then((_) {
+                      setState(() {
+                        isLoading = false;
+                      });
+                    });
+                  },
+                ),
               ),
             ),
           if (isLoading)
