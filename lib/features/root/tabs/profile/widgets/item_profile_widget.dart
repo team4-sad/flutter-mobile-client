@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:miigaik/generated/icons.g.dart';
 import 'package:miigaik/theme/app_theme_extensions.dart';
 import 'package:miigaik/theme/text_styles.dart';
 
@@ -28,7 +29,7 @@ class ItemProfileWidget extends StatelessWidget {
         child: Row(
           children: [
             Expanded(child: Text(title, style: TS.regular15.use(context.palette.text))),
-            Icon(Icons.arrow_right_outlined, size: 32, color: context.palette.text,)
+            Icon(I.rightarrow, size: 18, color: context.palette.text,)
           ],
         ),
       ),
