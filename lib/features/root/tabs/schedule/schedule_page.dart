@@ -97,7 +97,7 @@ class _SchedulePageState extends State<SchedulePage> {
             bloc: bloc,
             builder: (context, state) {
               return SheetWidget(
-                title: bloc.state.currentOnlyDate.displayDate.title,
+                title: bloc.state.currentOnlyDate.ddMMMMyyyy.title,
                 controller: controller,
                 child: MainScheduleContent(),
               );

@@ -39,15 +39,24 @@ class DI {
   static const String defaultDioName = "default_dio";
   static const String miigaikApiDioName = "miigaik_api_dio";
 
-  static Future<void> init() async {
+  static Future<void> fullInit() async {
     initLogger();
     await initPackageInfo();
     await initConfig();
     await initHive();
     initDio();
-    initRepositoies();
+    initRepositories();
     await initServices();
     initBlocs();
+  }
+
+  static Future<void> lightInit() async {
+    await initConfig();
+    initDio();
+
+    final defaultDio = GetIt.I.get<Dio>(instanceName: defaultDioName);
+    final apiScheduleRepository = ApiScheduleRepository(dio: defaultDio);
+    GetIt.I.registerSingleton<IScheduleRepository>(apiScheduleRepository);
   }
 
   static Future<void> initConfig() async {
@@ -59,7 +68,7 @@ class DI {
     GetIt.I.registerSingleton(packageInfo);
   }
 
-  static void initRepositoies() {
+  static void initRepositories() {
     final signatureScheduleRepository = SignatureScheduleRepository(
       box: GetIt.I.get(),
     );

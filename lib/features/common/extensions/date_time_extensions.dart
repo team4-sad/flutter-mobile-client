@@ -45,7 +45,9 @@ extension DateTimeExtensions on DateTime {
     );
   }
 
-  String get displayDate => DateFormat("dd MMMM yyyy").format(this);
+  String get ddMMMMyyyy => DateFormat("dd MMMM yyyy").format(this);
 
   String get yyyyMMdd => DateFormat("yyyy-MM-dd").format(this);
+
+  String get eeeeDDmmmm => DateFormat('EEEE, dd MMMM').format(this);
 }

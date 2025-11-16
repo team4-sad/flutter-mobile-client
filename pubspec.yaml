@@ -31,6 +31,7 @@ dependencies:
   photo_view: ^0.15.0
   datetime_loop: ^1.5.0
   flutter_inappwebview: ^6.1.5
+  intl: ^0.20.2
 
   hive: ^2.2.3
   hive_flutter: ^1.1.0
@@ -39,6 +40,8 @@ dependencies:
   talker_flutter: ^5.0.1
   talker_dio_logger: ^5.0.1
   talker_bloc_logger: ^5.0.1
+
+  home_widget: ^0.8.1
 
 dev_dependencies:
   flutter_test:
