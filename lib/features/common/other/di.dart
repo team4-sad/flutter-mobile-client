@@ -50,13 +50,14 @@ class DI {
     initBlocs();
   }
 
-  static Future<void> lightInit() async {
+  static Future<void> homeWidgetInit() async {
+    initLogger();
     await initConfig();
+    await initHive();
     initDio();
-
-    final defaultDio = GetIt.I.get<Dio>(instanceName: defaultDioName);
-    final apiScheduleRepository = ApiScheduleRepository(dio: defaultDio);
-    GetIt.I.registerSingleton<IScheduleRepository>(apiScheduleRepository);
+    initRepositoriesHomeWidget();
+    await initServices();
+    initBlocsHomeWidget();
   }
 
   static Future<void> initConfig() async {
@@ -66,6 +67,20 @@ class DI {
   static Future<void> initPackageInfo() async {
     PackageInfo packageInfo = await PackageInfo.fromPlatform();
     GetIt.I.registerSingleton(packageInfo);
+  }
+
+  static void initRepositoriesHomeWidget(){
+    final defaultDio = GetIt.I.get<Dio>(instanceName: defaultDioName);
+
+    final apiScheduleRepository = ApiScheduleRepository(dio: defaultDio);
+    GetIt.I.registerSingleton<IScheduleRepository>(apiScheduleRepository);
+
+    final signatureScheduleRepository = SignatureScheduleRepository(
+      box: GetIt.I.get(),
+    );
+    GetIt.I.registerSingleton<ISignatureScheduleRepository>(
+      signatureScheduleRepository,
+    );
   }
 
   static void initRepositories() {
@@ -95,6 +110,12 @@ class DI {
     GetIt.I.registerSingleton<INewSignatureScheduleRepository>(
       apiSignaturesRepository,
     );
+  }
+
+  static void initBlocsHomeWidget(){
+    GetIt.I.registerSingleton(ThemeBloc(AppTheme.defaultTheme()));
+    GetIt.I.registerSingleton(NetworkConnectionBloc()..listen());
+    GetIt.I.registerSingleton(SignatureScheduleBloc());
   }
 
   static void initBlocs() {

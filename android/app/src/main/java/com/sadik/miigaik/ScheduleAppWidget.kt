@@ -43,7 +43,7 @@ internal fun updateAppWidget(
     val views = RemoteViews(context.packageName, R.layout.schedule_app_widget)
     val prefs = HomeWidgetPlugin.getData(context)
 
-    val group = prefs.getString("${appWidgetId}_group", "Ошибка")
+    val group = prefs.getString("${appWidgetId}_group_title", "Ошибка")
 
     views.setTextViewText(R.id.group_name, group)
     views.setOnClickPendingIntent(R.id.refresh,

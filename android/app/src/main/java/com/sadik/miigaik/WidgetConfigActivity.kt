@@ -12,12 +12,12 @@ class WidgetConfigActivity : FlutterActivity() {
 
     private var widgetId = AppWidgetManager.INVALID_APPWIDGET_ID
     private var methodChannel: MethodChannel? = null
+    private var isConfigurationComplete = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         Log.d("WIDGET_CONFIG", "onCreate started")
 
-        // Получаем widgetId ДО инициализации Flutter
         widgetId = intent?.extras?.getInt(
             AppWidgetManager.EXTRA_APPWIDGET_ID,
             AppWidgetManager.INVALID_APPWIDGET_ID
@@ -27,8 +27,7 @@ class WidgetConfigActivity : FlutterActivity() {
 
         if (widgetId == AppWidgetManager.INVALID_APPWIDGET_ID) {
             Log.e("WIDGET_CONFIG", "Invalid widget ID")
-            setResult(RESULT_CANCELED)
-            finish()
+            cancelConfiguration()
         }
     }
 
@@ -51,6 +50,10 @@ class WidgetConfigActivity : FlutterActivity() {
                         completeConfiguration()
                         result.success(null)
                     }
+                    "cancel" -> {
+                        cancelConfiguration()
+                        result.success(null)
+                    }
                     else -> result.notImplemented()
                 }
             }
@@ -59,6 +62,7 @@ class WidgetConfigActivity : FlutterActivity() {
 
     private fun completeConfiguration() {
         Log.d("WIDGET_CONFIG", "Completing configuration")
+        isConfigurationComplete = true
         val resultValue = Intent().apply {
             putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, widgetId)
         }
@@ -66,7 +70,33 @@ class WidgetConfigActivity : FlutterActivity() {
         finish()
     }
 
+    private fun cancelConfiguration() {
+        Log.d("WIDGET_CONFIG", "Canceling configuration")
+        isConfigurationComplete = true
+        setResult(RESULT_CANCELED)
+        finish()
+    }
+
+    override fun onBackPressed() {
+        Log.d("WIDGET_CONFIG", "Back button pressed")
+        cancelConfiguration()
+    }
+
+    override fun onUserLeaveHint() {
+        super.onUserLeaveHint()
+        Log.d("WIDGET_CONFIG", "User leaving activity")
+        if (!isConfigurationComplete) {
+            cancelConfiguration()
+        }
+    }
+
     override fun onDestroy() {
+        // Если активность уничтожается и конфигурация не завершена, отменяем
+        if (!isConfigurationComplete) {
+            Log.d("WIDGET_CONFIG", "Activity destroyed without completion")
+            setResult(RESULT_CANCELED)
+        }
+
         methodChannel?.setMethodCallHandler(null)
         super.onDestroy()
         Log.d("WIDGET_CONFIG", "onDestroy")
