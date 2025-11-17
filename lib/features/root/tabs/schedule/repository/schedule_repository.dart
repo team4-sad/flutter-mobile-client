@@ -3,6 +3,7 @@ import 'package:miigaik/features/common/extensions/date_time_extensions.dart';
 import 'package:miigaik/features/root/tabs/schedule/models/response_schedule_model.dart';
 
 abstract class IScheduleRepository {
+
   Future<ResponseGroupScheduleModel> fetchDayGroupSchedule({
     required String groupId,
     required DateTime day,
@@ -19,10 +20,10 @@ abstract class IScheduleRepository {
   });
 }
 
-class MiigaikScheduleRepopsitory extends IScheduleRepository {
+class MiigaikScheduleRepository extends IScheduleRepository {
   final Dio dio;
 
-  MiigaikScheduleRepopsitory({required this.dio});
+  MiigaikScheduleRepository({required this.dio});
 
   @override
   Future<ResponseAudienceScheduleModel> fetchDayAudienceSchedule({

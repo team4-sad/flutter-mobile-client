@@ -1,48 +1,67 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:orientation="vertical"
-    android:padding="12dp"
-    android:background="#FFFFFF"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="match_parent"
+    android:background="#FFFFFF"
+    android:orientation="vertical"
+    android:padding="12dp">
 
-    <LinearLayout
+    <TextView
+        android:id="@+id/schedule_name"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:gravity="center_vertical">
-
-        <ImageButton
-            android:id="@+id/refresh"
-            android:layout_width="28dp"
-            android:layout_height="28dp"
-            android:backgroundTint="@android:color/transparent"
-            android:src="@drawable/baseline_refresh_24" />
-
-        <TextView
-            android:id="@+id/group_name"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:textSize="18sp"
-            android:textStyle="bold"
-            android:paddingStart="8dp" />
-
-    </LinearLayout>
+        android:textColor="#000000"
+        android:textSize="18sp"
+        android:textStyle="bold" />
 
     <TextView
         android:id="@+id/date_text"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="4dp"
+        android:textColor="#000000"
         android:textSize="14sp"
-        android:textColor="#666666" />
+        android:textStyle="bold" />
 
     <ListView
         android:id="@+id/schedule_list"
         android:layout_width="match_parent"
-        android:layout_height="200dp"
+        android:layout_height="0dp"
         android:layout_marginTop="8dp"
+        android:layout_weight="1"
         android:divider="@null"
-        android:dividerHeight="0dp"/>
+        android:dividerHeight="0dp" />
+
+    <LinearLayout
+        android:id="@+id/message_container"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:paddingBottom="30dp"
+        android:visibility="gone">
+
+        <TextView
+            android:id="@+id/title_message"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="4dp"
+            android:fontFamily="@font/roboto"
+            android:gravity="center"
+            android:text="Что-то пошло не так"
+            android:textColor="#000000"
+            android:textSize="18sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/subtitle_message"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="Попробуйте пересоздать виджет"
+            android:textColor="#939396"
+            android:textSize="14sp" />
+    </LinearLayout>
+
+
 </LinearLayout>

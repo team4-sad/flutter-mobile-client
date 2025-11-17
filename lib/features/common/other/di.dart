@@ -25,6 +25,7 @@ import 'package:miigaik/features/schedule-choose/bloc/signature_schedule_bloc.da
 import 'package:miigaik/features/schedule-choose/enum/signature_schedule_type.dart';
 import 'package:miigaik/features/schedule-choose/models/signature_schedule_model.dart';
 import 'package:miigaik/features/schedule-choose/repository/signature_schedule_repository.dart';
+import 'package:miigaik/features/schedule-widget/storage/home_widget_storage.dart';
 import 'package:miigaik/features/single-news/bloc/single_news_bloc.dart';
 import 'package:miigaik/features/single-news/repository/single_news_repository.dart';
 import 'package:miigaik/features/switch-locale/locale_bloc.dart';
@@ -46,6 +47,7 @@ class DI {
     await initHive();
     initDio();
     initRepositories();
+    initStorages();
     await initServices();
     initBlocs();
   }
@@ -56,6 +58,7 @@ class DI {
     await initHive();
     initDio();
     initRepositoriesHomeWidget();
+    initStorages();
     await initServices();
     initBlocsHomeWidget();
   }
@@ -178,6 +181,11 @@ class DI {
       ),
     );
     GetIt.I.registerSingleton(scheduleApiDio, instanceName: miigaikApiDioName);
+  }
+
+  static void initStorages(){
+    final homeWidgetStorage = HomeWidgetStorage();
+    GetIt.I.registerSingleton<IHomeWidgetStorage>(homeWidgetStorage);
   }
 
   static void safeInitWithContext(BuildContext context) {

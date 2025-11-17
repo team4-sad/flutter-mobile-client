@@ -29,21 +29,16 @@ class ScheduleRemoteViewsFactory(
     override fun onDataSetChanged() {
         lessons.clear()
 
-        val sizeSchedule = prefs.getInt("${appWidgetId}_schedule_size", 0)
-        for (i in 0 until sizeSchedule) {
-            val lessonTitle = prefs.getString("${appWidgetId}_lessons_${i}_title", "") ?: ""
-            val startTime = prefs.getString("${appWidgetId}_lessons_${i}_start_time", "") ?: ""
-            val endTime = prefs.getString("${appWidgetId}_lessons_${i}_end_time", "") ?: ""
-            val number = prefs.getInt("${appWidgetId}_lessons_${i}_number", 0).toString()
+        val stringLessons = prefs.getString("${appWidgetId}_lessons", "") ?: ""
+        val data = stringLessons.jsonToListOfMaps()
 
-            if (lessonTitle.isNotEmpty()) {
-                lessons.add(LessonItem(number, "$startTime-$endTime", lessonTitle))
-            }
-        }
+        for (lesson in data) {
+            val lessonTitle = lesson["disciplineName"] as String
+            val startTime = lesson["lessonStartTime"] as String
+            val endTime = lesson["lessonEndTime"] as String
+            val number = lesson["lessonOrderNumber"] as Int
 
-        // Если нет уроков, добавляем заглушку
-        if (lessons.isEmpty()) {
-            lessons.add(LessonItem("", "", "Нет пар на сегодня"))
+            lessons.add(LessonItem(number, "$startTime-$endTime", lessonTitle))
         }
     }
 
@@ -57,15 +52,9 @@ class ScheduleRemoteViewsFactory(
         val remoteViews = RemoteViews(context.packageName, R.layout.lesson_item)
         val lesson = lessons[position]
 
-        remoteViews.setTextViewText(R.id.numberText, lesson.number)
+        remoteViews.setTextViewText(R.id.numberText, lesson.number.toString())
         remoteViews.setTextViewText(R.id.timeText, lesson.time)
         remoteViews.setTextViewText(R.id.subjectText, lesson.subject)
-
-        // Настройка внешнего вида в зависимости от содержания
-        if (lesson.subject == "Нет пар на сегодня") {
-            remoteViews.setTextViewText(R.id.numberText, "")
-            remoteViews.setTextViewText(R.id.timeText, "")
-        }
 
         return remoteViews
     }
@@ -80,7 +69,7 @@ class ScheduleRemoteViewsFactory(
 }
 
 data class LessonItem(
-    val number: String,
+    val number: Int,
     val time: String,
     val subject: String
 )
