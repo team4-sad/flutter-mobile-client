@@ -8,8 +8,9 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="horizontal">
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center_vertical">
 
         <ImageButton
             android:id="@+id/refresh"
@@ -20,10 +21,12 @@
 
         <TextView
             android:id="@+id/group_name"
-            android:layout_width="fill_parent"
-            android:layout_height="match_parent"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
             android:textSize="18sp"
-            android:textStyle="bold" />
+            android:textStyle="bold"
+            android:paddingStart="8dp" />
 
     </LinearLayout>
 
@@ -32,11 +35,14 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="4dp"
-        android:textSize="16sp" />
+        android:textSize="14sp"
+        android:textColor="#666666" />
 
-    <LinearLayout
-        android:id="@+id/lessonsContainer"
-        android:orientation="vertical"
+    <ListView
+        android:id="@+id/schedule_list"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
+        android:layout_height="200dp"
+        android:layout_marginTop="8dp"
+        android:divider="@null"
+        android:dividerHeight="0dp"/>
 </LinearLayout>

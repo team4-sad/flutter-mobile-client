@@ -1,10 +1,15 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_it/get_it.dart';
 import 'package:home_widget/home_widget.dart';
+import 'package:miigaik/features/common/extensions/date_time_extensions.dart';
 import 'package:miigaik/features/common/extensions/num_widget_extension.dart';
 import 'package:miigaik/features/common/widgets/simple_app_bar.dart';
+import 'package:miigaik/features/root/tabs/schedule/models/lesson_model.dart';
+import 'package:miigaik/features/root/tabs/schedule/repository/schedule_repository.dart';
 import 'package:miigaik/features/schedule-choose/bloc/signature_schedule_bloc.dart';
 import 'package:miigaik/features/schedule-choose/content/error_schedule_choose_content.dart';
 import 'package:miigaik/features/schedule-choose/content/loading_schedule_choose_content.dart';
@@ -12,12 +17,17 @@ import 'package:miigaik/features/schedule-choose/models/signature_schedule_model
 import 'package:miigaik/features/schedule-choose/widgets/choose_schedule_widget.dart';
 import 'package:miigaik/theme/values.dart';
 
-class ScheduleWidgetConfigurationPage extends StatelessWidget {
+class ScheduleWidgetConfigurationPage extends StatefulWidget {
 
   final int widgetId;
 
-  ScheduleWidgetConfigurationPage({super.key, required this.widgetId});
+  const ScheduleWidgetConfigurationPage({super.key, required this.widgetId});
 
+  @override
+  State<ScheduleWidgetConfigurationPage> createState() => _ScheduleWidgetConfigurationPageState();
+}
+
+class _ScheduleWidgetConfigurationPageState extends State<ScheduleWidgetConfigurationPage> {
   final SignatureScheduleBloc bloc = GetIt.I.get();
 
   @override
@@ -60,17 +70,28 @@ class ScheduleWidgetConfigurationPage extends StatelessWidget {
   Future<void> save(SignatureScheduleModel model) async {
     try {
       await HomeWidget.saveWidgetData(
-        '${widgetId}_group_title',
+        '${widget.widgetId}_schedule_title',
         model.title,
       );
       await HomeWidget.saveWidgetData(
-        '${widgetId}_group_type',
+        '${widget.widgetId}_schedule_type',
         model.type.display,
       );
       await HomeWidget.saveWidgetData(
-        '${widgetId}_group_id',
+        '${widget.widgetId}_schedule_id',
         model.id,
       );
+      final date = DateTime(2025, 11, 20);
+      final quickSchedule = await _tryQuickScheduleLoad(model.id, date);
+      if (quickSchedule != null) {
+        await _saveSchedule(quickSchedule, date.yyyyMMdd);
+      } else {
+        await HomeWidget.saveWidgetData(
+          '${widget.widgetId}_schedule_state',
+          'loading',
+        );
+        // await _startBackgroundScheduleLoad();
+      }
 
       await HomeWidget.updateWidget(name: 'ScheduleAppWidget');
 
@@ -78,6 +99,36 @@ class ScheduleWidgetConfigurationPage extends StatelessWidget {
     } catch (e) {
       debugPrint("Error saving widget: $e");
       await MethodChannel("widget_config").invokeMethod("finish");
+    }
+  }
+
+  Future<void> _saveSchedule(List<LessonModel> data, String date) async {
+    await HomeWidget.saveWidgetData(
+      '${widget.widgetId}_schedule_size',
+      data.length,
+    );
+    await HomeWidget.saveWidgetData(
+      '${widget.widgetId}_schedule_date',
+      date,
+    );
+    for (int i=0; i<data.length; i++){
+      final lesson = data[i];
+      await HomeWidget.saveWidgetData(
+        '${widget.widgetId}_lessons_${i}_title',
+        lesson.disciplineName,
+      );
+      await HomeWidget.saveWidgetData(
+        '${widget.widgetId}_lessons_${i}_start_time',
+        lesson.displayStartTime,
+      );
+      await HomeWidget.saveWidgetData(
+        '${widget.widgetId}_lessons_${i}_end_time',
+        lesson.displayEndTime,
+      );
+      await HomeWidget.saveWidgetData(
+        '${widget.widgetId}_lessons_${i}_number',
+        lesson.lessonOrderNumber,
+      );
     }
   }
 
@@ -90,6 +141,27 @@ class ScheduleWidgetConfigurationPage extends StatelessWidget {
       if (context.mounted){
         Navigator.of(context).pop();
       }
+    }
+  }
+
+  final IScheduleRepository repository = GetIt.I.get();
+
+  Future<List<LessonModel>?> _tryQuickScheduleLoad(String groupId, DateTime date) async {
+    try {
+      final response = await repository.fetchDayGroupSchedule(
+          groupId: groupId,
+          day: date
+      );
+      // .timeout(Duration(seconds: 1));
+      List<LessonModel> data = [];
+      if (response.schedule.isNotEmpty){
+        data = response.schedule.first.lessons;
+      }
+      return data;
+    } on TimeoutException {
+      return null;
+    } catch (e) {
+      return null;
     }
   }
 }

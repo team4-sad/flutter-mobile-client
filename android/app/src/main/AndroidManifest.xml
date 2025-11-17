@@ -111,6 +111,11 @@
             android:name="es.antonborri.home_widget.HomeWidgetBackgroundService"
             android:exported="true"
             android:permission="android.permission.BIND_JOB_SERVICE" />
+
+        <service
+            android:name=".ScheduleWidgetService"
+            android:permission="android.permission.BIND_REMOTEVIEWS"
+            android:exported="false" />
     </application>
 
 </manifest>
