@@ -38,8 +38,16 @@ class ScheduleRemoteViewsFactory(
             val endTime = lesson["lessonEndTime"] as String
             val number = lesson["lessonOrderNumber"] as Int
 
-            lessons.add(LessonItem(number, "$startTime-$endTime", lessonTitle))
+            lessons.add(LessonItem(
+                number,
+                "${removeSeconds(startTime)}-${removeSeconds(endTime)}",
+                lessonTitle
+            ))
         }
+    }
+
+    private fun removeSeconds(time: String): String {
+        return time.split(":").subList(0, 2).joinToString(":")
     }
 
     override fun onDestroy() {
