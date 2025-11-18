@@ -30,10 +30,11 @@
         android:id="@+id/schedule_list"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_marginTop="8dp"
         android:layout_weight="1"
+        android:clipToPadding="false"
         android:divider="@null"
-        android:dividerHeight="0dp" />
+        android:dividerHeight="0dp"
+        android:paddingBottom="8dp" />
 
     <LinearLayout
         android:id="@+id/message_container"
