@@ -6,6 +6,7 @@ import android.appwidget.AppWidgetProvider
 import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
+import android.net.Uri
 import android.util.Log
 import android.view.View
 import android.widget.RemoteViews
@@ -105,6 +106,7 @@ internal fun updateAppWidget(
 
         val intent = Intent(context, ScheduleWidgetService::class.java).apply {
             putExtra("appWidgetId", appWidgetId)
+            data = "widget://$appWidgetId".toUri()
         }
         views.setRemoteAdapter(R.id.schedule_list, intent)
 
