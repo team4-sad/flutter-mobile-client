@@ -12,7 +12,7 @@ import 'package:miigaik/features/schedule-choose/content/loading_schedule_choose
 import 'package:miigaik/features/schedule-choose/models/signature_schedule_model.dart';
 import 'package:miigaik/features/schedule-choose/widgets/choose_schedule_widget.dart';
 import 'package:miigaik/features/schedule-widget/helpers/home_widget_channel_helper.dart';
-import 'package:miigaik/features/schedule-widget/use_case/save_configuration_use_case.dart';
+import 'package:miigaik/features/schedule-widget/use_case/prepare_widget_use_case.dart';
 import 'package:miigaik/theme/values.dart';
 
 import 'helpers/home_widget_helper.dart';
@@ -29,7 +29,7 @@ class ScheduleWidgetConfigurationPage extends StatefulWidget {
 
 class _ScheduleWidgetConfigurationPageState extends State<ScheduleWidgetConfigurationPage> {
   final SignatureScheduleBloc bloc = GetIt.I.get();
-  final saveUseCase = SaveConfigurationUseCase();
+  final saveUseCase = PrepareWidgetUseCase();
   bool _isSaving = false;
 
   @override
@@ -122,10 +122,7 @@ class _ScheduleWidgetConfigurationPageState extends State<ScheduleWidgetConfigur
 
     try {
       final success = await saveUseCase.call(
-          widget.widgetId,
-          signature,
-          DateTime.now(),
-          context.locale
+          widget.widgetId, signature, DateTime.now(), locale.toString()
       );
 
       if (success) {
@@ -133,11 +130,15 @@ class _ScheduleWidgetConfigurationPageState extends State<ScheduleWidgetConfigur
         await HomeWidgetHelper.update();
       } else {
         debugPrint("Запущена фоновая загрузка расписания");
-        await HomeWidgetWorkManagerHelper.startBackgroundScheduleLoad(widget.widgetId, signature, locale);
+        await HomeWidgetWorkManagerHelper.startBackgroundScheduleLoad(
+            widget.widgetId, signature, locale
+        );
         await HomeWidgetHelper.update();
       }
 
-      await HomeWidgetWorkManagerHelper.setupDailyUpdates(widget.widgetId, signature, locale);
+      await HomeWidgetWorkManagerHelper.setupDailyUpdates(
+          widget.widgetId, signature, locale
+      );
 
       await HomeWidgetChannelHelper.finish();
     } catch (e) {

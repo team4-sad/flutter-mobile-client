@@ -14,6 +14,8 @@ import es.antonborri.home_widget.HomeWidgetPlugin
 import org.json.JSONArray
 import org.json.JSONObject
 import androidx.core.content.edit
+import androidx.core.net.toUri
+import es.antonborri.home_widget.HomeWidgetBackgroundIntent
 
 class ScheduleAppWidget : AppWidgetProvider() {
     override fun onUpdate(
@@ -79,11 +81,20 @@ internal fun updateAppWidget(
         val signatureJsonObj = JSONObject(signatureString)
         val signature = signatureJsonObj.toMap()
 
+        val locale = prefs.getString("locale", "ru_RU") ?: "ru_RU"
+
         val date = prefs.getString("${appWidgetId}_display_date", "")
         Log.e("WIDGET", "display_date=$date")
         views.setTextViewText(R.id.date_text, date)
 
         views.setTextViewText(R.id.schedule_name, signature["title"]?.toString() ?: "")
+
+        views.setOnClickPendingIntent(
+            R.id.refresh,
+            HomeWidgetBackgroundIntent.getBroadcast(
+                context, "miigaik://schedule?action=refresh&id=$appWidgetId&locale=$locale".toUri()
+            )
+        )
 
         val isEmptyLessons = prefs.getBoolean("${appWidgetId}_lessons_empty", false)
         if (isEmptyLessons){

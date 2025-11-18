@@ -1,6 +1,4 @@
 import 'dart:convert';
-import 'dart:ui';
-
 import 'package:home_widget/home_widget.dart';
 import 'package:miigaik/features/common/extensions/date_time_extensions.dart';
 import 'package:miigaik/features/common/extensions/string_extension.dart';
@@ -25,6 +23,9 @@ abstract class IHomeWidgetStorage {
   Future<String> getDate(
     int widgetId,
   );
+  Future<SignatureScheduleModel> getSignature(
+    int widgetId,
+  );
   Future<void> saveScheduleState(
     int widgetId,
     ScheduleState state
@@ -32,14 +33,17 @@ abstract class IHomeWidgetStorage {
   Future<bool> checkWidgetIsExist(
     int widgetId
   );
+  Future<void> saveLocale(
+    String locale
+  );
 }
 
 class HomeWidgetStorage extends IHomeWidgetStorage {
   @override
   Future<void> saveSignature(
-      int widgetId,
-      SignatureScheduleModel signature,
-      ) async {
+    int widgetId,
+    SignatureScheduleModel signature,
+  ) async {
     final mapSignature = signature.toMap();
     final stringSignature = jsonEncode(mapSignature);
     await HomeWidget.saveWidgetData("${widgetId}_signature", stringSignature);
@@ -47,9 +51,9 @@ class HomeWidgetStorage extends IHomeWidgetStorage {
 
   @override
   Future<void> saveLessons(
-      int widgetId,
-      List<LessonModel> lessons,
-      ) async {
+    int widgetId,
+    List<LessonModel> lessons,
+  ) async {
     final listOfMaps = lessons.map((e) => e.toMap()).toList();
     final stringLessons = jsonEncode(listOfMaps);
     await HomeWidget.saveWidgetData("${widgetId}_lessons", stringLessons);
@@ -82,5 +86,18 @@ class HomeWidgetStorage extends IHomeWidgetStorage {
   Future<bool> checkWidgetIsExist(int widgetId) async {
     final allWidgets = await HomeWidget.getInstalledWidgets();
     return allWidgets.any((e) => e.androidWidgetId == widgetId);
+  }
+
+  @override
+  Future<SignatureScheduleModel> getSignature(int widgetId) async {
+    final stringSignature = await HomeWidget.getWidgetData("${widgetId}_signature");
+    final mapSignature = jsonDecode(stringSignature);
+    final signature = SignatureScheduleModel.fromMap(mapSignature);
+    return signature;
+  }
+
+  @override
+  Future<void> saveLocale(String locale) async {
+    await HomeWidget.saveWidgetData("locale", locale.toString());
   }
 }
