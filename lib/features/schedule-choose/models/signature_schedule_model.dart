@@ -55,4 +55,11 @@ class SignatureScheduleModel extends Equatable with HiveObjectMixin {
         id: map["id"].toString(),
         title: map["group_name"].toString(), 
       );
+
+  factory SignatureScheduleModel.fromMap(Map<String, dynamic> map) =>
+      SignatureScheduleModel(
+          type: SignatureScheduleType.fromDisplay(map["type"] as String),
+          title: map["title"] as String,
+          id: map["id"]
+      );
 }

@@ -5,6 +5,7 @@ import 'package:miigaik/features/common/other/app_wrapper_widget.dart';
 import 'package:miigaik/features/common/other/di.dart';
 import 'package:miigaik/features/root/root_page.dart';
 import 'package:miigaik/features/schedule-widget/schedule_widget_configuration_page.dart';
+import 'features/schedule-widget/helpers/home_widget_work_manager_helper.dart';
 import 'features/schedule-widget/schedule_widget.dart';
 
 void main() async {
@@ -31,6 +32,8 @@ void main() async {
 
 Future<void> launchApp() async {
   await EasyLocalization.ensureInitialized();
+
+  HomeWidgetWorkManagerHelper.initializeWorkManager();
 
   await DI.fullInit();
   await ScheduleWidget.init();

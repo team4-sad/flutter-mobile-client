@@ -5,7 +5,11 @@ import 'package:miigaik/features/schedule-choose/enum/signature_schedule_type.da
 import 'package:miigaik/features/schedule-choose/models/signature_schedule_model.dart';
 
 class FetchScheduleUseCase {
-  final IScheduleRepository repository = GetIt.I.get();
+  final IScheduleRepository repository;
+
+  FetchScheduleUseCase({
+    IScheduleRepository? repo
+  }): repository = repo ?? GetIt.I.get<IScheduleRepository>();
 
   Future<DayScheduleModel?> call(
     SignatureScheduleModel signature,

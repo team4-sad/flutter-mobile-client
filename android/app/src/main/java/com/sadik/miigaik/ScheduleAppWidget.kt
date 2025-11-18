@@ -1,5 +1,6 @@
 package com.sadik.miigaik
 
+import android.app.PendingIntent
 import android.appwidget.AppWidgetManager
 import android.appwidget.AppWidgetProvider
 import android.content.Context
@@ -8,9 +9,11 @@ import android.content.SharedPreferences
 import android.util.Log
 import android.view.View
 import android.widget.RemoteViews
+import androidx.work.WorkManager
 import es.antonborri.home_widget.HomeWidgetPlugin
 import org.json.JSONArray
 import org.json.JSONObject
+import androidx.core.content.edit
 
 class ScheduleAppWidget : AppWidgetProvider() {
     override fun onUpdate(
@@ -25,7 +28,15 @@ class ScheduleAppWidget : AppWidgetProvider() {
     }
 
     override fun onDeleted(context: Context, appWidgetIds: IntArray) {
-        Log.e("WIDGET", "onDeleted")
+        Log.e("WIDGET", "onDeleted for widgets: ${appWidgetIds.joinToString()}")
+
+        val prefs: SharedPreferences = HomeWidgetPlugin.getData(context)
+        prefs.edit {
+            for (appWidgetId in appWidgetIds) {
+                removeWidgetData(this, appWidgetId)
+            }
+        }
+        Log.e("WIDGET", "Widget data cleaned up successfully")
     }
 
     override fun onEnabled(context: Context) {
@@ -34,6 +45,22 @@ class ScheduleAppWidget : AppWidgetProvider() {
 
     override fun onDisabled(context: Context) {
         Log.e("WIDGET", "onDisabled")
+    }
+
+    private fun removeWidgetData(editor: SharedPreferences.Editor, appWidgetId: Int) {
+        val keysToRemove = listOf(
+            "${appWidgetId}_signature",
+            "${appWidgetId}_lessons",
+            "${appWidgetId}_lessons_empty",
+            "${appWidgetId}_date",
+            "${appWidgetId}_display_date",
+            "${appWidgetId}_schedule_state"
+        )
+
+        keysToRemove.forEach { key ->
+            editor.remove(key)
+            Log.d("WIDGET", "Removed key: $key")
+        }
     }
 }
 
@@ -48,10 +75,12 @@ internal fun updateAppWidget(
         val prefs: SharedPreferences = HomeWidgetPlugin.getData(context)
 
         val signatureString = prefs.getString("${appWidgetId}_signature", "") ?: ""
+        Log.e("WIDGET", "signatureString=$signatureString")
         val signatureJsonObj = JSONObject(signatureString)
         val signature = signatureJsonObj.toMap()
 
         val date = prefs.getString("${appWidgetId}_display_date", "")
+        Log.e("WIDGET", "display_date=$date")
         views.setTextViewText(R.id.date_text, date)
 
         views.setTextViewText(R.id.schedule_name, signature["title"]?.toString() ?: "")
@@ -68,15 +97,44 @@ internal fun updateAppWidget(
         }
         views.setRemoteAdapter(R.id.schedule_list, intent)
 
+        setupWidgetClickIntent(context, views, appWidgetId)
+
         appWidgetManager.updateAppWidget(appWidgetId, views)
         appWidgetManager.notifyAppWidgetViewDataChanged(appWidgetId, R.id.schedule_list)
     } catch (e: Exception){
         showErrorMessage(views)
         Log.e("WIDGET", e.message.toString())
-        Log.d("WIDGET", Log.getStackTraceString(Throwable()))
+        Log.d("WIDGET", Log.getStackTraceString(e))
         appWidgetManager.updateAppWidget(appWidgetId, views)
     }
+}
 
+private fun setupWidgetClickIntent(context: Context, views: RemoteViews, appWidgetId: Int) {
+    val packageName = context.packageName
+    val intent = context.packageManager.getLaunchIntentForPackage(packageName)
+    intent?.apply {
+        flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TOP
+        putExtra("FROM_WIDGET", true)
+        putExtra("WIDGET_ID", appWidgetId)
+    }
+
+    val pendingIntent = if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.S) {
+        PendingIntent.getActivity(
+            context,
+            appWidgetId,
+            intent,
+            PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_MUTABLE
+        )
+    } else {
+        PendingIntent.getActivity(
+            context,
+            appWidgetId,
+            intent,
+            PendingIntent.FLAG_UPDATE_CURRENT
+        )
+    }
+
+    views.setOnClickPendingIntent(R.id.root, pendingIntent)
 }
 
 internal fun showErrorMessage(views: RemoteViews){

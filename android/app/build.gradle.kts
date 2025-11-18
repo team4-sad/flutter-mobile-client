@@ -56,6 +56,7 @@ android {
 }
 dependencies {
     implementation("androidx.constraintlayout:constraintlayout:2.2.1")
+    implementation("androidx.work:work-runtime-ktx:2.11.0")
 }
 
 flutter {
