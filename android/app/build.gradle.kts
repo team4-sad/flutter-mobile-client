@@ -24,7 +24,7 @@ android {
         applicationId = "com.sadik.miigaik"
         // You can update the following values to match your application needs.
         // For more information, see: https://flutter.dev/to/review-gradle-config.
-        minSdk = 21
+        minSdk = 23
         targetSdk = flutter.targetSdkVersion
         versionCode = flutter.versionCode
         versionName = flutter.versionName
@@ -50,6 +50,14 @@ android {
             signingConfig = signingConfigs.getByName("debug")
         }
     }
+    buildFeatures {
+        viewBinding = true
+    }
+}
+dependencies {
+    implementation("androidx.constraintlayout:constraintlayout:2.2.1")
+    implementation("androidx.work:work-runtime-ktx:2.11.0")
+    implementation("androidx.cardview:cardview:1.0.0")
 }
 
 flutter {

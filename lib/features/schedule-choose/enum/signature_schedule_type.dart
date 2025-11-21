@@ -16,4 +16,7 @@ enum SignatureScheduleType {
   final String display;
 
   const SignatureScheduleType({required this.display});
+
+  factory SignatureScheduleType.fromDisplay(String display) =>
+      SignatureScheduleType.values.where((e) => e.display == display).first;
 }

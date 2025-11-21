@@ -9,14 +9,14 @@ class ItemScheduleSignature extends StatelessWidget {
 
   final SignatureScheduleModel signatureModel;
   final void Function(SignatureScheduleModel) onTap;
-  final void Function(SignatureScheduleModel) onLongTap;
+  final void Function(SignatureScheduleModel)? onLongTap;
   final bool isSelected;
 
   const ItemScheduleSignature({
     super.key,
     required this.signatureModel,
     required this.onTap,
-    required this.onLongTap,
+    this.onLongTap,
     this.isSelected = false
   });
 
@@ -38,7 +38,9 @@ class ItemScheduleSignature extends StatelessWidget {
               onTap(signatureModel);
             },
             onLongPress: (){
-              onLongTap(signatureModel);
+              if (onLongTap != null){
+                onLongTap!(signatureModel);
+              }
             },
             child: Padding(
               padding: const EdgeInsets.all(14.0),

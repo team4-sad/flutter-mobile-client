@@ -4,11 +4,11 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get_it/get_it.dart';
 import 'package:miigaik/features/add-schedule/add_schedule_page.dart';
 import 'package:miigaik/features/common/extensions/num_widget_extension.dart';
-import 'package:miigaik/features/common/widgets/placeholder_widget.dart';
 import 'package:miigaik/features/common/widgets/simple_app_bar.dart';
 import 'package:miigaik/features/schedule-choose/bloc/signature_schedule_bloc.dart';
+import 'package:miigaik/features/schedule-choose/content/error_schedule_choose_content.dart';
+import 'package:miigaik/features/schedule-choose/content/loaded_schedule_choose_content.dart';
 import 'package:miigaik/features/schedule-choose/content/loading_schedule_choose_content.dart';
-import 'package:miigaik/features/schedule-choose/widgets/item_schedule_signature.dart';
 import 'package:miigaik/generated/icons.g.dart';
 import 'package:miigaik/theme/app_theme_extensions.dart';
 import 'package:miigaik/theme/values.dart';
@@ -52,42 +52,14 @@ class ScheduleChoosePage extends StatelessWidget {
               case SignatureScheduleInitial():
                 return LoadingScheduleChooseContent();
               case SignatureScheduleError():
-                return Center(
-                  child: PlaceholderWidget.fromException(state.error, () {
-                    bloc.add(FetchSignaturesEvent());
-                  }),
+                return ErrorScheduleChooseContent(
+                  error: state.error
                 );
               case SignatureScheduleLoaded():
-                if (state.hasEmptyData) {
-                  return Center(
-                    child: PlaceholderWidget(
-                      title: "Расписаний нет",
-                      subTitle: "Добавьте новое расписание",
-                    ),
-                  );
-                } else {
-                  return ListView.separated(
-                    itemBuilder: (_, index) {
-                      final signature = state.data[index];
-                      return ItemScheduleSignature(
-                        signatureModel: signature,
-                        onTap: (signature) {
-                          bloc.add(
-                            SelectSignatureEvent(selectedSignature: signature),
-                          );
-                        },
-                        onLongTap: (signature) {
-                          bloc.add(
-                            RemoveSignatureEvent(deleteSignature: signature),
-                          );
-                        },
-                        isSelected: state.selected == signature,
-                      );
-                    },
-                    separatorBuilder: (_, __) => 10.vs(),
-                    itemCount: state.data.length,
-                  );
-                }
+                return LoadedScheduleChooseContent(
+                  data: state.data,
+                  selected: state.selected
+                );
             }
           },
         ),

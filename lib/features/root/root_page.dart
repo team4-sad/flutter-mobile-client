@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_it/get_it.dart';
+import 'package:miigaik/features/common/extensions/package_info_extension.dart';
 import 'package:miigaik/features/root/features/bottom-nav-bar/bloc/bottom_nav_bar_bloc.dart';
 import 'package:miigaik/features/root/features/bottom-nav-bar/bottom_nav_bar.dart';
 import 'package:miigaik/features/root/features/bottom-nav-bar/bottom_nav_bar_gradient.dart';
@@ -11,6 +12,7 @@ import 'package:miigaik/features/root/tabs/empty/emty_page.dart';
 import 'package:miigaik/features/root/tabs/news/news_page.dart';
 import 'package:miigaik/features/root/tabs/profile/profile_page.dart';
 import 'package:miigaik/features/root/tabs/schedule/schedule_page.dart';
+import 'package:package_info_plus/package_info_plus.dart';
 import 'package:talker_flutter/talker_flutter.dart';
 
 class RootPage extends StatelessWidget {
@@ -85,7 +87,21 @@ class RootPage extends StatelessWidget {
                 bottomNavBar: BottomNavBar()
               )
             ),
-          )
+          ),
+          if (kDebugMode)
+            Align(
+              alignment: Alignment.topRight,
+              child: Container(
+                padding: const EdgeInsets.only(top: 55, right: 50),
+                child: Transform.scale(
+                  scale: 1.2,
+                  child: Banner(
+                    message: GetIt.I.get<PackageInfo>().fullVersion,
+                    location: BannerLocation.bottomStart,
+                  ),
+                ),
+              ),
+            ),
         ],
       ),
     );

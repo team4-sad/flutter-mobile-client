@@ -25,6 +25,7 @@ import 'package:miigaik/features/schedule-choose/bloc/signature_schedule_bloc.da
 import 'package:miigaik/features/schedule-choose/enum/signature_schedule_type.dart';
 import 'package:miigaik/features/schedule-choose/models/signature_schedule_model.dart';
 import 'package:miigaik/features/schedule-choose/repository/signature_schedule_repository.dart';
+import 'package:miigaik/features/schedule-widget/storage/home_widget_storage.dart';
 import 'package:miigaik/features/single-news/bloc/single_news_bloc.dart';
 import 'package:miigaik/features/single-news/repository/single_news_repository.dart';
 import 'package:miigaik/features/switch-locale/locale_bloc.dart';
@@ -39,15 +40,27 @@ class DI {
   static const String defaultDioName = "default_dio";
   static const String miigaikApiDioName = "miigaik_api_dio";
 
-  static Future<void> init() async {
+  static Future<void> fullInit() async {
     initLogger();
     await initPackageInfo();
     await initConfig();
     await initHive();
     initDio();
-    initRepositoies();
+    initRepositories();
+    initStorages();
     await initServices();
     initBlocs();
+  }
+
+  static Future<void> homeWidgetInit() async {
+    initLogger();
+    await initConfig();
+    await initHive();
+    initDio();
+    initRepositoriesHomeWidget();
+    initStorages();
+    await initServices();
+    initBlocsHomeWidget();
   }
 
   static Future<void> initConfig() async {
@@ -59,7 +72,21 @@ class DI {
     GetIt.I.registerSingleton(packageInfo);
   }
 
-  static void initRepositoies() {
+  static void initRepositoriesHomeWidget(){
+    final defaultDio = GetIt.I.get<Dio>(instanceName: defaultDioName);
+
+    final apiScheduleRepository = ApiScheduleRepository(dio: defaultDio);
+    GetIt.I.registerSingleton<IScheduleRepository>(apiScheduleRepository);
+
+    final signatureScheduleRepository = SignatureScheduleRepository(
+      box: GetIt.I.get(),
+    );
+    GetIt.I.registerSingleton<ISignatureScheduleRepository>(
+      signatureScheduleRepository,
+    );
+  }
+
+  static void initRepositories() {
     final signatureScheduleRepository = SignatureScheduleRepository(
       box: GetIt.I.get(),
     );
@@ -86,6 +113,12 @@ class DI {
     GetIt.I.registerSingleton<INewSignatureScheduleRepository>(
       apiSignaturesRepository,
     );
+  }
+
+  static void initBlocsHomeWidget(){
+    GetIt.I.registerSingleton(ThemeBloc(AppTheme.defaultTheme()));
+    GetIt.I.registerSingleton(NetworkConnectionBloc()..listen());
+    GetIt.I.registerSingleton(SignatureScheduleBloc());
   }
 
   static void initBlocs() {
@@ -148,6 +181,11 @@ class DI {
       ),
     );
     GetIt.I.registerSingleton(scheduleApiDio, instanceName: miigaikApiDioName);
+  }
+
+  static void initStorages(){
+    final homeWidgetStorage = HomeWidgetStorage();
+    GetIt.I.registerSingleton<IHomeWidgetStorage>(homeWidgetStorage);
   }
 
   static void safeInitWithContext(BuildContext context) {

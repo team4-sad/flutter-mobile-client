@@ -29,6 +29,12 @@ class SignatureScheduleModel extends Equatable with HiveObjectMixin {
   @override
   List<Object?> get props => [type, title, id];
 
+  Map<String, dynamic> toMap() => {
+    "title": title,
+    "type": type.display,
+    "id": id
+  };
+
   factory SignatureScheduleModel.fromAudienceMap(Map<String, dynamic> map) =>
       SignatureScheduleModel( 
         type: SignatureScheduleType.audience, 
@@ -48,5 +54,12 @@ class SignatureScheduleModel extends Equatable with HiveObjectMixin {
         type: SignatureScheduleType.group, 
         id: map["id"].toString(),
         title: map["group_name"].toString(), 
+      );
+
+  factory SignatureScheduleModel.fromMap(Map<String, dynamic> map) =>
+      SignatureScheduleModel(
+          type: SignatureScheduleType.fromDisplay(map["type"] as String),
+          title: map["title"] as String,
+          id: map["id"]
       );
 }

@@ -8,6 +8,7 @@ import 'package:miigaik/features/network-connection/exception/no_network_excepti
 import 'package:miigaik/features/network-connection/services/network_connection_service.dart';
 import 'package:miigaik/features/root/tabs/schedule/models/response_schedule_model.dart';
 import 'package:miigaik/features/root/tabs/schedule/repository/schedule_repository.dart';
+import 'package:miigaik/features/root/tabs/schedule/use_case/schedule_use_case.dart';
 import 'package:miigaik/features/schedule-choose/enum/signature_schedule_type.dart';
 import 'package:miigaik/features/schedule-choose/models/signature_schedule_model.dart';
 
@@ -17,6 +18,7 @@ part 'schedule_bloc_state.dart';
 class ScheduleBloc extends Bloc<ScheduleBlocEvent, ScheduleState> {
   final IScheduleRepository repository = GetIt.I.get();
   final NetworkConnectionService connectionService = GetIt.I.get();
+  final useCase = FetchScheduleUseCase();
 
   ScheduleBloc() : super(ScheduleInitial()) {
     connectionService.onConnectionChanged.listen((status) {
@@ -43,21 +45,7 @@ class ScheduleBloc extends Bloc<ScheduleBlocEvent, ScheduleState> {
         return;
       }
       try {
-        final response = await switch (event.signature.type) {
-          SignatureScheduleType.group => repository.fetchDayGroupSchedule(
-            groupId: event.signature.id,
-            day: event.day,
-          ),
-          SignatureScheduleType.audience => repository.fetchDayAudienceSchedule(
-            audienceId: event.signature.id,
-            day: event.day,
-          ),
-          SignatureScheduleType.teacher => repository.fetchDayTeacherSchedule(
-            teacherId: event.signature.id,
-            day: event.day,
-          ),
-        };
-        final daySchedule = response.schedule.firstOrNull;
+        final daySchedule = await useCase.call(event.signature, event.day);
         emit(
           ScheduleLoaded(
             daySchedule: daySchedule,
