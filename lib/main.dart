@@ -48,8 +48,18 @@ Future<void> _interactivityCallback(Uri? uri) async {
       final action = uri.queryParameters['action'];
       debugPrint("ACTION = $action");
       if (action == 'refresh') {
-        await refreshUseCase.call(int.parse(widgetId), locale);
-        await HomeWidgetHelper.update();
+        for (int i = 0; i<5; i++){
+          try {
+            await refreshUseCase.call(int.parse(widgetId), locale);
+            await HomeWidgetHelper.update();
+            return;
+          } on DioException catch(e) {
+            debugPrint("Попытка ${i + 1}/5 обновить расписание не удачна: ${e
+                .toString()}");
+            continue;
+          }
+        }
+
       }
     }
   } on Object catch(e){
