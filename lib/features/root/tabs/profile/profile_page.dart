@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:miigaik/features/about-app/about_app_page.dart';
 import 'package:miigaik/features/common/extensions/num_widget_extension.dart';
 import 'package:miigaik/features/common/widgets/square_icon_button.dart';
 import 'package:miigaik/features/edini-dekanat/edini_dekanat_page.dart';
@@ -95,7 +96,14 @@ class ProfilePage extends StatelessWidget {
             10.vs(),
             ItemProfileWidget(title: "Другие сервисы", onTap: (() {})),
             10.vs(),
-            ItemProfileWidget(title: "О приложении", onTap: (() {})),
+            ItemProfileWidget(title: "О приложении", onTap: (() {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => AboutAppPage(),
+                ),
+              );
+            })),
           ],
         ),
       ),
