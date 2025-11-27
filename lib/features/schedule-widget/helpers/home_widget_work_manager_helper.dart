@@ -22,12 +22,19 @@ class HomeWidgetWorkManagerHelper {
     SignatureScheduleModel signature,
     Locale locale,
   ) async {
+    final uniqueName = 'initial_schedule_load_$widgetId';
+    debugPrint("Попытка регистрации фоновой задачи $uniqueName");
+    final isAlreadyHas = await Workmanager().isScheduledByUniqueName(uniqueName);
+    if (isAlreadyHas){
+      debugPrint("Фоновая задача $uniqueName уже зарегистрирована");
+      return;
+    }
     await Workmanager().registerOneOffTask(
       'initial_schedule_load_$widgetId',
       'schedule_update_task',
       inputData: {
         'widgetId': widgetId,
-        'uniqueName': 'initial_schedule_load_$widgetId',
+        'uniqueName': uniqueName,
         'countryCode':  locale.countryCode,
         'locale': locale.languageCode,
         'signature': jsonEncode(signature.toMap()),
@@ -38,6 +45,7 @@ class HomeWidgetWorkManagerHelper {
       ),
       initialDelay: const Duration(seconds: 1),
     );
+    debugPrint("Фоновая задача $uniqueName зарегистрирована");
   }
 
   static Future<void> setupDailyUpdates(
