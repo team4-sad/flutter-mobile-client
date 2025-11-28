@@ -54,7 +54,7 @@ class HomeWidgetWorkManagerHelper {
     Locale locale,
   ) async {
     final uniqueName = 'daily_schedule_update_${widgetId}_${DateTime.now().millisecondsSinceEpoch}';
-    await Workmanager().registerOneOffTask(
+    await Workmanager().registerPeriodicTask(
       uniqueName,
       'schedule_update_task',
       inputData: {
@@ -64,10 +64,10 @@ class HomeWidgetWorkManagerHelper {
         'locale': locale.languageCode,
         'signature': jsonEncode(signature.toMap()),
       },
+      frequency: Duration(hours: 1),
       constraints: Constraints(
         networkType: NetworkType.connected,
       ),
-      initialDelay: const Duration(minutes: 10),
     );
   }
 
@@ -92,10 +92,6 @@ void callbackDispatcher() {
     final locale = Locale(localeCode, countryCode);
 
     final signature = SignatureScheduleModel.fromMap(jsonDecode(signatureString));
-
-    HomeWidgetWorkManagerHelper.setupDailyUpdates(
-      widgetId, signature, locale
-    );
 
     final storage = HomeWidgetStorage();
 

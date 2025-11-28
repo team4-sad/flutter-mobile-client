@@ -7,30 +7,35 @@ import 'package:miigaik/generated/icons.g.dart';
 import 'package:miigaik/generated/types.dart';
 import 'package:miigaik/theme/app_theme_extensions.dart';
 import 'package:miigaik/theme/text_styles.dart';
+import 'package:miigaik/theme/values.dart';
 
-class NewsHeader extends StatelessWidget {
+class Header extends StatelessWidget {
   final bool showDivider;
-  final EdgeInsets contentPadding;
-  final void Function(bool) onChangeFocusSearchField;
+  final EdgeInsets? contentPadding;
+  final void Function(bool)? onChangeFocusSearchField;
   final void Function(String) onChangeText;
   final bool showTitle;
+  final String hint;
+  final String title;
   final bool showBack;
   final VoidCallback? onBackTap;
   final bool showClear;
   final VoidCallback? onClearTap;
   final TextEditingController textController;
 
-  const NewsHeader({
+  const Header({
     super.key,
     required this.textController,
     required this.showDivider,
-    required this.contentPadding,
-    required this.onChangeFocusSearchField,
+    this.contentPadding,
+    this.onChangeFocusSearchField,
     required this.onChangeText,
     required this.showTitle,
     required this.showBack,
     required this.showClear,
     required this.onClearTap,
+    required this.title,
+    required this.hint,
     this.onBackTap,
   });
 
@@ -42,7 +47,11 @@ class NewsHeader extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Padding(
-            padding: contentPadding,
+            padding: contentPadding ?? EdgeInsets.only(
+              left: horizontalPaddingPage,
+              right: horizontalPaddingPage,
+              top: paddingTopPage,
+            ),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               mainAxisSize: MainAxisSize.min,
@@ -61,29 +70,29 @@ class NewsHeader extends StatelessWidget {
                         );
                       },
                   child: showTitle
-                      ? Text(
-                          S.news_title.tr(),
-                          key: const ValueKey('title'),
-                          style: TS.medium25.use(context.palette.text),
-                        ).p(10.bottom())
-                      : const SizedBox.shrink(key: ValueKey('empty')),
+                    ? Text(
+                        title,
+                        key: const ValueKey('title'),
+                        style: TS.medium25.use(context.palette.text),
+                      ).p(10.bottom())
+                    : const SizedBox.shrink(key: ValueKey('empty')),
                 ),
                 Row(
                   children: [
                     (showBack)
-                        ? GestureDetector(
-                            key: const ValueKey("back-btn"),
-                            onTap: onBackTap,
-                            child: Icon(I.back),
-                          ).p(10.right())
-                        : SizedBox.shrink(key: ValueKey("empty-btn")),
+                      ? GestureDetector(
+                          key: const ValueKey("back-btn"),
+                          onTap: onBackTap,
+                          child: Icon(I.back),
+                        ).p(10.right())
+                      : SizedBox.shrink(key: ValueKey("empty-btn")),
                     SearchFieldWidget(
                       textEditingController: textController,
                       onChangeFocusSearchField: onChangeFocusSearchField,
                       onChangeText: onChangeText,
                       onTapClear: onClearTap,
                       enableClear: showClear,
-                      hint: S.news_search.tr(),
+                      hint: hint,
                     ).e(),
                   ],
                 ),

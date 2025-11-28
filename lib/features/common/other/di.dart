@@ -17,6 +17,7 @@ import 'package:miigaik/features/root/tabs/news/bloc/news_page_mode_bloc/news_pa
 import 'package:miigaik/features/root/tabs/news/bloc/search_news_bloc/search_news_bloc.dart';
 import 'package:miigaik/features/root/tabs/news/repository/news_repository.dart';
 import 'package:miigaik/features/root/tabs/news/repository/search_news_repository.dart';
+import 'package:miigaik/features/root/tabs/notes/models/note_model.dart';
 import 'package:miigaik/features/root/tabs/schedule/bloc/current_time_cubit/current_time_cubit.dart';
 import 'package:miigaik/features/root/tabs/schedule/bloc/schedule_bloc/schedule_bloc.dart';
 import 'package:miigaik/features/root/tabs/schedule/bloc/schedule_selected_day_bloc/schedule_selected_day_bloc.dart';
@@ -146,6 +147,7 @@ class DI {
     await Hive.initFlutter();
     Hive.registerAdapter(SignatureScheduleModelAdapter());
     Hive.registerAdapter(SignatureScheduleTypeAdapter());
+    Hive.registerAdapter(NoteModelAdapter());
 
     final boxSignaturesSchedules = await Hive.openBox<SignatureScheduleModel>(
       "box_for_signatures_schedules",
