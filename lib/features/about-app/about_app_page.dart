@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 import 'package:miigaik/features/about-app/link_row.dart';
-import 'package:miigaik/features/about-app/tile_widget.dart';
+import 'package:miigaik/features/common/widgets/tile_widget.dart';
 import 'package:miigaik/features/common/extensions/num_widget_extension.dart';
 import 'package:miigaik/features/common/extensions/package_info_extension.dart';
 import 'package:miigaik/features/common/widgets/simple_app_bar.dart';

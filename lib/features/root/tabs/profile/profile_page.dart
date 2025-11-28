@@ -5,6 +5,7 @@ import 'package:miigaik/features/common/extensions/num_widget_extension.dart';
 import 'package:miigaik/features/common/widgets/square_icon_button.dart';
 import 'package:miigaik/features/edini-dekanat/edini_dekanat_page.dart';
 import 'package:miigaik/features/root/tabs/profile/widgets/item_profile_widget.dart';
+import 'package:miigaik/features/settings/settings_page.dart';
 import 'package:miigaik/generated/icons.g.dart';
 import 'package:miigaik/theme/app_theme_extensions.dart';
 import 'package:miigaik/theme/text_styles.dart';
@@ -42,7 +43,14 @@ class ProfilePage extends StatelessWidget {
                 SquareIconButton(
                   size: 40,
                   icon: Icon(I.settings, size: 28, color: context.palette.text),
-                  onTap: () {},
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => SettingsPage(),
+                      ),
+                    );
+                  },
                 ),
               ],
             ),

@@ -31,11 +31,16 @@ class AppWrapperWidget extends StatelessWidget {
           return BlocBuilder<LocaleBloc, LocaleState>(
             bloc: GetIt.I.get<LocaleBloc>(),
             builder: (context, state) {
-              context.setLocale(state.locale);
-              return ScreenUtilInit(
-                  designSize: const Size(360, 750),
-                  builder: (context, _) {
-                    return appBuilder(context, appThemeExtension);
+              Intl.defaultLocale = state.locale.languageCode;
+              return FutureBuilder(
+                future: context.setLocale(state.locale),
+                builder: (context, _) {
+                  return ScreenUtilInit(
+                    designSize: const Size(360, 750),
+                    builder: (context, _) {
+                      return appBuilder(context, appThemeExtension);
+                    }
+                  );
                   }
               );
             },

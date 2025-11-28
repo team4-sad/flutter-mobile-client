@@ -1,9 +1,10 @@
 enum AppTheme {
-  light(0),
-  dark(1);
+  light(0, "Светлая"),
+  dark(1, "Темная");
 
   final int value;
-  const AppTheme(this.value);
+  final String name;
+  const AppTheme(this.value, this.name);
 
   static AppTheme defaultTheme() => AppTheme.light;
 
