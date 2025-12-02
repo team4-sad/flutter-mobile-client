@@ -17,7 +17,9 @@ import 'package:miigaik/features/root/tabs/news/bloc/news_page_mode_bloc/news_pa
 import 'package:miigaik/features/root/tabs/news/bloc/search_news_bloc/search_news_bloc.dart';
 import 'package:miigaik/features/root/tabs/news/repository/news_repository.dart';
 import 'package:miigaik/features/root/tabs/news/repository/search_news_repository.dart';
+import 'package:miigaik/features/root/tabs/notes/bloc/notes_bloc.dart';
 import 'package:miigaik/features/root/tabs/notes/models/note_model.dart';
+import 'package:miigaik/features/root/tabs/notes/repository/notes_repository.dart';
 import 'package:miigaik/features/root/tabs/schedule/bloc/current_time_cubit/current_time_cubit.dart';
 import 'package:miigaik/features/root/tabs/schedule/bloc/schedule_bloc/schedule_bloc.dart';
 import 'package:miigaik/features/root/tabs/schedule/bloc/schedule_selected_day_bloc/schedule_selected_day_bloc.dart';
@@ -114,6 +116,9 @@ class DI {
     GetIt.I.registerSingleton<INewSignatureScheduleRepository>(
       apiSignaturesRepository,
     );
+
+    final notesRepository = NotesRepository();
+    GetIt.I.registerSingleton<INotesRepository>(notesRepository);
   }
 
   static void initBlocsHomeWidget(){
@@ -133,6 +138,7 @@ class DI {
     GetIt.I.registerSingleton(SignatureScheduleBloc());
     GetIt.I.registerSingleton(ScheduleSelectedDayBloc());
     GetIt.I.registerSingleton(ScheduleBloc());
+    GetIt.I.registerSingleton(NotesBloc());
 
     GetIt.I.registerSingleton(CurrentTimeCubit());
   }
@@ -153,6 +159,9 @@ class DI {
       "box_for_signatures_schedules",
     );
     GetIt.I.registerSingleton(boxSignaturesSchedules);
+
+    final boxNotes = await Hive.openBox<NoteModel>("box_for_notes");
+    GetIt.I.registerSingleton(boxNotes);
   }
 
   static void initLogger() {
