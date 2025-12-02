@@ -67,8 +67,8 @@ class _NotesPageState extends State<NotesPage> {
                     return LoadedNotesContent(notes: state.notes);
                   case NotesError():
                     return Center(
-                      child: PlaceholderWidget.somethingWentWrong(
-                        onButtonPress: fetch
+                      child: PlaceholderWidget.fromException(
+                        state.object, fetch
                       ),
                     );
                 }

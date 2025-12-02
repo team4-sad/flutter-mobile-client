@@ -19,14 +19,20 @@ class LoadedNotesContent extends StatelessWidget {
             padding: EdgeInsets.only(bottom: 190),
             itemBuilder: (context, index){
               final note = notes[index];
-              return ItemNote(note: note, onTap: (){
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      builder: (_) => NotePage(note: note)
-                  )
-                );
-              });
+              return ItemNote(
+                note: note,
+                onTap: (){
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (_) => NotePage(note: note)
+                    )
+                  );
+                },
+                onDismissable: (){
+
+                }
+              );
             },
             separatorBuilder: (_, __) => 10.vs(),
             itemCount: notes.length

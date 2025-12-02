@@ -8,33 +8,65 @@ class ItemNote extends StatelessWidget {
 
   final NoteModel note;
   final VoidCallback onTap;
+  final VoidCallback onDismissable;
 
-  const ItemNote({super.key, required this.note, required this.onTap});
+  const ItemNote({
+    super.key,
+    required this.note,
+    required this.onTap,
+    required this.onDismissable
+  });
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: onTap,
-      child: Container(
-        decoration: BoxDecoration(
-          color: context.palette.container,
-          borderRadius: BorderRadius.circular(10)
-        ),
-        padding: EdgeInsets.all(20),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          crossAxisAlignment: CrossAxisAlignment.start,
+      child: ClipRRect(
+        borderRadius: BorderRadiusGeometry.circular(10),
+        child: Row(
           children: [
-            Text(
-              note.title,
-              style: TS.medium15.use(context.palette.text),
-            ),
-            5.vs(),
-            Text(
-              note.content,
-              style: TS.light12.use(context.palette.text),
-              maxLines: 2,
-              overflow: TextOverflow.ellipsis
+            Expanded(
+              child: Container(
+                decoration: BoxDecoration(
+                  color: context.palette.container,
+                  borderRadius: BorderRadius.circular(10)
+                ),
+                child: Dismissible(
+                  direction: DismissDirection.endToStart,
+                  onDismissed: (_) => onDismissable(),
+                  background: Container(
+                    color: Colors.red,
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.end,
+                      children: [
+                        Icon(Icons.delete, color: Colors.white),
+                        18.hs()
+                      ],
+                    ),
+                  ),
+                  key: ValueKey<int>(note.hashCode),
+                  child: Padding(
+                    padding: EdgeInsets.all(20),
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          note.title,
+                          style: TS.medium15.use(context.palette.text),
+                        ),
+                        5.vs(),
+                        Text(
+                          note.content,
+                          style: TS.light12.use(context.palette.text),
+                          maxLines: 2,
+                          overflow: TextOverflow.ellipsis
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              ),
             ),
           ],
         ),
