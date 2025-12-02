@@ -5,16 +5,16 @@ part 'note_model.g.dart';
 @HiveType(typeId: 3)
 class NoteModel with HiveObjectMixin {
   @HiveField(0)
-  final String title;
+  String title;
 
   @HiveField(1)
-  final String content;
+  String content;
 
   @HiveField(2)
-  final DateTime dateUpdated;
+  DateTime dateUpdated;
 
   @HiveField(3)
-  final String? attachmentLocalPath;
+  String? attachmentLocalPath;
 
   NoteModel({
     required this.title,
@@ -22,4 +22,11 @@ class NoteModel with HiveObjectMixin {
     required this.dateUpdated,
     required this.attachmentLocalPath
   });
+
+  NoteModel.empty(): this(
+    title: "",
+    content: "",
+    dateUpdated: DateTime.now(),
+    attachmentLocalPath: null
+  );
 }

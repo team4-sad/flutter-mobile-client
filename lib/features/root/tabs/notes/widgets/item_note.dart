@@ -7,33 +7,37 @@ import 'package:miigaik/theme/text_styles.dart';
 class ItemNote extends StatelessWidget {
 
   final NoteModel note;
+  final VoidCallback onTap;
 
-  const ItemNote({super.key, required this.note});
+  const ItemNote({super.key, required this.note, required this.onTap});
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      decoration: BoxDecoration(
-        color: context.palette.container,
-        borderRadius: BorderRadius.circular(10)
-      ),
-      padding: EdgeInsets.all(20),
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text(
-            note.title,
-            style: TS.medium15.use(context.palette.text),
-          ),
-          5.vs(),
-          Text(
-            note.content,
-            style: TS.light12.use(context.palette.text),
-            maxLines: 2,
-            overflow: TextOverflow.ellipsis
-          ),
-        ],
+    return GestureDetector(
+      onTap: onTap,
+      child: Container(
+        decoration: BoxDecoration(
+          color: context.palette.container,
+          borderRadius: BorderRadius.circular(10)
+        ),
+        padding: EdgeInsets.all(20),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              note.title,
+              style: TS.medium15.use(context.palette.text),
+            ),
+            5.vs(),
+            Text(
+              note.content,
+              style: TS.light12.use(context.palette.text),
+              maxLines: 2,
+              overflow: TextOverflow.ellipsis
+            ),
+          ],
+        ),
       ),
     );
   }

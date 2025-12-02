@@ -3,10 +3,10 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_it/get_it.dart';
 import 'package:miigaik/features/common/widgets/header.dart';
 import 'package:miigaik/features/common/widgets/placeholder_widget.dart';
+import 'package:miigaik/features/note/note_page.dart';
 import 'package:miigaik/features/root/tabs/notes/bloc/notes_bloc.dart';
 import 'package:miigaik/features/root/tabs/notes/content/loaded_notes_content.dart';
 import 'package:miigaik/features/root/tabs/notes/content/loading_notes_content.dart';
-import 'package:miigaik/features/root/tabs/notes/models/note_model.dart';
 import 'package:miigaik/features/root/tabs/notes/widgets/add_note_floating_action_button.dart';
 import 'package:miigaik/theme/values.dart';
 
@@ -23,10 +23,10 @@ class _NotesPageState extends State<NotesPage> {
   @override
   void initState() {
     super.initState();
-    refresh();
+    fetch();
   }
 
-  void refresh(){
+  void fetch(){
     bloc.add(FetchNotesEvent());
   }
 
@@ -34,9 +34,7 @@ class _NotesPageState extends State<NotesPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       floatingActionButton: AddNoteFloatingActionButton(onTap: (){
-        setState(() {
-          (bloc.state as NotesLoaded).notes.add(NoteModel(title: "TEST", content: "TEST", dateUpdated: DateTime.now(), attachmentLocalPath: null));
-        });
+        Navigator.push(context, MaterialPageRoute(builder: (context) => NotePage()));
       }),
       body: Padding(
         padding: EdgeInsets.only(
@@ -70,7 +68,7 @@ class _NotesPageState extends State<NotesPage> {
                   case NotesError():
                     return Center(
                       child: PlaceholderWidget.somethingWentWrong(
-                        onButtonPress: refresh
+                        onButtonPress: fetch
                       ),
                     );
                 }

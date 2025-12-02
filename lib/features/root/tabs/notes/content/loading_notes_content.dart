@@ -7,9 +7,9 @@ class LoadingNotesContent extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: EdgeInsetsGeometry.only(top: 20),
+    return Expanded(
       child: ListView.builder(
+        padding: EdgeInsetsGeometry.only(top: 20),
         itemBuilder: (_, __){
           return AppShimmer(height: 77, width: 1.sw);
         },

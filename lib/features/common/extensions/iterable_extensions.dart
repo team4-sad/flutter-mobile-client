@@ -41,4 +41,18 @@ extension IterableExtensions<E> on Iterable<E> {
       }
     });
   }
+
+  Iterable<E> sep(E Function() sepBuilder) {
+    final iter = iterator;
+    iter.moveNext();
+    return Iterable.generate(2 * length - 1, (i) {
+      if (i % 2 != 1) {
+        final e = iter.current;
+        iter.moveNext();
+        return e;
+      } else {
+        return sepBuilder();
+      }
+    });
+  }
 }
