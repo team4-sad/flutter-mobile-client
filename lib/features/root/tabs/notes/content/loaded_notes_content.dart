@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:get_it/get_it.dart';
 import 'package:miigaik/features/common/extensions/num_widget_extension.dart';
 import 'package:miigaik/features/note/note_page.dart';
+import 'package:miigaik/features/root/tabs/notes/bloc/notes_bloc.dart';
 import 'package:miigaik/features/root/tabs/notes/content/empty_notes_content.dart';
 import 'package:miigaik/features/root/tabs/notes/models/note_model.dart';
 import 'package:miigaik/features/root/tabs/notes/widgets/item_note.dart';
@@ -8,8 +10,12 @@ import 'package:miigaik/features/root/tabs/notes/widgets/item_note.dart';
 class LoadedNotesContent extends StatelessWidget {
 
   final List<NoteModel> notes;
+  final NotesBloc bloc = GetIt.I.get();
 
-  const LoadedNotesContent({super.key, required this.notes});
+  LoadedNotesContent({
+    super.key,
+    required this.notes
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -30,7 +36,7 @@ class LoadedNotesContent extends StatelessWidget {
                   );
                 },
                 onDismissable: (){
-
+                  bloc.add(DeleteNoteEvent(note: note));
                 }
               );
             },
