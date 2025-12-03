@@ -1,8 +1,12 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:miigaik/features/common/extensions/date_time_extensions.dart';
 import 'package:miigaik/features/common/extensions/num_widget_extension.dart';
 import 'package:miigaik/features/common/widgets/simple_app_bar.dart';
 import 'package:miigaik/features/common/widgets/square_icon_button.dart';
+import 'package:miigaik/features/note/use_case/add_attachment_use_case.dart';
 import 'package:miigaik/features/note/use_case/save_note_use_case.dart';
 import 'package:miigaik/features/root/tabs/notes/models/note_model.dart';
 import 'package:miigaik/generated/icons.g.dart';
@@ -24,7 +28,8 @@ class _NotePageState extends State<NotePage> {
   final title = TextEditingController();
   final content = TextEditingController();
 
-  final useCase = SaveNoteUseCase();
+  final saveUseCase = SaveNoteUseCase();
+  final addAttachmentUseCase = AddAttachmentUseCase();
 
   @override
   void initState() {
@@ -37,7 +42,17 @@ class _NotePageState extends State<NotePage> {
     widget.note.title = title.text;
     widget.note.content = content.text;
     widget.note.dateUpdated = DateTime.now();
-    useCase.save(widget.note);
+    saveUseCase.save(widget.note);
+  }
+
+  Future<void> _pickImageFromGallery() async {
+    final ImagePicker picker = ImagePicker();
+    final XFile? pickedFile = await picker.pickImage(source: ImageSource.gallery);
+
+    if (pickedFile != null) {
+      File imageFile = File(pickedFile.path);
+      await addAttachmentUseCase.addAttachment(imageFile, widget.note);
+    }
   }
 
   @override
@@ -48,9 +63,7 @@ class _NotePageState extends State<NotePage> {
           SquareIconButton(
             size: 40,
             icon: Icon(I.attachment, color: context.palette.text),
-            onTap: (){
-
-            }
+            onTap: _pickImageFromGallery
           ),
           SquareIconButton(
             size: 40,
@@ -66,34 +79,48 @@ class _NotePageState extends State<NotePage> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            TextField(
-              controller: title,
-              style: TS.medium20.use(context.palette.text),
-              keyboardType: TextInputType.multiline,
-              maxLines: null,
-              onChanged: onChange,
-              decoration: InputDecoration(
-                border: InputBorder.none,
-                isDense: true,
-                hintText: "Название заметки",
-                hintStyle: TS.medium20.use(context.palette.subText),
-                contentPadding: EdgeInsets.zero,
-              ),
-            ),
-            15.vs(),
             Expanded(
-              child: TextField(
-                controller: content,
-                style: TS.regular15.use(context.palette.text),
-                keyboardType: TextInputType.multiline,
-                maxLines: null,
-                onChanged: onChange,
-                decoration: InputDecoration(
-                  border: InputBorder.none,
-                  isDense: true,
-                  hintText: "Текст",
-                  hintStyle: TS.regular15.use(context.palette.subText),
-                  contentPadding: EdgeInsets.zero
+              child: SingleChildScrollView(
+                child: Column(
+                  children: [
+                    TextField(
+                      controller: title,
+                      style: TS.medium20.use(context.palette.text),
+                      keyboardType: TextInputType.multiline,
+                      maxLines: null,
+                      onChanged: onChange,
+                      decoration: InputDecoration(
+                        border: InputBorder.none,
+                        isDense: true,
+                        hintText: "Название заметки",
+                        hintStyle: TS.medium20.use(context.palette.subText),
+                        contentPadding: EdgeInsets.zero,
+                      ),
+                    ),
+                    if (widget.note.attachmentLocalPath != null)
+                      Padding(
+                        padding: EdgeInsets.only(top: 15),
+                        child: ClipRRect(
+                            borderRadius: BorderRadius.circular(15),
+                            child: Image.file(File(widget.note.attachmentLocalPath!))
+                        ),
+                      ),
+                    15.vs(),
+                    TextField(
+                      controller: content,
+                      style: TS.regular15.use(context.palette.text),
+                      keyboardType: TextInputType.multiline,
+                      maxLines: null,
+                      onChanged: onChange,
+                      decoration: InputDecoration(
+                          border: InputBorder.none,
+                          isDense: true,
+                          hintText: "Текст",
+                          hintStyle: TS.regular15.use(context.palette.subText),
+                          contentPadding: EdgeInsets.zero
+                      ),
+                    ),
+                  ],
                 ),
               ),
             ),

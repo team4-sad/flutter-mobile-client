@@ -10,6 +10,7 @@ import 'package:miigaik/features/config/config.dart';
 import 'package:miigaik/features/config/extension.dart';
 import 'package:miigaik/features/network-connection/bloc/network_connection_bloc.dart';
 import 'package:miigaik/features/network-connection/services/network_connection_service.dart';
+import 'package:miigaik/features/note/repositories/attachment_repository.dart';
 import 'package:miigaik/features/root/features/bottom-nav-bar/bloc/bottom_nav_bar_bloc.dart';
 import 'package:miigaik/features/root/features/bottom-nav-bar/items_nav_bar.dart';
 import 'package:miigaik/features/root/tabs/news/bloc/news_list_bloc/news_list_bloc.dart';
@@ -119,6 +120,9 @@ class DI {
 
     final notesRepository = NotesRepository();
     GetIt.I.registerSingleton<INotesRepository>(notesRepository);
+
+    final noteAttachmentRepository = NoteAttachmentRepository();
+    GetIt.I.registerSingleton<INoteAttachmentRepository>(noteAttachmentRepository);
   }
 
   static void initBlocsHomeWidget(){
