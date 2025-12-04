@@ -35,13 +35,19 @@ class AboutAppPage extends StatelessWidget {
               10.vs(),
               TileWidget(value: GetIt.I.get<PackageInfo>().fullVersion, title: "Версия приложения"),
               10.vs(),
-              TileWidget(value: "hahahahah@mail.com", title: "Сообщить об ошибке"),
+              TileWidget(
+                value: "Наша группа в ТГ",
+                title: "Сообщить об ошибке",
+                onTap: (){
+                  launchUrl(Uri.parse("https://t.me/+XYkGJFYILntjNGIy"));
+                },
+              ),
               30.vs(),
               Text("Команда разработки", style: TS.medium20.use(context.palette.text)),
               10.vs(),
               TileWidget(
                 value: "Струков Артемий",
-                title: "Мобильный разработчик и менеджер",
+                title: "Мобильный разработчик и Team Lead",
                 image: AssetImage("assets/team/1.png"),
                 widget: LinkRow(
                   icon: Icon(I.github, color: context.palette.text),
@@ -51,7 +57,7 @@ class AboutAppPage extends StatelessWidget {
               10.vs(),
               TileWidget(
                 value: "Золотарева Светлана",
-                title: "UI/ UX дизайнер",
+                title: "UI/UX дизайнер",
                 image: AssetImage("assets/team/2.png"),
                 widget: LinkRow(
                   link: "🩷",
@@ -61,7 +67,7 @@ class AboutAppPage extends StatelessWidget {
               10.vs(),
               TileWidget(
                 value: "Корязов Дмитрий",
-                title: "Бэкэнд разработчик",
+                title: "Бэкенд разработчик",
                 image: AssetImage("assets/team/3.png"),
                 widget: LinkRow(
                   icon: Icon(I.github, color: context.palette.text),
