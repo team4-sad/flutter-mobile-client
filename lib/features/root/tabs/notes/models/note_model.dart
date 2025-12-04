@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:hive/hive.dart';
 
 part 'note_model.g.dart';
@@ -29,4 +31,6 @@ class NoteModel with HiveObjectMixin {
     dateUpdated: DateTime.now(),
     attachmentLocalPath: null
   );
+
+  File? get file => (attachmentLocalPath != null) ? File(attachmentLocalPath!) : null;
 }

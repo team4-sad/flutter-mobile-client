@@ -6,6 +6,7 @@ import 'package:path/path.dart' as p;
 
 abstract class INoteAttachmentRepository {
   Future<NoteModel> addAttachment(File attachment, NoteModel note);
+  Future<NoteModel> removeAttachment(NoteModel note);
 }
 
 class NoteAttachmentRepository extends INoteAttachmentRepository {
@@ -52,6 +53,18 @@ class NoteAttachmentRepository extends INoteAttachmentRepository {
   Future<NoteModel> addAttachment(File attachment, NoteModel note) async {
     final copiedFile = await copyImageToCache(attachment);
     note.attachmentLocalPath = copiedFile.path;
+    note.save();
+    return note;
+  }
+
+  @override
+  Future<NoteModel> removeAttachment(NoteModel note) async {
+    final file = note.file;
+    if (file == null){
+      return note;
+    }
+    file.deleteSync();
+    note.attachmentLocalPath = null;
     note.save();
     return note;
   }

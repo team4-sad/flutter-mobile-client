@@ -7,7 +7,9 @@ import 'package:miigaik/features/common/extensions/num_widget_extension.dart';
 import 'package:miigaik/features/common/widgets/simple_app_bar.dart';
 import 'package:miigaik/features/common/widgets/square_icon_button.dart';
 import 'package:miigaik/features/note/use_case/add_attachment_use_case.dart';
+import 'package:miigaik/features/note/use_case/delete_attachment_use_case.dart';
 import 'package:miigaik/features/note/use_case/save_note_use_case.dart';
+import 'package:miigaik/features/note/widgets/image_attachment.dart';
 import 'package:miigaik/features/root/tabs/notes/models/note_model.dart';
 import 'package:miigaik/generated/icons.g.dart';
 import 'package:miigaik/theme/app_theme_extensions.dart';
@@ -30,6 +32,7 @@ class _NotePageState extends State<NotePage> {
 
   final saveUseCase = SaveNoteUseCase();
   final addAttachmentUseCase = AddAttachmentUseCase();
+  final deleteAttachmentUseCase = DeleteAttachmentUseCase();
 
   @override
   void initState() {
@@ -52,6 +55,8 @@ class _NotePageState extends State<NotePage> {
     if (pickedFile != null) {
       File imageFile = File(pickedFile.path);
       await addAttachmentUseCase.addAttachment(imageFile, widget.note);
+      setState(() {
+      });
     }
   }
 
@@ -97,13 +102,13 @@ class _NotePageState extends State<NotePage> {
                         contentPadding: EdgeInsets.zero,
                       ),
                     ),
-                    if (widget.note.attachmentLocalPath != null)
-                      Padding(
-                        padding: EdgeInsets.only(top: 15),
-                        child: ClipRRect(
-                            borderRadius: BorderRadius.circular(15),
-                            child: Image.file(File(widget.note.attachmentLocalPath!))
-                        ),
+                    if (widget.note.file != null)
+                      ImageAttachment(
+                        attachment: widget.note.file!,
+                        onTapDelete: () async {
+                          await deleteAttachmentUseCase.removeAttachment(widget.note);
+                          setState(() {});
+                        }
                       ),
                     15.vs(),
                     TextField(

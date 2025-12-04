@@ -23,11 +23,13 @@ class SquareIconButton extends StatelessWidget {
       child: Ink(
         width: size,
         height: size,
-        decoration: BoxDecoration(
-          color: context.palette.container,
-          borderRadius: BorderRadius.circular(5),
+        child: Container(
+          decoration: BoxDecoration(
+            color: context.palette.container,
+            borderRadius: BorderRadius.circular(5),
+          ),
+          child: Center(child: icon)
         ),
-        child: Center(child: icon),
       ),
     );
   }
