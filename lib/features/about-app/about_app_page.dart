@@ -10,6 +10,7 @@ import 'package:miigaik/theme/app_theme_extensions.dart';
 import 'package:miigaik/theme/text_styles.dart';
 import 'package:miigaik/theme/values.dart';
 import 'package:package_info_plus/package_info_plus.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class AboutAppPage extends StatelessWidget {
   const AboutAppPage({super.key});
@@ -24,7 +25,13 @@ class AboutAppPage extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              TileWidget(value: "Open Source", title: "Тип приложения"),
+              TileWidget(
+                value: "Open Source",
+                title: "Тип приложения",
+                onTap: (){
+                  launchUrl(Uri.parse("https://github.com/team4-sad/flutter-mobile-client"));
+                },
+              ),
               10.vs(),
               TileWidget(value: GetIt.I.get<PackageInfo>().fullVersion, title: "Версия приложения"),
               10.vs(),
