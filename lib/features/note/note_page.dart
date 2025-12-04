@@ -55,8 +55,7 @@ class _NotePageState extends State<NotePage> {
     if (pickedFile != null) {
       File imageFile = File(pickedFile.path);
       await addAttachmentUseCase.addAttachment(imageFile, widget.note);
-      setState(() {
-      });
+      setState(() {});
     }
   }
 
@@ -118,11 +117,11 @@ class _NotePageState extends State<NotePage> {
                       maxLines: null,
                       onChanged: onChange,
                       decoration: InputDecoration(
-                          border: InputBorder.none,
-                          isDense: true,
-                          hintText: "Текст",
-                          hintStyle: TS.regular15.use(context.palette.subText),
-                          contentPadding: EdgeInsets.zero
+                        border: InputBorder.none,
+                        isDense: true,
+                        hintText: "Текст",
+                        hintStyle: TS.regular15.use(context.palette.subText),
+                        contentPadding: EdgeInsets.zero
                       ),
                     ),
                   ],

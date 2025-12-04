@@ -4,6 +4,7 @@ import 'package:miigaik/features/about-app/about_app_page.dart';
 import 'package:miigaik/features/common/extensions/num_widget_extension.dart';
 import 'package:miigaik/features/common/widgets/square_icon_button.dart';
 import 'package:miigaik/features/edini-dekanat/edini_dekanat_page.dart';
+import 'package:miigaik/features/other-services/other_services_page.dart';
 import 'package:miigaik/features/root/tabs/profile/widgets/item_profile_widget.dart';
 import 'package:miigaik/features/settings/settings_page.dart';
 import 'package:miigaik/generated/icons.g.dart';
@@ -102,7 +103,14 @@ class ProfilePage extends StatelessWidget {
                 );
             })),
             10.vs(),
-            ItemProfileWidget(title: "Другие сервисы", onTap: (() {})),
+            ItemProfileWidget(title: "Другие сервисы", onTap: (() {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => OtherServicesPage(),
+                ),
+              );
+            })),
             10.vs(),
             ItemProfileWidget(title: "О приложении", onTap: (() {
               Navigator.push(

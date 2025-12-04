@@ -72,6 +72,24 @@ abstract class TS {
     height: 1.2,
     fontWeight: FontWeight.w300
   );
+
+  static TextStyle bold13 = TextStyle(
+    fontSize: 13,
+    height: 1.2,
+    fontWeight: FontWeight.bold
+  );
+
+  static TextStyle bold14 = TextStyle(
+    fontSize: 14,
+    height: 1.2,
+    fontWeight: FontWeight.bold
+  );
+
+  static TextStyle bold16 = TextStyle(
+    fontSize: 16,
+    height: 1.2,
+    fontWeight: FontWeight.bold
+  );
 }
 
 extension InContext on TextStyle {
