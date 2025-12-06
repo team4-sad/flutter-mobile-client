@@ -9,7 +9,9 @@ abstract class INotesRepository {
 
 class NotesRepository extends INotesRepository {
   
-  final box = GetIt.I.get<Box<NoteModel>>();
+  final Box<NoteModel> box;
+
+  NotesRepository({required this.box});
 
   @override
   Future<List<NoteModel>> fetchNotes() async {

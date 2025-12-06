@@ -3,11 +3,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get_it/get_it.dart';
+import 'package:miigaik/di/app_di.dart';
+import 'package:miigaik/di/common_di.dart';
 import 'package:miigaik/features/switch-locale/locale_bloc.dart';
 import 'package:miigaik/features/switch-theme/theme_bloc.dart';
 import 'package:miigaik/theme/app_theme_extensions.dart';
-
-import 'di.dart';
 
 class AppWrapperWidget extends StatelessWidget {
 
@@ -24,7 +24,7 @@ class AppWrapperWidget extends StatelessWidget {
       child: BlocBuilder<ThemeBloc, ThemeState>(
         bloc: GetIt.I.get<ThemeBloc>(),
         builder: (context, state) {
-          DI.safeInitWithContext(context);
+          CommonDI.registerLocaleBloc(context);
           final appThemeExtension = AppThemeExtension.fromAppTheme(
             state.appTheme,
           );

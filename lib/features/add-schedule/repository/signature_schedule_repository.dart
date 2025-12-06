@@ -8,10 +8,10 @@ abstract class INewSignatureScheduleRepository {
   Future<List<SignatureScheduleModel>> fetchTeachers(String teacher);
 }
 
-class ApiSignatureScheduleRepository extends INewSignatureScheduleRepository {
+class ApiNewSignatureScheduleRepository extends INewSignatureScheduleRepository {
   final Dio dio;
 
-  ApiSignatureScheduleRepository({required this.dio});
+  ApiNewSignatureScheduleRepository({required this.dio});
 
   @override
   Future<List<SignatureScheduleModel>> fetchAudiences(String audience) async {

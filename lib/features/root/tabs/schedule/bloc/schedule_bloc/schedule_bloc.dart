@@ -16,7 +16,7 @@ part 'schedule_bloc_event.dart';
 part 'schedule_bloc_state.dart';
 
 class ScheduleBloc extends Bloc<ScheduleBlocEvent, ScheduleState> {
-  final IScheduleRepository repository = GetIt.I.get();
+
   final NetworkConnectionService connectionService = GetIt.I.get();
   final useCase = FetchScheduleUseCase();
 
