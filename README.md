@@ -73,9 +73,3 @@ dart run flutter_launcher_icons
 ```
 dart run easy_localization:generate --source-dir=assets/translations --format=keys --output-dir=lib/generated/ --output-file=translations.g.dart 
 ```
-
-## Архитектура
-Скоро...
-
-## Тестирование
-Скоро...
