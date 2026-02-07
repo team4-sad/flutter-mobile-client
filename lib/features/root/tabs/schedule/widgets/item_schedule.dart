@@ -96,14 +96,9 @@ class ItemSchedule extends StatelessWidget {
                   TagWidget(title: lessonModel.classroomName),
                   if (lessonModel.teachers != null)
                     ...lessonModel.teachers!.map(
-                      (e) => GestureDetector(
-                        onTap: () {
-                          showDialog(
-                            context: context,
-                            builder: (context) => AlertDialog(title: Text(e.fio)),
-                          );
-                        },
-                        child: TagWidget(title: e.displayName),
+                      (e) => TagWidget(
+                        title: e.displayName,
+                        fullTitle: e.fio
                       ),
                     ),
                   TagWidget(title: lessonModel.lessonType),

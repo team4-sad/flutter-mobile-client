@@ -59,11 +59,11 @@ class LessonModel {
       lessonOrderNumber: map['lesson_order_number'] as int,
       lessonStartTime: map['lesson_start_time'] as String,
       lessonEndTime: map['lesson_end_time'] as String,
-      lessonType: map['classroom_type'] as String,
+      lessonType: map['lesson_type'] as String,
       classroomId: map['classroom_id'].toInt() as int,
       classroomName: map['classroom_name'] as String,
       classroomFloor: map['classroom_floor'].toInt() as int,
-      classroomType: map['lesson_type'] as String,
+      classroomType: map['classroom_type'] as String,
       classroomBuilding: map['classroom_building'] as String,
       disciplineName: map['discipline_name'] as String,
       teachers: (map['teachers'] as List?)?.map<TeacherModel>(
