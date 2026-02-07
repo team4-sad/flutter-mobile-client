@@ -10,7 +10,9 @@ import 'package:miigaik/features/root/tabs/news/bloc/news_page_mode_bloc/news_pa
 import 'package:miigaik/features/root/tabs/news/bloc/search_news_bloc/search_news_bloc.dart';
 import 'package:miigaik/features/root/tabs/news/repository/news_repository.dart';
 import 'package:miigaik/features/root/tabs/news/repository/search_news_repository.dart';
-import 'package:miigaik/features/root/tabs/notes/bloc/notes_bloc.dart';
+import 'package:miigaik/features/root/tabs/notes/bloc/notes_bloc/notes_bloc.dart';
+import 'package:miigaik/features/root/tabs/notes/bloc/notes_mode_cubit/notes_mode_cubit.dart';
+import 'package:miigaik/features/root/tabs/notes/bloc/search_notes_bloc/search_notes_bloc.dart';
 import 'package:miigaik/features/root/tabs/notes/repository/notes_repository.dart';
 import 'package:miigaik/features/root/tabs/schedule/bloc/current_time_cubit/current_time_cubit.dart';
 import 'package:miigaik/features/root/tabs/schedule/bloc/schedule_bloc/schedule_bloc.dart';
@@ -82,7 +84,9 @@ class AppDI {
     GetIt.I.registerSingleton(ScheduleSelectedDayBloc());
     GetIt.I.registerSingleton(ScheduleBloc());
     GetIt.I.registerSingleton(NotesBloc());
+    GetIt.I.registerSingleton(SearchNotesBloc());
 
+    GetIt.I.registerSingleton(NotesModeCubit());
     GetIt.I.registerSingleton(CurrentTimeCubit());
   }
 }

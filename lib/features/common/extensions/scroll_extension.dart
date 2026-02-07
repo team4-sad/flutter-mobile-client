@@ -5,7 +5,14 @@ extension ScrollExtension on ScrollController {
     if (!hasClients) return false;
     final maxScroll = position.maxScrollExtent;
     final current = offset;
-    // срабатывает чуть раньше конца
+    return current >= (maxScroll * 0.95);
+  }
+}
+
+extension ScrollMetricsExtension on ScrollMetrics {
+  bool get isBottom {
+    final maxScroll = maxScrollExtent;
+    final current = pixels;
     return current >= (maxScroll * 0.95);
   }
 }

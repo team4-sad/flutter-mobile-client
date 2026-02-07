@@ -38,8 +38,6 @@ class _NewsPageState extends State<NewsPage> {
   @override
   void initState() {
     super.initState();
-    _listScrollController.addListener(_onScrollListMode);
-    _searchScrollController.addListener(_onScrollSearchMode);
     _newsBloc.add(FetchNewsListEvent());
   }
 
@@ -92,29 +90,43 @@ class _NewsPageState extends State<NewsPage> {
                   child: IndexedStack(
                     index: state.currentMode.index,
                     children: [
-                      CustomScrollView(
-                        controller: _listScrollController,
-                        slivers: [
-                          OnBottomScrollWidget(
-                            controller: _listScrollController,
-                            onBottom: () {
-                              _newsBloc.add(FetchNewsListEvent());
-                            },
-                            child: ListContent(),
-                          ),
-                        ],
+                      OnScrollWidget(
+                        onBottom: () {
+                          _newsBloc.add(FetchNewsListEvent());
+                        },
+                        onTop: (){
+                          setState(() {
+                            setState(() => _showDivider = false);
+                          });
+                        },
+                        onNotTop: (){
+                          setState(() {
+                            setState(() => _showDivider = true);
+                          });
+                        },
+                        child: CustomScrollView(
+                          controller: _listScrollController,
+                          slivers: [
+                            ListContent(),
+                          ],
+                        ),
                       ),
-                      CustomScrollView(
-                        controller: _searchScrollController,
-                        slivers: [
-                          OnBottomScrollWidget(
-                            controller: _searchScrollController,
-                            onBottom: () {
-                              _searchBloc.add(NextPageSearchEvent());
-                            },
-                            child: SearchContent(),
-                          )
-                        ],
+                      OnScrollWidget(
+                        onTop: (){
+                          setState(() => _showDivider = false);
+                        },
+                        onNotTop: (){
+                          setState(() => _showDivider = true);
+                        },
+                        onBottom: () {
+                          _searchBloc.add(NextPageSearchEvent());
+                        },
+                        child: CustomScrollView(
+                          controller: _searchScrollController,
+                          slivers: [
+                            SearchContent()
+                          ],
+                        ),
                       )
                     ],
                   ).p(horizontalPaddingPage.w.horizontal()),
@@ -128,16 +140,10 @@ class _NewsPageState extends State<NewsPage> {
 
   @override
   void dispose() {
-    _listScrollController.removeListener(_onScrollListMode);
-    _searchScrollController.removeListener(_onScrollSearchMode);
     _listScrollController.dispose();
     _searchScrollController.dispose();
     super.dispose();
   }
-
-  void _onScrollListMode() => _updateDivider(_listScrollController);
-
-  void _onScrollSearchMode() => _updateDivider(_searchScrollController);
 
   void _refreshDivider(NewsPageModeState state) {
     switch(state.currentMode){

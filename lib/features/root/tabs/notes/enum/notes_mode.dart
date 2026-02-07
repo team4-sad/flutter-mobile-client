@@ -1,0 +1,3 @@
+enum NotesMode {
+  list, search;
+}
