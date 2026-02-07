@@ -19,12 +19,12 @@ part 'search_news_state.dart';
 
 class NewsSearchBloc extends Bloc<SearchNewsEvent, NewsSearchState> {
 
-  final NetworkConnectionService connectionService = GetIt.I.get();
-  final ISearchNewsRepository repository = GetIt.I.get();
+  final NetworkConnectionService _connectionService = GetIt.I.get();
+  final ISearchNewsRepository _repository = GetIt.I.get();
 
   NewsSearchBloc() : super(NewsSearchInitial()) {
 
-    connectionService.onConnectionChanged.listen((status){
+    _connectionService.onConnectionChanged.listen((status){
       if (
         status == ConnectionStatus.exist &&
         state is NewsSearchError &&
@@ -35,13 +35,13 @@ class NewsSearchBloc extends Bloc<SearchNewsEvent, NewsSearchState> {
     });
 
     on<FetchPageSearchEvent>((event, emit) async {
-      if (connectionService.lastStatus != ConnectionStatus.exist){
+      if (_connectionService.lastStatus != ConnectionStatus.exist){
         emit(NewsSearchError.fromState(NoNetworkException(), state));
         return;
       }
       emit(NewsSearchLoading.fromState(state));
       try {
-        final NewsResponseModel response = await repository.searchNews(
+        final NewsResponseModel response = await _repository.searchNews(
             page: event.page,
             searchText: event.searchText
         );

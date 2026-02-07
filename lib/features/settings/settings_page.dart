@@ -39,6 +39,7 @@ class SettingsPage extends StatelessWidget {
             20.vs(),
             Expanded(
               child: ListView.separated(
+                padding: EdgeInsets.only(bottom: 10),
                 itemBuilder: (context, index){
                   final locale = context.supportedLocales[index];
                   return TileWidget(
@@ -76,6 +77,7 @@ class SettingsPage extends StatelessWidget {
               20.vs(),
               Expanded(
                 child: ListView.separated(
+                  padding: EdgeInsets.only(bottom: 10),
                   itemBuilder: (context, index){
                     final appTheme = AppTheme.values[index];
                     return TileWidget(

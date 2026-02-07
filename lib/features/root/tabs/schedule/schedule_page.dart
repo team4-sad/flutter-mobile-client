@@ -55,7 +55,7 @@ class _SchedulePageState extends State<SchedulePage> {
       body: Stack(
         children: [
           Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 20),
+            padding: const EdgeInsets.only(left: 8, right: 8, top: 12, bottom: 20),
             child: AnimatedSwitcher(
               duration: const Duration(milliseconds: 300),
               switchInCurve: Curves.easeInOut,

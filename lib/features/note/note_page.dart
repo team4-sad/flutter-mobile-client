@@ -8,6 +8,7 @@ import 'package:miigaik/features/common/widgets/simple_app_bar.dart';
 import 'package:miigaik/features/common/widgets/square_icon_button.dart';
 import 'package:miigaik/features/note/use_case/add_attachment_use_case.dart';
 import 'package:miigaik/features/note/use_case/delete_attachment_use_case.dart';
+import 'package:miigaik/features/note/use_case/is_already_note_saved_use_case.dart';
 import 'package:miigaik/features/note/use_case/save_note_use_case.dart';
 import 'package:miigaik/features/note/widgets/image_attachment.dart';
 import 'package:miigaik/features/root/tabs/notes/models/note_model.dart';
@@ -31,6 +32,7 @@ class _NotePageState extends State<NotePage> {
   final content = TextEditingController();
 
   final saveUseCase = SaveNoteUseCase();
+  final isAlreadySavedUseCase = IsAlreadyNoteSavedUseCase();
   final addAttachmentUseCase = AddAttachmentUseCase();
   final deleteAttachmentUseCase = DeleteAttachmentUseCase();
 
@@ -39,6 +41,9 @@ class _NotePageState extends State<NotePage> {
     super.initState();
     title.text = widget.note.title;
     content.text = widget.note.content;
+    if (!isAlreadySavedUseCase.isAlreadySaved(widget.note)){
+      saveUseCase.save(widget.note);
+    }
   }
 
   void onChange(_){

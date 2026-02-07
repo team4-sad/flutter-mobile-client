@@ -42,6 +42,7 @@ class ChooseScheduleWidget extends StatelessWidget {
           );
         },
         separatorBuilder: (_, __) => 10.vs(),
+        padding: EdgeInsets.only(bottom: 10),
         itemCount: data.length,
       );
     }

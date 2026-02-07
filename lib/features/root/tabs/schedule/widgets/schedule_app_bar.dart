@@ -31,6 +31,7 @@ class ScheduleAppBar extends StatelessWidget implements PreferredSizeWidget {
           left: horizontalPaddingPage,
           right: horizontalPaddingPage - 8,
           top: 70,
+          bottom: 8
         ),
         child: Row(
           children: [

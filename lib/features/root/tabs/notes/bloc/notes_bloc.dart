@@ -1,21 +1,20 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:get_it/get_it.dart';
 import 'package:miigaik/features/root/tabs/notes/models/note_model.dart';
-import 'package:miigaik/features/root/tabs/notes/use_case/delete_note_use_case.dart';
-import 'package:miigaik/features/root/tabs/notes/use_case/fetch_notes_use_case.dart';
+import 'package:miigaik/features/root/tabs/notes/repository/notes_repository.dart';
 
 part 'notes_event.dart';
 part 'notes_state.dart';
 
 class NotesBloc extends Bloc<NotesEvent, NotesState> {
 
-  final fetchUseCase = FetchNotesUseCase();
-  final deleteUseCase = DeleteNoteUseCase();
+  final _repository = GetIt.I.get<INotesRepository>();
 
   NotesBloc() : super(NotesInitial()) {
     on<FetchNotesEvent>((event, emit) async {
       emit(NotesLoading());
       try {
-        final notes = await fetchUseCase.fetchNotes();
+        final notes = await _repository.fetchNotes();
         emit(NotesLoaded(notes: notes));
       } on Object catch(e){
         emit(NotesError(object: e));
@@ -26,16 +25,15 @@ class NotesBloc extends Bloc<NotesEvent, NotesState> {
       if (state is! NotesLoaded){
         return;
       }
+      final s = state as NotesLoaded;
 
       try {
-        final notes = await fetchUseCase.fetchNotes();
-        emit(NotesLoaded(notes: notes));
+        await _repository.deleteNote(event.note);
       } on Object catch(e){
         emit(NotesError(object: e));
       }
 
-      deleteUseCase.deleteNote(event.note);
-      final notes = (state as NotesLoaded).notes..remove(event.note);
+      final notes = s.notes..remove(event.note);
       emit(NotesLoaded(notes: notes));
     });
   }

@@ -17,6 +17,7 @@ class LoadedAddScheduleContent extends StatelessWidget {
       separatorBuilder: (context, index) {
         return 10.vs();
       },
+      padding: EdgeInsets.only(bottom: 10),
       itemBuilder: (context, index) {
         return ItemScheduleSignature(
           signatureModel: data[index],

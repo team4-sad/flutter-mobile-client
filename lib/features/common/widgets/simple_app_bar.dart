@@ -25,7 +25,7 @@ class SimpleAppBar extends StatelessWidget implements PreferredSizeWidget {
         left: horizontalPaddingPage,
         right: horizontalPaddingPage,
         top: 59,
-        bottom: 20,
+        bottom: 12,
       ),
       child: Row(
         children: [
@@ -33,7 +33,10 @@ class SimpleAppBar extends StatelessWidget implements PreferredSizeWidget {
             onTap: onBackPress ?? () {
               Navigator.pop(context);
             },
-            child: Icon(I.back, color: context.palette.text),
+            child: Padding(
+              padding: EdgeInsetsGeometry.all(8),
+              child: Icon(I.back, color: context.palette.text)
+            ),
           ),
           if (title != null)
             Padding(
