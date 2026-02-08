@@ -19,32 +19,30 @@ class LoadedNotesContent extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Expanded(
-      child: (notes.isNotEmpty)
-        ? ListView.separated(
-            padding: EdgeInsets.only(bottom: 190),
-            itemBuilder: (context, index){
-              final note = notes[index];
-              return ItemNote(
-                note: note,
-                onTap: (){
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (_) => NotePage(note: note)
-                    )
-                  );
-                },
-                onDismissable: (){
-                  bloc.add(DeleteNoteEvent(note: note));
-                }
-              );
-            },
-            separatorBuilder: (_, __) => 10.vs(),
-            itemCount: notes.length
-          )
-        : EmptyNotesContent()
-    );
+    return (notes.isNotEmpty)
+      ? ListView.separated(
+          padding: EdgeInsets.only(bottom: 190),
+          itemBuilder: (context, index){
+            final note = notes[index];
+            return ItemNote(
+              note: note,
+              onTap: (){
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (_) => NotePage(note: note)
+                  )
+                );
+              },
+              onDismissable: (){
+                bloc.add(DeleteNoteEvent(note: note));
+              }
+            );
+          },
+          separatorBuilder: (_, __) => 10.vs(),
+          itemCount: notes.length
+        )
+      : EmptyNotesContent();
   }
 
 }
