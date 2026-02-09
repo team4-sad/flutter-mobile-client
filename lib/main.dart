@@ -8,6 +8,7 @@ import 'package:intl/date_symbol_data_local.dart';
 import 'package:miigaik/di/app_di.dart';
 import 'package:miigaik/di/common_di.dart';
 import 'package:miigaik/di/home_widget_di.dart';
+import 'package:miigaik/features/analytics/my_tracker_helper.dart';
 import 'package:miigaik/features/common/widgets/app_wrapper_widget.dart';
 import 'package:miigaik/features/config/extension.dart';
 import 'package:miigaik/features/root/root_page.dart';
@@ -29,6 +30,8 @@ void main() async {
 
   await HomeWidget.registerInteractivityCallback(_interactivityCallback);
   HomeWidgetWorkManagerHelper.initializeWorkManager();
+
+  await MyTrackerHelper.init("test_custom_user_id");
 
   int? widgetId;
   try {
