@@ -8,7 +8,7 @@ import 'package:miigaik/features/root/features/bottom-nav-bar/bloc/bottom_nav_ba
 import 'package:miigaik/features/root/features/bottom-nav-bar/bottom_nav_bar.dart';
 import 'package:miigaik/features/root/features/bottom-nav-bar/bottom_nav_bar_gradient.dart';
 import 'package:miigaik/features/root/features/bottom-nav-bar/items_nav_bar.dart';
-import 'package:miigaik/features/root/tabs/empty/emty_page.dart';
+import 'package:miigaik/features/root/tabs/map/map_page.dart';
 import 'package:miigaik/features/root/tabs/news/news_page.dart';
 import 'package:miigaik/features/root/tabs/notes/notes_page.dart';
 import 'package:miigaik/features/root/tabs/profile/profile_page.dart';
@@ -26,7 +26,7 @@ class RootPage extends StatelessWidget {
     if (!_itemNavBarToIndex.containsKey(itemNavBar)) {
       final Widget widget = switch (itemNavBar) {
         ItemNavBar.schedule => const SchedulePage(),
-        ItemNavBar.map => const EmptyPage(),
+        ItemNavBar.map => const MapPage(),
         ItemNavBar.news => const NewsPage(),
         ItemNavBar.notes => const NotesPage(),
         ItemNavBar.profile => const ProfilePage(),
