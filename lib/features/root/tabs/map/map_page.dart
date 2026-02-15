@@ -1,9 +1,17 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
+import 'package:get_it/get_it.dart';
+import 'package:miigaik/features/root/tabs/map/bloc/map_cubit.dart';
 import 'package:miigaik/features/root/tabs/map/js_injector.dart';
 
 class MapPage extends StatefulWidget {
-  const MapPage({super.key});
+
+  final int? roomId;
+
+  const MapPage({super.key, this.roomId});
+
+  static const _baseUrl = "https://map.miigaik.ru/";
 
   @override
   State<MapPage> createState() => _MapPageState();
@@ -11,22 +19,45 @@ class MapPage extends StatefulWidget {
 
 class _MapPageState extends State<MapPage> {
 
-  InAppWebViewController? _controller;
+  final cubit = GetIt.I.get<MapCubit>();
+  late final InAppWebViewController controller;
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: InAppWebView(
-        initialUrlRequest: URLRequest(
-          url: WebUri("https://map.miigaik.ru/")
+    return BlocListener<MapCubit, MapState>(
+      bloc: cubit,
+      listener: (context, state) {
+        if (state.roomId != null) {
+          _searchRoomById(state.roomId!);
+        }
+      },
+      child: Scaffold(
+        body: InAppWebView(
+          initialUrlRequest: URLRequest(
+            url: WebUri(_getInitialUrl(cubit.state.roomId))
+          ),
+          onLoadStart: (controller, url){
+            this.controller = controller;
+          },
+          onLoadStop: (controller, url) async {
+            await MapInAppWebViewJsInjector(
+              controller,
+            ).inject();
+          },
         ),
-        onLoadStop: (controller, url) async {
-          _controller = controller;
-          await MapInAppWebViewJsInjector(
-            controller,
-          ).inject();
-        },
       ),
     );
+  }
+
+  String _getInitialUrl([int? roomId]) {
+    if (roomId != null) {
+      return "${MapPage._baseUrl}#room=$roomId";
+    }
+    return MapPage._baseUrl;
+  }
+
+  Future<void> _searchRoomById(int id) async {
+    final jsCode = "window.location.hash = '#id=$id';";
+    await controller.evaluateJavascript(source: jsCode);
   }
 }

@@ -5,6 +5,7 @@ import 'package:miigaik/features/network-connection/bloc/network_connection_bloc
 import 'package:miigaik/features/note/repositories/attachment_repository.dart';
 import 'package:miigaik/features/root/features/bottom-nav-bar/bloc/bottom_nav_bar_bloc.dart';
 import 'package:miigaik/features/root/features/bottom-nav-bar/items_nav_bar.dart';
+import 'package:miigaik/features/root/tabs/map/bloc/map_cubit.dart';
 import 'package:miigaik/features/root/tabs/news/bloc/news_list_bloc/news_list_bloc.dart';
 import 'package:miigaik/features/root/tabs/news/bloc/news_page_mode_bloc/news_page_mode_bloc.dart';
 import 'package:miigaik/features/root/tabs/news/bloc/search_news_bloc/search_news_bloc.dart';
@@ -88,5 +89,6 @@ class AppDI {
 
     GetIt.I.registerSingleton(NotesModeCubit());
     GetIt.I.registerSingleton(CurrentTimeCubit());
+    GetIt.I.registerSingleton(MapCubit());
   }
 }
