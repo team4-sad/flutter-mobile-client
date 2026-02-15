@@ -8,6 +8,13 @@
 - Dart
 - Bloc
 
+### Запуск
+Предварительно необходимо создать и скопировать содержимое из `config/example.env` в `config/.env`. 
+Ключ `APPMETRICA` можно оставить пустым.
+```
+flutter run --dart-define-from-file=config/.env
+```
+
 ### Зависимости
 Перечень основных зависимостей
 ```
