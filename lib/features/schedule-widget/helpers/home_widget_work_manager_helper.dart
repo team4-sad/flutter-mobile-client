@@ -7,7 +7,7 @@ import 'package:intl/date_symbol_data_local.dart';
 import 'package:intl/intl.dart';
 import 'package:miigaik/features/config/config.dart';
 import 'package:miigaik/features/root/tabs/schedule/repository/schedule_repository.dart';
-import 'package:miigaik/features/root/tabs/schedule/use_case/schedule_use_case.dart';
+import 'package:miigaik/features/root/tabs/schedule/use_case/fetch_schedule_use_case.dart';
 import 'package:miigaik/features/schedule-choose/models/signature_schedule_model.dart';
 import 'package:miigaik/features/schedule-widget/enum/schedule_state.dart';
 import 'package:miigaik/features/schedule-widget/helpers/home_widget_helper.dart';

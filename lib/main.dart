@@ -1,5 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:easy_localization/easy_localization.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:home_widget/home_widget.dart';
@@ -7,11 +8,11 @@ import 'package:intl/date_symbol_data_local.dart';
 import 'package:miigaik/di/app_di.dart';
 import 'package:miigaik/di/common_di.dart';
 import 'package:miigaik/di/home_widget_di.dart';
-import 'package:miigaik/features/analytics/my_tracker_helper.dart';
+import 'package:miigaik/features/analytics/analytic_helper.dart';
 import 'package:miigaik/features/common/widgets/app_wrapper_widget.dart';
 import 'package:miigaik/features/root/root_page.dart';
 import 'package:miigaik/features/root/tabs/schedule/repository/schedule_repository.dart';
-import 'package:miigaik/features/root/tabs/schedule/use_case/schedule_use_case.dart';
+import 'package:miigaik/features/root/tabs/schedule/use_case/fetch_schedule_use_case.dart';
 import 'package:miigaik/features/schedule-widget/schedule_widget_configuration_page.dart';
 import 'package:miigaik/features/schedule-widget/storage/home_widget_storage.dart';
 import 'features/config/config.dart';
@@ -29,7 +30,7 @@ void main() async {
   await HomeWidget.registerInteractivityCallback(_interactivityCallback);
   HomeWidgetWorkManagerHelper.initializeWorkManager();
 
-  AnalyticHelper.init(Config.appmetricaApiKey);
+  AnalyticHelper.init(Config.appmetricaApiKey, kDebugMode);
 
   int? widgetId;
   try {

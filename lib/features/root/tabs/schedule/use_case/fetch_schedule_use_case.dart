@@ -1,4 +1,6 @@
 import 'package:get_it/get_it.dart';
+import 'package:miigaik/features/analytics/analytic_helper.dart';
+import 'package:miigaik/features/common/extensions/date_time_extensions.dart';
 import 'package:miigaik/features/root/tabs/schedule/models/response_schedule_model.dart';
 import 'package:miigaik/features/root/tabs/schedule/repository/schedule_repository.dart';
 import 'package:miigaik/features/schedule-choose/enum/signature_schedule_type.dart';
@@ -15,6 +17,9 @@ class FetchScheduleUseCase {
     SignatureScheduleModel signature,
     DateTime day
   ) async {
+    if (day.onlyDate() != DateTime.now().onlyDate()){
+      AnalyticHelper.eventShowNotTodaySchedule(signature);
+    }
     final response = await switch (signature.type) {
       SignatureScheduleType.group => repository.fetchDayGroupSchedule(
         groupId: signature.id,

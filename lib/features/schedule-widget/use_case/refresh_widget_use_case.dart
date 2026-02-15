@@ -3,7 +3,7 @@ import 'dart:ui';
 
 import 'package:dio/dio.dart';
 import 'package:miigaik/features/root/tabs/schedule/repository/schedule_repository.dart';
-import 'package:miigaik/features/root/tabs/schedule/use_case/schedule_use_case.dart';
+import 'package:miigaik/features/root/tabs/schedule/use_case/fetch_schedule_use_case.dart';
 import 'package:miigaik/features/schedule-widget/storage/home_widget_storage.dart';
 
 class RefreshWidgetUseCase {

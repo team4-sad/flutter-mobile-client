@@ -8,7 +8,7 @@ import 'package:miigaik/features/network-connection/exception/no_network_excepti
 import 'package:miigaik/features/network-connection/services/network_connection_service.dart';
 import 'package:miigaik/features/root/tabs/schedule/models/response_schedule_model.dart';
 import 'package:miigaik/features/root/tabs/schedule/repository/schedule_repository.dart';
-import 'package:miigaik/features/root/tabs/schedule/use_case/schedule_use_case.dart';
+import 'package:miigaik/features/root/tabs/schedule/use_case/fetch_schedule_use_case.dart';
 import 'package:miigaik/features/schedule-choose/enum/signature_schedule_type.dart';
 import 'package:miigaik/features/schedule-choose/models/signature_schedule_model.dart';
 

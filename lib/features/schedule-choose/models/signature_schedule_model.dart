@@ -29,7 +29,7 @@ class SignatureScheduleModel extends Equatable with HiveObjectMixin {
   @override
   List<Object?> get props => [type, title, id];
 
-  Map<String, dynamic> toMap() => {
+  Map<String, Object> toMap() => {
     "title": title,
     "type": type.display,
     "id": id
