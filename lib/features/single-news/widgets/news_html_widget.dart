@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_widget_from_html/flutter_widget_from_html.dart';
 import 'package:miigaik/features/common/widgets/image_dialog.dart';
 import 'package:miigaik/features/config/config.dart';
-import 'package:miigaik/features/config/extension.dart';
 import 'package:miigaik/theme/text_styles.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -42,7 +41,7 @@ class NewsHtmlWidget extends StatelessWidget {
     return HtmlWidget(
       html,
       enableCaching: !kDebugMode,
-      baseUrl: Uri.parse(Config.baseImageUrl.conf()),
+      baseUrl: Uri.parse(Config.baseImageUrl),
       renderMode: RenderMode.sliverList,
       customStylesBuilder: (element) {
         if (element.className == "news-item-image") {
@@ -62,7 +61,7 @@ class NewsHtmlWidget extends StatelessWidget {
         return null;
       },
       customWidgetBuilder: (element) {
-        final baseUrl = Config.baseImageUrl.conf();
+        final baseUrl = Config.baseImageUrl;
         if (element.localName == 'img') {
           final src = element.attributes['src'];
           if (src != null) {

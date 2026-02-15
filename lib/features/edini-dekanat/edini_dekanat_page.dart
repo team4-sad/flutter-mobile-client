@@ -8,7 +8,6 @@ import 'package:get_it/get_it.dart';
 import 'package:miigaik/features/common/widgets/placeholder_widget.dart';
 import 'package:miigaik/features/common/widgets/simple_app_bar.dart';
 import 'package:miigaik/features/config/config.dart';
-import 'package:miigaik/features/config/extension.dart';
 import 'package:miigaik/features/edini-dekanat/js_injector.dart';
 import 'package:miigaik/features/network-connection/services/network_connection_service.dart';
 import 'package:miigaik/theme/app_theme_extensions.dart';
@@ -24,14 +23,14 @@ class EdiniDekanatPage extends StatefulWidget {
     : this._(
         key: key,
         title: "Заказ справок",
-        url: Config.webWiewUrlSpravki.conf(),
+        url: Config.webWiewUrlSpravki,
       );
 
   EdiniDekanatPage.dopuski({key})
     : this._(
         key: key,
         title: "Заказ допуска",
-        url: Config.webWiewUrlDopuski.conf(),
+        url: Config.webWiewUrlDopuski,
       );
 
   @override
@@ -111,7 +110,7 @@ class _EdiniDekanatPageState extends State<EdiniDekanatPage> {
                   initialUrlRequest: URLRequest(url: WebUri(widget.url)),
                   initialSettings: InAppWebViewSettings(
                     useShouldOverrideUrlLoading: true,
-                    userAgent: Config.webWiewUserAgent.conf(),
+                    userAgent: Config.webWiewUserAgent,
                     javaScriptEnabled: true,
                     transparentBackground: true,
                     verticalScrollBarEnabled: false,

@@ -3,11 +3,9 @@ import 'dart:ui';
 
 import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
-import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:intl/date_symbol_data_local.dart';
 import 'package:intl/intl.dart';
 import 'package:miigaik/features/config/config.dart';
-import 'package:miigaik/features/config/extension.dart';
 import 'package:miigaik/features/root/tabs/schedule/repository/schedule_repository.dart';
 import 'package:miigaik/features/root/tabs/schedule/use_case/schedule_use_case.dart';
 import 'package:miigaik/features/schedule-choose/models/signature_schedule_model.dart';
@@ -113,9 +111,7 @@ void callbackDispatcher() {
     try {
       await initializeDateFormatting(locale.toString(), null);
       Intl.defaultLocale = locale.toString();
-      await dotenv.load(fileName: "config/.env");
-      debugPrint(Config.apiUrl.conf());
-      final dio = Dio(BaseOptions(baseUrl: Config.apiUrl.conf()));
+      final dio = Dio(BaseOptions(baseUrl: Config.apiUrl));
       final apiScheduleRepository = ApiScheduleRepository(dio: dio);
       final useCase = FetchScheduleUseCase(repo: apiScheduleRepository);
 

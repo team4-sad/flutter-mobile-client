@@ -2,7 +2,6 @@ import 'package:dio/dio.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:home_widget/home_widget.dart';
 import 'package:intl/date_symbol_data_local.dart';
 import 'package:miigaik/di/app_di.dart';
@@ -10,7 +9,6 @@ import 'package:miigaik/di/common_di.dart';
 import 'package:miigaik/di/home_widget_di.dart';
 import 'package:miigaik/features/analytics/my_tracker_helper.dart';
 import 'package:miigaik/features/common/widgets/app_wrapper_widget.dart';
-import 'package:miigaik/features/config/extension.dart';
 import 'package:miigaik/features/root/root_page.dart';
 import 'package:miigaik/features/root/tabs/schedule/repository/schedule_repository.dart';
 import 'package:miigaik/features/root/tabs/schedule/use_case/schedule_use_case.dart';
@@ -31,7 +29,7 @@ void main() async {
   await HomeWidget.registerInteractivityCallback(_interactivityCallback);
   HomeWidgetWorkManagerHelper.initializeWorkManager();
 
-  await MyTrackerHelper.init("test_custom_user_id");
+  AnalyticHelper.init(Config.appmetricaApiKey);
 
   int? widgetId;
   try {
@@ -92,9 +90,8 @@ class MyApp extends StatelessWidget {
 @pragma('vm:entry-point')
 Future<void> _interactivityCallback(Uri? uri) async {
   try {
-    await dotenv.load(fileName: "config/.env");
     final dio = Dio(BaseOptions(
-      baseUrl: Config.apiUrl.conf(),
+      baseUrl: Config.apiUrl,
     ));
 
     final refreshUseCase = RefreshWidgetUseCase(

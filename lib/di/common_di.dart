@@ -1,12 +1,10 @@
 import 'package:dio/dio.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:get_it/get_it.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:miigaik/features/common/other/http_override.dart';
 import 'package:miigaik/features/config/config.dart';
-import 'package:miigaik/features/config/extension.dart';
 import 'package:miigaik/features/network-connection/services/network_connection_service.dart';
 import 'package:miigaik/features/root/tabs/notes/models/note_model.dart';
 import 'package:miigaik/features/schedule-choose/enum/signature_schedule_type.dart';
@@ -20,7 +18,6 @@ class CommonDI {
   static const String miigaikApiDioName = "miigaik_api_dio";
 
   static Future<void> register() async {
-    await loadConfig();
     await registerHive();
     registerLogger();
     registerDio();
@@ -31,14 +28,10 @@ class CommonDI {
     GetIt.I.registerSingleton(Talker());
   }
 
-  static Future<void> loadConfig() async {
-    return dotenv.load(fileName: "config/.env");
-  }
-
   static void registerDio() {
     BadCertificateHttpOverrides.setup();
 
-    final dio = Dio(BaseOptions(baseUrl: Config.apiUrl.conf()));
+    final dio = Dio(BaseOptions(baseUrl: Config.apiUrl));
     dio.interceptors.add(
       TalkerDioLogger(
         talker: GetIt.I.get(),
@@ -48,7 +41,7 @@ class CommonDI {
     GetIt.I.registerSingleton(dio);
 
     final scheduleApiDio = Dio(
-      BaseOptions(baseUrl: Config.scheduleApiUrl.conf()),
+      BaseOptions(baseUrl: Config.scheduleApiUrl),
     );
     scheduleApiDio.interceptors.add(
       TalkerDioLogger(
