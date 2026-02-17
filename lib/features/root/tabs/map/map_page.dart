@@ -91,11 +91,11 @@ class _MapPageState extends State<MapPage> {
                 }
               ),
               Align(
-                alignment: Alignment.topRight,
+                alignment: Alignment.centerRight,
                 child: Padding(
                   padding: EdgeInsetsGeometry.only(
-                    top: paddingTopPage + 68,
-                    right: 20
+                    right: 20,
+                    bottom: heightNavBar.toDouble()
                   ),
                   child: FloorWidget(floorCount: 7)
                 ),
@@ -135,21 +135,28 @@ class _MapPageState extends State<MapPage> {
                         child: Column(
                           mainAxisSize: MainAxisSize.min,
                           children: [
-                            SearchFieldWidget(
-                              focusNode: searchTextFocusNode,
-                              hint: "Поиск и выбор мест",
-                              unFocusOnTapOutside: false,
-                              onChangeFocusSearchField: (_) {
-                                setState(() {});
-                              },
-                              enableClear: true,
-                              textEditingController: searchController,
-                              onChangeText: (value) {
-                                searchMapCubit.setSearchText(value);
-                              },
-                              onTapClear: () {
-                                searchMapCubit.setSearchText("");
-                              },
+                            Container(
+                              decoration: BoxDecoration(
+                                boxShadow: [
+                                  context.palette.mapShadow
+                                ]
+                              ),
+                              child: SearchFieldWidget(
+                                focusNode: searchTextFocusNode,
+                                hint: "Поиск и выбор мест",
+                                unFocusOnTapOutside: false,
+                                onChangeFocusSearchField: (_) {
+                                  setState(() {});
+                                },
+                                enableClear: true,
+                                textEditingController: searchController,
+                                onChangeText: (value) {
+                                  searchMapCubit.setSearchText(value);
+                                },
+                                onTapClear: () {
+                                  searchMapCubit.setSearchText("");
+                                },
+                              ),
                             ),
                             10.vs(),
                             if (searchTextFocusNode.hasFocus)

@@ -61,20 +61,25 @@ class _FloorWidgetState extends State<FloorWidget> {
         }
       },
       builder: (context, state) {
-        return ClipRRect(
-          borderRadius: BorderRadius.circular(14),
-          child: Container(
-            height: 200,
-            width: 48,
-            color: context.palette.container,
-            child: Stack(
-              children: [
-                ListView.builder(
-                  controller: scrollController,
-                  reverse: true,
-                  padding: EdgeInsets.zero,
-                  itemBuilder: (context, index) =>
-                    _FloorItem(
+        return Container(
+          decoration: BoxDecoration(
+            boxShadow: [
+              context.palette.mapShadow
+            ],
+          ),
+          child: ClipRRect(
+            borderRadius: BorderRadius.circular(14),
+            child: Container(
+              height: 200,
+              width: 48,
+              color: context.palette.container,
+              child: Stack(
+                children: [
+                  ListView.builder(
+                    controller: scrollController,
+                    reverse: true,
+                    padding: EdgeInsets.zero,
+                    itemBuilder: (context, index) => _FloorItem(
                       key: ValueKey(index),
                       floor: index + 1,
                       heightFloor: pxToFloor,
@@ -82,41 +87,42 @@ class _FloorWidgetState extends State<FloorWidget> {
                       isSelected: index == state - 1,
                       isLast: index == widget.floorCount - 1
                     ),
-                  itemCount: widget.floorCount
-                ),
-                if (showUpButton)
-                  Align(
-                    alignment: Alignment.topCenter,
-                    child: Padding(
-                      padding: const EdgeInsets.only(),
-                      child: _FloorButton(
-                        key: ValueKey("up"),
-                        contentPadding: EdgeInsets.only(top: 7),
-                        onTap: () {
-                          scrollController.jumpTo(
-                              scrollController.offset + pxToFloor);
-                        },
-                        icon: Icons.arrow_drop_up
-                      ),
-                    )
+                    itemCount: widget.floorCount
                   ),
-                if (showDownButton)
-                  Align(
-                    alignment: Alignment.bottomCenter,
-                    child: Padding(
-                      padding: const EdgeInsets.only(),
-                      child: _FloorButton(
-                        key: ValueKey("down"),
-                        contentPadding: EdgeInsets.only(bottom: 7),
-                        onTap: () {
-                          scrollController.jumpTo(
-                              scrollController.offset - pxToFloor);
-                        },
-                        icon: Icons.arrow_drop_down
-                      ),
-                    )
-                  ),
-              ],
+                  if (showUpButton)
+                    Align(
+                      alignment: Alignment.topCenter,
+                      child: Padding(
+                        padding: const EdgeInsets.only(),
+                        child: _FloorButton(
+                          key: ValueKey("up"),
+                          contentPadding: EdgeInsets.only(top: 7),
+                          onTap: () {
+                            scrollController.jumpTo(
+                                scrollController.offset + pxToFloor);
+                          },
+                          icon: Icons.arrow_drop_up
+                        ),
+                      )
+                    ),
+                  if (showDownButton)
+                    Align(
+                      alignment: Alignment.bottomCenter,
+                      child: Padding(
+                        padding: const EdgeInsets.only(),
+                        child: _FloorButton(
+                          key: ValueKey("down"),
+                          contentPadding: EdgeInsets.only(bottom: 7),
+                          onTap: () {
+                            scrollController.jumpTo(
+                                scrollController.offset - pxToFloor);
+                          },
+                          icon: Icons.arrow_drop_down
+                        ),
+                      )
+                    ),
+                ],
+              ),
             ),
           ),
         );
