@@ -21,7 +21,9 @@ class TopSingleNewsWidget extends StatelessWidget {
       mainAxisSize: MainAxisSize.min,
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(date, style: TS.light15.use(context.palette.text),
+        Text(
+          date,
+          style: TS.light15.use(context.palette.text),
         ).p(25.horizontal()),
         4.vs(),
         IntrinsicHeight(

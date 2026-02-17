@@ -1,9 +1,9 @@
 import 'package:dio/dio.dart';
 import 'package:miigaik/features/common/extensions/date_time_extensions.dart';
+import 'package:miigaik/features/common/other/cache_helper.dart';
 import 'package:miigaik/features/root/tabs/schedule/models/response_schedule_model.dart';
 
 abstract class IScheduleRepository {
-
   Future<ResponseGroupScheduleModel> fetchDayGroupSchedule({
     required String groupId,
     required DateTime day,
@@ -18,67 +18,30 @@ abstract class IScheduleRepository {
     required String teacherId,
     required DateTime day,
   });
-}
-
-class MiigaikScheduleRepository extends IScheduleRepository {
-  final Dio dio;
-
-  MiigaikScheduleRepository({required this.dio});
-
-  @override
-  Future<ResponseAudienceScheduleModel> fetchDayAudienceSchedule({
-    required String audienceId,
-    required DateTime day,
-  }) async {
-    final response = await dio.get(
-      "classroom/$audienceId",
-      queryParameters: {"dateStart": day.yyyyMMdd, "dateEnd": day.yyyyMMdd},
-    );
-    return ResponseAudienceScheduleModel.fromMiigaikMap(response.data);
-  }
-
-  @override
-  Future<ResponseGroupScheduleModel> fetchDayGroupSchedule({
-    required String groupId,
-    required DateTime day,
-  }) async {
-    final response = await dio.get(
-      "group/$groupId",
-      queryParameters: {"dateStart": day.yyyyMMdd, "dateEnd": day.yyyyMMdd},
-    );
-    return ResponseGroupScheduleModel.fromMiigaikMap(response.data);
-  }
-
-  @override
-  Future<ResponseTeacherScheduleModel> fetchDayTeacherSchedule({
-    required String teacherId,
-    required DateTime day,
-  }) async {
-    final response = await dio.get(
-      "teacher/$teacherId",
-      queryParameters: {"dateStart": day.yyyyMMdd, "dateEnd": day.yyyyMMdd},
-    );
-    return ResponseTeacherScheduleModel.fromMiigaikMap(response.data);
-  }
 }
 
 class ApiScheduleRepository extends IScheduleRepository {
   final Dio dio;
+  final CacheHelper? cacheHelper;
 
-  ApiScheduleRepository({required this.dio});
+  ApiScheduleRepository({required this.dio, this.cacheHelper});
 
   @override
   Future<ResponseGroupScheduleModel> fetchDayGroupSchedule({
     required String groupId,
     required DateTime day,
   }) async {
-    final formattedDay = day.yyyyMMdd;
-    final response = await dio.get(
-      "schedule/group/$groupId",
-      queryParameters: {"start_date": formattedDay, "end_date": formattedDay},
-    );
-
-    final model = ResponseGroupScheduleModel.fromMap(response.data);
+    final url = Uri(
+      path: "schedule/group/$groupId",
+      queryParameters: {"start_date": day.yyyyMMdd, "end_date": day.yyyyMMdd}
+    ).toString();
+    Map<String, dynamic>? data = await cacheHelper?.get(url);
+    if (data == null) {
+      final response = await dio.get(url);
+      data = response.data;
+      await cacheHelper?.save(url, data);
+    }
+    final model = ResponseGroupScheduleModel.fromMap(data!);
     return model;
   }
 
@@ -87,12 +50,17 @@ class ApiScheduleRepository extends IScheduleRepository {
     required String audienceId,
     required DateTime day,
   }) async {
-    final formattedDay = day.yyyyMMdd;
-    final response = await dio.get(
-      "schedule/classroom/$audienceId",
-      queryParameters: {"start_date": formattedDay, "end_date": formattedDay},
-    );
-    final model = ResponseAudienceScheduleModel.fromMap(response.data);
+    final url = Uri(
+      path: "schedule/classroom/$audienceId",
+      queryParameters: {"start_date": day.yyyyMMdd, "end_date": day.yyyyMMdd},
+    ).toString();
+    Map<String, dynamic>? data = await cacheHelper?.get(url);
+    if (data == null) {
+      final response = await dio.get(url);
+      data = response.data;
+      await cacheHelper?.save(url, data);
+    }
+    final model = ResponseAudienceScheduleModel.fromMap(data!);
     return model;
   }
 
@@ -101,12 +69,17 @@ class ApiScheduleRepository extends IScheduleRepository {
     required String teacherId,
     required DateTime day,
   }) async {
-    final formattedDay = day.yyyyMMdd;
-    final response = await dio.get(
-      "schedule/teacher/$teacherId",
-      queryParameters: {"start_date": formattedDay, "end_date": formattedDay},
-    );
-    final model = ResponseTeacherScheduleModel.fromMap(response.data);
+    final url = Uri(
+      path: "schedule/teacher/$teacherId",
+      queryParameters: {"start_date": day.yyyyMMdd, "end_date": day.yyyyMMdd},
+    ).toString();
+    Map<String, dynamic>? data = await cacheHelper?.get(url);
+    if (data == null) {
+      final response = await dio.get(url);
+      data = response.data;
+      await cacheHelper?.save(url, data);
+    }
+    final model = ResponseTeacherScheduleModel.fromMap(data!);
     return model;
   }
 }

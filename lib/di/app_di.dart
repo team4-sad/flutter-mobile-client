@@ -58,7 +58,10 @@ class AppDI {
     final apiSearchNewsRepository = ApiSearchNewsRepository(dio: defaultDio);
     GetIt.I.registerSingleton<ISearchNewsRepository>(apiSearchNewsRepository);
 
-    final apiScheduleRepository = ApiScheduleRepository(dio: defaultDio);
+    final apiScheduleRepository = ApiScheduleRepository(
+      dio: defaultDio,
+      cacheHelper: GetIt.I.get()
+    );
     GetIt.I.registerSingleton<IScheduleRepository>(apiScheduleRepository);
 
     final apiSignaturesRepository = ApiNewSignatureScheduleRepository(dio: defaultDio);
@@ -78,7 +81,6 @@ class AppDI {
     GetIt.I.registerSingleton(BottomNavBarBloc(ItemNavBar.defaultItem()));
     GetIt.I.registerSingleton(NetworkConnectionBloc()..listen());
     GetIt.I.registerSingleton(NewsListBloc());
-    GetIt.I.registerSingleton(SingleNewsBloc());
     GetIt.I.registerSingleton(NewsSearchBloc());
     GetIt.I.registerSingleton(NewsPageModeBloc());
     GetIt.I.registerSingleton(SignatureScheduleBloc());

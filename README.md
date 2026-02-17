@@ -15,6 +15,11 @@
 flutter run --dart-define-from-file=config/.env
 ```
 
+Для сборки релиза необходимо выполнить команду:
+```
+flutter build apk --release --obfuscate --dart-define-from-file=config/.env --split-debug-info=build/symbols
+```
+ 
 ### Зависимости
 Перечень основных зависимостей
 ```

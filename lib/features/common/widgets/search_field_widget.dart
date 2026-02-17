@@ -62,10 +62,6 @@ class _SearchFieldWidgetState extends State<SearchFieldWidget> {
           filled: true,
           hintText: widget._hint,
           hintStyle: TS.regular15.use(context.palette.subText),
-          prefixIcon: Padding(
-            padding: const EdgeInsets.only(left: 14, right: 1),
-            child: Icon(I.search, color: context.palette.subText, size: 22),
-          ),
           prefixIconConstraints: BoxConstraints(minWidth: 0, minHeight: 0),
           suffixIcon:
               (widget._enableClear &&
@@ -91,7 +87,7 @@ class _SearchFieldWidgetState extends State<SearchFieldWidget> {
             borderSide: BorderSide.none,
           ),
           constraints: BoxConstraints(),
-          contentPadding: const EdgeInsets.symmetric(vertical: 14),
+          contentPadding: const EdgeInsets.symmetric(vertical: 14, horizontal: 15),
         ),
       ),
     );

@@ -1,8 +1,10 @@
 import 'package:dio/dio.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_cache_manager/flutter_cache_manager.dart' as cache_manager;
 import 'package:get_it/get_it.dart';
 import 'package:hive_flutter/hive_flutter.dart';
+import 'package:miigaik/features/common/other/cache_helper.dart';
 import 'package:miigaik/features/common/other/http_override.dart';
 import 'package:miigaik/features/config/config.dart';
 import 'package:miigaik/features/network-connection/services/network_connection_service.dart';
@@ -19,6 +21,7 @@ class CommonDI {
 
   static Future<void> register() async {
     await registerHive();
+    registerCache();
     registerLogger();
     registerDio();
     registerServices();
@@ -71,6 +74,15 @@ class CommonDI {
 
     final boxNotes = await Hive.openBox<NoteModel>("box_for_notes");
     GetIt.I.registerSingleton(boxNotes);
+  }
+
+  static Future<void> registerCache() async {
+    GetIt.I.registerSingleton(CacheHelper(cacheManager: cache_manager.CacheManager(
+      cache_manager.Config(
+        "miigaik_cache",
+        stalePeriod: const Duration(hours: 1)
+      )
+    )));
   }
 
   static void registerLocaleBloc(BuildContext context) {

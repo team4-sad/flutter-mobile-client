@@ -11,6 +11,7 @@ import 'package:miigaik/features/root/tabs/schedule/repository/schedule_reposito
 import 'package:miigaik/features/root/tabs/schedule/use_case/fetch_schedule_use_case.dart';
 import 'package:miigaik/features/schedule-choose/enum/signature_schedule_type.dart';
 import 'package:miigaik/features/schedule-choose/models/signature_schedule_model.dart';
+import 'package:talker_flutter/talker_flutter.dart';
 
 part 'schedule_bloc_event.dart';
 part 'schedule_bloc_state.dart';
@@ -19,6 +20,7 @@ class ScheduleBloc extends Bloc<ScheduleBlocEvent, ScheduleState> {
 
   final NetworkConnectionService connectionService = GetIt.I.get();
   final useCase = FetchScheduleUseCase();
+  final talker = GetIt.I.get<Talker>();
 
   ScheduleBloc() : super(ScheduleInitial()) {
     connectionService.onConnectionChanged.listen((status) {
@@ -54,6 +56,7 @@ class ScheduleBloc extends Bloc<ScheduleBlocEvent, ScheduleState> {
           ),
         );
       } on Object catch (e) {
+        talker.error("Ошибка при получении расписания", e);
         emit(
           ScheduleError(error: e, signature: event.signature, date: event.day),
         );

@@ -90,8 +90,7 @@ class AddSchedulePage extends StatelessWidget {
                   ),
                 ),
                 10.vs(),
-                Wrap(
-                  runSpacing: 4,
+                Row(
                   spacing: 4,
                   children: [
                     TagWidget(

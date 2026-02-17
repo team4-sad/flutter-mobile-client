@@ -17,7 +17,7 @@ class SingleNewsPage extends StatelessWidget {
 
   SingleNewsPage({super.key, required this.newsId});
 
-  final bloc = GetIt.I.get<SingleNewsBloc>();
+  final bloc = SingleNewsBloc();
 
   void _addFetchSingleNews(){
     bloc.add(FetchSingleNewsEvent(newsId: newsId));
@@ -29,7 +29,7 @@ class SingleNewsPage extends StatelessWidget {
     return Scaffold(
       appBar: SingleNewsAppBar(),
       body: BlocBuilder<SingleNewsBloc, SingleNewsState>(
-        bloc: GetIt.I.get(),
+        bloc: bloc,
         builder: (context, state) {
           switch (state){
             case SingleNewsLoadedState():
