@@ -9,7 +9,7 @@ class MapWrapper {
 
   MapWrapper({required this.controller});
 
-  Future<void> injectCSS() async {
+  Future<void> injectFix() async {
     await controller.evaluateJavascript(source: """
       (function() {
         var style = document.createElement('style');
@@ -22,6 +22,21 @@ class MapWrapper {
           }
         `;
         document.head.appendChild(style);
+        
+        if (typeof mapboxgl !== 'undefined') {
+          // Подменяем конструктор Popup на пустышку
+          mapboxgl.Popup = function() {
+            return {
+              setLngLat: function() { return this; },
+              setHTML: function() { return this; },
+              addTo: function() { return this; },
+              remove: function() {}
+            };
+          };
+        }
+        
+        // Удаляем уже существующие popup (на всякий случай)
+        document.querySelectorAll('.mapboxgl-popup').forEach(el => el.remove());
       })();
     """);
   }
