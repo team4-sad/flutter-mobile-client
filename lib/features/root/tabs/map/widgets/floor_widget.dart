@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_it/get_it.dart';
 import 'package:miigaik/features/root/tabs/map/bloc/floor_map_cubit/floor_map_cubit.dart';
-import 'package:miigaik/features/root/tabs/map/bloc/map_cubit/map_cubit.dart';
 import 'package:miigaik/theme/app_theme_extensions.dart';
 import 'package:miigaik/theme/text_styles.dart';
 
@@ -40,7 +39,7 @@ class _FloorWidgetState extends State<FloorWidget> {
     final position = scrollController.position.pixels;
     final currentFloor = position / pxToFloor;
     setState(() {
-      showUpButton = currentFloor < widget.floorCount - 4;
+      showUpButton = position <= maxScroll * 0.5;
       showDownButton = currentFloor > 0;
     });
   }
@@ -65,7 +64,7 @@ class _FloorWidgetState extends State<FloorWidget> {
         return ClipRRect(
           borderRadius: BorderRadius.circular(14),
           child: Container(
-            height: 160,
+            height: 200,
             width: 48,
             color: context.palette.container,
             child: Stack(

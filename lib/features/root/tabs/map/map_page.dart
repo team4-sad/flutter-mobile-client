@@ -90,112 +90,114 @@ class _MapPageState extends State<MapPage> {
                   }
                 }
               ),
-              Padding(
+              Align(
+                alignment: Alignment.topRight,
+                child: Padding(
                   padding: EdgeInsetsGeometry.only(
-                      top: paddingTopPage + 68,
-                      left: 20
+                    top: paddingTopPage + 68,
+                    right: 20
                   ),
                   child: FloorWidget(floorCount: 7)
+                ),
               ),
               BlocBuilder<SearchMapCubit, SearchMapState>(
-                  bloc: searchMapCubit,
-                  builder: (context, state) {
-                    final List<CategoryModel> hints;
-                    if (searchController.text.isEmpty) {
-                      hints = [];
-                    } else {
-                      hints = searchMapCubit.search(
-                          cubit.state.categories ?? []
-                      );
-                    }
-                    return Stack(
-                      children: [
-                        if (searchTextFocusNode.hasFocus)
-                          GestureDetector(
-                            onTapDown: (_) {
-                              setState(() {
-                                searchTextFocusNode.unfocus();
-                              });
-                            },
-                            child: Container(
-                              width: double.infinity,
-                              height: double.infinity,
-                              color: Colors.black.withAlpha(64),
-                            ),
-                          ),
-                        Padding(
-                          padding: EdgeInsetsGeometry.only(
-                              top: paddingTopPage,
-                              left: 20,
-                              right: 20
-                          ),
-                          child: Column(
-                            mainAxisSize: MainAxisSize.min,
-                            children: [
-                              SearchFieldWidget(
-                                focusNode: searchTextFocusNode,
-                                hint: "Поиск и выбор мест",
-                                unFocusOnTapOutside: false,
-                                onChangeFocusSearchField: (_) {
-                                  setState(() {});
-                                },
-                                enableClear: true,
-                                textEditingController: searchController,
-                                onChangeText: (value) {
-                                  searchMapCubit.setSearchText(value);
-                                },
-                                onTapClear: () {
-                                  searchMapCubit.setSearchText("");
-                                },
-                              ),
-                              10.vs(),
-                              if (searchTextFocusNode.hasFocus)
-                                BlocBuilder<SearchMapCubit, SearchMapState>(
-                                  bloc: searchMapCubit,
-                                  builder: (context, state) {
-                                    if (hints.isEmpty) {
-                                      return const SizedBox.shrink();
-                                    }
-                                    return ConstrainedBox(
-                                      constraints: BoxConstraints(
-                                          maxHeight: 340
-                                      ),
-                                      child: Container(
-                                        width: double.infinity,
-                                        decoration: BoxDecoration(
-                                            color: context.palette.container,
-                                            borderRadius: BorderRadius.circular(
-                                                12)
-                                        ),
-                                        child: ListView.separated(
-                                          padding: EdgeInsetsGeometry.symmetric(
-                                            vertical: 20,
-                                          ),
-                                          separatorBuilder: (_, __) => 20.vs(),
-                                          itemBuilder: (context, index) {
-                                            return CategoryHint(
-                                                category: hints[index],
-                                                onTap: (room) async {
-                                                  cubit.setSearchRoom(room);
-                                                  searchTextFocusNode.unfocus();
-                                                  searchController.text =
-                                                      room.label;
-                                                }
-                                            );
-                                          },
-                                          itemCount: hints.length,
-                                          shrinkWrap: true,
-                                        ),
-                                      ),
-                                    );
-                                  },
-                                )
-                            ],
-                          ),
-                        ),
-                      ],
+                bloc: searchMapCubit,
+                builder: (context, state) {
+                  final List<CategoryModel> hints;
+                  if (searchController.text.isEmpty) {
+                    hints = [];
+                  } else {
+                    hints = searchMapCubit.search(
+                      cubit.state.categories ?? []
                     );
                   }
+                  return Stack(
+                    children: [
+                      if (searchTextFocusNode.hasFocus)
+                        GestureDetector(
+                          onTapDown: (_) {
+                            setState(() {
+                              searchTextFocusNode.unfocus();
+                            });
+                          },
+                          child: Container(
+                            width: double.infinity,
+                            height: double.infinity,
+                            color: Colors.black.withAlpha(64),
+                          ),
+                        ),
+                      Padding(
+                        padding: EdgeInsetsGeometry.only(
+                          top: paddingTopPage,
+                          left: 20,
+                          right: 20
+                        ),
+                        child: Column(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            SearchFieldWidget(
+                              focusNode: searchTextFocusNode,
+                              hint: "Поиск и выбор мест",
+                              unFocusOnTapOutside: false,
+                              onChangeFocusSearchField: (_) {
+                                setState(() {});
+                              },
+                              enableClear: true,
+                              textEditingController: searchController,
+                              onChangeText: (value) {
+                                searchMapCubit.setSearchText(value);
+                              },
+                              onTapClear: () {
+                                searchMapCubit.setSearchText("");
+                              },
+                            ),
+                            10.vs(),
+                            if (searchTextFocusNode.hasFocus)
+                              BlocBuilder<SearchMapCubit, SearchMapState>(
+                                bloc: searchMapCubit,
+                                builder: (context, state) {
+                                  if (hints.isEmpty) {
+                                    return const SizedBox.shrink();
+                                  }
+                                  return ConstrainedBox(
+                                    constraints: BoxConstraints(
+                                      maxHeight: 340
+                                    ),
+                                    child: Container(
+                                      width: double.infinity,
+                                      decoration: BoxDecoration(
+                                        color: context.palette.container,
+                                        borderRadius: BorderRadius.circular(12)
+                                      ),
+                                      child: ListView.separated(
+                                        padding: EdgeInsetsGeometry.symmetric(
+                                          vertical: 20,
+                                        ),
+                                        separatorBuilder: (_, __) => 20.vs(),
+                                        itemBuilder: (context, index) {
+                                          return CategoryHint(
+                                            category: hints[index],
+                                            onTap: (room) async {
+                                              cubit.setSearchRoom(room);
+                                              searchTextFocusNode.unfocus();
+                                              searchController.text =
+                                                  room.label;
+                                            }
+                                          );
+                                        },
+                                        itemCount: hints.length,
+                                        shrinkWrap: true,
+                                      ),
+                                    ),
+                                  );
+                                },
+                              )
+                          ],
+                        ),
+                      ),
+                    ],
+                  );
+                }
               ),
               if (!isFullLoad)
                 Container(
