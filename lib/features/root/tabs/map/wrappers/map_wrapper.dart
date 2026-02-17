@@ -56,13 +56,14 @@ class MapWrapper {
                item.label.trim() !== '' &&
                item.category && 
                typeof item.category === 'string' &&
-               item.id_room != null;
+               item.id_room != null &&
+               item.floor != null;
       }).map(function(item) {
-        // Приводим id к строке для совместимости с моделью
         return {
           label: item.label.trim(),
           category: item.category,
-          id: item.id_room
+          id: item.id_room,
+          floor: item.floor
         };
       });
       

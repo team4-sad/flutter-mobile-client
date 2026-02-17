@@ -129,6 +129,7 @@ class LessonModel {
     return RoomModel(
       id: classroomId,
       label: classroomName,
+      floor: classroomFloor
     );
   }
 }
