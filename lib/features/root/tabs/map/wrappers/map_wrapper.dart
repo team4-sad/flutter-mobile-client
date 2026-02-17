@@ -44,6 +44,11 @@ class MapWrapper {
     }
   }
 
+  Future<void> changeFloor(int floor) async {
+    final jsCode = "window.location.hash = '#l=$floor';";
+    await controller.evaluateJavascript(source: jsCode);
+  }
+
   Future<List<CategoryModel>> fetchCategoriesRooms() async {
     final result = await controller.evaluateJavascript(source: """
     (function() {

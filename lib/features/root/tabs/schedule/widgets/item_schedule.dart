@@ -5,6 +5,7 @@ import 'package:miigaik/features/common/extensions/num_widget_extension.dart';
 import 'package:miigaik/features/common/widgets/tag_widget.dart';
 import 'package:miigaik/features/root/features/bottom-nav-bar/bloc/bottom_nav_bar_bloc.dart';
 import 'package:miigaik/features/root/features/bottom-nav-bar/items_nav_bar.dart';
+import 'package:miigaik/features/root/tabs/map/bloc/floor_map_cubit/floor_map_cubit.dart';
 import 'package:miigaik/features/root/tabs/map/bloc/map_cubit/map_cubit.dart';
 import 'package:miigaik/features/root/tabs/schedule/bloc/current_time_cubit/current_time_cubit.dart';
 import 'package:miigaik/features/root/tabs/schedule/models/lesson_model.dart';
@@ -72,6 +73,7 @@ class ItemSchedule extends StatelessWidget {
                       GetIt.I.get<MapCubit>().setSearchRoom(
                         lessonModel.toRoomModel()
                       );
+                      // GetIt.I.get<FloorMapCubit>().change(floor)
                       GetIt.I.get<BottomNavBarBloc>().add(
                         GoToEventEvent(ItemNavBar.map)
                       );

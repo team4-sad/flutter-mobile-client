@@ -1,4 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:get_it/get_it.dart';
+import 'package:miigaik/features/root/tabs/map/bloc/floor_map_cubit/floor_map_cubit.dart';
+import 'package:miigaik/features/root/tabs/map/bloc/map_cubit/map_cubit.dart';
 import 'package:miigaik/theme/app_theme_extensions.dart';
 import 'package:miigaik/theme/text_styles.dart';
 
@@ -25,7 +29,6 @@ class _FloorWidgetState extends State<FloorWidget> {
   @override
   void initState() {
     super.initState();
-
     WidgetsBinding.instance.addPostFrameCallback((_) {
       maxScroll = scrollController.position.maxScrollExtent;
       scrollController.addListener(refreshButtons);
@@ -33,7 +36,7 @@ class _FloorWidgetState extends State<FloorWidget> {
     });
   }
 
-  void refreshButtons(){
+  void refreshButtons() {
     final position = scrollController.position.pixels;
     final currentFloor = position / pxToFloor;
     setState(() {
@@ -42,62 +45,83 @@ class _FloorWidgetState extends State<FloorWidget> {
     });
   }
 
+  final cubit = GetIt.I.get<FloorMapCubit>();
+
   @override
   Widget build(BuildContext context) {
-    return ClipRRect(
-      borderRadius: BorderRadius.circular(14),
-      child: Container(
-        height: 160,
-        width: 48,
-        color: context.palette.container,
-        child: Stack(
-          children: [
-            ListView.builder(
-              controller: scrollController,
-              reverse: true,
-              padding: EdgeInsets.zero,
-              itemBuilder: (context, index) => _FloorItem(
-                key: ValueKey(index),
-                floor: index + 1,
-                heightFloor: pxToFloor,
-                isFirst: index == 0,
-                isLast: index == widget.floorCount - 1
-              ),
-              itemCount: widget.floorCount
+    return BlocConsumer<FloorMapCubit, int>(
+      bloc: cubit,
+      listener: (context, state){
+        final value = (state - 2) * pxToFloor;
+        if (value > maxScroll) {
+          scrollController.jumpTo(maxScroll);
+        } else if (value < 0) {
+          scrollController.jumpTo(0);
+        } else {
+          scrollController.jumpTo(value);
+        }
+      },
+      builder: (context, state) {
+        return ClipRRect(
+          borderRadius: BorderRadius.circular(14),
+          child: Container(
+            height: 160,
+            width: 48,
+            color: context.palette.container,
+            child: Stack(
+              children: [
+                ListView.builder(
+                  controller: scrollController,
+                  reverse: true,
+                  padding: EdgeInsets.zero,
+                  itemBuilder: (context, index) =>
+                    _FloorItem(
+                      key: ValueKey(index),
+                      floor: index + 1,
+                      heightFloor: pxToFloor,
+                      isFirst: index == 0,
+                      isSelected: index == state - 1,
+                      isLast: index == widget.floorCount - 1
+                    ),
+                  itemCount: widget.floorCount
+                ),
+                if (showUpButton)
+                  Align(
+                    alignment: Alignment.topCenter,
+                    child: Padding(
+                      padding: const EdgeInsets.only(),
+                      child: _FloorButton(
+                        key: ValueKey("up"),
+                        contentPadding: EdgeInsets.only(top: 7),
+                        onTap: () {
+                          scrollController.jumpTo(
+                              scrollController.offset + pxToFloor);
+                        },
+                        icon: Icons.arrow_drop_up
+                      ),
+                    )
+                  ),
+                if (showDownButton)
+                  Align(
+                    alignment: Alignment.bottomCenter,
+                    child: Padding(
+                      padding: const EdgeInsets.only(),
+                      child: _FloorButton(
+                        key: ValueKey("down"),
+                        contentPadding: EdgeInsets.only(bottom: 7),
+                        onTap: () {
+                          scrollController.jumpTo(
+                              scrollController.offset - pxToFloor);
+                        },
+                        icon: Icons.arrow_drop_down
+                      ),
+                    )
+                  ),
+              ],
             ),
-            if (showUpButton)
-              Align(
-                alignment: Alignment.topCenter,
-                child: Padding(
-                  padding: const EdgeInsets.only(),
-                  child: _FloorButton(
-                    key: ValueKey("up"),
-                    contentPadding: EdgeInsets.only(top: 7),
-                    onTap: (){
-                      scrollController.jumpTo(scrollController.offset + pxToFloor);
-                    },
-                    icon: Icons.arrow_drop_up
-                  ),
-                )
-              ),
-            if (showDownButton)
-              Align(
-                alignment: Alignment.bottomCenter,
-                child: Padding(
-                  padding: const EdgeInsets.only(),
-                  child: _FloorButton(
-                    key: ValueKey("down"),
-                    contentPadding: EdgeInsets.only(bottom: 7),
-                    onTap: (){
-                      scrollController.jumpTo(scrollController.offset - pxToFloor);
-                    },
-                    icon: Icons.arrow_drop_down
-                  ),
-                )
-              ),
-          ],
-        ),
-      ),
+          ),
+        );
+      },
     );
   }
 }
@@ -106,6 +130,7 @@ class _FloorItem extends StatelessWidget {
 
   final int floor;
   final double heightFloor;
+  final bool isSelected;
   final bool isLast;
   final bool isFirst;
 
@@ -113,25 +138,32 @@ class _FloorItem extends StatelessWidget {
     super.key,
     required this.floor,
     required this.heightFloor,
+    this.isSelected = false,
     this.isLast = false,
     this.isFirst = false
   });
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
-      height: heightFloor,
-      width: 40 + (isFirst || isLast ? 7 : 0),
-      child: Padding(
-        padding: EdgeInsets.only(
-          bottom: isFirst ? 7 : 0,
-          top: isLast ? 7 : 0
-        ),
-        child: Center(
-          child: Text(
-            floor.toString(),
-            style: TS.regular15.use(context.palette.subText),
-          )
+    return GestureDetector(
+      onTap: (){
+        GetIt.I.get<FloorMapCubit>().change(floor);
+      },
+      child: Container(
+        height: heightFloor,
+        width: 48,
+        color: (isSelected) ? context.palette.subText : Colors.transparent,
+        child: Padding(
+          padding: EdgeInsets.only(
+            bottom: isFirst ? 7 : 0,
+            top: isLast ? 7 : 0
+          ),
+          child: Center(
+            child: Text(
+              floor.toString(),
+              style: TS.regular15.use((isSelected) ? context.palette.container : context.palette.subText),
+            )
+          ),
         ),
       ),
     );
