@@ -37,7 +37,7 @@ class _MapPageState extends State<MapPage> {
   final cubit = GetIt.I.get<MapCubit>();
   final floorMapCubit = GetIt.I.get<FloorMapCubit>();
 
-  bool isFirstFullLoad = true;
+  bool isFullLoad = true;
 
   String _getInitialUrl([RoomModel? room]) {
     // Координаты центра карты и уровень масштабирования по умолчанию, чтобы
@@ -81,8 +81,8 @@ class _MapPageState extends State<MapPage> {
                     final categories = await _wrapper!.fetchCategoriesRooms();
                     cubit.setRooms(categories);
                   }
-                  if ((await controller.getProgress() == 100) && isFirstFullLoad) {
-                    isFirstFullLoad = false;
+                  if ((await controller.getProgress() == 100) && !isFullLoad) {
+                    isFullLoad = true;
                     if (cubit.state.searchRoom != null) {
                       await _wrapper!.navigateToRoom(cubit.state.searchRoom!);
                       floorMapCubit.change(cubit.state.searchRoom!.floor);
@@ -197,6 +197,15 @@ class _MapPageState extends State<MapPage> {
                     );
                   }
               ),
+              if (!isFullLoad)
+                Container(
+                  width: double.infinity,
+                  height: double.infinity,
+                  color: context.palette.background,
+                  child: Center(
+                    child: CircularProgressIndicator(),
+                  ),
+                )
             ],
           ),
         ),
