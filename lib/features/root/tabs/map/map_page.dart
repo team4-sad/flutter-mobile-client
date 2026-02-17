@@ -8,6 +8,7 @@ import 'package:miigaik/features/root/tabs/map/bloc/map_cubit/map_cubit.dart';
 import 'package:miigaik/features/root/tabs/map/bloc/search_map_cubit/search_map_cubit.dart';
 import 'package:miigaik/features/root/tabs/map/models/room_model.dart';
 import 'package:miigaik/features/root/tabs/map/widgets/category_hint.dart';
+import 'package:miigaik/features/root/tabs/map/widgets/floor_widget.dart';
 import 'package:miigaik/features/root/tabs/map/wrappers/map_wrapper.dart';
 import 'package:miigaik/theme/app_theme_extensions.dart';
 import 'package:miigaik/theme/values.dart';
@@ -74,6 +75,13 @@ class _MapPageState extends State<MapPage> {
                   cubit.setRooms(categories);
                 }
               },
+            ),
+            Padding(
+              padding: EdgeInsetsGeometry.only(
+                top: paddingTopPage + 68,
+                left: 20
+              ),
+              child: FloorWidget(floorCount: 7)
             ),
             BlocBuilder<SearchMapCubit, SearchMapState>(
               bloc: searchMapCubit,
