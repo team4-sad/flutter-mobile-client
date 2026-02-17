@@ -1,0 +1,96 @@
+import 'dart:convert';
+
+import 'package:flutter_inappwebview/flutter_inappwebview.dart';
+import 'package:miigaik/features/root/tabs/map/models/category_model.dart';
+import 'package:miigaik/features/root/tabs/map/models/room_model.dart';
+
+class MapWrapper {
+  final InAppWebViewController controller;
+
+  MapWrapper({required this.controller});
+
+  Future<void> injectCSS() async {
+    await controller.evaluateJavascript(source: """
+      (function() {
+        var style = document.createElement('style');
+        style.type = 'text/css';
+        style.innerHTML = `
+          .mapboxgl-ctrl-bottom-left,
+          .map-overlay-inner,
+          .mapboxgl-ctrl-bottom-right {
+            display: none !important;
+          }
+        `;
+        document.head.appendChild(style);
+      })();
+    """);
+  }
+
+  Future<void> navigateToRoomByID(int roomId) async {
+    final jsCode = "window.location.hash = '#id=$roomId';";
+    await controller.evaluateJavascript(source: jsCode);
+  }
+
+  Future<void> navigateToRoomByLabel(String label) async {
+    final jsCode = "window.location.hash = '#room=$label';";
+    await controller.evaluateJavascript(source: jsCode);
+  }
+
+  Future<void> navigateToRoom(RoomModel room) async {
+    if (room.id != 0) {
+      await navigateToRoomByID(room.id);
+    } else {
+      await navigateToRoomByLabel(room.label);
+    }
+  }
+
+  Future<List<CategoryModel>> fetchCategoriesRooms() async {
+    final result = await controller.evaluateJavascript(source: """
+    (function() {
+      if (typeof search_data === 'undefined') return '[]';
+      
+      // Фильтруем и нормализуем элементы
+      var validItems = search_data.filter(function(item) {
+        return item.label && 
+               typeof item.label === 'string' && 
+               item.label.trim() !== '' &&
+               item.category && 
+               typeof item.category === 'string' &&
+               item.id_room != null;
+      }).map(function(item) {
+        // Приводим id к строке для совместимости с моделью
+        return {
+          label: item.label.trim(),
+          category: item.category,
+          id: item.id_room
+        };
+      });
+      
+      // Группировка по полю category
+      var groups = {};
+      validItems.forEach(function(item) {
+        var cat = item.category;
+        if (!groups[cat]) groups[cat] = [];
+        groups[cat].push(item);
+      });
+      
+      // Преобразуем в массив категорий
+      var categories = [];
+      for (var catName in groups) {
+        categories.push({
+          name: catName,
+          rooms: groups[catName]
+        });
+      }
+      
+      return JSON.stringify(categories);
+    })();
+  """);
+
+    final List<dynamic> list = jsonDecode(result);
+    final categories = list.map(
+      (json) => CategoryModel.fromJson(json as Map<String, dynamic>)
+    ).toList();
+    return categories;
+  }
+}
