@@ -2,7 +2,7 @@ name: miigaik
 description: "MIIGAiK mobile application"
 publish_to: 'none'
 
-version: 0.4.2+1
+version: 0.4.2+3
 
 environment:
   sdk: ^3.8.1
@@ -38,6 +38,7 @@ dependencies:
   hive: ^2.2.3
   hive_flutter: ^1.1.0
   path_provider: ^2.1.0
+  flutter_cache_manager: ^3.4.1
   
   talker_flutter: ^5.0.1
   talker_dio_logger: ^5.0.1
@@ -45,6 +46,7 @@ dependencies:
 
   workmanager: ^0.9.0+3
   home_widget: ^0.8.1
+
   appmetrica_plugin: ^3.4.0
 
 dev_dependencies:

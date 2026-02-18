@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:miigaik/features/common/extensions/date_time_extensions.dart';
+import 'package:miigaik/features/root/tabs/map/models/room_model.dart';
 
 import 'teacher_model.dart';
 
@@ -121,6 +122,14 @@ class LessonModel {
     return currentDateTime.isBetween(
       startDateTime(onlyDate), 
       endDateTime(onlyDate)
+    );
+  }
+
+  RoomModel toRoomModel() {
+    return RoomModel(
+      id: classroomId,
+      label: classroomName,
+      floor: classroomFloor
     );
   }
 }

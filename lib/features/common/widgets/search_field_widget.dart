@@ -11,7 +11,9 @@ class SearchFieldWidget extends StatefulWidget {
   final void Function(String)? _onConfirm;
   final TextEditingController _textEditingController;
   final bool _enableClear;
+  final bool _unFocusOnTapOutside;
   final VoidCallback? _onTapClear;
+  final FocusNode _focusNode;
 
   SearchFieldWidget({
     super.key,
@@ -20,7 +22,9 @@ class SearchFieldWidget extends StatefulWidget {
     void Function(String)? onChangeText,
     void Function(String)? onConfirm,
     bool enableClear = true,
+    bool unFocusOnTapOutside = true,
     String? hint,
+    FocusNode? focusNode,
     void Function()? onTapClear,
   }) : _onTapClear = onTapClear,
        _enableClear = enableClear,
@@ -29,6 +33,8 @@ class SearchFieldWidget extends StatefulWidget {
        _onChangeFocusSearchField = onChangeFocusSearchField,
        _onChangeText = onChangeText,
        _onConfirm = onConfirm,
+       _unFocusOnTapOutside = unFocusOnTapOutside,
+        _focusNode = focusNode ?? FocusNode(),
        _hint = hint;
 
   @override
@@ -36,7 +42,6 @@ class SearchFieldWidget extends StatefulWidget {
 }
 
 class _SearchFieldWidgetState extends State<SearchFieldWidget> {
-  final _focusNode = FocusNode();
 
   @override
   Widget build(BuildContext context) {
@@ -45,7 +50,9 @@ class _SearchFieldWidgetState extends State<SearchFieldWidget> {
       child: TextField(
         controller: widget._textEditingController,
         onTapOutside: (_) {
-          _focusNode.unfocus();
+          if (widget._unFocusOnTapOutside){
+            widget._focusNode.unfocus();
+          }
         },
         onChanged: (text) {
           setState(() {
@@ -55,17 +62,13 @@ class _SearchFieldWidgetState extends State<SearchFieldWidget> {
           });
         },
         onSubmitted: widget._onConfirm,
-        focusNode: _focusNode,
+        focusNode:  widget._focusNode,
         style: TS.regular15.use(context.palette.text),
         decoration: InputDecoration(
           fillColor: context.palette.container,
           filled: true,
           hintText: widget._hint,
           hintStyle: TS.regular15.use(context.palette.subText),
-          prefixIcon: Padding(
-            padding: const EdgeInsets.only(left: 14, right: 1),
-            child: Icon(I.search, color: context.palette.subText, size: 22),
-          ),
           prefixIconConstraints: BoxConstraints(minWidth: 0, minHeight: 0),
           suffixIcon:
               (widget._enableClear &&
@@ -91,7 +94,7 @@ class _SearchFieldWidgetState extends State<SearchFieldWidget> {
             borderSide: BorderSide.none,
           ),
           constraints: BoxConstraints(),
-          contentPadding: const EdgeInsets.symmetric(vertical: 14),
+          contentPadding: const EdgeInsets.symmetric(vertical: 14, horizontal: 15),
         ),
       ),
     );

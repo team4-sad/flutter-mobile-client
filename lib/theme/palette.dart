@@ -12,6 +12,8 @@ class Palette {
   final Color calendar;
   final Color lightText;
 
+  final BoxShadow mapShadow;
+
   Palette({
     required this.accent,
     required this.unAccent,
@@ -21,6 +23,7 @@ class Palette {
     required this.container,
     required this.lightText,
     required this.calendar,
+    required this.mapShadow,
   });
 
   static Palette fromAppTheme(AppTheme appTheme) {
@@ -33,7 +36,11 @@ class Palette {
         background: Color(0xFFFFFFFF),
         container: Color(0xFFF2F3F5),
         lightText: Color(0xFF2A2929),
-        calendar: Color(0xFF3B3C51)
+        calendar: Color(0xFF3B3C51),
+        mapShadow: BoxShadow(
+          blurRadius: 8.0,
+          color: Color(0xFF939396)
+        ),
       ),
       // Пока нет тёмной темы
       AppTheme.dark => Palette(
@@ -44,7 +51,11 @@ class Palette {
         background: Color(0xFF000000),
         container: Color(0xFF313131),
         lightText: Color(0xFF2A2929),
-        calendar: Color(0xFF3B3C51)
+        calendar: Color(0xFF3B3C51),
+        mapShadow: BoxShadow(
+          blurRadius: 8.0,
+          color: Color(0xFF939396)
+        ),
       ),
     };
   }
@@ -59,6 +70,9 @@ class Palette {
       container: Color.lerp(first.container, other.container, t)!,
       lightText: Color.lerp(first.lightText, other.lightText, t)!,
       calendar: Color.lerp(first.calendar, other.calendar, t)!,
+      mapShadow: first.mapShadow.copyWith(
+        color: Color.lerp(first.mapShadow.color, other.mapShadow.color, t)!
+      )
     );
   }
 }
