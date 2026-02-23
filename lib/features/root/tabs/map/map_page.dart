@@ -5,6 +5,7 @@ import 'package:get_it/get_it.dart';
 import 'package:miigaik/features/common/extensions/num_widget_extension.dart';
 import 'package:miigaik/features/common/widgets/search_field_widget.dart';
 import 'package:miigaik/features/root/tabs/map/bloc/floor_map_cubit/floor_map_cubit.dart';
+import 'package:miigaik/features/root/tabs/map/bloc/floor_map_cubit/floor_map_state.dart';
 import 'package:miigaik/features/root/tabs/map/bloc/map_cubit/map_cubit.dart';
 import 'package:miigaik/features/root/tabs/map/bloc/search_map_cubit/search_map_cubit.dart';
 import 'package:miigaik/features/root/tabs/map/models/room_model.dart';
@@ -37,7 +38,7 @@ class _MapPageState extends State<MapPage> {
   final cubit = GetIt.I.get<MapCubit>();
   final floorMapCubit = GetIt.I.get<FloorMapCubit>();
 
-  bool isFullLoad = true;
+  bool isFullLoad = false;
 
   String _getInitialUrl([RoomModel? room]) {
     // Координаты центра карты и уровень масштабирования по умолчанию, чтобы
@@ -46,20 +47,30 @@ class _MapPageState extends State<MapPage> {
     return "${MapPage._baseUrl}#map=16.89/55.763838/37.662047/68.4/42";
   }
 
+  Future<void> navigate() async {
+    await _wrapper?.navigateToRoom(cubit.state.searchRoom!);
+    floorMapCubit.change(
+      FloorMapState(
+        floor: cubit.state.searchRoom!.floor,
+        isNavigationRoomChange: true
+      )
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return BlocListener<MapCubit, MapState>(
       bloc: cubit,
       listener: (context, state) async {
-        if (state.searchRoom != null) {
-          await _wrapper?.navigateToRoom(state.searchRoom!);
-          floorMapCubit.change(state.searchRoom!.floor);
+        if (state.searchRoom != null && isFullLoad) {
+          await navigate();
         }
       },
-      child: BlocListener<FloorMapCubit, int>(
+      child: BlocListener<FloorMapCubit, FloorMapState>(
         bloc: floorMapCubit,
+        listenWhen: (a, b) => !b.isNavigationRoomChange,
         listener: (context, state) async {
-          await _wrapper?.changeFloor(state);
+          await _wrapper?.changeFloor(state.floor);
         },
         child: Scaffold(
           body: Stack(
@@ -81,11 +92,13 @@ class _MapPageState extends State<MapPage> {
                     final categories = await _wrapper!.fetchCategoriesRooms();
                     cubit.setRooms(categories);
                   }
-                  if ((await controller.getProgress() == 100) && !isFullLoad) {
-                    isFullLoad = true;
+                  final progress = await controller.getProgress();
+                  if (progress == 100 && !isFullLoad) {
+                    setState(() {
+                      isFullLoad = true;
+                    });
                     if (cubit.state.searchRoom != null) {
-                      await _wrapper!.navigateToRoom(cubit.state.searchRoom!);
-                      floorMapCubit.change(cubit.state.searchRoom!.floor);
+                      await navigate();
                     }
                   }
                 }

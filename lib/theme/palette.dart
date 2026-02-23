@@ -38,8 +38,9 @@ class Palette {
         lightText: Color(0xFF2A2929),
         calendar: Color(0xFF3B3C51),
         mapShadow: BoxShadow(
-          blurRadius: 8.0,
-          color: Color(0xFF939396)
+          blurRadius: 6.0,
+          offset: Offset(0, 4),
+          color: Color(0x25000000)
         ),
       ),
       // Пока нет тёмной темы
@@ -53,8 +54,9 @@ class Palette {
         lightText: Color(0xFF2A2929),
         calendar: Color(0xFF3B3C51),
         mapShadow: BoxShadow(
-          blurRadius: 8.0,
-          color: Color(0xFF939396)
+          blurRadius: 6.0,
+          offset: Offset(0, 4),
+          color: Color(0x25000000)
         ),
       ),
     };
