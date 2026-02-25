@@ -62,7 +62,6 @@ class SheetWidget extends StatelessWidget {
                       Text(title, style: TS.medium20, overflow: TextOverflow.ellipsis).e(),
                       8.hs(),
                       ...?actions,
-                      18.hs()
                     ],
                   ).s(),
                   20.svs(),

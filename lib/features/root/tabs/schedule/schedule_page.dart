@@ -106,20 +106,27 @@ class _SchedulePageState extends State<SchedulePage> {
                   BlocBuilder<ScheduleBloc, ScheduleState>(
                     bloc: GetIt.I.get(),
                     builder: (context, state) {
-                      if (state is! ScheduleLoaded){
-                        return SizedBox();
-                      }
-                      return GestureDetector(
-                        onTap: () {
-                          GetIt.I<ScheduleBloc>().add(FetchScheduleEvent(
-                            day: state.date, signature: state.signature,
-                            ignoreCache: true
-                          ));
-                        },
-                        child: Icon(
-                          I.refresh,
-                          size: 26,
-                          color: context.palette.text
+                      return Padding(
+                        padding: const EdgeInsets.only(right: 6),
+                        child: GestureDetector(
+                          behavior: HitTestBehavior.opaque,
+                          onTap: () {
+                            if (state is ScheduleLoaded) {
+                              GetIt.I<ScheduleBloc>().add(FetchScheduleEvent(
+                                day: state.date, signature: state.signature,
+                                ignoreCache: true
+                              ));
+                            }
+                          },
+                          child: SizedBox(
+                            height: 30,
+                            width: 48,
+                            child: Icon(
+                              I.refresh,
+                              size: 30,
+                              color: context.palette.text
+                            ),
+                          ),
                         ),
                       );
                     },
