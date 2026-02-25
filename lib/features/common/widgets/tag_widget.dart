@@ -6,6 +6,7 @@ class TagWidget extends StatefulWidget {
   final String title;
   final String? fullTitle;
   final bool isSelected;
+  final bool isCenter;
   final VoidCallback? onTap;
 
   const TagWidget({
@@ -13,6 +14,7 @@ class TagWidget extends StatefulWidget {
     required this.title, 
     this.fullTitle,
     this.isSelected = true,
+    this.isCenter = false,
     this.onTap
   });
 
@@ -26,6 +28,13 @@ class _TagWidgetState extends State<TagWidget> {
   String get display => (isOpened && widget.fullTitle != null)
     ? widget.fullTitle!
     : widget.title;
+
+  Widget _text() => Text(
+    display,
+    style: TS.regular14.use(
+      (widget.isSelected) ? context.palette.unAccent : context.palette.text,
+    ),
+  );
 
   @override
   Widget build(BuildContext context) {
@@ -42,18 +51,13 @@ class _TagWidgetState extends State<TagWidget> {
       },
       child: Container(
         decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(6),
+          borderRadius: BorderRadius.circular(8),
           color: (widget.isSelected)
               ? context.palette.calendar
-              : context.palette.container,
+            : context.palette.container,
         ),
         padding: EdgeInsets.symmetric(vertical: 7, horizontal: 12),
-        child: Text(
-          display,
-          style: TS.regular14.use(
-            (widget.isSelected) ? context.palette.unAccent : context.palette.text,
-          ),
-        ),
+        child: (widget.isCenter) ? Center(child: _text()) : _text()
       ),
     );
   }

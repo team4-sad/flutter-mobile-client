@@ -49,7 +49,7 @@ class ItemSchedule extends StatelessWidget {
                     width: 28,
                     height: 28,
                     decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(4),
+                      borderRadius: BorderRadius.circular(6),
                       color: context.palette.calendar,
                     ),
                     child: Center(
@@ -72,7 +72,6 @@ class ItemSchedule extends StatelessWidget {
                       GetIt.I.get<MapCubit>().setSearchRoom(
                         lessonModel.toRoomModel()
                       );
-                      // GetIt.I.get<FloorMapCubit>().change(floor)
                       GetIt.I.get<BottomNavBarBloc>().add(
                         GoToEventEvent(ItemNavBar.map)
                       );
@@ -81,7 +80,7 @@ class ItemSchedule extends StatelessWidget {
                       width: 28,
                       height: 28,
                       decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(4),
+                        borderRadius: BorderRadius.circular(6),
                         color: context.palette.calendar,
                       ),
                       child: Center(
