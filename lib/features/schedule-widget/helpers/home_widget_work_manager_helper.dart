@@ -112,7 +112,7 @@ void callbackDispatcher() {
       await initializeDateFormatting(locale.toString(), null);
       Intl.defaultLocale = locale.toString();
       final dio = Dio(BaseOptions(baseUrl: Config.apiUrl));
-      final apiScheduleRepository = ApiScheduleRepository(dio: dio);
+      final apiScheduleRepository = CachedApiScheduleRepository(dio: dio);
       final useCase = FetchScheduleUseCase(repo: apiScheduleRepository);
 
       final response = await useCase.call(signature, nowDate);

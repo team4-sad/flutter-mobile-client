@@ -22,26 +22,19 @@ abstract class IScheduleRepository {
 
 class ApiScheduleRepository extends IScheduleRepository {
   final Dio dio;
-  final CacheHelper? cacheHelper;
 
-  ApiScheduleRepository({required this.dio, this.cacheHelper});
+  ApiScheduleRepository({required this.dio});
 
   @override
   Future<ResponseGroupScheduleModel> fetchDayGroupSchedule({
     required String groupId,
     required DateTime day,
   }) async {
-    final url = Uri(
-      path: "schedule/group/$groupId",
+    final response = await dio.get(
+      "schedule/group/$groupId",
       queryParameters: {"start_date": day.yyyyMMdd, "end_date": day.yyyyMMdd}
-    ).toString();
-    Map<String, dynamic>? data = await cacheHelper?.get(url);
-    if (data == null) {
-      final response = await dio.get(url);
-      data = response.data;
-      await cacheHelper?.save(url, data);
-    }
-    final model = ResponseGroupScheduleModel.fromMap(data!);
+    );
+    final model = ResponseGroupScheduleModel.fromMap(response.data);
     return model;
   }
 
@@ -50,17 +43,11 @@ class ApiScheduleRepository extends IScheduleRepository {
     required String audienceId,
     required DateTime day,
   }) async {
-    final url = Uri(
-      path: "schedule/classroom/$audienceId",
-      queryParameters: {"start_date": day.yyyyMMdd, "end_date": day.yyyyMMdd},
-    ).toString();
-    Map<String, dynamic>? data = await cacheHelper?.get(url);
-    if (data == null) {
-      final response = await dio.get(url);
-      data = response.data;
-      await cacheHelper?.save(url, data);
-    }
-    final model = ResponseAudienceScheduleModel.fromMap(data!);
+    final response = await dio.get("schedule/classroom/$audienceId", queryParameters: {
+      "start_date": day.yyyyMMdd,
+      "end_date": day.yyyyMMdd
+    });
+    final model = ResponseAudienceScheduleModel.fromMap(response.data);
     return model;
   }
 
@@ -69,17 +56,65 @@ class ApiScheduleRepository extends IScheduleRepository {
     required String teacherId,
     required DateTime day,
   }) async {
-    final url = Uri(
-      path: "schedule/teacher/$teacherId",
-      queryParameters: {"start_date": day.yyyyMMdd, "end_date": day.yyyyMMdd},
-    ).toString();
-    Map<String, dynamic>? data = await cacheHelper?.get(url);
+    final response = await dio.get(
+      "schedule/teacher/$teacherId",
+      queryParameters: {"start_date": day.yyyyMMdd, "end_date": day.yyyyMMdd}
+    );
+    final model = ResponseTeacherScheduleModel.fromMap(response.data);
+    return model;
+  }
+}
+
+class CachedApiScheduleRepository extends ApiScheduleRepository {
+  final CacheHelper? cacheHelper;
+
+  CachedApiScheduleRepository({required super.dio, this.cacheHelper});
+
+  @override
+  Future<ResponseGroupScheduleModel> fetchDayGroupSchedule({
+    required String groupId,
+    required DateTime day,
+  }) async {
+    final key = "group_${groupId}_${day.toIso8601String()}";
+    Map<String, dynamic>? data = await cacheHelper?.get(key);
     if (data == null) {
-      final response = await dio.get(url);
-      data = response.data;
-      await cacheHelper?.save(url, data);
+      final model = await super.fetchDayGroupSchedule(groupId: groupId, day: day);
+      await cacheHelper?.save(key, model.toMap());
+      return model;
     }
-    final model = ResponseTeacherScheduleModel.fromMap(data!);
+    final model = ResponseGroupScheduleModel.fromMap(data);
+    return model;
+  }
+
+  @override
+  Future<ResponseAudienceScheduleModel> fetchDayAudienceSchedule({
+    required String audienceId,
+    required DateTime day,
+  }) async {
+    final key = "audience_${audienceId}_${day.toIso8601String()}";
+    Map<String, dynamic>? data = await cacheHelper?.get(key);
+    if (data == null) {
+      final model = await super.fetchDayAudienceSchedule(audienceId: audienceId, day: day);
+      await cacheHelper?.save(key, model.toMap());
+      return model;
+    }
+    final model = ResponseAudienceScheduleModel.fromMap(data);
+    return model;
+  }
+
+  @override
+  Future<ResponseTeacherScheduleModel> fetchDayTeacherSchedule({
+    required String teacherId,
+    required DateTime day,
+  }) async {
+    final key = "teacher_${teacherId}_${day.toIso8601String()}";
+    Map<String, dynamic>? data = await cacheHelper?.get(key);
+    if (data == null) {
+      final model = await super.fetchDayTeacherSchedule(teacherId: teacherId, day: day);
+      await cacheHelper?.save(key, model.toMap());
+      return model;
+    }
+    final model = ResponseTeacherScheduleModel.fromMap(data);
     return model;
   }
 }

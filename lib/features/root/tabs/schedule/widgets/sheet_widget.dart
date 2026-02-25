@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:miigaik/features/common/extensions/num_widget_extension.dart';
 import 'package:miigaik/features/common/extensions/sliver_widget_extension.dart';
+import 'package:miigaik/features/common/extensions/widget_extension.dart';
 import 'package:miigaik/theme/app_theme_extensions.dart';
 import 'package:miigaik/theme/text_styles.dart';
 import 'package:miigaik/theme/values.dart';
@@ -10,12 +11,14 @@ class SheetWidget extends StatelessWidget {
   final DraggableScrollableController? controller;
   final String title;
   final Widget child;
+  final List<Widget>? actions;
 
   const SheetWidget({
     super.key,
     required this.title,
     required this.child,
     this.controller,
+    this.actions
   });
 
   static double maxSize = 0.83;
@@ -54,7 +57,14 @@ class SheetWidget extends StatelessWidget {
                     ),
                   ).s(),
                   18.svs(),
-                  Text(title, style: TS.medium20).s(),
+                  Row(
+                    children: [
+                      Text(title, style: TS.medium20, overflow: TextOverflow.ellipsis).e(),
+                      8.hs(),
+                      ...?actions,
+                      18.hs()
+                    ],
+                  ).s(),
                   20.svs(),
                   child,
                 ],

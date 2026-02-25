@@ -17,8 +17,11 @@ part 'schedule_bloc_state.dart';
 class ScheduleBloc extends Bloc<ScheduleBlocEvent, ScheduleState> {
 
   final NetworkConnectionService connectionService = GetIt.I.get();
-  final useCase = FetchScheduleUseCase();
-  final talker = GetIt.I.get<Talker>();
+
+  final useCase = FetchScheduleUseCase(repo: GetIt.I.get());
+  final cachedUseCase = FetchScheduleUseCase(repo: GetIt.I.get(instanceName: "cached"));
+
+  final _talker = GetIt.I.get<Talker>();
 
   ScheduleBloc() : super(ScheduleInitial()) {
     connectionService.onConnectionChanged.listen((status) {
@@ -26,7 +29,7 @@ class ScheduleBloc extends Bloc<ScheduleBlocEvent, ScheduleState> {
           state is ScheduleError &&
           (state as ScheduleError).error is NoNetworkException) {
         final s = state as ScheduleError;
-        add(FetchScheduleEvent(signature: s.signature, day: s.date));
+        add(FetchScheduleEvent(signature: s.signature, day: s.date, ignoreCache: false));
       }
     });
 
@@ -45,7 +48,15 @@ class ScheduleBloc extends Bloc<ScheduleBlocEvent, ScheduleState> {
         return;
       }
       try {
-        final daySchedule = await useCase.call(event.signature, event.day);
+        final DayScheduleModel? daySchedule;
+        if (event.ignoreCache){
+          _talker.info("Получение расписания ${event.signature.title} на ${event.day} без кэша");
+          daySchedule = await useCase.call(event.signature, event.day);
+
+        }else{
+          _talker.info("Получение расписания ${event.signature.title} на ${event.day} с кэшем");
+          daySchedule = await cachedUseCase.call(event.signature, event.day);
+        }
         emit(
           ScheduleLoaded(
             daySchedule: daySchedule,
@@ -54,7 +65,7 @@ class ScheduleBloc extends Bloc<ScheduleBlocEvent, ScheduleState> {
           ),
         );
       } on Object catch (e) {
-        talker.error("Ошибка при получении расписания", e);
+        _talker.error("Ошибка при получении расписания", e);
         emit(
           ScheduleError(error: e, signature: event.signature, date: event.day),
         );

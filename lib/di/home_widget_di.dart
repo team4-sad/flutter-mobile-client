@@ -15,7 +15,7 @@ class HomeWidgetDI {
   }
 
   static void registerRepositories() {
-    final apiScheduleRepository = ApiScheduleRepository(dio: GetIt.I.get());
+    final apiScheduleRepository = CachedApiScheduleRepository(dio: GetIt.I.get());
     GetIt.I.registerSingleton<IScheduleRepository>(apiScheduleRepository);
 
     final signatureScheduleRepository = SignatureScheduleRepository(

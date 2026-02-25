@@ -96,8 +96,8 @@ Future<void> _interactivityCallback(Uri? uri) async {
     ));
 
     final refreshUseCase = RefreshWidgetUseCase(
-        useCase: FetchScheduleUseCase(repo: ApiScheduleRepository(dio: dio)),
-        storage: HomeWidgetStorage()
+      useCase: FetchScheduleUseCase(repo: CachedApiScheduleRepository(dio: dio)),
+      storage: HomeWidgetStorage()
     );
 
     debugPrint("URL = $uri");

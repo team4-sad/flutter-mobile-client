@@ -46,10 +46,10 @@ class ScheduleRemoteViewsFactory(
             Log.e("WIDGET_FACTORY", "Parsed ${data.size} lessons for widget: $appWidgetId")
 
             for (lesson in data) {
-                val lessonTitle = lesson["disciplineName"] as? String ?: ""
-                val startTime = lesson["lessonStartTime"] as? String ?: ""
-                val endTime = lesson["lessonEndTime"] as? String ?: ""
-                val number = (lesson["lessonOrderNumber"] as? Int) ?: 0
+                val lessonTitle = lesson["discipline_name"] as? String ?: ""
+                val startTime = lesson["lesson_start_time"] as? String ?: ""
+                val endTime = lesson["lesson_end_time"] as? String ?: ""
+                val number = (lesson["lesson_order_number"] as? Int) ?: 0
 
                 if (lessonTitle.isNotEmpty()) {
                     lessons.add(LessonItem(

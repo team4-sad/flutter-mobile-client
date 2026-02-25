@@ -39,16 +39,16 @@ class LessonModel {
   Map<String, dynamic> toMap() {
     return <String, dynamic>{
       'subgroup': subgroup,
-      'lessonOrderNumber': lessonOrderNumber,
-      'lessonStartTime': lessonStartTime,
-      'lessonEndTime': lessonEndTime,
-      'lessonType': lessonType,
-      'classroomId': classroomId,
-      'classroomName': classroomName,
-      'classroomFloor': classroomFloor,
-      'classroomType': classroomType,
-      'classroomBuilding': classroomBuilding,
-      'disciplineName': disciplineName,
+      'lesson_order_number': lessonOrderNumber,
+      'lesson_start_time': lessonStartTime,
+      'lesson_end_time': lessonEndTime,
+      'lesson_type': lessonType,
+      'classroom_id': classroomId,
+      'classroom_name': classroomName,
+      'classroom_floor': classroomFloor,
+      'classroom_type': classroomType,
+      'classroom_building': classroomBuilding,
+      'discipline_name': disciplineName,
       'teachers': teachers?.map((x) => x.toMap()).toList(),
       'groups': groups,
     };
@@ -69,26 +69,6 @@ class LessonModel {
       disciplineName: map['discipline_name'] as String,
       teachers: (map['teachers'] as List?)?.map<TeacherModel>(
         (x) => TeacherModel.fromMap(x as Map<String, dynamic>),
-      ).toList(),
-      groups: (map["groups"] as List?)?.map((e) => e as String).toList()
-    );
-  }
-
-  factory LessonModel.fromMiigaikMap(Map<String, dynamic> map) {
-    return LessonModel(
-      subgroup: map['subgroup'] as String?,
-      lessonOrderNumber: map['lessonOrderNumber'] as int,
-      lessonStartTime: map['lessonStartTime'] as String,
-      lessonEndTime: map['lessonEndTime'] as String,
-      lessonType: map['lessonType'] as String,
-      classroomId: map['classroomId'].toInt() as int,
-      classroomName: map['classroomName'] as String,
-      classroomFloor: map['classroomFloor'].toInt() as int,
-      classroomType: map['lessonType'] as String,
-      classroomBuilding: map['classroomBuilding'] as String,
-      disciplineName: map['disciplineName'] as String,
-      teachers: (map['teachers'] as List?)?.map<TeacherModel>(
-        (x) => TeacherModel.fromMiigaikMap(x as Map<String, dynamic>),
       ).toList(),
       groups: (map["groups"] as List?)?.map((e) => e as String).toList()
     );

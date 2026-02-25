@@ -45,7 +45,8 @@ class _NotesPageState extends State<NotesPage> {
     return Scaffold(
       floatingActionButton: AddNoteFloatingActionButton(onTap: () {
         Navigator.push(
-          context, MaterialPageRoute(builder: (context) => NotePage()));
+          context, MaterialPageRoute(builder: (context) => NotePage())
+        );
       }),
       body: Padding(
         padding: EdgeInsets.only(

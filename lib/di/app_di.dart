@@ -22,7 +22,6 @@ import 'package:miigaik/features/root/tabs/schedule/bloc/schedule_selected_day_b
 import 'package:miigaik/features/root/tabs/schedule/repository/schedule_repository.dart';
 import 'package:miigaik/features/schedule-choose/bloc/signature_schedule_bloc.dart';
 import 'package:miigaik/features/schedule-choose/repository/signature_schedule_repository.dart';
-import 'package:miigaik/features/single-news/bloc/single_news_bloc.dart';
 import 'package:miigaik/features/single-news/repository/single_news_repository.dart';
 import 'package:miigaik/features/switch-theme/theme_bloc.dart';
 import 'package:miigaik/theme/app_theme.dart';
@@ -59,9 +58,14 @@ class AppDI {
     final apiSearchNewsRepository = ApiSearchNewsRepository(dio: defaultDio);
     GetIt.I.registerSingleton<ISearchNewsRepository>(apiSearchNewsRepository);
 
-    final apiScheduleRepository = ApiScheduleRepository(
+    final cachedApiScheduleRepository = CachedApiScheduleRepository(
       dio: defaultDio,
       cacheHelper: GetIt.I.get()
+    );
+    GetIt.I.registerSingleton<IScheduleRepository>(cachedApiScheduleRepository, instanceName: "cached");
+
+    final apiScheduleRepository = ApiScheduleRepository(
+      dio: defaultDio,
     );
     GetIt.I.registerSingleton<IScheduleRepository>(apiScheduleRepository);
 
