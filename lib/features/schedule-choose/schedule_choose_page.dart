@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get_it/get_it.dart';
 import 'package:miigaik/features/add-schedule/add_schedule_page.dart';
 import 'package:miigaik/features/common/extensions/num_widget_extension.dart';
@@ -35,7 +34,7 @@ class ScheduleChoosePage extends StatelessWidget {
           height: 60,
           decoration: BoxDecoration(
             color: context.palette.lightText,
-            borderRadius: BorderRadius.circular(10.r),
+            borderRadius: BorderRadius.circular(10),
           ),
           child: Center(
             child: Icon(I.plus, color: context.palette.unAccent, size: 36),

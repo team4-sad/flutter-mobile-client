@@ -34,7 +34,7 @@ class LoadedNotesContent extends StatelessWidget {
                   )
                 );
               },
-              onDismissable: (){
+              onDelete: (){
                 bloc.add(DeleteNoteEvent(note: note));
               }
             );

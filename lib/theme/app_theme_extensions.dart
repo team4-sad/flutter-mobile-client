@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:miigaik/theme/palette.dart';
 import 'app_theme.dart';
 
@@ -73,7 +72,7 @@ class AppThemeExtension extends ThemeExtension<AppThemeExtension> {
           backgroundColor: palette.accent,
           foregroundColor: palette.unAccent,
           shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(10.r),
+            borderRadius: BorderRadius.circular(10),
           ),
         )
       )

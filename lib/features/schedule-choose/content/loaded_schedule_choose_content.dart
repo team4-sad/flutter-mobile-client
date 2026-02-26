@@ -1,11 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
-import 'package:miigaik/features/common/extensions/num_widget_extension.dart';
-import 'package:miigaik/features/common/widgets/placeholder_widget.dart';
 import 'package:miigaik/features/schedule-choose/bloc/signature_schedule_bloc.dart';
 import 'package:miigaik/features/schedule-choose/models/signature_schedule_model.dart';
 import 'package:miigaik/features/schedule-choose/widgets/choose_schedule_widget.dart';
-import 'package:miigaik/features/schedule-choose/widgets/item_schedule_signature.dart';
 
 class LoadedScheduleChooseContent extends StatelessWidget {
 
@@ -27,7 +24,7 @@ class LoadedScheduleChooseContent extends StatelessWidget {
           SelectSignatureEvent(selectedSignature: signature),
         );
       },
-      onLongTap: (signature){
+      onDelete: (signature){
         bloc.add(
           RemoveSignatureEvent(deleteSignature: signature),
         );

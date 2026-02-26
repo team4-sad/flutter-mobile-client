@@ -31,7 +31,7 @@ class NewsItemWidget extends StatelessWidget {
         ),
         decoration: BoxDecoration(
           color: context.palette.container,
-          borderRadius: BorderRadius.circular(10.r)
+          borderRadius: BorderRadius.circular(10)
         ),
         child: Column(
           mainAxisSize: MainAxisSize.min,
@@ -41,7 +41,7 @@ class NewsItemWidget extends StatelessWidget {
               Padding(
                 padding: const EdgeInsets.only(bottom: 10),
                 child: ClipRRect(
-                  borderRadius: BorderRadius.circular(10.r),
+                  borderRadius: BorderRadius.circular(10),
                   child: Stack(
                     children: [
                       CachedNetworkImage(
@@ -58,7 +58,7 @@ class NewsItemWidget extends StatelessWidget {
                           child: Container(
                             padding: EdgeInsets.symmetric(vertical: 3, horizontal: 6),
                             decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(8.r),
+                              borderRadius: BorderRadius.circular(8),
                               color: context.palette.container
                             ),
                             child: Text(

@@ -14,11 +14,11 @@ class ChooseScheduleWidget extends StatelessWidget {
   final String emptySubTitle;
 
   final void Function(SignatureScheduleModel) onChoose;
-  final void Function(SignatureScheduleModel)? onLongTap;
+  final void Function(SignatureScheduleModel)? onDelete;
 
   const ChooseScheduleWidget({
     super.key, required this.data, this.selected, required this.emptyTitle,
-    required this.emptySubTitle, required this.onChoose, this.onLongTap
+    required this.emptySubTitle, required this.onChoose, this.onDelete
   });
 
   @override
@@ -37,8 +37,8 @@ class ChooseScheduleWidget extends StatelessWidget {
           return ItemScheduleSignature(
             signatureModel: signature,
             onTap: onChoose,
-            onLongTap: onLongTap,
             isSelected: selected == signature,
+            onDelete: onDelete
           );
         },
         separatorBuilder: (_, __) => 10.vs(),

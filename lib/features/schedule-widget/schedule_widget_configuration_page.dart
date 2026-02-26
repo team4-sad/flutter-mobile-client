@@ -42,10 +42,10 @@ class _ScheduleWidgetConfigurationPageState extends State<ScheduleWidgetConfigur
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: SimpleAppBar(
-          title: "Выбор расписания",
-          onBackPress: () async {
-            await cancel(context);
-          }
+        title: "Выбор расписания",
+        onBackPress: () async {
+          await cancel(context);
+        }
       ),
       body: Padding(
         padding: horizontalPaddingPage.horizontal(),
@@ -60,16 +60,16 @@ class _ScheduleWidgetConfigurationPageState extends State<ScheduleWidgetConfigur
                     return LoadingScheduleChooseContent();
                   case SignatureScheduleError():
                     return ErrorScheduleChooseContent(
-                        error: state.error
+                      error: state.error
                     );
                   case SignatureScheduleLoaded():
                     return ChooseScheduleWidget(
-                        data: state.data,
-                        emptyTitle: "Расписаний нет",
-                        emptySubTitle: "Добавьте расписание в приложении",
-                        onChoose: (signature) async {
-                          await save(signature, context.locale);
-                        }
+                      data: state.data,
+                      emptyTitle: "Расписаний нет",
+                      emptySubTitle: "Добавьте расписание в приложении",
+                      onChoose: (signature) async {
+                        await save(signature, context.locale);
+                      },
                     );
                 }
               },

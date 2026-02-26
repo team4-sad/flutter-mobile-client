@@ -25,7 +25,6 @@ class LoadedAddScheduleContent extends StatelessWidget {
             bloc.add(AddSignatureEvent(newSignature: model));
             Navigator.pop(context);
           },
-          onLongTap: (_) {},
         );
       },
       itemCount: data.length,
