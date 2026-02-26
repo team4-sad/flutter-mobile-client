@@ -72,6 +72,12 @@ class SignatureScheduleBloc
       }
     }, transformer: sequential());
 
+    on<ManyRemoveSignatureEvent>((event, emit) async {
+      for (var e in event.deleteSignatures) {
+        add(RemoveSignatureEvent(deleteSignature: e));
+      }
+    });
+
     on<RemoveSignatureEvent>((event, emit) async {
       try {
         await _repository.remove(event.deleteSignature);

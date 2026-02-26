@@ -21,3 +21,9 @@ class RemoveSignatureEvent extends SignatureScheduleEvent {
 
   RemoveSignatureEvent({required this.deleteSignature});
 }
+
+class ManyRemoveSignatureEvent extends SignatureScheduleEvent {
+  final List<SignatureScheduleModel> deleteSignatures;
+
+  ManyRemoveSignatureEvent({required this.deleteSignatures});
+}

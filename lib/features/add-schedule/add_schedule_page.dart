@@ -12,7 +12,7 @@ import 'package:miigaik/features/common/widgets/simple_app_bar.dart';
 import 'package:miigaik/features/common/widgets/search_field_widget.dart';
 import 'package:miigaik/features/common/widgets/square_filled_icon_button.dart';
 import 'package:miigaik/features/common/widgets/tag_widget.dart';
-import 'package:miigaik/features/schedule-choose/bloc/signature_schedule_bloc.dart';
+import 'package:miigaik/features/schedule-choose/bloc/signature_schedule_bloc/signature_schedule_bloc.dart';
 import 'package:miigaik/features/schedule-choose/enum/signature_schedule_type.dart';
 import 'package:miigaik/generated/icons.g.dart';
 import 'package:miigaik/theme/app_theme_extensions.dart';

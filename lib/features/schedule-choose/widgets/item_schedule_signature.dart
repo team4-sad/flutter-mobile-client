@@ -9,15 +9,19 @@ class ItemScheduleSignature extends StatelessWidget {
 
   final SignatureScheduleModel signatureModel;
   final void Function(SignatureScheduleModel) onTap;
+  final void Function(SignatureScheduleModel)? onLongTap;
   final void Function(SignatureScheduleModel)? onDelete;
   final bool isSelected;
+  final bool isMultipleSelect;
 
   const ItemScheduleSignature({
     super.key,
     required this.signatureModel,
     required this.onTap,
     this.onDelete,
-    this.isSelected = false
+    this.onLongTap,
+    this.isSelected = false,
+    this.isMultipleSelect = false
   });
 
   Widget buildContent(BuildContext context){
@@ -32,6 +36,11 @@ class ItemScheduleSignature extends StatelessWidget {
           splashColor: context.palette.accent.withAlpha(16),
           onTap: (){
             onTap(signatureModel);
+          },
+          onLongPress: (){
+            if (onLongTap != null) {
+              onLongTap!(signatureModel);
+            }
           },
           child: Padding(
             padding: const EdgeInsets.all(14.0),
@@ -58,9 +67,11 @@ class ItemScheduleSignature extends StatelessWidget {
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(8),
           border: Border.all(
-            color: (isSelected)
-              ? context.palette.accent
-              : Colors.transparent,
+            color: (isMultipleSelect)
+                ? context.palette.text
+                : (isSelected)
+                  ? context.palette.accent
+                  : Colors.transparent,
             width: 2
           )
         ),
