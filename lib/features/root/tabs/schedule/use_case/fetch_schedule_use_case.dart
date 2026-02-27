@@ -23,15 +23,15 @@ class FetchScheduleUseCase {
     final response = await switch (signature.type) {
       SignatureScheduleType.group => repository.fetchDayGroupSchedule(
         groupId: signature.id,
-        day: day,
+        day: day.onlyDate(),
       ),
       SignatureScheduleType.audience => repository.fetchDayAudienceSchedule(
         audienceId: signature.id,
-        day: day,
+        day: day.onlyDate(),
       ),
       SignatureScheduleType.teacher => repository.fetchDayTeacherSchedule(
         teacherId: signature.id,
-        day: day,
+        day: day.onlyDate(),
       ),
     };
     final daySchedule = response.schedule.firstOrNull;
