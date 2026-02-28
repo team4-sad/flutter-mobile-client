@@ -16,7 +16,6 @@ import 'package:miigaik/features/root/tabs/schedule/use_case/fetch_schedule_use_
 import 'package:miigaik/features/schedule-widget/schedule_widget_configuration_page.dart';
 import 'package:miigaik/features/schedule-widget/storage/home_widget_storage.dart';
 import 'features/config/config.dart';
-import 'features/schedule-widget/helpers/home_widget_helper.dart';
 import 'features/schedule-widget/helpers/home_widget_work_manager_helper.dart';
 import 'features/schedule-widget/use_case/refresh_widget_use_case.dart';
 
@@ -95,15 +94,17 @@ Future<void> _interactivityCallback(Uri? uri) async {
       baseUrl: Config.apiUrl,
     ));
 
+    final storage = HomeWidgetStorage();
+
     final refreshUseCase = RefreshWidgetUseCase(
       useCase: FetchScheduleUseCase(repo: CachedApiScheduleRepository(dio: dio)),
-      storage: HomeWidgetStorage()
+      storage: storage
     );
 
     debugPrint("URL = $uri");
     if (uri == null) return;
 
-    final widgetId = uri.queryParameters["id"];
+    final widgetId = int.tryParse(uri.queryParameters["id"] ?? "");
 
     debugPrint("WIDGET ID = $widgetId");
     if (widgetId == null) return;
@@ -116,18 +117,7 @@ Future<void> _interactivityCallback(Uri? uri) async {
       final action = uri.queryParameters['action'];
       debugPrint("ACTION = $action");
       if (action == 'refresh') {
-        for (int i = 0; i<5; i++){
-          try {
-            await refreshUseCase.call(int.parse(widgetId), locale);
-            await HomeWidgetHelper.update();
-            return;
-          } on DioException catch(e) {
-            debugPrint("Попытка ${i + 1}/5 обновить расписание не удачна: ${e
-                .toString()}");
-            continue;
-          }
-        }
-
+        await refreshUseCase.call(widgetId, locale);
       }
     }
   } on Object catch(e){

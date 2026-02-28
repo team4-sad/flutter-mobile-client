@@ -96,18 +96,26 @@ internal fun updateAppWidget(
             )
         )
 
-        val isEmptyLessons = prefs.getBoolean("${appWidgetId}_lessons_empty", false)
-        if (isEmptyLessons){
-            showEmptyLessons(views)
-        }else{
-            hideMessage(views)
-        }
+        val isRefresh = prefs.getBoolean("${appWidgetId}_is_refresh", false)
 
-        val intent = Intent(context, ScheduleWidgetService::class.java).apply {
-            putExtra("appWidgetId", appWidgetId)
-            data = "widget://$appWidgetId".toUri()
+        if (isRefresh){
+            showRefresh(views)
+            appWidgetManager.updateAppWidget(appWidgetId, views)
+        }else{
+            hideRefresh(views)
+            appWidgetManager.updateAppWidget(appWidgetId, views)
+            val isEmptyLessons = prefs.getBoolean("${appWidgetId}_lessons_empty", false)
+            if (isEmptyLessons){
+                showEmptyLessons(views)
+            }else{
+                hideMessage(views)
+            }
+            val intent = Intent(context, ScheduleWidgetService::class.java).apply {
+                putExtra("appWidgetId", appWidgetId)
+                data = "widget://$appWidgetId".toUri()
+            }
+            views.setRemoteAdapter(R.id.schedule_list, intent)
         }
-        views.setRemoteAdapter(R.id.schedule_list, intent)
 
         setupWidgetClickIntent(context, views, appWidgetId)
 
@@ -157,7 +165,22 @@ internal fun showEmptyLessons(views: RemoteViews){
     showMessage(views, "Выходной", "Занятий на сегодня нет")
 }
 
+internal fun showRefresh(views: RemoteViews) {
+    Log.e("WIDGET", "SHOW REFRESH")
+    views.setViewVisibility(R.id.refresh_container, View.VISIBLE)
+    views.setViewVisibility(R.id.message_container, View.GONE)
+    views.setViewVisibility(R.id.schedule_list, View.GONE)
+}
+
+internal fun hideRefresh(views: RemoteViews) {
+    Log.e("WIDGET", "HIDE REFRESH")
+    views.setViewVisibility(R.id.refresh_container, View.GONE)
+    views.setViewVisibility(R.id.message_container, View.GONE)
+    views.setViewVisibility(R.id.schedule_list, View.VISIBLE)
+}
+
 internal fun showMessage(views: RemoteViews, title: String, subTitle: String) {
+    views.setViewVisibility(R.id.refresh_container, View.GONE)
     views.setViewVisibility(R.id.message_container, View.VISIBLE)
     views.setViewVisibility(R.id.schedule_list, View.GONE)
     views.setTextViewText(R.id.title_message, title)
@@ -165,6 +188,7 @@ internal fun showMessage(views: RemoteViews, title: String, subTitle: String) {
 }
 
 internal fun hideMessage(views: RemoteViews){
+    views.setViewVisibility(R.id.refresh_container, View.GONE)
     views.setViewVisibility(R.id.message_container, View.GONE)
     views.setViewVisibility(R.id.schedule_list, View.VISIBLE)
     views.setTextViewText(R.id.title_message, "")

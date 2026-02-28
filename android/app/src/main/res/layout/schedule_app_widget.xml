@@ -32,7 +32,7 @@
                 android:autoSizeMinTextSize="14sp"
                 android:autoSizeTextType="uniform"
                 android:fontFamily="sans-serif"
-                android:text="TEST"
+                android:text="Загрузка..."
                 android:textColor="#000000"
                 android:textSize="18sp"
                 android:textStyle="bold" />
@@ -62,12 +62,13 @@
         android:id="@+id/schedule_list"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:scrollbars="none"
         android:layout_weight="1"
         android:clipToPadding="false"
         android:divider="@null"
         android:dividerHeight="14dp"
         android:paddingBottom="20dp"
+        android:scrollbars="none"
+        android:visibility="gone"
         tools:listitem="@layout/lesson_item" />
 
     <LinearLayout
@@ -101,6 +102,21 @@
             android:text="Попробуйте пересоздать виджет"
             android:textColor="#939396"
             android:textSize="14sp" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/refresh_container"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:orientation="vertical">
+
+        <ProgressBar
+            android:id="@+id/refresh_bar"
+            style="@android:style/Widget.DeviceDefault.Light.ProgressBar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:indeterminateTint="#4964BE" />
     </LinearLayout>
 
 
