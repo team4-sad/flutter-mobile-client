@@ -1,5 +1,6 @@
 package com.sadik.miigaik
 
+import android.appwidget.AppWidgetManager
 import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
@@ -49,13 +50,15 @@ class ScheduleRemoteViewsFactory(
                 val lessonTitle = lesson["discipline_name"] as? String ?: ""
                 val startTime = lesson["lesson_start_time"] as? String ?: ""
                 val endTime = lesson["lesson_end_time"] as? String ?: ""
+                val classRoomName = lesson["classroom_name"] as? String ?: ""
                 val number = (lesson["lesson_order_number"] as? Int) ?: 0
 
                 if (lessonTitle.isNotEmpty()) {
                     lessons.add(LessonItem(
                         number,
                         "${removeSeconds(startTime)}-${removeSeconds(endTime)}",
-                        lessonTitle
+                        lessonTitle,
+                        classRoomName
                     ))
                 }
             }
@@ -90,6 +93,8 @@ class ScheduleRemoteViewsFactory(
             remoteViews.setTextViewText(R.id.numberText, lesson.number.toString())
             remoteViews.setTextViewText(R.id.timeText, lesson.time)
             remoteViews.setTextViewText(R.id.subjectText, lesson.subject)
+            remoteViews.setTextViewText(R.id.numberClassroom, lesson.classRoomName)
+
             Log.e("WIDGET_FACTORY", "Created view for: ${lesson.subject}")
         } else {
             Log.e("WIDGET_FACTORY", "Position $position out of bounds for widget $appWidgetId")
@@ -112,5 +117,6 @@ class ScheduleRemoteViewsFactory(
 data class LessonItem(
     val number: Int,
     val time: String,
-    val subject: String
+    val subject: String,
+    val classRoomName: String,
 )

@@ -72,7 +72,6 @@ internal fun updateAppWidget(
     appWidgetManager: AppWidgetManager,
     appWidgetId: Int
 ) {
-    Log.e("WIDGET", "updateAppWidget $appWidgetId")
     val views = RemoteViews(context.packageName, R.layout.schedule_app_widget)
     try {
         val prefs: SharedPreferences = HomeWidgetPlugin.getData(context)
