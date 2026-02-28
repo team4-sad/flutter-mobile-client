@@ -13,7 +13,7 @@ class NewsItemShimmerWidget extends StatelessWidget {
       padding: EdgeInsets.only(left: 20, right: 20, bottom: 30, top: 20),
       decoration: BoxDecoration(
         color: context.palette.container,
-        borderRadius: BorderRadius.circular(10.r)
+        borderRadius: BorderRadius.circular(10)
       ),
       child: Column(
         mainAxisSize: MainAxisSize.min,

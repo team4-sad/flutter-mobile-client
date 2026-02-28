@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:miigaik/theme/app_theme_extensions.dart';
 
 class SquareFilledIconButton extends StatelessWidget {
@@ -22,13 +21,13 @@ class SquareFilledIconButton extends StatelessWidget {
       aspectRatio: 1,
       child: Container(
         decoration: BoxDecoration(
-          borderRadius: borderRadiusGeometry ?? BorderRadius.circular(10.r),
+          borderRadius: borderRadiusGeometry ?? BorderRadius.circular(10),
           color: backgroundColor ?? context.palette.accent,
         ),
         child: Material(
           color: Colors.transparent,
           child: InkWell(
-            borderRadius: BorderRadius.circular(10.r),
+            borderRadius: BorderRadius.circular(10),
             onTap: onPress,
             child: Container(alignment: Alignment.center, child: icon),
           ),

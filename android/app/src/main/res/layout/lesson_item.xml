@@ -1,12 +1,14 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:backgroundTint="#FFFFFF"
+    android:background="@drawable/lesson_item_background"
+    android:clickable="false"
     android:orientation="vertical"
-    android:paddingTop="6dp"
-    android:paddingBottom="6dp">
+    android:paddingStart="14dp"
+    android:paddingTop="14dp"
+    android:paddingEnd="14dp"
+    android:paddingBottom="14dp">
 
     <TextView
         android:id="@+id/subjectText"
@@ -19,16 +21,17 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginTop="4dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="12dp"
         android:gravity="center_vertical"
         android:orientation="horizontal">
 
         <LinearLayout
             android:id="@+id/cardView"
-            android:layout_width="20dp"
-            android:layout_height="20dp"
-            android:background="@drawable/lesson_item_background">
+            android:layout_width="28dp"
+            android:layout_height="28dp"
+            android:background="@drawable/card_background"
+            android:gravity="center">
 
             <TextView
                 android:id="@+id/numberText"
@@ -47,13 +50,44 @@
 
         <TextView
             android:id="@+id/timeText"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_marginStart="8dp"
+            android:layout_width="0dp"
+            android:layout_height="20dp"
+            android:layout_marginStart="10dp"
+            android:layout_marginEnd="10dp"
+            android:layout_weight="1"
+            android:autoSizeMaxTextSize="14sp"
+            android:autoSizeMinTextSize="10sp"
+            android:autoSizeTextType="uniform"
             android:fontFamily="sans-serif-medium"
-            android:text="TEST"
+            android:gravity="center|start"
+            android:minWidth="80dp"
+            android:text="10:00-11:00"
             android:textColor="#000000"
             android:textSize="14sp" />
+
+        <LinearLayout
+            android:id="@+id/cardView2"
+            android:layout_width="wrap_content"
+            android:layout_height="28dp"
+            android:background="@drawable/card_background"
+            android:gravity="center"
+            android:paddingLeft="8dp"
+            android:paddingRight="8dp">
+
+            <TextView
+                android:id="@+id/numberClassroom"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:fontFamily="sans-serif"
+                android:gravity="center"
+                android:maxLines="1"
+                android:ellipsize="end"
+                android:maxEms="8"
+                android:text="Военный учебный центр"
+                android:textColor="#FFFFFF"
+                android:textSize="14sp" />
+
+        </LinearLayout>
     </LinearLayout>
 
 </LinearLayout>

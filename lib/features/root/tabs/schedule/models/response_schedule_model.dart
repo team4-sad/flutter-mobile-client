@@ -24,14 +24,10 @@ class ResponseGroupScheduleModel extends BaseScheduleModel {
     );
   }
 
-  factory ResponseGroupScheduleModel.fromMiigaikMap(
-    Map<String, dynamic> map,
-  ) {
-    return ResponseGroupScheduleModel(
-      groupName: map["groupName"],
-      schedule: DayScheduleModel.fromMiigaikData(map["schedule"])
-    );
-  }
+  Map<String, dynamic> toMap() => {
+    "group_name": groupName,
+    "schedule": schedule.map((e) => e.toMap()).toList()
+  };
 }
 
 class ResponseAudienceScheduleModel extends BaseScheduleModel {
@@ -51,14 +47,10 @@ class ResponseAudienceScheduleModel extends BaseScheduleModel {
     );
   }
 
-  factory ResponseAudienceScheduleModel.fromMiigaikMap(
-    Map<String, dynamic> map,
-  ) {
-    return ResponseAudienceScheduleModel(
-      audienceName: map["classroomName"],
-      schedule: DayScheduleModel.fromMiigaikData(map["schedule"])
-    );
-  }
+  Map<String, dynamic> toMap() => {
+    "classroom_name": audienceName,
+    "schedule": schedule.map((e) => e.toMap()).toList()
+  };
 }
 
 class ResponseTeacherScheduleModel extends BaseScheduleModel {
@@ -78,14 +70,10 @@ class ResponseTeacherScheduleModel extends BaseScheduleModel {
     );
   }
 
-  factory ResponseTeacherScheduleModel.fromMiigaikMap(
-    Map<String, dynamic> map,
-  ) {
-    return ResponseTeacherScheduleModel(
-      teacher: TeacherModel.fromMiigaikMap(map["teacher"]),
-      schedule: DayScheduleModel.fromMiigaikData(map["schedule"])
-    );
-  }
+  Map<String, dynamic> toMap() => {
+    "teacher": teacher.toMap(),
+    "schedule": schedule.map((e) => e.toMap()).toList()
+  };
 }
 
 class DayScheduleModel {
@@ -112,21 +100,12 @@ class DayScheduleModel {
     );
   }
 
-  static List<DayScheduleModel> fromMiigaikData(Map<String, dynamic> map) {
-    return map.entries
-      .map(
-        (e) => DayScheduleModel(
-          dayOfWeek: (e.value as List).first["dayOfWeek"] as int,
-          nameDayOfWeek: e.key,
-          date: ((e.value as List).first["lessonDate"] as String)
-              .replaceFirst("T00:00:00Z", ""),
-          lessons: (e.value as List).map(
-            (l) => LessonModel.fromMiigaikMap(l)
-          ).toList(),
-        ),
-      )
-      .toList();
-  }
+  Map<String, dynamic> toMap() => {
+    "day_of_week": dayOfWeek,
+    "name_day_of_week": nameDayOfWeek,
+    "date": date,
+    "lessons": lessons.map((e) => e.toMap()).toList()
+  };
 
   DateTime get onlyDate => DateTime.parse(date);
 }

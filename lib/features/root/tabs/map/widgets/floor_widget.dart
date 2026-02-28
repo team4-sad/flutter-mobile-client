@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_it/get_it.dart';
 import 'package:miigaik/features/root/tabs/map/bloc/floor_map_cubit/floor_map_cubit.dart';
+import 'package:miigaik/features/root/tabs/map/bloc/floor_map_cubit/floor_map_state.dart';
 import 'package:miigaik/theme/app_theme_extensions.dart';
 import 'package:miigaik/theme/text_styles.dart';
 
@@ -48,10 +49,10 @@ class _FloorWidgetState extends State<FloorWidget> {
 
   @override
   Widget build(BuildContext context) {
-    return BlocConsumer<FloorMapCubit, int>(
+    return BlocConsumer<FloorMapCubit, FloorMapState>(
       bloc: cubit,
       listener: (context, state){
-        final value = (state - 2) * pxToFloor;
+        final value = (state.floor - 2) * pxToFloor;
         if (value > maxScroll) {
           scrollController.jumpTo(maxScroll);
         } else if (value < 0) {
@@ -84,7 +85,7 @@ class _FloorWidgetState extends State<FloorWidget> {
                       floor: index + 1,
                       heightFloor: pxToFloor,
                       isFirst: index == 0,
-                      isSelected: index == state - 1,
+                      isSelected: index == state.floor - 1,
                       isLast: index == widget.floorCount - 1
                     ),
                     itemCount: widget.floorCount
@@ -152,7 +153,7 @@ class _FloorItem extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: (){
-        GetIt.I.get<FloorMapCubit>().change(floor);
+        GetIt.I.get<FloorMapCubit>().change(FloorMapState(floor: floor));
       },
       child: Container(
         height: heightFloor,
@@ -166,7 +167,9 @@ class _FloorItem extends StatelessWidget {
           child: Center(
             child: Text(
               floor.toString(),
-              style: TS.regular15.use((isSelected) ? context.palette.container : context.palette.subText),
+              style: TS.regular15.use(
+                (isSelected) ? context.palette.container : context.palette.subText
+              ),
             )
           ),
         ),
@@ -200,7 +203,7 @@ class _FloorButton extends StatelessWidget {
           child: Padding(
             padding: contentPadding,
             child: Center(
-              child: Icon(icon, color: context.palette.subText,)
+              child: Icon(icon, color: context.palette.subText)
             ),
           ),
         ),

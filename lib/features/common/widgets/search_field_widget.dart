@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:miigaik/generated/icons.g.dart';
 import 'package:miigaik/theme/app_theme_extensions.dart';
 import 'package:miigaik/theme/text_styles.dart';
@@ -90,7 +89,7 @@ class _SearchFieldWidgetState extends State<SearchFieldWidget> {
                 )
               : SizedBox.shrink(),
           border: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(10.r),
+            borderRadius: BorderRadius.circular(10),
             borderSide: BorderSide.none,
           ),
           constraints: BoxConstraints(),

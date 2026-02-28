@@ -36,6 +36,7 @@ abstract class IHomeWidgetStorage {
   Future<void> saveLocale(
     String locale
   );
+  Future<void> setRefresh(int widgetId, bool isRefresh);
 }
 
 class HomeWidgetStorage extends IHomeWidgetStorage {
@@ -99,5 +100,10 @@ class HomeWidgetStorage extends IHomeWidgetStorage {
   @override
   Future<void> saveLocale(String locale) async {
     await HomeWidget.saveWidgetData("locale", locale.toString());
+  }
+
+  @override
+  Future<void> setRefresh(int widgetId, bool isRefresh) async {
+    await HomeWidget.saveWidgetData("${widgetId}_is_refresh", isRefresh);
   }
 }

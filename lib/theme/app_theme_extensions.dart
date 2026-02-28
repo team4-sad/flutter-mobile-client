@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:miigaik/theme/palette.dart';
+import 'package:path/path.dart';
 import 'app_theme.dart';
 
 class AppThemeExtension extends ThemeExtension<AppThemeExtension> {
@@ -73,9 +73,28 @@ class AppThemeExtension extends ThemeExtension<AppThemeExtension> {
           backgroundColor: palette.accent,
           foregroundColor: palette.unAccent,
           shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(10.r),
+            borderRadius: BorderRadius.circular(10),
           ),
         )
+      ),
+      checkboxTheme: CheckboxThemeData(
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(5),
+        ),
+        checkColor: WidgetStateProperty.all(palette.background),
+        side: BorderSide(
+          color: palette.text,
+          width: 2
+        ),
+        fillColor: WidgetStateProperty.resolveWith((state){
+          if (state.contains(WidgetState.selected)){
+            return palette.text;
+          }else if (state.contains(WidgetState.hovered)){
+            return palette.text.withAlpha(24);
+          }else{
+            return palette.background;
+          }
+        })
       )
     );
   }

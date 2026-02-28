@@ -3,7 +3,7 @@ import 'package:miigaik/generated/icons.g.dart';
 
 enum ItemNavBar {
   schedule(I.schedule),
-  map(I.map),
+  map(I.mapBottomNavBar),
   news(I.news),
   notes(I.notes),
   profile(I.profile);

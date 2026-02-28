@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:miigaik/features/common/extensions/num_widget_extension.dart';
 import 'package:miigaik/features/common/extensions/widget_extension.dart';
 import 'package:miigaik/theme/app_theme_extensions.dart';
@@ -34,8 +33,8 @@ class TopSingleNewsWidget extends StatelessWidget {
                 decoration: BoxDecoration(
                   color: context.palette.accent,
                   borderRadius: BorderRadius.only(
-                    topRight: Radius.circular(5.r),
-                    bottomRight: Radius.circular(5.r),
+                    topRight: Radius.circular(5),
+                    bottomRight: Radius.circular(5),
                   ),
                 ),
               ),

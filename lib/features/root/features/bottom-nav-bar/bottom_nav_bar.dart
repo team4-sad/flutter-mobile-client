@@ -25,7 +25,7 @@ class BottomNavBar extends StatelessWidget {
               border: Border.all(
                   color: context.palette.container
               ),
-              borderRadius: BorderRadius.circular(borderRadiusNavBar.r)
+              borderRadius: BorderRadius.circular(borderRadiusNavBar)
             ),
             padding: EdgeInsets.symmetric(horizontal: horizontalPaddingNavBar.w),
             child: BlocBuilder<BottomNavBarBloc, BottomNavBarState>(

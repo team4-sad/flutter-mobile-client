@@ -1,7 +1,8 @@
 import 'package:get_it/get_it.dart';
 import 'package:miigaik/features/network-connection/bloc/network_connection_bloc.dart';
 import 'package:miigaik/features/root/tabs/schedule/repository/schedule_repository.dart';
-import 'package:miigaik/features/schedule-choose/bloc/signature_schedule_bloc.dart';
+import 'package:miigaik/features/schedule-choose/bloc/selecting_schedule_choose_page_cubit/selecting_schedule_choose_page_cubit.dart';
+import 'package:miigaik/features/schedule-choose/bloc/signature_schedule_bloc/signature_schedule_bloc.dart';
 import 'package:miigaik/features/schedule-choose/repository/signature_schedule_repository.dart';
 import 'package:miigaik/features/schedule-widget/storage/home_widget_storage.dart';
 import 'package:miigaik/features/switch-theme/theme_bloc.dart';
@@ -15,7 +16,7 @@ class HomeWidgetDI {
   }
 
   static void registerRepositories() {
-    final apiScheduleRepository = ApiScheduleRepository(dio: GetIt.I.get());
+    final apiScheduleRepository = CachedApiScheduleRepository(dio: GetIt.I.get());
     GetIt.I.registerSingleton<IScheduleRepository>(apiScheduleRepository);
 
     final signatureScheduleRepository = SignatureScheduleRepository(
@@ -30,6 +31,7 @@ class HomeWidgetDI {
     GetIt.I.registerSingleton(ThemeBloc(AppTheme.defaultTheme()));
     GetIt.I.registerSingleton(NetworkConnectionBloc()..listen());
     GetIt.I.registerSingleton(SignatureScheduleBloc());
+    GetIt.I.registerSingleton(SelectingScheduleChoosePageCubit());
   }
 
   static void registerStorages(){

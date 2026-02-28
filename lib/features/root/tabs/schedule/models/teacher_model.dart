@@ -12,8 +12,8 @@ class TeacherModel {
 
   Map<String, dynamic> toMap() {
     return <String, dynamic>{
-      'firstName': firstName,
-      'lastName': lastName,
+      'first_name': firstName,
+      'last_name': lastName,
       'patronymic': patronymic,
     };
   }
@@ -22,14 +22,6 @@ class TeacherModel {
     return TeacherModel(
       firstName: map['first_name'] as String,
       lastName: map['last_name'] as String,
-      patronymic: map['patronymic'] as String,
-    );
-  }
-
-  factory TeacherModel.fromMiigaikMap(Map<String, dynamic> map) {
-    return TeacherModel(
-      firstName: map['firstName'] as String,
-      lastName: map['lastName'] as String,
       patronymic: map['patronymic'] as String,
     );
   }

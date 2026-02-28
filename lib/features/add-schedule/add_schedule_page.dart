@@ -12,7 +12,7 @@ import 'package:miigaik/features/common/widgets/simple_app_bar.dart';
 import 'package:miigaik/features/common/widgets/search_field_widget.dart';
 import 'package:miigaik/features/common/widgets/square_filled_icon_button.dart';
 import 'package:miigaik/features/common/widgets/tag_widget.dart';
-import 'package:miigaik/features/schedule-choose/bloc/signature_schedule_bloc.dart';
+import 'package:miigaik/features/schedule-choose/bloc/signature_schedule_bloc/signature_schedule_bloc.dart';
 import 'package:miigaik/features/schedule-choose/enum/signature_schedule_type.dart';
 import 'package:miigaik/generated/icons.g.dart';
 import 'package:miigaik/theme/app_theme_extensions.dart';
@@ -91,24 +91,27 @@ class AddSchedulePage extends StatelessWidget {
                 ),
                 10.vs(),
                 Row(
-                  spacing: 4,
+                  spacing: 10,
                   children: [
                     TagWidget(
                       title: "Группа",
                       isSelected: state == SignatureScheduleType.group,
                       onTap: () => cubit.setType(SignatureScheduleType.group),
-                    ),
+                      isCenter: true,
+                    ).f(92),
                     TagWidget(
                       title: "Аудитория",
                       isSelected: state == SignatureScheduleType.audience,
                       onTap: () =>
-                          cubit.setType(SignatureScheduleType.audience),
-                    ),
+                        cubit.setType(SignatureScheduleType.audience),
+                      isCenter: true,
+                    ).f(92),
                     TagWidget(
                       title: "Преподаватель",
                       isSelected: state == SignatureScheduleType.teacher,
                       onTap: () => cubit.setType(SignatureScheduleType.teacher),
-                    ),
+                      isCenter: true,
+                    ).f(116),
                   ],
                 ),
                 20.vs(),

@@ -6,7 +6,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_it/get_it.dart';
 import 'package:miigaik/features/common/extensions/num_widget_extension.dart';
 import 'package:miigaik/features/common/widgets/simple_app_bar.dart';
-import 'package:miigaik/features/schedule-choose/bloc/signature_schedule_bloc.dart';
+import 'package:miigaik/features/schedule-choose/bloc/signature_schedule_bloc/signature_schedule_bloc.dart';
 import 'package:miigaik/features/schedule-choose/content/error_schedule_choose_content.dart';
 import 'package:miigaik/features/schedule-choose/content/loading_schedule_choose_content.dart';
 import 'package:miigaik/features/schedule-choose/models/signature_schedule_model.dart';
@@ -42,10 +42,10 @@ class _ScheduleWidgetConfigurationPageState extends State<ScheduleWidgetConfigur
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: SimpleAppBar(
-          title: "Выбор расписания",
-          onBackPress: () async {
-            await cancel(context);
-          }
+        title: "Выбор расписания",
+        onBackPress: () async {
+          await cancel(context);
+        }
       ),
       body: Padding(
         padding: horizontalPaddingPage.horizontal(),
@@ -60,16 +60,17 @@ class _ScheduleWidgetConfigurationPageState extends State<ScheduleWidgetConfigur
                     return LoadingScheduleChooseContent();
                   case SignatureScheduleError():
                     return ErrorScheduleChooseContent(
-                        error: state.error
+                      error: state.error
                     );
                   case SignatureScheduleLoaded():
                     return ChooseScheduleWidget(
-                        data: state.data,
-                        emptyTitle: "Расписаний нет",
-                        emptySubTitle: "Добавьте расписание в приложении",
-                        onChoose: (signature) async {
-                          await save(signature, context.locale);
-                        }
+                      data: state.data,
+                      enableMultipleSelect: false,
+                      emptyTitle: "Расписаний нет",
+                      emptySubTitle: "Добавьте расписание в приложении",
+                      onChoose: (signature) async {
+                        await save(signature, context.locale);
+                      },
                     );
                 }
               },

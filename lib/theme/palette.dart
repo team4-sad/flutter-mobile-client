@@ -10,6 +10,7 @@ class Palette {
   final Color background;
   final Color container;
   final Color calendar;
+  final Color currentLessonBorder;
   final Color lightText;
 
   final BoxShadow mapShadow;
@@ -23,6 +24,7 @@ class Palette {
     required this.container,
     required this.lightText,
     required this.calendar,
+    required this.currentLessonBorder,
     required this.mapShadow,
   });
 
@@ -37,14 +39,17 @@ class Palette {
         container: Color(0xFFF2F3F5),
         lightText: Color(0xFF2A2929),
         calendar: Color(0xFF3B3C51),
+        currentLessonBorder: Color(0xFF9D9D9D),
         mapShadow: BoxShadow(
-          blurRadius: 8.0,
-          color: Color(0xFF939396)
+          blurRadius: 6.0,
+          offset: Offset(0, 4),
+          color: Color(0x25000000)
         ),
       ),
       // Пока нет тёмной темы
       AppTheme.dark => Palette(
         accent: Color(0xFF4964BE),
+        currentLessonBorder: Color(0xFF9D9D9D),
         unAccent: Color(0xFFFFFFFF),
         text: Color(0xFFFFFFFF),
         subText: Color(0xFF939396),
@@ -53,8 +58,9 @@ class Palette {
         lightText: Color(0xFF2A2929),
         calendar: Color(0xFF3B3C51),
         mapShadow: BoxShadow(
-          blurRadius: 8.0,
-          color: Color(0xFF939396)
+          blurRadius: 6.0,
+          offset: Offset(0, 4),
+          color: Color(0x25000000)
         ),
       ),
     };
@@ -70,6 +76,7 @@ class Palette {
       container: Color.lerp(first.container, other.container, t)!,
       lightText: Color.lerp(first.lightText, other.lightText, t)!,
       calendar: Color.lerp(first.calendar, other.calendar, t)!,
+      currentLessonBorder: Color.lerp(first.currentLessonBorder, other.currentLessonBorder, t)!,
       mapShadow: first.mapShadow.copyWith(
         color: Color.lerp(first.mapShadow.color, other.mapShadow.color, t)!
       )

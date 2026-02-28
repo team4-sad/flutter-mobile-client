@@ -1,5 +1,4 @@
-import 'package:bloc/bloc.dart';
-import 'package:meta/meta.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:miigaik/features/root/tabs/notes/enum/notes_mode.dart';
 
 class NotesModeCubit extends Cubit<NotesMode> {

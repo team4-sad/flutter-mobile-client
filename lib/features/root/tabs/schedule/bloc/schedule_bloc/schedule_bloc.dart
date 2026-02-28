@@ -7,9 +7,7 @@ import 'package:miigaik/features/network-connection/enum/connection_status.dart'
 import 'package:miigaik/features/network-connection/exception/no_network_exception.dart';
 import 'package:miigaik/features/network-connection/services/network_connection_service.dart';
 import 'package:miigaik/features/root/tabs/schedule/models/response_schedule_model.dart';
-import 'package:miigaik/features/root/tabs/schedule/repository/schedule_repository.dart';
 import 'package:miigaik/features/root/tabs/schedule/use_case/fetch_schedule_use_case.dart';
-import 'package:miigaik/features/schedule-choose/enum/signature_schedule_type.dart';
 import 'package:miigaik/features/schedule-choose/models/signature_schedule_model.dart';
 import 'package:talker_flutter/talker_flutter.dart';
 
@@ -19,8 +17,11 @@ part 'schedule_bloc_state.dart';
 class ScheduleBloc extends Bloc<ScheduleBlocEvent, ScheduleState> {
 
   final NetworkConnectionService connectionService = GetIt.I.get();
-  final useCase = FetchScheduleUseCase();
-  final talker = GetIt.I.get<Talker>();
+
+  final useCase = FetchScheduleUseCase(repo: GetIt.I.get());
+  final cachedUseCase = FetchScheduleUseCase(repo: GetIt.I.get(instanceName: "cached"));
+
+  final _talker = GetIt.I.get<Talker>();
 
   ScheduleBloc() : super(ScheduleInitial()) {
     connectionService.onConnectionChanged.listen((status) {
@@ -28,7 +29,7 @@ class ScheduleBloc extends Bloc<ScheduleBlocEvent, ScheduleState> {
           state is ScheduleError &&
           (state as ScheduleError).error is NoNetworkException) {
         final s = state as ScheduleError;
-        add(FetchScheduleEvent(signature: s.signature, day: s.date));
+        add(FetchScheduleEvent(signature: s.signature, day: s.date, ignoreCache: false));
       }
     });
 
@@ -47,7 +48,15 @@ class ScheduleBloc extends Bloc<ScheduleBlocEvent, ScheduleState> {
         return;
       }
       try {
-        final daySchedule = await useCase.call(event.signature, event.day);
+        final DayScheduleModel? daySchedule;
+        if (event.ignoreCache){
+          _talker.info("Получение расписания ${event.signature.title} на ${event.day} без кэша");
+          daySchedule = await useCase.call(event.signature, event.day);
+
+        }else{
+          _talker.info("Получение расписания ${event.signature.title} на ${event.day} с кэшем");
+          daySchedule = await cachedUseCase.call(event.signature, event.day);
+        }
         emit(
           ScheduleLoaded(
             daySchedule: daySchedule,
@@ -56,7 +65,7 @@ class ScheduleBloc extends Bloc<ScheduleBlocEvent, ScheduleState> {
           ),
         );
       } on Object catch (e) {
-        talker.error("Ошибка при получении расписания", e);
+        _talker.error("Ошибка при получении расписания", e);
         emit(
           ScheduleError(error: e, signature: event.signature, date: event.day),
         );

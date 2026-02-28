@@ -3,12 +3,14 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_it/get_it.dart';
 import 'package:miigaik/features/common/extensions/date_time_extensions.dart';
 import 'package:miigaik/features/common/extensions/string_extension.dart';
+import 'package:miigaik/features/root/tabs/schedule/bloc/schedule_bloc/schedule_bloc.dart';
 import 'package:miigaik/features/root/tabs/schedule/bloc/schedule_selected_day_bloc/schedule_selected_day_bloc.dart';
 import 'package:miigaik/features/root/tabs/schedule/content/main_schedule_content.dart';
 import 'package:miigaik/features/root/tabs/schedule/widgets/calendar_widget.dart';
 import 'package:miigaik/features/root/tabs/schedule/widgets/schedule_app_bar.dart';
 import 'package:miigaik/features/root/tabs/schedule/widgets/sheet_widget.dart';
 import 'package:miigaik/features/root/tabs/schedule/widgets/week_widget.dart';
+import 'package:miigaik/generated/icons.g.dart';
 import 'package:miigaik/theme/app_theme_extensions.dart';
 
 class SchedulePage extends StatefulWidget {
@@ -55,7 +57,8 @@ class _SchedulePageState extends State<SchedulePage> {
       body: Stack(
         children: [
           Padding(
-            padding: const EdgeInsets.only(left: 8, right: 8, top: 12, bottom: 20),
+            padding: const EdgeInsets.only(
+                left: 8, right: 8, top: 12, bottom: 20),
             child: AnimatedSwitcher(
               duration: const Duration(milliseconds: 300),
               switchInCurve: Curves.easeInOut,
@@ -84,13 +87,13 @@ class _SchedulePageState extends State<SchedulePage> {
               },
               child: showWeek
                   ? WeekWidget(
-                      key: const ValueKey('week'),
-                      onTap: _changeSelectedDateTime,
-                    )
+                key: const ValueKey('week'),
+                onTap: _changeSelectedDateTime,
+              )
                   : CalendarWidget(
-                      key: const ValueKey('calendar'),
-                      onTap: _changeSelectedDateTime,
-                    ),
+                key: const ValueKey('calendar'),
+                onTap: _changeSelectedDateTime,
+              ),
             ),
           ),
           BlocBuilder<ScheduleSelectedDayBloc, ScheduleSelectedDayState>(
@@ -99,6 +102,36 @@ class _SchedulePageState extends State<SchedulePage> {
               return SheetWidget(
                 title: bloc.state.currentOnlyDate.ddMMMMyyyy.title,
                 controller: controller,
+                actions: [
+                  BlocBuilder<ScheduleBloc, ScheduleState>(
+                    bloc: GetIt.I.get(),
+                    builder: (context, state) {
+                      return Padding(
+                        padding: const EdgeInsets.only(right: 6),
+                        child: GestureDetector(
+                          behavior: HitTestBehavior.opaque,
+                          onTap: () {
+                            if (state is ScheduleLoaded) {
+                              GetIt.I<ScheduleBloc>().add(FetchScheduleEvent(
+                                day: state.date, signature: state.signature,
+                                ignoreCache: true
+                              ));
+                            }
+                          },
+                          child: SizedBox(
+                            height: 30,
+                            width: 48,
+                            child: Icon(
+                              I.refresh,
+                              size: 30,
+                              color: context.palette.text
+                            ),
+                          ),
+                        ),
+                      );
+                    },
+                  )
+                ],
                 child: MainScheduleContent(),
               );
             },

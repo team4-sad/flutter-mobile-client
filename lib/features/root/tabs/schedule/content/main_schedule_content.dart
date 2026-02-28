@@ -9,7 +9,7 @@ import 'package:miigaik/features/root/tabs/schedule/content/error_schedule_conte
 import 'package:miigaik/features/root/tabs/schedule/content/loaded_schedule_content.dart';
 import 'package:miigaik/features/root/tabs/schedule/content/loading_schedule_content.dart';
 import 'package:miigaik/features/root/tabs/schedule/content/schedule_not_selected_schedule_content.dart';
-import 'package:miigaik/features/schedule-choose/bloc/signature_schedule_bloc.dart';
+import 'package:miigaik/features/schedule-choose/bloc/signature_schedule_bloc/signature_schedule_bloc.dart';
 
 class MainScheduleContent extends StatelessWidget {
   MainScheduleContent({super.key});
