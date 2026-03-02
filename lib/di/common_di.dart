@@ -2,6 +2,7 @@ import 'package:dio/dio.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_cache_manager/flutter_cache_manager.dart' as cache_manager;
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:get_it/get_it.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:miigaik/features/common/other/cache_helper.dart';
@@ -9,12 +10,15 @@ import 'package:miigaik/features/common/other/http_override.dart';
 import 'package:miigaik/features/config/config.dart';
 import 'package:miigaik/features/network-connection/services/network_connection_service.dart';
 import 'package:miigaik/features/root/tabs/notes/models/note_model.dart';
+import 'package:miigaik/features/root/tabs/profile/storages/session_storage.dart';
 import 'package:miigaik/features/schedule-choose/enum/signature_schedule_type.dart';
 import 'package:miigaik/features/schedule-choose/models/signature_schedule_model.dart';
 import 'package:miigaik/features/switch-locale/locale_bloc.dart';
 import 'package:talker_dio_logger/talker_dio_logger_interceptor.dart';
 import 'package:talker_dio_logger/talker_dio_logger_settings.dart';
 import 'package:talker_flutter/talker_flutter.dart';
+
+import '../features/common/other/dio_auth_interceptor.dart';
 
 class CommonDI {
   static const String miigaikApiDioName = "miigaik_api_dio";
@@ -34,12 +38,19 @@ class CommonDI {
   static void registerDio() {
     BadCertificateHttpOverrides.setup();
 
+    final sessionStorage = SessionStorageImpl(secureStorage: GetIt.I.get());
+    GetIt.I.registerSingleton(sessionStorage);
+
     final dio = Dio(BaseOptions(baseUrl: Config.apiUrl));
-    dio.interceptors.add(
-      TalkerDioLogger(
-        talker: GetIt.I.get(),
-        settings: const TalkerDioLoggerSettings(),
-      ),
+    dio.interceptors.addAll([
+        DioAuthInterceptor(
+          storage: sessionStorage
+        ),
+        TalkerDioLogger(
+          talker: GetIt.I.get(),
+          settings: const TalkerDioLoggerSettings(),
+        ),
+      ]
     );
     GetIt.I.registerSingleton(dio);
 
@@ -83,6 +94,9 @@ class CommonDI {
         stalePeriod: const Duration(hours: 1)
       )
     )));
+    
+    GetIt.I.registerSingleton(FlutterSecureStorage());
+    GetIt.I.registerSingleton<SessionStorage>(SessionStorageImpl());
   }
 
   static void registerLocaleBloc(BuildContext context) {

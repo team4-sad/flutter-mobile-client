@@ -16,6 +16,11 @@ import 'package:miigaik/features/root/tabs/notes/bloc/notes_bloc/notes_bloc.dart
 import 'package:miigaik/features/root/tabs/notes/bloc/notes_mode_cubit/notes_mode_cubit.dart';
 import 'package:miigaik/features/root/tabs/notes/bloc/search_notes_bloc/search_notes_bloc.dart';
 import 'package:miigaik/features/root/tabs/notes/repository/notes_repository.dart';
+import 'package:miigaik/features/root/tabs/profile/bloc/auth_cubit/auth_cubit.dart';
+import 'package:miigaik/features/root/tabs/profile/bloc/profile_bloc/profile_bloc.dart';
+import 'package:miigaik/features/root/tabs/profile/repository/lk_repository.dart';
+import 'package:miigaik/features/root/tabs/profile/use_case/auto_login_use_case.dart';
+import 'package:miigaik/features/root/tabs/profile/use_case/login_use_case.dart';
 import 'package:miigaik/features/root/tabs/schedule/bloc/current_time_cubit/current_time_cubit.dart';
 import 'package:miigaik/features/root/tabs/schedule/bloc/schedule_bloc/schedule_bloc.dart';
 import 'package:miigaik/features/root/tabs/schedule/bloc/schedule_selected_day_bloc/schedule_selected_day_bloc.dart';
@@ -80,6 +85,9 @@ class AppDI {
 
     final noteAttachmentRepository = NoteAttachmentRepository();
     GetIt.I.registerSingleton<INoteAttachmentRepository>(noteAttachmentRepository);
+
+    final lkRepository = LkRepositoryImpl(dio: defaultDio);
+    GetIt.I.registerSingleton<LkRepository>(lkRepository);
   }
 
   static void registerBlocs() {
@@ -94,11 +102,16 @@ class AppDI {
     GetIt.I.registerSingleton(ScheduleBloc());
     GetIt.I.registerSingleton(NotesBloc());
     GetIt.I.registerSingleton(SearchNotesBloc());
+    GetIt.I.registerSingleton(ProfileBloc());
 
     GetIt.I.registerSingleton(NotesModeCubit());
     GetIt.I.registerSingleton(CurrentTimeCubit());
     GetIt.I.registerSingleton(MapCubit());
     GetIt.I.registerSingleton(FloorMapCubit());
     GetIt.I.registerSingleton(SelectingScheduleChoosePageCubit());
+    GetIt.I.registerSingleton(AuthCubit(
+      loginUseCase: LoginUseCase(repository: GetIt.I.get(), sessionStorage: GetIt.I.get()),
+      autoLoginUseCase: AutoLoginUseCase(sessionStorage: GetIt.I.get())
+    ));
   }
 }

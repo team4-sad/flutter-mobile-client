@@ -55,6 +55,12 @@ abstract class TS {
     fontWeight: FontWeight.w500,
   );
 
+  static TextStyle medium18 = TextStyle(
+    fontSize: 18,
+    height: 1.2,
+    fontWeight: FontWeight.w500,
+  );
+
   static TextStyle medium16 = TextStyle(
     fontSize: 16,
     height: 1.2,

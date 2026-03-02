@@ -6,6 +6,7 @@ import 'package:miigaik/features/common/widgets/square_icon_button.dart';
 import 'package:miigaik/features/edini-dekanat/edini_dekanat_page.dart';
 import 'package:miigaik/features/other-services/other_services_page.dart';
 import 'package:miigaik/features/root/tabs/profile/widgets/item_profile_widget.dart';
+import 'package:miigaik/features/root/tabs/profile/widgets/profile_widget.dart';
 import 'package:miigaik/features/settings/settings_page.dart';
 import 'package:miigaik/generated/icons.g.dart';
 import 'package:miigaik/theme/app_theme_extensions.dart';
@@ -56,31 +57,7 @@ class ProfilePage extends StatelessWidget {
               ],
             ),
             20.vs(),
-            Container(
-              width: 1.sw,
-              padding: EdgeInsets.symmetric(vertical: 18, horizontal: 26),
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(15),
-                color: context.palette.container,
-              ),
-              child: Column(
-                spacing: 10,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    "Войдите или зарегестрируйтесь",
-                    style: TS.medium16.use(context.palette.text),
-                  ),
-                  SizedBox(
-                    width: 1.sw,
-                    child: FilledButton(
-                      onPressed: () {},
-                      child: Text("Войти в аккаунт"),
-                    ),
-                  ),
-                ],
-              ),
-            ),
+            ProfileWidget(),
             20.vs(),
             ItemProfileWidget(
               title: "Заказ допусков",
