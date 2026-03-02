@@ -23,7 +23,7 @@ class ItemBetweenLessons extends StatelessWidget {
         return Container(
           padding: EdgeInsets.symmetric(vertical: 10, horizontal: 14),
           decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(10),
+            borderRadius: BorderRadius.circular(15),
             border: BoxBorder.all(
               color: state.currentDateTime.isBetween(beforeDateTime, afterDateTime)
                   ? context.palette.calendar

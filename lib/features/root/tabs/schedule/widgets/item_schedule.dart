@@ -30,7 +30,7 @@ class ItemSchedule extends StatelessWidget {
         return Container(
           decoration: BoxDecoration(
             color: context.palette.container,
-            borderRadius: BorderRadius.circular(10),
+            borderRadius: BorderRadius.circular(15),
             border: BoxBorder.all(
               color: lessonModel.isAlreadyUnderway(
                 state.currentDateTime, onlyDate 
