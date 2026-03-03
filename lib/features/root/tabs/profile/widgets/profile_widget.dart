@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get_it/get_it.dart';
 import 'package:miigaik/features/common/extensions/num_widget_extension.dart';
 import 'package:miigaik/features/common/extensions/widget_extension.dart';
@@ -27,6 +28,8 @@ class ProfileWidget extends StatelessWidget {
       listener: (context, state){
         if (state is AuthorizedState){
           profileBloc.add(GetProfileEvent());
+        } else if (state is NotAuthorizedState && profileBloc.state is ProfileLoaded){
+          profileBloc.add(ForgetProfileEvent());
         }
       },
       builder: (context, state) {
@@ -40,7 +43,7 @@ class ProfileWidget extends StatelessWidget {
                   case ProfileLoading():
                     return LoadingProfileWidget();
                   case ProfileError(error: var error):
-                    return PlaceholderWidget.fromException(error);
+                    return ErrorProfileWidget(error: error);
                   case ProfileLoaded(profile: var profile):
                     return _UserProfileWidget(profile: profile);
                 }
@@ -55,9 +58,31 @@ class ProfileWidget extends StatelessWidget {
           case LoadingAuthState():
             return LoadingProfileWidget();
           case ErrorAuthState(error: var error):
-            return PlaceholderWidget.fromException(error);
+            return ErrorProfileWidget(error: error);
         }
       },
+    );
+  }
+}
+
+class ErrorProfileWidget extends StatelessWidget {
+  ErrorProfileWidget({
+    super.key,
+    required this.error,
+  });
+
+  final Object error;
+  final ProfileBloc profileBloc = GetIt.I.get();
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: EdgeInsetsGeometry.symmetric(vertical: 10),
+      child: PlaceholderWidget.fromException(error,
+        (){
+          profileBloc.add(GetProfileEvent());
+        }
+      ),
     );
   }
 }
@@ -76,9 +101,8 @@ class _GuestProfileWidget extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             10.hs(),
-            CircleAvatar(
-              radius: 60,
-              backgroundImage: AssetImage("assets/images/default_avatar.png")
+            ClipOval(
+              child: SvgPicture.asset("assets/vectors/default_avatar.svg"),
             ),
             20.hs(),
             Expanded(

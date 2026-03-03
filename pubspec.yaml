@@ -20,6 +20,7 @@ dependencies:
   connectivity_plus: ^7.0.0
   cached_network_image: ^3.4.1
 
+  flutter_svg: ^2.2.3
   package_info_plus: ^9.0.0
   easy_localization: ^3.0.8
   get_it: ^8.2.0
@@ -68,6 +69,7 @@ flutter:
     - assets/translations/
     - assets/team/
     - assets/images/
+    - assets/vectors/
     - config/.env
   
   fonts:

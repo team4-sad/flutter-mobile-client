@@ -21,6 +21,7 @@ import 'package:miigaik/features/root/tabs/profile/bloc/profile_bloc/profile_blo
 import 'package:miigaik/features/root/tabs/profile/repository/lk_repository.dart';
 import 'package:miigaik/features/root/tabs/profile/use_case/auto_login_use_case.dart';
 import 'package:miigaik/features/root/tabs/profile/use_case/login_use_case.dart';
+import 'package:miigaik/features/root/tabs/profile/use_case/logout_use_case.dart';
 import 'package:miigaik/features/root/tabs/schedule/bloc/current_time_cubit/current_time_cubit.dart';
 import 'package:miigaik/features/root/tabs/schedule/bloc/schedule_bloc/schedule_bloc.dart';
 import 'package:miigaik/features/root/tabs/schedule/bloc/schedule_selected_day_bloc/schedule_selected_day_bloc.dart';
@@ -109,9 +110,11 @@ class AppDI {
     GetIt.I.registerSingleton(MapCubit());
     GetIt.I.registerSingleton(FloorMapCubit());
     GetIt.I.registerSingleton(SelectingScheduleChoosePageCubit());
+
     GetIt.I.registerSingleton(AuthCubit(
       loginUseCase: LoginUseCase(repository: GetIt.I.get(), sessionStorage: GetIt.I.get()),
-      autoLoginUseCase: AutoLoginUseCase(sessionStorage: GetIt.I.get())
+      autoLoginUseCase: AutoLoginUseCase(sessionStorage: GetIt.I.get()),
+      logoutUseCase: LogoutUseCase(sessionStorage: GetIt.I.get())
     ));
   }
 }
