@@ -27,8 +27,12 @@ final class NewsListLoading extends PaginationLoadingState<NewsModel> implements
   }
 }
 
-final class NewsListError extends WithPaginationState<NewsModel> implements NewsListState {
+final class NewsListError
+    extends WithPaginationState<NewsModel>
+    implements NewsListState, WithErrorState
+{
 
+  @override
   final Object error;
 
   NewsListError({

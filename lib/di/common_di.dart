@@ -48,7 +48,14 @@ class CommonDI {
         ),
         TalkerDioLogger(
           talker: GetIt.I.get(),
-          settings: const TalkerDioLoggerSettings(),
+          settings: TalkerDioLoggerSettings(
+            printErrorMessage: true,
+            printErrorData: true,
+            printErrorHeaders: true,
+            errorFilter: (e) {
+              return true;
+            }
+          ),
         ),
       ]
     );

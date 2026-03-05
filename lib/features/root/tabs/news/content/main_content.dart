@@ -14,9 +14,9 @@ import 'empty_news_content.dart';
 import 'error_news_content.dart';
 import 'list_news_content.dart';
 
-class ListContent extends StatelessWidget {
+class MainContent extends StatelessWidget {
 
-  ListContent({super.key});
+  MainContent({super.key});
 
   final NewsListBloc newsBloc = GetIt.I.get();
 

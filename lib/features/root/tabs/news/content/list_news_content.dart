@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:miigaik/features/common/bloc/pagination_error_state.dart';
 import 'package:miigaik/features/common/bloc/pagination_loading_state.dart';
 import 'package:miigaik/features/common/bloc/with_data_state.dart';
+import 'package:miigaik/features/common/bloc/with_error_state.dart';
 import 'package:miigaik/features/common/extensions/iterable_extensions.dart';
 import 'package:miigaik/features/common/extensions/num_widget_extension.dart';
 import 'package:miigaik/features/common/widgets/placeholder_widget.dart';
@@ -42,11 +42,11 @@ class ListNewsContent extends StatelessWidget {
               ),
               () => separateNews.vs()
             ),
-        if (_state is PaginationErrorState)
+        if (_state is WithErrorState)
           Padding(
             padding: separateNews.top(),
             child: PlaceholderWidget.fromException(
-              (_state as PaginationErrorState).error,
+              (_state as WithErrorState).error,
               _onTapRetry
             ),
           ),

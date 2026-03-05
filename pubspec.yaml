@@ -68,7 +68,6 @@ flutter:
   assets:
     - assets/translations/
     - assets/team/
-    - assets/images/
     - assets/vectors/
     - config/.env
   

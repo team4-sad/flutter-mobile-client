@@ -7,7 +7,7 @@ import 'package:miigaik/features/common/extensions/num_widget_extension.dart';
 import 'package:miigaik/features/common/extensions/widget_extension.dart';
 import 'package:miigaik/features/common/widgets/on_bottom_scroll_widget.dart';
 import 'package:miigaik/features/root/tabs/news/bloc/search_news_bloc/search_news_bloc.dart';
-import 'package:miigaik/features/root/tabs/news/content/list_content.dart';
+import 'package:miigaik/features/root/tabs/news/content/main_content.dart';
 import 'package:miigaik/features/root/tabs/news/content/search_content.dart';
 import 'package:miigaik/features/root/tabs/news/enum/news_page_mode.dart';
 import 'package:miigaik/generated/types.dart';
@@ -107,7 +107,7 @@ class _NewsPageState extends State<NewsPage> {
                         child: CustomScrollView(
                           controller: _listScrollController,
                           slivers: [
-                            ListContent(),
+                            MainContent(),
                           ],
                         ),
                       ),
