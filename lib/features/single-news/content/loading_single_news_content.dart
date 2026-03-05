@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:miigaik/features/common/extensions/num_widget_extension.dart';
-import 'package:miigaik/features/common/extensions/widget_extension.dart';
-import 'package:miigaik/features/common/widgets/app_shimmer.dart';
+import 'package:miigaik/core/extensions/num_widget_extension.dart';
+import 'package:miigaik/core/extensions/widget_extension.dart';
+import 'package:miigaik/core/widgets/app_shimmer.dart';
 
 class LoadingSingleNewsContent extends StatelessWidget {
   const LoadingSingleNewsContent({super.key});

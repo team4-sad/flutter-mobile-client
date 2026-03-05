@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:miigaik/features/common/extensions/num_widget_extension.dart';
-import 'package:miigaik/features/common/widgets/simple_app_bar.dart';
+import 'package:miigaik/core/extensions/num_widget_extension.dart';
+import 'package:miigaik/core/widgets/simple_app_bar.dart';
 import 'package:miigaik/features/edini-dekanat/edini_dekanat_page.dart';
 import 'package:miigaik/features/other-services/widgets/item_service.dart';
 import 'package:miigaik/features/other-services/widgets/text_block.dart';

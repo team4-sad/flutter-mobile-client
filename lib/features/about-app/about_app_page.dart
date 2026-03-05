@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
+import 'package:miigaik/core/extensions/num_widget_extension.dart';
+import 'package:miigaik/core/extensions/package_info_extension.dart';
+import 'package:miigaik/core/widgets/simple_app_bar.dart';
+import 'package:miigaik/core/widgets/tile_widget.dart';
 import 'package:miigaik/features/about-app/link_row.dart';
-import 'package:miigaik/features/common/widgets/tile_widget.dart';
-import 'package:miigaik/features/common/extensions/num_widget_extension.dart';
-import 'package:miigaik/features/common/extensions/package_info_extension.dart';
-import 'package:miigaik/features/common/widgets/simple_app_bar.dart';
 import 'package:miigaik/generated/icons.g.dart';
 import 'package:miigaik/theme/app_theme_extensions.dart';
 import 'package:miigaik/theme/text_styles.dart';

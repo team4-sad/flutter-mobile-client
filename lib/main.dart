@@ -8,16 +8,16 @@ import 'package:intl/date_symbol_data_local.dart';
 import 'package:miigaik/di/app_di.dart';
 import 'package:miigaik/di/common_di.dart';
 import 'package:miigaik/di/home_widget_di.dart';
-import 'package:miigaik/features/analytics/analytic_helper.dart';
-import 'package:miigaik/features/common/widgets/app_wrapper_widget.dart';
+import 'package:miigaik/core/analytics/analytic_helper.dart';
+import 'package:miigaik/core/widgets/app_wrapper_widget.dart';
 import 'package:miigaik/features/root/root_page.dart';
-import 'package:miigaik/features/root/tabs/schedule/repository/schedule_repository.dart';
-import 'package:miigaik/features/root/tabs/schedule/use_case/fetch_schedule_use_case.dart';
-import 'package:miigaik/features/schedule-widget/schedule_widget_configuration_page.dart';
-import 'package:miigaik/features/schedule-widget/storage/home_widget_storage.dart';
-import 'features/config/config.dart';
-import 'features/schedule-widget/helpers/home_widget_work_manager_helper.dart';
-import 'features/schedule-widget/use_case/refresh_widget_use_case.dart';
+import 'package:miigaik/features/schedule/repository/schedule_repository.dart';
+import 'package:miigaik/features/schedule/use_case/fetch_schedule_use_case.dart';
+import 'config/config.dart';
+import 'features/schedule/features/schedule-widget/helpers/home_widget_work_manager_helper.dart';
+import 'features/schedule/features/schedule-widget/schedule_widget_configuration_page.dart';
+import 'features/schedule/features/schedule-widget/storage/home_widget_storage.dart';
+import 'features/schedule/features/schedule-widget/use_case/refresh_widget_use_case.dart';
 
 
 void main() async {

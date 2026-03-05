@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:miigaik/features/common/extensions/num_widget_extension.dart';
+import 'package:miigaik/core/extensions/num_widget_extension.dart';
 import 'package:miigaik/theme/app_theme_extensions.dart';
 import 'package:miigaik/theme/text_styles.dart';
 import 'package:url_launcher/url_launcher.dart';

@@ -1,6 +1,6 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_it/get_it.dart';
-import 'package:miigaik/features/analytics/analytic_helper.dart';
+import 'package:miigaik/core/analytics/analytic_helper.dart';
 import 'package:miigaik/features/single-news/models/single_news_model.dart';
 import 'package:miigaik/features/single-news/repository/single_news_repository.dart';
 

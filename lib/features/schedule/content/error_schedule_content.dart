@@ -1,0 +1,20 @@
+import 'package:flutter/material.dart';
+import 'package:miigaik/core/widgets/placeholder_widget.dart';
+
+class ErrorScheduleContent extends StatelessWidget {
+  final Object? exception;
+  final VoidCallback onTap;
+
+  const ErrorScheduleContent({super.key, this.exception, required this.onTap});
+
+  @override
+  Widget build(BuildContext context) {
+    return SliverFillRemaining(
+      hasScrollBody: false,
+      child: Padding(
+        padding: EdgeInsets.only(bottom: 90),
+        child: Center(child: PlaceholderWidget.fromException(exception, onTap)),
+      ),
+    );
+  }
+}

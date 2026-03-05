@@ -5,20 +5,20 @@ import 'package:flutter_cache_manager/flutter_cache_manager.dart' as cache_manag
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:get_it/get_it.dart';
 import 'package:hive_flutter/hive_flutter.dart';
-import 'package:miigaik/features/common/other/cache_helper.dart';
-import 'package:miigaik/features/common/other/http_override.dart';
-import 'package:miigaik/features/config/config.dart';
-import 'package:miigaik/features/network-connection/services/network_connection_service.dart';
-import 'package:miigaik/features/root/tabs/notes/models/note_model.dart';
-import 'package:miigaik/features/root/tabs/profile/storages/session_storage.dart';
-import 'package:miigaik/features/schedule-choose/enum/signature_schedule_type.dart';
-import 'package:miigaik/features/schedule-choose/models/signature_schedule_model.dart';
-import 'package:miigaik/features/switch-locale/locale_bloc.dart';
+import 'package:miigaik/config/config.dart';
+import 'package:miigaik/core/features/network-connection/services/network_connection_service.dart';
+import 'package:miigaik/core/other/cache_helper.dart';
+import 'package:miigaik/core/other/http_override.dart';
+import 'package:miigaik/features/notes/models/note_model.dart';
+import 'package:miigaik/features/profile/storages/session_storage.dart';
+import 'package:miigaik/features/schedule/features/schedule-choose/enum/signature_schedule_type.dart';
+import 'package:miigaik/features/schedule/features/schedule-choose/models/signature_schedule_model.dart';
+import 'package:miigaik/features/settings/bloc/switch-locale/locale_bloc.dart';
 import 'package:talker_dio_logger/talker_dio_logger_interceptor.dart';
 import 'package:talker_dio_logger/talker_dio_logger_settings.dart';
 import 'package:talker_flutter/talker_flutter.dart';
 
-import '../features/common/other/dio_auth_interceptor.dart';
+import '../core/other/dio_auth_interceptor.dart';
 
 class CommonDI {
   static const String miigaikApiDioName = "miigaik_api_dio";

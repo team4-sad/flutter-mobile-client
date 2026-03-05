@@ -1,5 +1,5 @@
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
-import 'package:miigaik/features/common/extensions/color_extensions.dart';
+import 'package:miigaik/core/extensions/color_extensions.dart';
 import 'package:miigaik/theme/palette.dart';
 
 abstract class IJsInjector {

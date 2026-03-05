@@ -5,11 +5,11 @@ import 'package:flutter/services.dart';
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get_it/get_it.dart';
-import 'package:miigaik/features/common/widgets/placeholder_widget.dart';
-import 'package:miigaik/features/common/widgets/simple_app_bar.dart';
-import 'package:miigaik/features/config/config.dart';
+import 'package:miigaik/config/config.dart';
+import 'package:miigaik/core/features/network-connection/services/network_connection_service.dart';
+import 'package:miigaik/core/widgets/placeholder_widget.dart';
+import 'package:miigaik/core/widgets/simple_app_bar.dart';
 import 'package:miigaik/features/edini-dekanat/js_injector.dart';
-import 'package:miigaik/features/network-connection/services/network_connection_service.dart';
 import 'package:miigaik/theme/app_theme_extensions.dart';
 import 'package:miigaik/theme/values.dart';
 
@@ -19,14 +19,14 @@ class EdiniDekanatPage extends StatefulWidget {
 
   const EdiniDekanatPage._({super.key, required this.title, required this.url});
 
-  EdiniDekanatPage.spravki({key})
+  const EdiniDekanatPage.spravki({key})
     : this._(
         key: key,
         title: "Заказ справок",
         url: Config.webWiewUrlSpravki,
       );
 
-  EdiniDekanatPage.dopuski({key})
+  const EdiniDekanatPage.dopuski({key})
     : this._(
         key: key,
         title: "Заказ допуска",

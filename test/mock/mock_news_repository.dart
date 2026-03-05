@@ -1,9 +1,9 @@
 
 
-import 'package:miigaik/features/root/tabs/news/models/news_model.dart';
-import 'package:miigaik/features/root/tabs/news/models/news_pagination_model.dart';
-import 'package:miigaik/features/root/tabs/news/models/news_response_model.dart';
-import 'package:miigaik/features/root/tabs/news/repository/news_repository.dart';
+import 'package:miigaik/features/news/models/news_model.dart';
+import 'package:miigaik/features/news/models/news_pagination_model.dart';
+import 'package:miigaik/features/news/models/news_response_model.dart';
+import 'package:miigaik/features/news/repository/news_repository.dart';
 
 class MockNewsRepository extends INewsRepository {
   @override
