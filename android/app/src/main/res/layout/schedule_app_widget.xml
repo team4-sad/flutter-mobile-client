@@ -42,7 +42,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:fontFamily="sans-serif-medium"
-                android:text="TEST"
+                android:text="Загрузка..."
                 android:textColor="#000000"
                 android:textSize="16sp" />
         </LinearLayout>

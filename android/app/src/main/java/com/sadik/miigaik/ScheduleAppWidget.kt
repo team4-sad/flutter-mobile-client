@@ -96,6 +96,11 @@ internal fun updateAppWidget(
             )
         )
 
+        views.setPendingIntentTemplate(
+            R.id.schedule_list,
+            getOpenMobileAppIntent(context, appWidgetId)
+        )
+
         val isRefresh = prefs.getBoolean("${appWidgetId}_is_refresh", false)
 
         if (isRefresh){
@@ -117,7 +122,7 @@ internal fun updateAppWidget(
             views.setRemoteAdapter(R.id.schedule_list, intent)
         }
 
-        setupWidgetClickIntent(context, views, appWidgetId)
+        views.setOnClickPendingIntent(R.id.root, getOpenMobileAppIntent(context, appWidgetId))
 
         appWidgetManager.updateAppWidget(appWidgetId, views)
         appWidgetManager.notifyAppWidgetViewDataChanged(appWidgetId, R.id.schedule_list)
@@ -129,7 +134,7 @@ internal fun updateAppWidget(
     }
 }
 
-private fun setupWidgetClickIntent(context: Context, views: RemoteViews, appWidgetId: Int) {
+fun getOpenMobileAppIntent(context: Context, appWidgetId: Int): PendingIntent {
     val packageName = context.packageName
     val intent = context.packageManager.getLaunchIntentForPackage(packageName)
     intent?.apply {
@@ -153,8 +158,7 @@ private fun setupWidgetClickIntent(context: Context, views: RemoteViews, appWidg
             PendingIntent.FLAG_UPDATE_CURRENT
         )
     }
-
-    views.setOnClickPendingIntent(R.id.root, pendingIntent)
+    return pendingIntent;
 }
 
 internal fun showErrorMessage(views: RemoteViews){
