@@ -104,11 +104,8 @@ class _NewsPageState extends State<NewsPage> {
                             setState(() => _showDivider = true);
                           });
                         },
-                        child: CustomScrollView(
-                          controller: _listScrollController,
-                          slivers: [
-                            MainContent(),
-                          ],
+                        child: MainContent(
+                            scrollController: _listScrollController
                         ),
                       ),
                       OnScrollWidget(

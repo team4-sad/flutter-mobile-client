@@ -11,3 +11,5 @@ class FetchPageNewsListEvent extends NewsListEvent {
 class FetchNewsListEvent extends NewsListEvent {}
 
 class RetryFetchNewsListEvent extends NewsListEvent {}
+
+class RefreshNewsListEvent extends NewsListEvent {}

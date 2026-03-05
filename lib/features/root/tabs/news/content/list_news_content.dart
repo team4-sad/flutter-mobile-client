@@ -19,7 +19,7 @@ class ListNewsContent extends StatelessWidget {
   const ListNewsContent({
     super.key,
     required WithDataState<NewsModel> state,
-    required void Function() onTapRetry
+    required VoidCallback onTapRetry,
   }) : _onTapRetry = onTapRetry, _state = state;
 
   @override

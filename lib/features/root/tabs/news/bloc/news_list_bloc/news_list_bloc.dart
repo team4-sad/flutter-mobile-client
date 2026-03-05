@@ -41,7 +41,7 @@ class NewsListBloc extends Bloc<NewsListEvent, NewsListState> {
       emit(NewsListLoading.fromState(state));
       try {
         final NewsResponseModel response = await repository.fetchNews(
-            page: event.page
+          page: event.page
         );
         emit(NewsListLoaded.fromState(response.news, response.pagination, state));
       } on Object catch(e){
@@ -71,6 +71,21 @@ class NewsListBloc extends Bloc<NewsListEvent, NewsListState> {
       final current = state as NewsListError;
       final currentPage = current.pagination?.currentPage ?? 1;
       add(FetchPageNewsListEvent(page: currentPage));
+    }, transformer: droppable());
+
+    on<RefreshNewsListEvent>((event, emit) async {
+      if (state is! NewsListLoaded){
+        return;
+      }
+      emit(NewsListLoading());
+      try {
+        final NewsResponseModel response = await repository.fetchNews(
+          page: 1
+        );
+        emit(NewsListLoaded(data: response.news, pagination: response.pagination));
+      } on Object catch(e){
+        emit(NewsListError.fromState(e, state));
+      }
     }, transformer: droppable());
   }
 }
