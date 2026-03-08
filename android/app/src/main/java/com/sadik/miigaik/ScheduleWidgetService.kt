@@ -19,7 +19,7 @@ class ScheduleWidgetService : RemoteViewsService() {
 
 class ScheduleRemoteViewsFactory(
     private val context: Context,
-    private val appWidgetId: Int // Передаем в конструктор
+    private val appWidgetId: Int
 ) : RemoteViewsService.RemoteViewsFactory {
 
     private lateinit var prefs: SharedPreferences
@@ -94,6 +94,11 @@ class ScheduleRemoteViewsFactory(
             remoteViews.setTextViewText(R.id.timeText, lesson.time)
             remoteViews.setTextViewText(R.id.subjectText, lesson.subject)
             remoteViews.setTextViewText(R.id.numberClassroom, lesson.classRoomName)
+
+            val fillInIntent = Intent().apply {
+                putExtra("lesson_position", position)
+            }
+            remoteViews.setOnClickFillInIntent(R.id.lessonCard, fillInIntent)
 
             Log.e("WIDGET_FACTORY", "Created view for: ${lesson.subject}")
         } else {

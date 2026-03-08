@@ -1,30 +1,36 @@
 import 'package:dio/dio.dart';
 import 'package:get_it/get_it.dart';
-import 'package:miigaik/features/add-schedule/repository/signature_schedule_repository.dart';
-import 'package:miigaik/features/network-connection/bloc/network_connection_bloc.dart';
-import 'package:miigaik/features/note/repositories/attachment_repository.dart';
-import 'package:miigaik/features/root/features/bottom-nav-bar/bloc/bottom_nav_bar_bloc.dart';
-import 'package:miigaik/features/root/features/bottom-nav-bar/items_nav_bar.dart';
-import 'package:miigaik/features/root/tabs/map/bloc/floor_map_cubit/floor_map_cubit.dart';
-import 'package:miigaik/features/root/tabs/map/bloc/map_cubit/map_cubit.dart';
-import 'package:miigaik/features/root/tabs/news/bloc/news_list_bloc/news_list_bloc.dart';
-import 'package:miigaik/features/root/tabs/news/bloc/news_page_mode_bloc/news_page_mode_bloc.dart';
-import 'package:miigaik/features/root/tabs/news/bloc/search_news_bloc/search_news_bloc.dart';
-import 'package:miigaik/features/root/tabs/news/repository/news_repository.dart';
-import 'package:miigaik/features/root/tabs/news/repository/search_news_repository.dart';
-import 'package:miigaik/features/root/tabs/notes/bloc/notes_bloc/notes_bloc.dart';
-import 'package:miigaik/features/root/tabs/notes/bloc/notes_mode_cubit/notes_mode_cubit.dart';
-import 'package:miigaik/features/root/tabs/notes/bloc/search_notes_bloc/search_notes_bloc.dart';
-import 'package:miigaik/features/root/tabs/notes/repository/notes_repository.dart';
-import 'package:miigaik/features/root/tabs/schedule/bloc/current_time_cubit/current_time_cubit.dart';
-import 'package:miigaik/features/root/tabs/schedule/bloc/schedule_bloc/schedule_bloc.dart';
-import 'package:miigaik/features/root/tabs/schedule/bloc/schedule_selected_day_bloc/schedule_selected_day_bloc.dart';
-import 'package:miigaik/features/root/tabs/schedule/repository/schedule_repository.dart';
-import 'package:miigaik/features/schedule-choose/bloc/selecting_schedule_choose_page_cubit/selecting_schedule_choose_page_cubit.dart';
-import 'package:miigaik/features/schedule-choose/bloc/signature_schedule_bloc/signature_schedule_bloc.dart';
-import 'package:miigaik/features/schedule-choose/repository/signature_schedule_repository.dart';
+import 'package:miigaik/core/features/bottom-nav-bar/bloc/bottom_nav_bar_bloc.dart';
+import 'package:miigaik/core/features/bottom-nav-bar/items_nav_bar.dart';
+import 'package:miigaik/core/features/network-connection/bloc/network_connection_bloc.dart';
+import 'package:miigaik/features/map/bloc/floor_map_cubit/floor_map_cubit.dart';
+import 'package:miigaik/features/map/bloc/map_cubit/map_cubit.dart';
+import 'package:miigaik/features/news/bloc/news_list_bloc/news_list_bloc.dart';
+import 'package:miigaik/features/news/bloc/news_page_mode_bloc/news_page_mode_bloc.dart';
+import 'package:miigaik/features/news/bloc/search_news_bloc/search_news_bloc.dart';
+import 'package:miigaik/features/news/repository/news_repository.dart';
+import 'package:miigaik/features/news/repository/search_news_repository.dart';
+import 'package:miigaik/features/notes/bloc/notes_bloc/notes_bloc.dart';
+import 'package:miigaik/features/notes/bloc/notes_mode_cubit/notes_mode_cubit.dart';
+import 'package:miigaik/features/notes/bloc/search_notes_bloc/search_notes_bloc.dart';
+import 'package:miigaik/features/notes/features/note/repositories/attachment_repository.dart';
+import 'package:miigaik/features/notes/repository/notes_repository.dart';
+import 'package:miigaik/features/profile/bloc/auth_cubit/auth_cubit.dart';
+import 'package:miigaik/features/profile/bloc/profile_bloc/profile_bloc.dart';
+import 'package:miigaik/features/profile/repository/lk_repository.dart';
+import 'package:miigaik/features/profile/use_case/auto_login_use_case.dart';
+import 'package:miigaik/features/profile/use_case/login_use_case.dart';
+import 'package:miigaik/features/profile/use_case/logout_use_case.dart';
+import 'package:miigaik/features/schedule/bloc/current_time_cubit/current_time_cubit.dart';
+import 'package:miigaik/features/schedule/bloc/schedule_bloc/schedule_bloc.dart';
+import 'package:miigaik/features/schedule/bloc/schedule_selected_day_bloc/schedule_selected_day_bloc.dart';
+import 'package:miigaik/features/schedule/features/add-schedule/repository/signature_schedule_repository.dart';
+import 'package:miigaik/features/schedule/features/schedule-choose/bloc/selecting_schedule_choose_page_cubit/selecting_schedule_choose_page_cubit.dart';
+import 'package:miigaik/features/schedule/repository/schedule_repository.dart';
+import 'package:miigaik/features/schedule/features/schedule-choose/bloc/signature_schedule_bloc/signature_schedule_bloc.dart';
+import 'package:miigaik/features/schedule/features/schedule-choose/repository/signature_schedule_repository.dart';
+import 'package:miigaik/features/settings/bloc/switch-theme/theme_bloc.dart';
 import 'package:miigaik/features/single-news/repository/single_news_repository.dart';
-import 'package:miigaik/features/switch-theme/theme_bloc.dart';
 import 'package:miigaik/theme/app_theme.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 
@@ -80,6 +86,9 @@ class AppDI {
 
     final noteAttachmentRepository = NoteAttachmentRepository();
     GetIt.I.registerSingleton<INoteAttachmentRepository>(noteAttachmentRepository);
+
+    final lkRepository = LkRepositoryImpl(dio: defaultDio);
+    GetIt.I.registerSingleton<LkRepository>(lkRepository);
   }
 
   static void registerBlocs() {
@@ -94,11 +103,18 @@ class AppDI {
     GetIt.I.registerSingleton(ScheduleBloc());
     GetIt.I.registerSingleton(NotesBloc());
     GetIt.I.registerSingleton(SearchNotesBloc());
+    GetIt.I.registerSingleton(ProfileBloc());
 
     GetIt.I.registerSingleton(NotesModeCubit());
     GetIt.I.registerSingleton(CurrentTimeCubit());
     GetIt.I.registerSingleton(MapCubit());
     GetIt.I.registerSingleton(FloorMapCubit());
     GetIt.I.registerSingleton(SelectingScheduleChoosePageCubit());
+
+    GetIt.I.registerSingleton(AuthCubit(
+      loginUseCase: LoginUseCase(repository: GetIt.I.get(), sessionStorage: GetIt.I.get()),
+      autoLoginUseCase: AutoLoginUseCase(sessionStorage: GetIt.I.get()),
+      logoutUseCase: LogoutUseCase(sessionStorage: GetIt.I.get())
+    ));
   }
 }

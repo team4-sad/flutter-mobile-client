@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:get_it/get_it.dart';
-import 'package:miigaik/features/common/extensions/num_widget_extension.dart';
-import 'package:miigaik/features/common/extensions/sliver_widget_extension.dart';
-import 'package:miigaik/features/common/widgets/placeholder_widget.dart';
+import 'package:miigaik/core/extensions/num_widget_extension.dart';
+import 'package:miigaik/core/extensions/sliver_widget_extension.dart';
+import 'package:miigaik/core/widgets/placeholder_widget.dart';
 import 'package:miigaik/features/single-news/content/loading_single_news_content.dart';
 import 'package:miigaik/features/single-news/widgets/news_html_widget.dart';
 import 'package:miigaik/features/single-news/widgets/single_news_app_bar.dart';

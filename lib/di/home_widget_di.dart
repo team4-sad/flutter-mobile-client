@@ -1,11 +1,11 @@
 import 'package:get_it/get_it.dart';
-import 'package:miigaik/features/network-connection/bloc/network_connection_bloc.dart';
-import 'package:miigaik/features/root/tabs/schedule/repository/schedule_repository.dart';
-import 'package:miigaik/features/schedule-choose/bloc/selecting_schedule_choose_page_cubit/selecting_schedule_choose_page_cubit.dart';
-import 'package:miigaik/features/schedule-choose/bloc/signature_schedule_bloc/signature_schedule_bloc.dart';
-import 'package:miigaik/features/schedule-choose/repository/signature_schedule_repository.dart';
-import 'package:miigaik/features/schedule-widget/storage/home_widget_storage.dart';
-import 'package:miigaik/features/switch-theme/theme_bloc.dart';
+import 'package:miigaik/core/features/network-connection/bloc/network_connection_bloc.dart';
+import 'package:miigaik/features/schedule/features/schedule-choose/bloc/selecting_schedule_choose_page_cubit/selecting_schedule_choose_page_cubit.dart';
+import 'package:miigaik/features/schedule/features/schedule-widget/storage/home_widget_storage.dart';
+import 'package:miigaik/features/schedule/repository/schedule_repository.dart';
+import 'package:miigaik/features/schedule/features/schedule-choose/bloc/signature_schedule_bloc/signature_schedule_bloc.dart';
+import 'package:miigaik/features/schedule/features/schedule-choose/repository/signature_schedule_repository.dart';
+import 'package:miigaik/features/settings/bloc/switch-theme/theme_bloc.dart';
 import 'package:miigaik/theme/app_theme.dart';
 
 class HomeWidgetDI {

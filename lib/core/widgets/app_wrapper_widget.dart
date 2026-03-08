@@ -1,0 +1,51 @@
+import 'package:easy_localization/easy_localization.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:get_it/get_it.dart';
+import 'package:miigaik/di/common_di.dart';
+import 'package:miigaik/features/settings/bloc/switch-locale/locale_bloc.dart';
+import 'package:miigaik/features/settings/bloc/switch-theme/theme_bloc.dart';
+import 'package:miigaik/theme/app_theme_extensions.dart';
+
+class AppWrapperWidget extends StatelessWidget {
+
+  final Widget Function(BuildContext context, AppThemeExtension extension) appBuilder;
+
+  const AppWrapperWidget({super.key, required this.appBuilder});
+
+  @override
+  Widget build(BuildContext context) {
+    return EasyLocalization(
+      supportedLocales: [Locale('en'), Locale("ru")],
+      path: 'assets/translations',
+      fallbackLocale: Locale('en'),
+      child: BlocBuilder<ThemeBloc, ThemeState>(
+        bloc: GetIt.I.get<ThemeBloc>(),
+        builder: (context, state) {
+          CommonDI.registerLocaleBloc(context);
+          final appThemeExtension = AppThemeExtension.fromAppTheme(
+            state.appTheme,
+          );
+          return BlocBuilder<LocaleBloc, LocaleState>(
+            bloc: GetIt.I.get<LocaleBloc>(),
+            builder: (context, state) {
+              Intl.defaultLocale = state.locale.languageCode;
+              return FutureBuilder(
+                future: context.setLocale(state.locale),
+                builder: (context, _) {
+                  return ScreenUtilInit(
+                    builder: (context, _) {
+                      return appBuilder(context, appThemeExtension);
+                    }
+                  );
+                  }
+              );
+            },
+          );
+        },
+      ),
+    );
+  }
+
+}

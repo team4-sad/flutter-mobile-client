@@ -1,11 +1,11 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
-import 'package:miigaik/features/common/extensions/num_widget_extension.dart';
-import 'package:miigaik/features/common/widgets/simple_app_bar.dart';
-import 'package:miigaik/features/common/widgets/tile_widget.dart';
-import 'package:miigaik/features/switch-locale/locale_bloc.dart';
-import 'package:miigaik/features/switch-theme/theme_bloc.dart';
+import 'package:miigaik/core/extensions/num_widget_extension.dart';
+import 'package:miigaik/core/widgets/simple_app_bar.dart';
+import 'package:miigaik/core/widgets/tile_widget.dart';
+import 'package:miigaik/features/settings/bloc/switch-locale/locale_bloc.dart';
+import 'package:miigaik/features/settings/bloc/switch-theme/theme_bloc.dart';
 import 'package:miigaik/theme/app_theme.dart';
 import 'package:miigaik/theme/app_theme_extensions.dart';
 import 'package:miigaik/theme/text_styles.dart';

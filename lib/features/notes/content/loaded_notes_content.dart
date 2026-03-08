@@ -1,0 +1,48 @@
+import 'package:flutter/material.dart';
+import 'package:get_it/get_it.dart';
+import 'package:miigaik/core/extensions/num_widget_extension.dart';
+import 'package:miigaik/features/notes/bloc/notes_bloc/notes_bloc.dart';
+import 'package:miigaik/features/notes/content/empty_notes_content.dart';
+import 'package:miigaik/features/notes/features/note/note_page.dart';
+import 'package:miigaik/features/notes/models/note_model.dart';
+import 'package:miigaik/features/notes/widgets/item_note.dart';
+
+class LoadedNotesContent extends StatelessWidget {
+
+  final List<NoteModel> notes;
+  final NotesBloc bloc = GetIt.I.get();
+
+  LoadedNotesContent({
+    super.key,
+    required this.notes
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return (notes.isNotEmpty)
+      ? ListView.separated(
+          padding: EdgeInsets.only(bottom: 190),
+          itemBuilder: (context, index){
+            final note = notes[index];
+            return ItemNote(
+              note: note,
+              onTap: (){
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (_) => NotePage(note: note)
+                  )
+                );
+              },
+              onDelete: (){
+                bloc.add(DeleteNoteEvent(note: note));
+              }
+            );
+          },
+          separatorBuilder: (_, __) => 10.vs(),
+          itemCount: notes.length
+        )
+      : EmptyNotesContent();
+  }
+
+}

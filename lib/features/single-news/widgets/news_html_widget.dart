@@ -2,8 +2,8 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_widget_from_html/flutter_widget_from_html.dart';
-import 'package:miigaik/features/common/widgets/image_dialog.dart';
-import 'package:miigaik/features/config/config.dart';
+import 'package:miigaik/config/config.dart';
+import 'package:miigaik/core/widgets/image_dialog.dart';
 import 'package:miigaik/theme/text_styles.dart';
 import 'package:url_launcher/url_launcher.dart';
 
