@@ -1,6 +1,7 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get_it/get_it.dart';
 import 'package:miigaik/core/extensions/date_time_extensions.dart';
 import 'package:miigaik/core/extensions/num_widget_extension.dart';
@@ -38,21 +39,24 @@ class _WeekWidgetState extends State<WeekWidget> {
         controller: _pageController,
         itemBuilder: (context, pageIndex) {
           int realPageIndex = pageIndex - _pageController.initialPage;
-          return Align(
-            alignment: Alignment.topCenter,
-            child: Row(
-              children: List.generate(7, (index) {
-                final dateTime = dateTimeStartWeek.add(
-                  Duration(days: index + realPageIndex * 7),
-                );
-                return GestureDetector(
-                  onTap: () => widget.onTap(dateTime),
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 3),
-                    child: _WeekItemWidget(dateTime: dateTime),
-                  ),
-                ).e();
-              }),
+          return Padding(
+            padding: EdgeInsets.symmetric(horizontal: 8.w),
+            child: Align(
+              alignment: Alignment.topCenter,
+              child: Row(
+                spacing: 2,
+                children: [
+                  ...List.generate(7, (index) {
+                    final dateTime = dateTimeStartWeek.add(
+                      Duration(days: index + realPageIndex * 7),
+                    );
+                    return GestureDetector(
+                      onTap: () => widget.onTap(dateTime),
+                      child: _WeekItemWidget(dateTime: dateTime),
+                    ).e();
+                  }),
+                ]
+              )
             ),
           );
         },
@@ -76,7 +80,7 @@ class _WeekItemWidget extends StatelessWidget {
       builder: (context, state) {
         final isSelect = state.currentOnlyDate == dateTime;
         return Container(
-          padding: const EdgeInsets.symmetric(horizontal: 13, vertical: 12),
+          padding: const EdgeInsets.symmetric(vertical: 12),
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(45),
             color: (isSelect)
@@ -95,13 +99,13 @@ class _WeekItemWidget extends StatelessWidget {
             children: [
               Text(
                 weekName,
-                style: TS.medium15.use(
+                style: TS.medium14.use(
                   (isSelect)
                       ? context.palette.calendar
                       : context.palette.unAccent,
                 ),
               ),
-              32.vs(),
+              28.h.vs(),
               Text(
                 dateTime.day.toString(),
                 style: TS.medium15.use(

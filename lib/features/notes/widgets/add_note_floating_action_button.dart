@@ -13,7 +13,7 @@ class AddNoteFloatingActionButton extends StatelessWidget {
     return GestureDetector(
       onTap: onTap,
       child: Padding(
-        padding: const EdgeInsets.only(bottom: 80),
+        padding: const EdgeInsets.only(bottom: 90),
         child: Container(
           width: 60,
           height: 60,

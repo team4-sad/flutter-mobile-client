@@ -87,7 +87,7 @@ class _SearchFieldWidgetState extends State<SearchFieldWidget> {
                     color: context.palette.subText,
                   ),
                 )
-              : SizedBox.shrink(),
+              : null,
           border: OutlineInputBorder(
             borderRadius: BorderRadius.circular(10),
             borderSide: BorderSide.none,

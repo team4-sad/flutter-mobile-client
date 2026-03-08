@@ -79,7 +79,12 @@ class _AppBar extends StatelessWidget implements PreferredSizeWidget {
       bloc: cubit,
       builder: (BuildContext context, List<SignatureScheduleModel>? state) {
         if (!cubit.isSelectionMode) {
-          return SimpleAppBar(title: "Выбор расписания");
+          return SimpleAppBar(
+            title: "Выбор расписания",
+            onBackPress: (){
+              Navigator.pop(context);
+            },
+          );
         } else {
           return SelectionAppBar(
             onBackPress: (){

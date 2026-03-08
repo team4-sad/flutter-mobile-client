@@ -98,14 +98,14 @@ class AddSchedulePage extends StatelessWidget {
                       isSelected: state == SignatureScheduleType.group,
                       onTap: () => cubit.setType(SignatureScheduleType.group),
                       isCenter: true,
-                    ).f(92),
+                    ).f(64),
                     TagWidget(
                       title: "Аудитория",
                       isSelected: state == SignatureScheduleType.audience,
                       onTap: () =>
                         cubit.setType(SignatureScheduleType.audience),
                       isCenter: true,
-                    ).f(92),
+                    ).f(86),
                     TagWidget(
                       title: "Преподаватель",
                       isSelected: state == SignatureScheduleType.teacher,

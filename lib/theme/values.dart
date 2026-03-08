@@ -1,4 +1,4 @@
-const int heightNavBar = 64;
+const double heightNavBar = 64;
 const double borderRadiusNavBar = 20;
 const int widthTapItemNavBar = 58;
 const int sizeIconNavBar = 24;

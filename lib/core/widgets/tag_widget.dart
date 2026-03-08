@@ -31,6 +31,8 @@ class _TagWidgetState extends State<TagWidget> {
 
   Widget _text() => Text(
     display,
+    overflow: TextOverflow.ellipsis,
+    maxLines: 1,
     style: TS.regular14.use(
       (widget.isSelected) ? context.palette.unAccent : context.palette.text,
     ),

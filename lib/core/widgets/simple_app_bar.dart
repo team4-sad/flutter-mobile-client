@@ -24,23 +24,23 @@ class SimpleAppBar extends StatelessWidget implements PreferredSizeWidget {
       padding: EdgeInsets.only(
         left: horizontalPaddingPage,
         right: horizontalPaddingPage,
-        top: 59,
-        bottom: 12,
+        top: 48,
+        bottom: 8,
       ),
       child: Row(
         children: [
           GestureDetector(
-            onTap: onBackPress ?? () {
+            onTap: (onBackPress != null) ? onBackPress : (){
               Navigator.pop(context);
             },
             child: Padding(
-              padding: EdgeInsetsGeometry.all(8),
+              padding: EdgeInsetsGeometry.only(top: 8, right: 8, bottom: 8),
               child: Icon(I.back, color: context.palette.text)
             ),
           ),
           if (title != null)
             Padding(
-              padding: const EdgeInsets.only(left: 10),
+              padding: EdgeInsetsGeometry.only(bottom: 2, left: 8),
               child: Text(
                 title!,
                 style: TS.medium20.use(context.palette.text),
@@ -58,5 +58,5 @@ class SimpleAppBar extends StatelessWidget implements PreferredSizeWidget {
   }
 
   @override
-  Size get preferredSize => Size.fromHeight(kToolbarHeight + 59);
+  Size get preferredSize => Size.fromHeight(kToolbarHeight);
 }
