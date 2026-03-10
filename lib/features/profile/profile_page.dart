@@ -9,6 +9,7 @@ import 'package:miigaik/features/profile/widgets/error_profile_widget.dart';
 import 'package:miigaik/features/profile/widgets/guest_profile_widget.dart';
 import 'package:miigaik/features/profile/widgets/item_profile_widget.dart';
 import 'package:miigaik/features/profile/widgets/loading_profile_widget.dart';
+import 'package:miigaik/features/profile/widgets/logout_dialog.dart';
 import 'package:miigaik/features/profile/widgets/profile_widget.dart';
 import 'package:miigaik/features/settings/settings_page.dart';
 import 'package:miigaik/generated/icons.g.dart';
@@ -75,12 +76,12 @@ class ProfilePage extends StatelessWidget {
                         child: SquareIconButton(
                           size: 40,
                           icon: Icon(
-                              I.logout, size: 28,
-                              color: context.palette.text
+                            I.logout, size: 28,
+                            color: context.palette.text
                           ),
-                          onTap: () {
-                            authCubit.logout();
-                          },
+                          onTap: () => LogoutDialog.show(context, () async {
+                            await authCubit.logout();
+                          })
                         ),
                       ),
                   ],
@@ -107,17 +108,17 @@ class ProfilePage extends StatelessWidget {
                       ),
                     if (state is AuthorizedState)
                       ItemProfileWidget(
-                          title: "Успеваемость",
-                          onTap: (() {})
+                        title: "Успеваемость",
+                        onTap: (() {})
                       ),
                     if (state is AuthorizedState)
                       ItemProfileWidget(
-                          title: "Учебный план",
-                          onTap: (() {})
+                        title: "Учебный план",
+                        onTap: (() {})
                       ),
                     ItemProfileWidget(
-                        title: "Услуги",
-                        onTap: (() {})
+                      title: "Услуги",
+                      onTap: (() {})
                     ),
                     ItemProfileWidget(
                       title: "Другие сервисы",

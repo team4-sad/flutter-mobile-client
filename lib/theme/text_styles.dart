@@ -8,6 +8,12 @@ abstract class TS {
     fontWeight: FontWeight.w500
   );
 
+  static TextStyle medium20 = TextStyle(
+    fontSize: 20.sp,
+    height: 1.2,
+    fontWeight: FontWeight.w500
+  );
+
   static TextStyle medium18 = TextStyle(
     fontSize: 18.sp,
     height: 1.2,
@@ -18,6 +24,12 @@ abstract class TS {
     fontSize: 12.sp,
     height: 1.2,
     fontWeight: FontWeight.w300
+  );
+
+  static TextStyle regular15 = TextStyle(
+    fontSize: 15.sp,
+    height: 1.2,
+    fontWeight: FontWeight.normal
   );
 
   static TextStyle regular13 = TextStyle(
