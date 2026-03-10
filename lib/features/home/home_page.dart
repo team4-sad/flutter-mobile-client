@@ -5,8 +5,10 @@ import 'package:miigaik/core/extensions/widget_extension.dart';
 import 'package:miigaik/core/widgets/app_shimmer.dart';
 import 'package:miigaik/core/widgets/placeholder_widget.dart';
 import 'package:miigaik/features/home/bloc/home_news_cubit.dart';
+import 'package:miigaik/features/home/widgets/home_menu_widget.dart';
 import 'package:miigaik/features/home/widgets/news_slider.dart';
 import 'package:miigaik/features/news/news_page.dart';
+import 'package:miigaik/features/other-services/other_services_page.dart';
 import 'package:miigaik/theme/app_theme_extensions.dart';
 import 'package:miigaik/theme/text_styles.dart';
 import 'package:miigaik/theme/values.dart';
@@ -18,12 +20,12 @@ class HomePage extends StatelessWidget {
   Widget build(BuildContext context) {
     final cubit = HomeNewsCubit();
     cubit.fetchNews();
-
-    return SafeArea(
-      child: Scaffold(
-        body: Column(
+    return Scaffold(
+      body: SingleChildScrollView(
+        child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
+            paddingTopPage.vs(),
             Text(
               "Главная",
               style: TS.medium23.use(context.palette.text)
@@ -31,7 +33,10 @@ class HomePage extends StatelessWidget {
             20.vs(),
             GestureDetector(
               onTap: (){
-                Navigator.push(context, MaterialPageRoute(builder: (context) => NewsPage()));
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => NewsPage())
+                );
               },
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -69,6 +74,101 @@ class HomePage extends StatelessWidget {
                     return NewsSlider(news: news);
                 }
               }
+            ),
+            20.vs(),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: horizontalPaddingPage),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text("Вас может заинтересовать", style: TS.medium15.use(context.palette.text)),
+                  12.vs(),
+                  HomeMenuWidget(
+                    indexSep: 2,
+                    children: [
+                      Container(
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(10),
+                          color: context.palette.container,
+                          image: DecorationImage(
+                            image: AssetImage("assets/images/home_services.png"),
+                            fit: BoxFit.fill
+                          ),
+                        ),
+                        child: Align(
+                          alignment: Alignment.topCenter,
+                          child: Padding(
+                            padding: EdgeInsets.only(top: 18),
+                            child: Text("Услуги", style: TS.medium15.use(context.palette.text)),
+                          ),
+                        ),
+                      ),
+                      Container(
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(10),
+                          color: context.palette.subText,
+                          image: DecorationImage(
+                              image: AssetImage("assets/images/home_events.png"),
+                              fit: BoxFit.fill
+                          ),
+                        ),
+                        child: Align(
+                          alignment: Alignment.topCenter,
+                          child: Padding(
+                            padding: EdgeInsets.only(top: 17),
+                            child: Text("Мероприятия", style: TS.medium15.use(context.palette.unAccent)),
+                          ),
+                        ),
+                      ),
+                      Container(
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(10),
+                          color: context.palette.subText,
+                          image: DecorationImage(
+                            image: AssetImage("assets/images/home_mugs.png"),
+                            fit: BoxFit.fill
+                          ),
+                        ),
+                        child: Align(
+                          alignment: Alignment.bottomCenter,
+                          child: Padding(
+                            padding: EdgeInsets.only(bottom: 23),
+                            child: Text("Кружки", style: TS.medium15.use(context.palette.unAccent)),
+                          ),
+                        ),
+                      ),
+                      GestureDetector(
+                        onTap: (){
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => OtherServicesPage()
+                            )
+                          );
+                        },
+                        child: Container(
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(10),
+                            color: context.palette.container,
+                            image: DecorationImage(
+                                image: AssetImage("assets/images/home_other_services.png"),
+                                fit: BoxFit.fill
+                            ),
+                          ),
+                          child: Align(
+                            alignment: Alignment.topCenter,
+                            child: Padding(
+                              padding: EdgeInsets.only(top: 18),
+                              child: Text("Другие сервисы", style: TS.medium15.use(context.palette.text)),
+                            ),
+                          ),
+                        ),
+                      ),
+                    ]
+                  ),
+                  heightAreaBottomNavBar.vs()
+                ],
+              ),
             )
           ],
         ),

@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:miigaik/core/widgets/app_shimmer.dart';
 import 'package:miigaik/features/news/models/news_model.dart';
+import 'package:miigaik/features/single-news/single_news_page.dart';
 import 'package:miigaik/generated/types.dart';
 import 'package:miigaik/theme/app_theme_extensions.dart';
 import 'package:miigaik/theme/text_styles.dart';
@@ -11,7 +12,6 @@ import 'package:miigaik/theme/text_styles.dart';
 class NewsItemWidget extends StatelessWidget {
 
   final NewsModel _newsModel;
-  final VoidCallback? _onTap;
 
   final bool showDescription;
   final int? maxLinesTitle;
@@ -19,15 +19,21 @@ class NewsItemWidget extends StatelessWidget {
   const NewsItemWidget({
     super.key,
     required NewsModel newsModel,
-    void Function()? onTap,
     this.showDescription = true,
     this.maxLinesTitle
-  }) : _onTap = onTap, _newsModel = newsModel;
+  }): _newsModel = newsModel;
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: _onTap,
+      onTap: (){
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (_) => SingleNewsPage(
+            newsId: _newsModel.id
+          ))
+        );
+      },
       child: Container(
         padding: EdgeInsets.only(
           left: 20, right: 20, top: 20,
