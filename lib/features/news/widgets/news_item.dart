@@ -63,7 +63,7 @@ class NewsItemWidget extends StatelessWidget {
                             ),
                             child: Text(
                               _newsModel.date,
-                              style: TS.regular10.use(context.palette.text)
+                              style: TS.regular8.use(context.palette.text)
                             ),
                           ),
                         ),
@@ -74,12 +74,12 @@ class NewsItemWidget extends StatelessWidget {
               ),
             Text(
               _newsModel.title,
-              style: TS.medium15.use(context.palette.text),
+              style: TS.medium13.use(context.palette.text),
             ),
             5.vs(),
             Text(
               _newsModel.description ?? S.no_news_description.tr(),
-              style: TS.light12.use(context.palette.text),
+              style: TS.light10.use(context.palette.text),
               maxLines: 2,
               overflow: TextOverflow.ellipsis,
             ),
@@ -90,7 +90,7 @@ class NewsItemWidget extends StatelessWidget {
                   padding: const EdgeInsets.only(top: 10),
                   child: Text(
                     _newsModel.date,
-                    style: TS.medium12.use(context.palette.text)
+                    style: TS.medium10.use(context.palette.text)
                   ),
                 ),
               )

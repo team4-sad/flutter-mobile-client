@@ -29,11 +29,11 @@ class GuestProfileWidget extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   8.vs(),
-                  Text("Войдите в аккаунт", style: TS.medium18.use(context.palette.text)),
+                  Text("Войдите в аккаунт", style: TS.medium16.use(context.palette.text)),
                   8.vs(),
                   Text(
                     "Чтобы получить доступ к расписанию, учебному плану и другим функциям",
-                    style: TS.regular12.use(context.palette.text),
+                    style: TS.regular10.use(context.palette.text),
                   )
                 ],
               ),
@@ -44,7 +44,7 @@ class GuestProfileWidget extends StatelessWidget {
         10.vs(),
         FilledButton(
           onPressed: onTapLogin,
-          child: Text("Войти", style: TS.medium15,)
+          child: Text("Войти", style: TS.medium13,)
         ).fillW(height: 46)
       ],
     );

@@ -26,7 +26,7 @@ class LinkRow extends StatelessWidget {
           children: [
             if (icon != null)
               Padding(padding: EdgeInsets.only(right: 10), child: icon!),
-            Text(link, style: TS.regular15.use(context.palette.text))
+            Text(link, style: TS.regular13.use(context.palette.text))
           ],
         ),
       ),

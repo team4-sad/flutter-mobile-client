@@ -48,9 +48,9 @@ class ItemScheduleSignature extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               mainAxisSize: MainAxisSize.min,
               children: [
-                Text(signatureModel.type.display, style: TS.regular12.use(context.palette.subText)),
+                Text(signatureModel.type.display, style: TS.regular10.use(context.palette.subText)),
                 3.vs(),
-                Text(signatureModel.title, style: TS.medium15.use(context.palette.text))
+                Text(signatureModel.title, style: TS.medium13.use(context.palette.text))
               ],
             ),
           ),

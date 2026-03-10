@@ -71,7 +71,7 @@ class Header extends StatelessWidget {
                     ? Text(
                         title,
                         key: const ValueKey('title'),
-                        style: TS.medium25.use(context.palette.text),
+                        style: TS.medium23.use(context.palette.text),
                       ).p(10.bottom())
                     : const SizedBox.shrink(key: ValueKey('empty')),
                 ),

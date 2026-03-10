@@ -59,7 +59,7 @@ class SheetWidget extends StatelessWidget {
                   18.svs(),
                   Row(
                     children: [
-                      Text(title, style: TS.medium20, overflow: TextOverflow.ellipsis).e(),
+                      Text(title, style: TS.medium18, overflow: TextOverflow.ellipsis).e(),
                       8.hs(),
                       ...?actions,
                     ],

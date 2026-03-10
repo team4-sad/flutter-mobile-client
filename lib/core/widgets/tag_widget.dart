@@ -33,7 +33,7 @@ class _TagWidgetState extends State<TagWidget> {
     display,
     overflow: TextOverflow.ellipsis,
     maxLines: 1,
-    style: TS.regular14.use(
+    style: TS.regular12.use(
       (widget.isSelected) ? context.palette.unAccent : context.palette.text,
     ),
   );

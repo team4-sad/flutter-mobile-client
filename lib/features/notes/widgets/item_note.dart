@@ -43,12 +43,12 @@ class ItemNote extends StatelessWidget {
                       children: [
                         Text(
                           note.title,
-                          style: TS.medium15.use(context.palette.text),
+                          style: TS.medium13.use(context.palette.text),
                         ),
                         5.vs(),
                         Text(
                           note.content,
-                          style: TS.light12.use(context.palette.text),
+                          style: TS.light10.use(context.palette.text),
                           maxLines: 2,
                           overflow: TextOverflow.ellipsis
                         ),

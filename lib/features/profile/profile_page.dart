@@ -53,7 +53,7 @@ class ProfilePage extends StatelessWidget {
                     Expanded(
                       child: Text(
                         "Профиль",
-                        style: TS.medium25.use(context.palette.text),
+                        style: TS.medium23.use(context.palette.text),
                       ),
                     ),
                     SquareIconButton(

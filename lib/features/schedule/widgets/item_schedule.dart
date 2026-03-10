@@ -55,7 +55,7 @@ class ItemSchedule extends StatelessWidget {
                     child: Center(
                       child: Text(
                         lessonModel.lessonOrderNumber.toString(),
-                        style: TS.regular14.use(context.palette.unAccent),
+                        style: TS.regular12.use(context.palette.unAccent),
                       ),
                     ),
                   ),
@@ -63,7 +63,7 @@ class ItemSchedule extends StatelessWidget {
                   Expanded(
                     child: Text(
                       lessonModel.displayTime,
-                      style: TS.medium14.use(context.palette.calendar),
+                      style: TS.medium12.use(context.palette.calendar),
                     ),
                   ),
                   10.hs(),
@@ -97,7 +97,7 @@ class ItemSchedule extends StatelessWidget {
               14.vs(),
               Text(
                 lessonModel.disciplineName,
-                style: TS.medium16.use(context.palette.text),
+                style: TS.medium14.use(context.palette.text),
               ),
               14.vs(),
               Wrap(

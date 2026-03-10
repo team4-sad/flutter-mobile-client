@@ -43,7 +43,7 @@ class SimpleAppBar extends StatelessWidget implements PreferredSizeWidget {
               padding: EdgeInsetsGeometry.only(bottom: 2, left: 8),
               child: Text(
                 title!,
-                style: TS.medium20.use(context.palette.text),
+                style: TS.medium18.use(context.palette.text),
               ),
             ),
           Expanded(

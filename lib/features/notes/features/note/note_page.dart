@@ -94,7 +94,7 @@ class _NotePageState extends State<NotePage> {
                   children: [
                     TextField(
                       controller: title,
-                      style: TS.medium20.use(context.palette.text),
+                      style: TS.medium18.use(context.palette.text),
                       keyboardType: TextInputType.multiline,
                       maxLines: null,
                       onChanged: onChange,
@@ -102,7 +102,7 @@ class _NotePageState extends State<NotePage> {
                         border: InputBorder.none,
                         isDense: true,
                         hintText: "Название заметки",
-                        hintStyle: TS.medium20.use(context.palette.subText),
+                        hintStyle: TS.medium18.use(context.palette.subText),
                         contentPadding: EdgeInsets.zero,
                       ),
                     ),
@@ -117,7 +117,7 @@ class _NotePageState extends State<NotePage> {
                     15.vs(),
                     TextField(
                       controller: content,
-                      style: TS.regular15.use(context.palette.text),
+                      style: TS.regular13.use(context.palette.text),
                       keyboardType: TextInputType.multiline,
                       maxLines: null,
                       onChanged: onChange,
@@ -125,7 +125,7 @@ class _NotePageState extends State<NotePage> {
                         border: InputBorder.none,
                         isDense: true,
                         hintText: "Текст",
-                        hintStyle: TS.regular15.use(context.palette.subText),
+                        hintStyle: TS.regular13.use(context.palette.subText),
                         contentPadding: EdgeInsets.zero
                       ),
                     ),
@@ -136,7 +136,7 @@ class _NotePageState extends State<NotePage> {
             15.vs(),
             Text(
               "Последнее изменение: ${DateTime.now().ddMMyy}",
-              style: TS.light15.use(context.palette.subText),
+              style: TS.light12.use(context.palette.subText),
             ),
             36.vs()
           ],

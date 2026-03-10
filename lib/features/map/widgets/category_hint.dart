@@ -20,7 +20,7 @@ class CategoryHint extends StatelessWidget {
           padding: const EdgeInsets.symmetric(horizontal: 14),
           child: Text(
             category.name,
-            style: TS.medium15.use(context.palette.text),
+            style: TS.medium13.use(context.palette.text),
           ),
         ),
         const SizedBox(height: 12),
@@ -34,7 +34,7 @@ class CategoryHint extends StatelessWidget {
                 padding: EdgeInsetsGeometry.symmetric(vertical: 14, horizontal: 14),
                 child: Text(
                   room.label,
-                  style: TS.regular15.use(context.palette.text)
+                  style: TS.regular13.use(context.palette.text)
                 ),
               ),
             ),

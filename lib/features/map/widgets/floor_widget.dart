@@ -167,7 +167,7 @@ class _FloorItem extends StatelessWidget {
           child: Center(
             child: Text(
               floor.toString(),
-              style: TS.regular15.use(
+              style: TS.regular13.use(
                 (isSelected) ? context.palette.container : context.palette.subText
               ),
             )

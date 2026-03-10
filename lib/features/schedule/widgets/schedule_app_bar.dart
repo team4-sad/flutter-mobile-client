@@ -41,12 +41,12 @@ class ScheduleAppBar extends StatelessWidget implements PreferredSizeWidget {
                 if (state is SignatureScheduleLoaded && state.hasSelected) {
                   return Text(
                     state.selected!.title,
-                    style: TS.medium15.use(context.palette.unAccent),
+                    style: TS.medium13.use(context.palette.unAccent),
                   );
                 } else {
                   return Text(
                     "Расписание не выбрано",
-                    style: TS.medium15.use(context.palette.unAccent),
+                    style: TS.medium13.use(context.palette.unAccent),
                   );
                 }
               },

@@ -43,7 +43,7 @@ class AboutAppPage extends StatelessWidget {
                 },
               ),
               30.vs(),
-              Text("Команда разработки", style: TS.medium20.use(context.palette.text)),
+              Text("Команда разработки", style: TS.medium18.use(context.palette.text)),
               10.vs(),
               TileWidget(
                 value: "Струков Артемий",

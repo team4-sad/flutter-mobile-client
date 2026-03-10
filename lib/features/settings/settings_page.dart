@@ -35,7 +35,7 @@ class SettingsPage extends StatelessWidget {
         ),
         child: Column(
           children: [
-            Text("Язык", style: TS.medium20.use(context.palette.text)),
+            Text("Язык", style: TS.medium18.use(context.palette.text)),
             20.vs(),
             Expanded(
               child: ListView.separated(
@@ -73,7 +73,7 @@ class SettingsPage extends StatelessWidget {
           ),
           child: Column(
             children: [
-              Text("Тема", style: TS.medium20.use(context.palette.text)),
+              Text("Тема", style: TS.medium18.use(context.palette.text)),
               20.vs(),
               Expanded(
                 child: ListView.separated(
