@@ -54,7 +54,7 @@ class _CalendarWidgetState extends State<CalendarWidget> {
             ),
             Text(
               _getMonthYear(_showDateTimeStartMonth),
-              style: TS.medium15.use(context.palette.unAccent),
+              style: TS.medium13.use(context.palette.unAccent),
               textAlign: TextAlign.center,
             ).e(),
             IconButton(
@@ -172,7 +172,7 @@ class _WeekDayWidget extends StatelessWidget {
     return Container(
       padding: EdgeInsets.all(12),
       child: Center(
-        child: Text(weekday, style: TS.medium15.use(context.palette.unAccent)),
+        child: Text(weekday, style: TS.medium13.use(context.palette.unAccent)),
       ),
     );
   }
@@ -210,7 +210,7 @@ class _DayCalendarWidget extends StatelessWidget {
                 child: Center(
                   child: Text(
                     dateTime!.day.toString(),
-                    style: TS.regular15.use(
+                    style: TS.regular13.use(
                       (isSelected)
                           ? context.palette.calendar
                           : context.palette.unAccent,

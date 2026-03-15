@@ -59,9 +59,9 @@ class _TileWidgetState extends State<TileWidget> {
                       if (widget.title != null)
                         Padding(
                           padding: const EdgeInsets.only(bottom: 3),
-                          child: Text(widget.title!, style: TS.regular12.use(context.palette.subText)),
+                          child: Text(widget.title!, style: TS.regular10.use(context.palette.subText)),
                         ),
-                      Text(widget.value, style: TS.medium15.use(context.palette.text)),
+                      Text(widget.value, style: TS.medium13.use(context.palette.text)),
                     ],
                   ),
                 ),

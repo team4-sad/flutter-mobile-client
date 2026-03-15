@@ -13,7 +13,7 @@ class OtherServicesPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: SimpleAppBar(
-        title: "Полезные сервисы",
+        title: "Другие сервисы",
       ),
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: horizontalPaddingPage),

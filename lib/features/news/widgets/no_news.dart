@@ -33,13 +33,13 @@ class NoNewsPlaceholderWidget extends StatelessWidget {
       children: [
         Text(
           title,
-          style: TS.medium20,
+          style: TS.medium18,
           textAlign: TextAlign.center
         ),
         8.vs(),
         Text(
           subTitle,
-          style: TS.regular15.use(context.palette.subText),
+          style: TS.regular13.use(context.palette.subText),
           textAlign: TextAlign.center
         ),
       ],

@@ -23,11 +23,11 @@ class TextBlock extends StatelessWidget {
       mainAxisSize: MainAxisSize.min,
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(title, style: TS.bold14.use(context.palette.accent)),
+        Text(title, style: TS.bold12.use(context.palette.accent)),
         if (hint != null)
           Padding(
             padding: EdgeInsets.only(top: 5),
-            child: Text(hint!, style: TS.regular12.use(context.palette.subText)),
+            child: Text(hint!, style: TS.regular10.use(context.palette.subText)),
           ),
         10.vs(),
         ...children.sep(() => 10.vs())

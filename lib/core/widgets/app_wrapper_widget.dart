@@ -35,6 +35,7 @@ class AppWrapperWidget extends StatelessWidget {
                 future: context.setLocale(state.locale),
                 builder: (context, _) {
                   return ScreenUtilInit(
+                    designSize: Size(360, 750),
                     builder: (context, _) {
                       return appBuilder(context, appThemeExtension);
                     }

@@ -8,8 +8,8 @@ import 'package:miigaik/core/features/bottom-nav-bar/bloc/bottom_nav_bar_bloc.da
 import 'package:miigaik/core/features/bottom-nav-bar/bottom_nav_bar.dart';
 import 'package:miigaik/core/features/bottom-nav-bar/bottom_nav_bar_gradient.dart';
 import 'package:miigaik/core/features/bottom-nav-bar/items_nav_bar.dart';
+import 'package:miigaik/features/home/home_page.dart';
 import 'package:miigaik/features/map/map_page.dart';
-import 'package:miigaik/features/news/news_page.dart';
 import 'package:miigaik/features/notes/notes_page.dart';
 import 'package:miigaik/features/profile/profile_page.dart';
 import 'package:miigaik/features/schedule/schedule_page.dart';
@@ -27,7 +27,7 @@ class RootPage extends StatelessWidget {
       final Widget widget = switch (itemNavBar) {
         ItemNavBar.schedule => const SchedulePage(),
         ItemNavBar.map => const MapPage(),
-        ItemNavBar.news => const NewsPage(),
+        ItemNavBar.home => const HomePage(),
         ItemNavBar.notes => const NotesPage(),
         ItemNavBar.profile => const ProfilePage(),
       };
@@ -42,7 +42,7 @@ class RootPage extends StatelessWidget {
       case ItemNavBar.schedule:
         return SystemUiOverlayStyle.light;
       case ItemNavBar.map:
-      case ItemNavBar.news:
+      case ItemNavBar.home:
       case ItemNavBar.notes:
       case ItemNavBar.profile:
         return SystemUiOverlayStyle.dark;

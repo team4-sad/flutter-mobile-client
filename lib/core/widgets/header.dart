@@ -13,6 +13,7 @@ class Header extends StatelessWidget {
   final void Function(bool)? onChangeFocusSearchField;
   final void Function(String) onChangeText;
   final bool showTitle;
+  final VoidCallback? onScreenBackTap;
   final String hint;
   final String title;
   final bool showBack;
@@ -26,6 +27,7 @@ class Header extends StatelessWidget {
     required this.textController,
     required this.showDivider,
     this.contentPadding,
+    this.onScreenBackTap,
     this.onChangeFocusSearchField,
     required this.onChangeText,
     required this.showTitle,
@@ -68,11 +70,27 @@ class Header extends StatelessWidget {
                         );
                       },
                   child: showTitle
-                    ? Text(
-                        title,
-                        key: const ValueKey('title'),
-                        style: TS.medium25.use(context.palette.text),
-                      ).p(10.bottom())
+                    ? Row(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        if (onScreenBackTap != null)
+                          Padding(
+                            padding: const EdgeInsetsGeometry.only(bottom: 8, right: 8),
+                            child: GestureDetector(
+                              onTap: onScreenBackTap,
+                              child: Padding(
+                                padding: EdgeInsetsGeometry.only(top: 8, right: 8, bottom: 8),
+                                child: Icon(I.back, color: context.palette.text)
+                              ),
+                            ),
+                          ),
+                        Text(
+                          title,
+                          key: const ValueKey('title'),
+                          style: TS.medium23.use(context.palette.text),
+                        ).p(10.bottom()),
+                      ],
+                    )
                     : const SizedBox.shrink(key: ValueKey('empty')),
                 ),
                 Row(

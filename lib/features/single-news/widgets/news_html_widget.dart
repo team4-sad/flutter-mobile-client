@@ -82,7 +82,7 @@ class NewsHtmlWidget extends StatelessWidget {
         }
         return null;
       },
-      textStyle: TS.light15,
+      textStyle: TS.light12,
       onTapUrl: _onTapUrl,
       onLoadingBuilder: _onLoadingBuilder,
     );

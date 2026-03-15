@@ -7,7 +7,6 @@ import 'package:miigaik/core/widgets/placeholder_widget.dart';
 import 'package:miigaik/features/news/models/news_model.dart';
 import 'package:miigaik/features/news/widgets/news_item.dart';
 import 'package:miigaik/features/news/widgets/news_item_shimmer.dart';
-import 'package:miigaik/features/single-news/single_news_page.dart';
 import 'package:miigaik/theme/values.dart';
 
 import '../../../core/extensions/iterable_extensions.dart';
@@ -32,14 +31,6 @@ class ListNewsContent extends StatelessWidget {
             ..._state.data!.mapSep(
               (e) => NewsItemWidget(
                 newsModel: e,
-                onTap: (){
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (_) => SingleNewsPage(
-                      newsId: e.id
-                    ))
-                  );
-                },
               ),
               () => separateNews.vs()
             ),

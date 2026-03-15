@@ -64,21 +64,21 @@ class _ProfileWidget extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   8.vs(),
-                  Text(profile.fullFIO(), style: TS.medium18.use(context.palette.text)),
+                  Text(profile.fullFIO(), style: TS.medium16.use(context.palette.text)),
                   8.vs(),
                   Text(
                     profile.lkEmail,
-                    style: TS.regular12.use(context.palette.text),
+                    style: TS.regular10.use(context.palette.text),
                   ),
                   5.vs(),
                   Text(
                     profile.educationInfo.lastOrNull?.group ?? "Неизвестная группа",
-                    style: TS.regular12.use(context.palette.text),
+                    style: TS.regular10.use(context.palette.text),
                   ),
                   5.vs(),
                   Text(
                     "${profile.educationInfo.lastOrNull?.course ?? "Неизвестный"} курс",
-                    style: TS.regular12.use(context.palette.text),
+                    style: TS.regular10.use(context.palette.text),
                   ),
                 ],
               ),

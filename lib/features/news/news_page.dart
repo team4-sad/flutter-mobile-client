@@ -44,94 +44,97 @@ class _NewsPageState extends State<NewsPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        body: BlocConsumer<NewsPageModeBloc, NewsPageModeState>(
-          bloc: _modeBloc,
-          listener: (context, state){
-            _refreshDivider(state);
-          },
-          builder: (context, state) {
-            return Column(
-              children: [
-                Header(
-                  title: S.news_title.tr(),
-                  hint: S.news_search.tr(),
-                  textController: _textEditingController,
-                  showDivider: _showDivider,
-                  contentPadding: EdgeInsets.only(
-                    left: horizontalPaddingPage,
-                    right: horizontalPaddingPage,
-                    top: paddingTopPage,
-                  ),
-                  showTitle: state.currentMode == NewsPageMode.list,
-                  showBack: state.currentMode == NewsPageMode.search,
-                  showClear: state.currentMode == NewsPageMode.search,
-                  onChangeText: (searchText) {
-                    _searchBloc.add(TypingEvent(searchText: searchText));
-                  },
-                  onClearTap: (){
-                    _textEditingController.clear();
-                    _searchBloc.add(DropSearchResult());
-                  },
-                  onBackTap: (){
-                    _textEditingController.clear();
-                    _searchBloc.add(DropSearchResult());
-                    _modeBloc.add(ChangeMode(newMode: NewsPageMode.list));
-                  },
-                  onChangeFocusSearchField: (isFocus) {
-                    if (_searchBloc.state is NewsSearchInitial) {
-                      final newMode = (isFocus)
-                          ? NewsPageMode.search
-                          : NewsPageMode.list;
-                      _modeBloc.add(ChangeMode(newMode: newMode));
-                    }
-                  },
+      body: BlocConsumer<NewsPageModeBloc, NewsPageModeState>(
+        bloc: _modeBloc,
+        listener: (context, state){
+          _refreshDivider(state);
+        },
+        builder: (context, state) {
+          return Column(
+            children: [
+              Header(
+                title: S.news_title.tr(),
+                hint: S.news_search.tr(),
+                textController: _textEditingController,
+                showDivider: _showDivider,
+                onScreenBackTap: (){
+                  Navigator.pop(context);
+                },
+                contentPadding: EdgeInsets.only(
+                  left: horizontalPaddingPage,
+                  right: horizontalPaddingPage,
+                  top: paddingTopPage,
                 ),
-                Expanded(
-                  child: IndexedStack(
-                    index: state.currentMode.index,
-                    children: [
-                      OnScrollWidget(
-                        onBottom: () {
-                          _newsBloc.add(FetchNewsListEvent());
-                        },
-                        onTop: (){
-                          setState(() {
-                            setState(() => _showDivider = false);
-                          });
-                        },
-                        onNotTop: (){
-                          setState(() {
-                            setState(() => _showDivider = true);
-                          });
-                        },
-                        child: MainContent(
-                            scrollController: _listScrollController
-                        ),
-                      ),
-                      OnScrollWidget(
-                        onTop: (){
+                showTitle: state.currentMode == NewsPageMode.list,
+                showBack: state.currentMode == NewsPageMode.search,
+                showClear: state.currentMode == NewsPageMode.search,
+                onChangeText: (searchText) {
+                  _searchBloc.add(TypingEvent(searchText: searchText));
+                },
+                onClearTap: (){
+                  _textEditingController.clear();
+                  _searchBloc.add(DropSearchResult());
+                },
+                onBackTap: (){
+                  _textEditingController.clear();
+                  _searchBloc.add(DropSearchResult());
+                  _modeBloc.add(ChangeMode(newMode: NewsPageMode.list));
+                },
+                onChangeFocusSearchField: (isFocus) {
+                  if (_searchBloc.state is NewsSearchInitial) {
+                    final newMode = (isFocus)
+                        ? NewsPageMode.search
+                        : NewsPageMode.list;
+                    _modeBloc.add(ChangeMode(newMode: newMode));
+                  }
+                },
+              ),
+              Expanded(
+                child: IndexedStack(
+                  index: state.currentMode.index,
+                  children: [
+                    OnScrollWidget(
+                      onBottom: () {
+                        _newsBloc.add(FetchNewsListEvent());
+                      },
+                      onTop: (){
+                        setState(() {
                           setState(() => _showDivider = false);
-                        },
-                        onNotTop: (){
+                        });
+                      },
+                      onNotTop: (){
+                        setState(() {
                           setState(() => _showDivider = true);
-                        },
-                        onBottom: () {
-                          _searchBloc.add(NextPageSearchEvent());
-                        },
-                        child: CustomScrollView(
-                          controller: _searchScrollController,
-                          slivers: [
-                            SearchContent()
-                          ],
-                        ),
-                      )
-                    ],
-                  ).p(horizontalPaddingPage.w.horizontal()),
-                ),
-              ],
-            );
-          },
-        ),
+                        });
+                      },
+                      child: MainContent(
+                          scrollController: _listScrollController
+                      ),
+                    ),
+                    OnScrollWidget(
+                      onTop: (){
+                        setState(() => _showDivider = false);
+                      },
+                      onNotTop: (){
+                        setState(() => _showDivider = true);
+                      },
+                      onBottom: () {
+                        _searchBloc.add(NextPageSearchEvent());
+                      },
+                      child: CustomScrollView(
+                        controller: _searchScrollController,
+                        slivers: [
+                          SearchContent()
+                        ],
+                      ),
+                    )
+                  ],
+                ).p(horizontalPaddingPage.w.horizontal()),
+              ),
+            ],
+          );
+        },
+      ),
     );
   }
 

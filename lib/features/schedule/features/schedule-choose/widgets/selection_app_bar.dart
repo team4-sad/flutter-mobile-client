@@ -48,7 +48,7 @@ class SelectionAppBar extends StatelessWidget implements PreferredSizeWidget {
                   mainAxisSize: MainAxisSize.min,
                   mainAxisAlignment: MainAxisAlignment.end,
                   children: [
-                    Text("Выделить все", style: TS.regular14.use(context.palette.text)),
+                    Text("Выделить все", style: TS.regular12.use(context.palette.text)),
                     Checkbox(
                       materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
                       visualDensity: VisualDensity.compact,

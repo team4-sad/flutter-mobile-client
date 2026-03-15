@@ -22,7 +22,7 @@ class TopSingleNewsWidget extends StatelessWidget {
       children: [
         Text(
           date,
-          style: TS.light15.use(context.palette.text),
+          style: TS.light12.use(context.palette.text),
         ).p(25.horizontal()),
         4.vs(),
         IntrinsicHeight(
@@ -40,7 +40,7 @@ class TopSingleNewsWidget extends StatelessWidget {
               ),
               Text(
                 title,
-                style: TS.medium20.use(context.palette.text),
+                style: TS.medium18.use(context.palette.text),
               ).p(15.horizontal()).e(),
             ],
           ),

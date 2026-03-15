@@ -70,12 +70,12 @@ class PlaceholderWidget extends StatelessWidget {
       mainAxisSize: MainAxisSize.min,
       children: [
         if (title != null)
-          Text(title!, style: TS.medium20, textAlign: TextAlign.center),
+          Text(title!, style: TS.medium18, textAlign: TextAlign.center),
         if (subTitle != null)
           Padding(
             padding: 8.top(),
             child: Text(
-              subTitle!, style: TS.regular15.use(context.palette.subText),
+              subTitle!, style: TS.regular13.use(context.palette.subText),
               textAlign: TextAlign.center
             ),
           ),
@@ -86,7 +86,7 @@ class PlaceholderWidget extends StatelessWidget {
             onPressed: onButtonPress,
             child: Text(
               textButton ?? S.retry,
-              style: TS.medium15,
+              style: TS.medium13,
             )
           )
       ],

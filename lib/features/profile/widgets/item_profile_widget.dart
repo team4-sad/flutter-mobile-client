@@ -28,7 +28,7 @@ class ItemProfileWidget extends StatelessWidget {
         ),
         child: Row(
           children: [
-            Expanded(child: Text(title, style: TS.regular15.use(context.palette.text))),
+            Expanded(child: Text(title, style: TS.regular13.use(context.palette.text))),
             Icon(I.rightarrow, size: 18, color: context.palette.text,)
           ],
         ),

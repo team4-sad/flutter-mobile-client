@@ -99,7 +99,7 @@ class _WeekItemWidget extends StatelessWidget {
             children: [
               Text(
                 weekName,
-                style: TS.medium14.use(
+                style: TS.medium12.use(
                   (isSelect)
                       ? context.palette.calendar
                       : context.palette.unAccent,
@@ -108,7 +108,7 @@ class _WeekItemWidget extends StatelessWidget {
               28.h.vs(),
               Text(
                 dateTime.day.toString(),
-                style: TS.medium15.use(
+                style: TS.medium13.use(
                   (isSelect)
                       ? context.palette.calendar
                       : context.palette.unAccent,

@@ -62,12 +62,12 @@ class _SearchFieldWidgetState extends State<SearchFieldWidget> {
         },
         onSubmitted: widget._onConfirm,
         focusNode:  widget._focusNode,
-        style: TS.regular15.use(context.palette.text),
+        style: TS.regular13.use(context.palette.text),
         decoration: InputDecoration(
           fillColor: context.palette.container,
           filled: true,
           hintText: widget._hint,
-          hintStyle: TS.regular15.use(context.palette.subText),
+          hintStyle: TS.regular13.use(context.palette.subText),
           prefixIconConstraints: BoxConstraints(minWidth: 0, minHeight: 0),
           suffixIcon:
               (widget._enableClear &&

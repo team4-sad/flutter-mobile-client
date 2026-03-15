@@ -40,9 +40,9 @@ class ItemService extends StatelessWidget {
           mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text(title, style: TS.medium15.use(context.palette.text)),
+            Text(title, style: TS.medium13.use(context.palette.text)),
             3.vs(),
-            Text(subTitle, style: TS.regular12.use(context.palette.subText)),
+            Text(subTitle, style: TS.regular10.use(context.palette.subText)),
           ],
         ),
       ),

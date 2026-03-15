@@ -36,14 +36,14 @@ class ItemBetweenLessons extends StatelessWidget {
               Expanded(
                 child: Text(
                   "Перерыв",
-                  style: TS.regular14.use(context.palette.calendar),
+                  style: TS.regular12.use(context.palette.calendar),
                 ),
               ),
               Icon(I.schedule, color: context.palette.calendar),
               3.hs(),
               Text(
                 "${duration.inMinutes} мин.",
-                style: TS.regular14.use(context.palette.calendar),
+                style: TS.regular12.use(context.palette.calendar),
               ),
             ],
           ),
