@@ -2,7 +2,7 @@ name: miigaik
 description: "MIIGAiK mobile application"
 publish_to: 'none'
 
-version: 0.5.2+1
+version: 0.5.3+1
 
 environment:
   sdk: ^3.8.1
@@ -27,6 +27,7 @@ dependencies:
   flutter_screenutil: ^5.9.3
   shimmer_animation: ^2.1.0
   expandable_page_view: ^1.2.1
+  scrollable_positioned_list: ^0.3.8
   flutter_widget_from_html: ^0.17.0
   url_launcher: ^6.3.2
   photo_view: ^0.15.0

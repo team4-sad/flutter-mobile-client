@@ -33,8 +33,9 @@ class AppShimmer extends StatelessWidget {
 
   const AppShimmer.container({
     super.key,
-    required this.height
-  }): width = double.infinity, borderRadius=10;
+    required this.height,
+    double? width
+  }): width = width ?? double.infinity, borderRadius=10;
 
   const AppShimmer.circle({
     super.key,

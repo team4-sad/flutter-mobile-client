@@ -4,6 +4,7 @@ import 'package:get_it/get_it.dart';
 import 'package:miigaik/features/about-app/about_app_page.dart';
 import 'package:miigaik/core/extensions/num_widget_extension.dart';
 import 'package:miigaik/core/widgets/square_icon_button.dart';
+import 'package:miigaik/features/academic-performance/academic_performance_page.dart';
 import 'package:miigaik/features/other-services/other_services_page.dart';
 import 'package:miigaik/features/profile/widgets/error_profile_widget.dart';
 import 'package:miigaik/features/profile/widgets/guest_profile_widget.dart';
@@ -109,7 +110,14 @@ class ProfilePage extends StatelessWidget {
                     if (state is AuthorizedState)
                       ItemProfileWidget(
                         title: "Успеваемость",
-                        onTap: (() {})
+                        onTap: (() {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => AcademicPerformancePage()
+                            )
+                          );
+                        })
                       ),
                     if (state is AuthorizedState)
                       ItemProfileWidget(

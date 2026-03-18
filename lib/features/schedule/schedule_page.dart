@@ -52,7 +52,7 @@ class _SchedulePageState extends State<SchedulePage> {
   Widget build(BuildContext context) {
     final showWeek = sheetExtent >= 0.6;
     return Scaffold(
-      backgroundColor: context.palette.calendar,
+      backgroundColor: context.palette.tag,
       appBar: ScheduleAppBar(),
       body: Stack(
         children: [

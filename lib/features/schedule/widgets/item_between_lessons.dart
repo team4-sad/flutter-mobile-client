@@ -26,7 +26,7 @@ class ItemBetweenLessons extends StatelessWidget {
             borderRadius: BorderRadius.circular(15),
             border: BoxBorder.all(
               color: state.currentDateTime.isBetween(beforeDateTime, afterDateTime)
-                  ? context.palette.calendar
+                  ? context.palette.tag
                   : context.palette.container,
               width: 2,
             ),
@@ -36,14 +36,14 @@ class ItemBetweenLessons extends StatelessWidget {
               Expanded(
                 child: Text(
                   "Перерыв",
-                  style: TS.regular12.use(context.palette.calendar),
+                  style: TS.regular12.use(context.palette.tag),
                 ),
               ),
-              Icon(I.schedule, color: context.palette.calendar),
+              Icon(I.schedule, color: context.palette.tag),
               3.hs(),
               Text(
                 "${duration.inMinutes} мин.",
-                style: TS.regular12.use(context.palette.calendar),
+                style: TS.regular12.use(context.palette.tag),
               ),
             ],
           ),

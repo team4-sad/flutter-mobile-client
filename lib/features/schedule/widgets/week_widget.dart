@@ -85,7 +85,7 @@ class _WeekItemWidget extends StatelessWidget {
             borderRadius: BorderRadius.circular(45),
             color: (isSelect)
                 ? context.palette.unAccent
-                : context.palette.calendar,
+                : context.palette.tag,
             border: Border.all(
               color:
                   (currentDateBloc.state.currentDateTime.onlyDate() == dateTime)
@@ -101,7 +101,7 @@ class _WeekItemWidget extends StatelessWidget {
                 weekName,
                 style: TS.medium12.use(
                   (isSelect)
-                      ? context.palette.calendar
+                      ? context.palette.tag
                       : context.palette.unAccent,
                 ),
               ),
@@ -110,7 +110,7 @@ class _WeekItemWidget extends StatelessWidget {
                 dateTime.day.toString(),
                 style: TS.medium13.use(
                   (isSelect)
-                      ? context.palette.calendar
+                      ? context.palette.tag
                       : context.palette.unAccent,
                 ),
               ),

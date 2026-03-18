@@ -9,9 +9,12 @@ class Palette {
   final Color subText;
   final Color background;
   final Color container;
-  final Color calendar;
+  final Color tag;
   final Color currentLessonBorder;
   final Color lightText;
+  final Color lightRed;
+  final Color red;
+  final Color darkRed;
 
   final BoxShadow mapShadow;
 
@@ -23,9 +26,12 @@ class Palette {
     required this.background,
     required this.container,
     required this.lightText,
-    required this.calendar,
+    required this.tag,
     required this.currentLessonBorder,
     required this.mapShadow,
+    required this.lightRed,
+    required this.red,
+    required this.darkRed,
   });
 
   static Palette fromAppTheme(AppTheme appTheme) {
@@ -38,13 +44,16 @@ class Palette {
         background: Color(0xFFFFFFFF),
         container: Color(0xFFF2F3F5),
         lightText: Color(0xFF2A2929),
-        calendar: Color(0xFF3B3C51),
+        tag: Color(0xFF3B3C51),
         currentLessonBorder: Color(0xFF9D9D9D),
         mapShadow: BoxShadow(
           blurRadius: 6.0,
           offset: Offset(0, 4),
           color: Color(0x25000000)
         ),
+        lightRed: Color(0xFFE8CACB),
+        red: Color(0xFF862E30),
+        darkRed: Color(0xFF581416),
       ),
       // Пока нет тёмной темы
       AppTheme.dark => Palette(
@@ -56,12 +65,15 @@ class Palette {
         background: Color(0xFF000000),
         container: Color(0xFF313131),
         lightText: Color(0xFF2A2929),
-        calendar: Color(0xFF3B3C51),
+        tag: Color(0xFF3B3C51),
         mapShadow: BoxShadow(
           blurRadius: 6.0,
           offset: Offset(0, 4),
           color: Color(0x25000000)
         ),
+        lightRed: Color(0xFFE8CACB),
+        red: Color(0xFF862E30),
+        darkRed: Color(0xFF581416),
       ),
     };
   }
@@ -75,7 +87,10 @@ class Palette {
       background: Color.lerp(first.background, other.background, t)!,
       container: Color.lerp(first.container, other.container, t)!,
       lightText: Color.lerp(first.lightText, other.lightText, t)!,
-      calendar: Color.lerp(first.calendar, other.calendar, t)!,
+      tag: Color.lerp(first.tag, other.tag, t)!,
+      lightRed: Color.lerp(first.lightRed, other.lightRed, t)!,
+      darkRed: Color.lerp(first.darkRed, other.darkRed, t)!,
+      red: Color.lerp(first.red, other.red, t)!,
       currentLessonBorder: Color.lerp(first.currentLessonBorder, other.currentLessonBorder, t)!,
       mapShadow: first.mapShadow.copyWith(
         color: Color.lerp(first.mapShadow.color, other.mapShadow.color, t)!
