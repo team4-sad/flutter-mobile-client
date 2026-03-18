@@ -50,7 +50,7 @@ class ItemSchedule extends StatelessWidget {
                     height: 28,
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(6),
-                      color: context.palette.calendar,
+                      color: context.palette.tag,
                     ),
                     child: Center(
                       child: Text(
@@ -63,7 +63,7 @@ class ItemSchedule extends StatelessWidget {
                   Expanded(
                     child: Text(
                       lessonModel.displayTime,
-                      style: TS.medium12.use(context.palette.calendar),
+                      style: TS.medium12.use(context.palette.tag),
                     ),
                   ),
                   10.hs(),
@@ -81,7 +81,7 @@ class ItemSchedule extends StatelessWidget {
                       height: 28,
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(6),
-                        color: context.palette.calendar,
+                        color: context.palette.tag,
                       ),
                       child: Center(
                         child: Icon(

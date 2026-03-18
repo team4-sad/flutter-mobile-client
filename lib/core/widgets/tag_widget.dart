@@ -9,13 +9,18 @@ class TagWidget extends StatefulWidget {
   final bool isCenter;
   final VoidCallback? onTap;
 
+  final Color? defaultBackgroundColor;
+  final Color? selectedBackgroundColor;
+
   const TagWidget({
     super.key, 
     required this.title, 
     this.fullTitle,
     this.isSelected = true,
     this.isCenter = false,
-    this.onTap
+    this.onTap,
+    this.defaultBackgroundColor,
+    this.selectedBackgroundColor,
   });
 
   @override
@@ -55,8 +60,8 @@ class _TagWidgetState extends State<TagWidget> {
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(8),
           color: (widget.isSelected)
-              ? context.palette.calendar
-            : context.palette.container,
+            ? (widget.selectedBackgroundColor ?? context.palette.tag)
+            : (widget.defaultBackgroundColor ?? context.palette.container),
         ),
         padding: EdgeInsets.symmetric(vertical: 7, horizontal: 12),
         child: (widget.isCenter) ? Center(child: _text()) : _text()

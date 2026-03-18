@@ -212,7 +212,7 @@ class _DayCalendarWidget extends StatelessWidget {
                     dateTime!.day.toString(),
                     style: TS.regular13.use(
                       (isSelected)
-                          ? context.palette.calendar
+                          ? context.palette.tag
                           : context.palette.unAccent,
                     ),
                   ),

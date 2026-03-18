@@ -3,6 +3,8 @@ import 'package:get_it/get_it.dart';
 import 'package:miigaik/core/features/bottom-nav-bar/bloc/bottom_nav_bar_bloc.dart';
 import 'package:miigaik/core/features/bottom-nav-bar/items_nav_bar.dart';
 import 'package:miigaik/core/features/network-connection/bloc/network_connection_bloc.dart';
+import 'package:miigaik/features/academic-performance/bloc/academic_performance_cubit.dart';
+import 'package:miigaik/features/academic-performance/repository/academic_performance_repository.dart';
 import 'package:miigaik/features/map/bloc/floor_map_cubit/floor_map_cubit.dart';
 import 'package:miigaik/features/map/bloc/map_cubit/map_cubit.dart';
 import 'package:miigaik/features/news/bloc/news_list_bloc/news_list_bloc.dart';
@@ -89,6 +91,9 @@ class AppDI {
 
     final lkRepository = LkRepositoryImpl(dio: defaultDio);
     GetIt.I.registerSingleton<LkRepository>(lkRepository);
+
+    final academicPerformanceRepository = ApiAcademicPerformanceRepository(dio: defaultDio);
+    GetIt.I.registerSingleton<IAcademicPerformanceRepository>(academicPerformanceRepository);
   }
 
   static void registerBlocs() {
@@ -116,5 +121,7 @@ class AppDI {
       autoLoginUseCase: AutoLoginUseCase(sessionStorage: GetIt.I.get()),
       logoutUseCase: LogoutUseCase(sessionStorage: GetIt.I.get())
     ));
+
+    GetIt.I.registerSingleton(AcademicPerformanceCubit());
   }
 }
