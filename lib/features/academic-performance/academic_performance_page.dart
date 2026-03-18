@@ -53,7 +53,7 @@ class AcademicPerformancePage extends StatelessWidget {
                     reverse: true,
                     itemBuilder: (context, index){
                       return AcademicPerformanceListWidget(
-                        performance: performance[index],
+                        performance: performance[performance.length-1-index],
                       );
                     },
                     itemCount: performance.length,

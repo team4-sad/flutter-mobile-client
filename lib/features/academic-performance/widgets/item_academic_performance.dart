@@ -39,7 +39,7 @@ class ItemAcademicPerformance extends StatelessWidget {
                 child: Center(
                   child: (subject.isHasAcademicDuty)
                     ? Text("!", style: TS.regular13.use(context.palette.unAccent))
-                    : (subject.rate == "Зачёт")
+                    : (subject.rate!.length > 1)
                       ? Icon(I.check, color: context.palette.unAccent, size: 14)
                       : Text(subject.rate.toString(), style: TS.regular13.use(context.palette.unAccent))
                 )

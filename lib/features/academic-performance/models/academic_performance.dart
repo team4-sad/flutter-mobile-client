@@ -43,7 +43,7 @@ class SemesterAcademicPerformance {
     return data;
   }
   
-  bool get isHasAcademicDuty => records.any((e) => e.rate == null);
+  bool get isHasAcademicDuty => records.any((e) => e.isHasAcademicDuty);
 }
 
 class SubjectAcademicPerformance {
@@ -52,7 +52,7 @@ class SubjectAcademicPerformance {
   final List<String> teachers;
   final String type;
 
-  bool get isHasAcademicDuty => rate == null;
+  bool get isHasAcademicDuty => rate == null || ["2", "Неявка", "Не зачтено"].contains(rate);
 
   SubjectAcademicPerformance({
     required this.rate, required this.subject,
