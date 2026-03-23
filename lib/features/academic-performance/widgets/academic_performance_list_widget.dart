@@ -12,19 +12,17 @@ class AcademicPerformanceListWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Expanded(
-      child: ListView.separated(
-        padding: EdgeInsetsGeometry.only(
-          left: horizontalPaddingPage,
-          right: horizontalPaddingPage,
-          bottom: 60
-        ),
-        itemBuilder: (context, index) {
-          return ItemAcademicPerformance(subject: performance.records[index]);
-        },
-        separatorBuilder: (context, index) => 10.vs(),
-        itemCount: performance.records.length
+    return ListView.separated(
+      padding: EdgeInsetsGeometry.only(
+        left: horizontalPaddingPage,
+        right: horizontalPaddingPage,
+        bottom: 60
       ),
+      itemBuilder: (context, index) {
+        return ItemAcademicPerformance(subject: performance.records[index]);
+      },
+      separatorBuilder: (context, index) => 10.vs(),
+      itemCount: performance.records.length
     );
   }
 }
