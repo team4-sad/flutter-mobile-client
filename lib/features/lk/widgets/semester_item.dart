@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:miigaik/features/lk/features/academic-performance/models/academic_performance.dart';
+import 'package:miigaik/features/lk/models/semester_entity.dart';
 import 'package:miigaik/theme/app_theme_extensions.dart';
 import 'package:miigaik/theme/text_styles.dart';
 
 class SemesterItem extends StatelessWidget {
 
-  final SemesterAcademicPerformance semester;
+  final SemesterEntity semester;
   final bool isSelected;
   final VoidCallback onTap;
 
@@ -18,7 +18,7 @@ class SemesterItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final isHasDuty = semester.isHasAcademicDuty;
+    final isHasDuty = semester.isHasDuty;
     return GestureDetector(
       onTap: onTap,
       child: Container(

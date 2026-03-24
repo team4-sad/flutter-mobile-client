@@ -7,8 +7,8 @@ import 'package:miigaik/core/widgets/simple_app_bar.dart';
 import 'package:miigaik/features/lk/features/academic-performance/bloc/academic_performance_cubit.dart';
 import 'package:miigaik/features/lk/features/academic-performance/widgets/academic_performance_list_widget.dart';
 import 'package:miigaik/features/lk/features/academic-performance/widgets/loading_performance_list_widget.dart';
-import 'package:miigaik/features/lk/features/academic-performance/widgets/loading_semester_widget.dart';
-import 'package:miigaik/features/lk/features/academic-performance/widgets/semesters_widget.dart';
+import 'package:miigaik/features/lk/widgets/loading_semester_widget.dart';
+import 'package:miigaik/features/lk/widgets/semesters_widget.dart';
 
 class AcademicPerformancePage extends StatelessWidget {
   AcademicPerformancePage({super.key});
@@ -39,7 +39,7 @@ class AcademicPerformancePage extends StatelessWidget {
                 AcademicPerformanceErrorState() => SizedBox(),
                 AcademicPerformanceLoadedState(data: var semesters) => SemestersWidget(
                   controller: pageController,
-                  semesters: semesters,
+                  semesters: semesters.map((e) => e.toEntity()).toList(),
                 ),
               },
               20.vs(),

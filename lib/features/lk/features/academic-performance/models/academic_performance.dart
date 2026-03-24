@@ -1,3 +1,5 @@
+import 'package:miigaik/features/lk/models/semester_entity.dart';
+
 class CourseAcademicPerformance {
   final int course;
   final List<SemesterAcademicPerformance> records;
@@ -44,6 +46,11 @@ class SemesterAcademicPerformance {
   }
   
   bool get isHasAcademicDuty => records.any((e) => e.isHasAcademicDuty);
+
+  SemesterEntity toEntity() => SemesterEntity(
+    semester: semester,
+    isHasDuty: isHasAcademicDuty
+  );
 }
 
 class SubjectAcademicPerformance {

@@ -1,16 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:miigaik/core/extensions/num_widget_extension.dart';
-import 'package:miigaik/features/lk/features/academic-performance/models/academic_performance.dart';
-import 'package:miigaik/features/lk/features/academic-performance/widgets/semester_item.dart';
+import 'package:miigaik/features/lk/widgets/semester_item.dart';
+import 'package:miigaik/features/lk/models/semester_entity.dart';
 import 'package:miigaik/theme/values.dart';
 import 'package:scrollable_positioned_list/scrollable_positioned_list.dart';
 
 class SemestersWidget extends StatefulWidget {
 
   final PageController? controller;
-  final List<SemesterAcademicPerformance> semesters;
-  final void Function(SemesterAcademicPerformance, int)? onChangeSemester;
+  final List<SemesterEntity> semesters;
+  final void Function(SemesterEntity, int)? onChangeSemester;
 
   const SemestersWidget({
     super.key, required this.semesters, this.onChangeSemester, this.controller
