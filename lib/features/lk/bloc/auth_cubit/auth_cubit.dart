@@ -2,21 +2,21 @@ import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:miigaik/core/bloc/with_error_state.dart';
 import 'package:miigaik/features/lk/features/profile/models/session_model.dart';
-import 'package:miigaik/features/lk/features/profile/use_case/auto_login_use_case.dart';
-import 'package:miigaik/features/lk/features/profile/use_case/login_use_case.dart';
-import 'package:miigaik/features/lk/features/profile/use_case/logout_use_case.dart';
+import 'package:miigaik/features/lk/use_case/auto_login_use_case.dart';
+import 'package:miigaik/features/lk/use_case/login_use_case.dart';
+import 'package:miigaik/features/lk/use_case/logout_use_case.dart';
 
 part 'auth_state.dart';
 
 class AuthCubit extends Cubit<AuthState> {
 
-  final LoginUseCase loginUseCase;
-  final LogoutUseCase logoutUseCase;
-  final AutoLoginUseCase autoLoginUseCase;
+  final _loginUseCase = LoginUseCase();
+  final _logoutUseCase = LogoutUseCase();
+  final _autoLoginUseCase = AutoLoginUseCase();
 
 
-  AuthCubit({required this.loginUseCase, required this.autoLoginUseCase, required this.logoutUseCase}) : super(NotAuthorizedState()){
-    autoLoginUseCase().then((session) {
+  AuthCubit(): super(NotAuthorizedState()){
+    _autoLoginUseCase().then((session) {
       if (session != null){
         emit(AuthorizedState(session: session));
       }
@@ -26,7 +26,7 @@ class AuthCubit extends Cubit<AuthState> {
   Future<void> auth(String login, String password) async {
     emit(LoadingAuthState());
     try {
-      final session = await loginUseCase(login, password);
+      final session = await _loginUseCase(login, password);
       emit(AuthorizedState(session: session));
     } on Object catch (e) {
       emit(ErrorAuthState(error: e));
@@ -37,7 +37,7 @@ class AuthCubit extends Cubit<AuthState> {
   Future<void> logout() async {
     emit(LoadingAuthState());
     try {
-      await logoutUseCase();
+      await _logoutUseCase();
       emit(NotAuthorizedState());
     } on Object catch (e) {
       emit(ErrorAuthState(error: e));

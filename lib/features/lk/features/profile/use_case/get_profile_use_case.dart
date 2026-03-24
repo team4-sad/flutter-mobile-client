@@ -1,8 +1,8 @@
 import 'package:miigaik/features/lk/features/profile/models/profile_model.dart';
-import 'package:miigaik/features/lk/features/profile/repository/lk_repository.dart';
+import 'package:miigaik/features/lk/repository/auth_repository.dart';
 
 class GetProfileUseCase {
-  final LkRepository repository;
+  final AuthRepository repository;
 
   GetProfileUseCase({required this.repository});
 

@@ -2,15 +2,15 @@ import 'package:dio/dio.dart';
 import 'package:miigaik/features/lk/features/profile/models/profile_model.dart';
 import 'package:miigaik/features/lk/features/profile/models/session_model.dart';
 
-abstract class LkRepository {
+abstract class AuthRepository {
   Future<SessionModel> login(String username, String password);
   Future<ProfileModel> getMe();
 }
 
-class LkRepositoryImpl implements LkRepository {
+class AuthRepositoryImpl implements AuthRepository {
   final Dio _dio;
 
-  LkRepositoryImpl({required Dio dio}): _dio = dio;
+  AuthRepositoryImpl({required Dio dio}): _dio = dio;
 
   @override
   Future<ProfileModel> getMe() async {

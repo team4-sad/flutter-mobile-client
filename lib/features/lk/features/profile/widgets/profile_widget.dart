@@ -3,7 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get_it/get_it.dart';
 import 'package:miigaik/core/extensions/num_widget_extension.dart';
-import 'package:miigaik/features/lk/features/profile/bloc/auth_cubit/auth_cubit.dart';
+import 'package:miigaik/features/lk/bloc/auth_cubit/auth_cubit.dart';
 import 'package:miigaik/features/lk/features/profile/bloc/profile_bloc/profile_bloc.dart';
 import 'package:miigaik/features/lk/features/profile/models/profile_model.dart';
 import 'package:miigaik/features/lk/features/profile/widgets/error_profile_widget.dart';

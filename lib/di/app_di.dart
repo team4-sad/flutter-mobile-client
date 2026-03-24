@@ -3,6 +3,7 @@ import 'package:get_it/get_it.dart';
 import 'package:miigaik/core/features/bottom-nav-bar/bloc/bottom_nav_bar_bloc.dart';
 import 'package:miigaik/core/features/bottom-nav-bar/items_nav_bar.dart';
 import 'package:miigaik/core/features/network-connection/bloc/network_connection_bloc.dart';
+import 'package:miigaik/features/lk/bloc/auth_cubit/auth_cubit.dart';
 import 'package:miigaik/features/lk/features/academic-performance/bloc/academic_performance_cubit.dart';
 import 'package:miigaik/features/lk/features/academic-performance/repository/academic_performance_repository.dart';
 import 'package:miigaik/features/map/bloc/floor_map_cubit/floor_map_cubit.dart';
@@ -18,12 +19,8 @@ import 'package:miigaik/features/notes/bloc/notes_mode_cubit/notes_mode_cubit.da
 import 'package:miigaik/features/notes/bloc/search_notes_bloc/search_notes_bloc.dart';
 import 'package:miigaik/features/notes/features/note/repositories/attachment_repository.dart';
 import 'package:miigaik/features/notes/repository/notes_repository.dart';
-import 'package:miigaik/features/lk/features/profile/bloc/auth_cubit/auth_cubit.dart';
 import 'package:miigaik/features/lk/features/profile/bloc/profile_bloc/profile_bloc.dart';
-import 'package:miigaik/features/lk/features/profile/repository/lk_repository.dart';
-import 'package:miigaik/features/lk/features/profile/use_case/auto_login_use_case.dart';
-import 'package:miigaik/features/lk/features/profile/use_case/login_use_case.dart';
-import 'package:miigaik/features/lk/features/profile/use_case/logout_use_case.dart';
+import 'package:miigaik/features/lk/repository/auth_repository.dart';
 import 'package:miigaik/features/schedule/bloc/current_time_cubit/current_time_cubit.dart';
 import 'package:miigaik/features/schedule/bloc/schedule_bloc/schedule_bloc.dart';
 import 'package:miigaik/features/schedule/bloc/schedule_selected_day_bloc/schedule_selected_day_bloc.dart';
@@ -89,8 +86,8 @@ class AppDI {
     final noteAttachmentRepository = NoteAttachmentRepository();
     GetIt.I.registerSingleton<INoteAttachmentRepository>(noteAttachmentRepository);
 
-    final lkRepository = LkRepositoryImpl(dio: defaultDio);
-    GetIt.I.registerSingleton<LkRepository>(lkRepository);
+    final lkRepository = AuthRepositoryImpl(dio: defaultDio);
+    GetIt.I.registerSingleton<AuthRepository>(lkRepository);
 
     final academicPerformanceRepository = ApiAcademicPerformanceRepository(dio: defaultDio);
     GetIt.I.registerSingleton<IAcademicPerformanceRepository>(academicPerformanceRepository);
@@ -116,11 +113,7 @@ class AppDI {
     GetIt.I.registerSingleton(FloorMapCubit());
     GetIt.I.registerSingleton(SelectingScheduleChoosePageCubit());
 
-    GetIt.I.registerSingleton(AuthCubit(
-      loginUseCase: LoginUseCase(repository: GetIt.I.get(), sessionStorage: GetIt.I.get()),
-      autoLoginUseCase: AutoLoginUseCase(sessionStorage: GetIt.I.get()),
-      logoutUseCase: LogoutUseCase(sessionStorage: GetIt.I.get())
-    ));
+    GetIt.I.registerSingleton(AuthCubit());
 
     GetIt.I.registerSingleton(AcademicPerformanceCubit());
   }

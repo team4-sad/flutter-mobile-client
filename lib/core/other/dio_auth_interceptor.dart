@@ -2,7 +2,7 @@ import 'dart:io';
 
 import 'package:dio/dio.dart';
 import 'package:get_it/get_it.dart';
-import 'package:miigaik/features/lk/features/profile/storages/session_storage.dart';
+import 'package:miigaik/features/lk/storage/session_storage.dart';
 
 class DioAuthInterceptor extends Interceptor {
 

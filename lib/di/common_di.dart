@@ -10,7 +10,7 @@ import 'package:miigaik/core/features/network-connection/services/network_connec
 import 'package:miigaik/core/other/cache_helper.dart';
 import 'package:miigaik/core/other/http_override.dart';
 import 'package:miigaik/features/notes/models/note_model.dart';
-import 'package:miigaik/features/lk/features/profile/storages/session_storage.dart';
+import 'package:miigaik/features/lk/storage/session_storage.dart';
 import 'package:miigaik/features/schedule/features/schedule-choose/enum/signature_schedule_type.dart';
 import 'package:miigaik/features/schedule/features/schedule-choose/models/signature_schedule_model.dart';
 import 'package:miigaik/features/settings/bloc/switch-locale/locale_bloc.dart';
