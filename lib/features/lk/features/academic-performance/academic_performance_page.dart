@@ -21,12 +21,7 @@ class AcademicPerformancePage extends StatelessWidget {
   Widget build(BuildContext context) {
     cubit.fetchPerformance();
     return Scaffold(
-      appBar: SimpleAppBar(
-        title: "Успеваемость",
-        onBackPress: () {
-          Navigator.pop(context);
-        },
-      ),
+      appBar: SimpleAppBar(title: "Успеваемость"),
       body: BlocBuilder<AcademicPerformanceCubit, AcademicPerformanceState>(
         bloc: cubit,
         builder: (context, state) {

@@ -6,6 +6,8 @@ import 'package:miigaik/core/features/network-connection/bloc/network_connection
 import 'package:miigaik/features/lk/bloc/auth_cubit/auth_cubit.dart';
 import 'package:miigaik/features/lk/features/academic-performance/bloc/academic_performance_cubit.dart';
 import 'package:miigaik/features/lk/features/academic-performance/repository/academic_performance_repository.dart';
+import 'package:miigaik/features/lk/features/education-plan/bloc/education_plan_cubit.dart';
+import 'package:miigaik/features/lk/features/education-plan/repository/education_plan_repository.dart';
 import 'package:miigaik/features/map/bloc/floor_map_cubit/floor_map_cubit.dart';
 import 'package:miigaik/features/map/bloc/map_cubit/map_cubit.dart';
 import 'package:miigaik/features/news/bloc/news_list_bloc/news_list_bloc.dart';
@@ -91,6 +93,9 @@ class AppDI {
 
     final academicPerformanceRepository = ApiAcademicPerformanceRepository(dio: defaultDio);
     GetIt.I.registerSingleton<IAcademicPerformanceRepository>(academicPerformanceRepository);
+
+    final educationPlanRepository = ApiEducationPlanRepository(dio: defaultDio);
+    GetIt.I.registerSingleton<IEducationPlanRepository>(educationPlanRepository);
   }
 
   static void registerBlocs() {
@@ -106,15 +111,13 @@ class AppDI {
     GetIt.I.registerSingleton(NotesBloc());
     GetIt.I.registerSingleton(SearchNotesBloc());
     GetIt.I.registerSingleton(ProfileBloc());
-
     GetIt.I.registerSingleton(NotesModeCubit());
     GetIt.I.registerSingleton(CurrentTimeCubit());
     GetIt.I.registerSingleton(MapCubit());
     GetIt.I.registerSingleton(FloorMapCubit());
     GetIt.I.registerSingleton(SelectingScheduleChoosePageCubit());
-
     GetIt.I.registerSingleton(AuthCubit());
-
     GetIt.I.registerSingleton(AcademicPerformanceCubit());
+    GetIt.I.registerSingleton(EducationPlanCubit());
   }
 }

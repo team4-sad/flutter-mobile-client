@@ -24,7 +24,7 @@ class SimpleAppBar extends StatelessWidget implements PreferredSizeWidget {
       padding: EdgeInsets.only(
         left: horizontalPaddingPage,
         right: horizontalPaddingPage,
-        top: 48,
+        top: 59,
         bottom: 8,
       ),
       child: Row(

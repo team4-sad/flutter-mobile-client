@@ -6,6 +6,7 @@ import 'package:miigaik/core/extensions/num_widget_extension.dart';
 import 'package:miigaik/core/widgets/square_icon_button.dart';
 import 'package:miigaik/features/lk/bloc/auth_cubit/auth_cubit.dart';
 import 'package:miigaik/features/lk/features/academic-performance/academic_performance_page.dart';
+import 'package:miigaik/features/lk/features/education-plan/education_plan_page.dart';
 import 'package:miigaik/features/other-services/other_services_page.dart';
 import 'package:miigaik/features/lk/features/profile/widgets/error_profile_widget.dart';
 import 'package:miigaik/features/lk/features/profile/widgets/guest_profile_widget.dart';
@@ -121,7 +122,14 @@ class ProfilePage extends StatelessWidget {
                     if (state is AuthorizedState)
                       ItemProfileWidget(
                         title: "Учебный план",
-                        onTap: (() {})
+                        onTap: (() {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => EducationPlanPage()
+                            )
+                          );
+                        })
                       ),
                     ItemProfileWidget(
                       title: "Услуги",
