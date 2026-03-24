@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:miigaik/core/extensions/num_widget_extension.dart';
 import 'package:miigaik/core/widgets/simple_app_bar.dart';
-import 'package:miigaik/features/edini-dekanat/edini_dekanat_page.dart';
 import 'package:miigaik/features/other-services/widgets/item_service.dart';
 import 'package:miigaik/features/other-services/widgets/text_block.dart';
 import 'package:miigaik/theme/values.dart';
@@ -28,24 +27,14 @@ class OtherServicesPage extends StatelessWidget {
                   ItemService(
                     title: "Заказ справок",
                     onTap: (){
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => EdiniDekanatPage.spravki()
-                        )
-                      );
+
                     },
                     subTitle: "Ресурс для заказа справок прямо в приложении"
                   ),
                   ItemService(
                     title: "Заказ допусков",
                     onTap: (){
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => EdiniDekanatPage.dopuski()
-                        )
-                      );
+
                     },
                     subTitle: "Ресурс для заказа доступов прямо в приложении"
                   ),

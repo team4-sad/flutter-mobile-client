@@ -1,5 +1,7 @@
-import 'package:miigaik/features/single-news/models/single_news_model.dart';
-import 'package:miigaik/features/single-news/repository/single_news_repository.dart';
+
+
+import 'package:miigaik/features/news/features/single-news/models/single_news_model.dart';
+import 'package:miigaik/features/news/features/single-news/repository/single_news_repository.dart';
 
 class MockSingleNewsRepository extends ISingleNewsRepository {
   @override

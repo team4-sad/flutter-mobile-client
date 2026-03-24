@@ -1,0 +1,63 @@
+import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:miigaik/core/extensions/num_widget_extension.dart';
+import 'package:miigaik/core/extensions/sliver_widget_extension.dart';
+import 'package:miigaik/core/widgets/placeholder_widget.dart';
+import 'package:miigaik/features/news/features/single-news/widgets/news_html_widget.dart';
+import 'package:miigaik/features/news/features/single-news/widgets/single_news_app_bar.dart';
+import 'package:miigaik/features/news/features/single-news/widgets/top_single_news_widget.dart';
+
+import 'bloc/single_news_bloc.dart';
+import 'content/loading_single_news_content.dart';
+
+class SingleNewsPage extends StatelessWidget {
+
+  final String newsId;
+
+  SingleNewsPage({super.key, required this.newsId});
+
+  final bloc = SingleNewsBloc();
+
+  void _addFetchSingleNews(){
+    bloc.add(FetchSingleNewsEvent(newsId: newsId));
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    _addFetchSingleNews();
+    return Scaffold(
+      appBar: SingleNewsAppBar(),
+      body: BlocBuilder<SingleNewsBloc, SingleNewsState>(
+        bloc: bloc,
+        builder: (context, state) {
+          switch (state){
+            case SingleNewsLoadedState():
+              return CustomScrollView(
+                slivers: [
+                  TopSingleNewsWidget(
+                    title: state.singleNews.title, 
+                    date: state.singleNews.date,
+                  ).s(),
+                  20.svs(),
+                  NewsHtmlWidget(
+                    html: state.singleNews.htmlContent
+                  ).sp(25.horizontal()),
+                  48.svs(),
+                ],
+              );
+            case SingleNewsErrorState():
+              return Center(
+                child: PlaceholderWidget.fromException(
+                  state.error, 
+                  _addFetchSingleNews
+                )
+              );
+            case SingleNewsInitialState():
+            case SingleNewsLoadingState():
+              return LoadingSingleNewsContent();
+          }
+        },
+      ),
+    );
+  }
+}
