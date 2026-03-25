@@ -28,7 +28,7 @@ class AcademicPerformancePage extends StatelessWidget {
         bloc: cubit,
         builder: (context, state) {
           if (state is AcademicPerformanceLoadedState){
-            pageController = PageController(initialPage: state.data.length);
+            pageController = PageController(initialPage: state.data.length-1);
           }
           return Column(
             crossAxisAlignment: CrossAxisAlignment.start,

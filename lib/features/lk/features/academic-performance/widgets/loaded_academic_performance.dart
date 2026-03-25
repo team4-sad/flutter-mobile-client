@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:miigaik/features/lk/features/academic-performance/models/academic_performance.dart';
+import 'package:miigaik/features/lk/features/academic-performance/widgets/empty_exams_widget.dart';
 
 import 'academic_performance_list_widget.dart';
 
@@ -16,6 +17,13 @@ class LoadedAcademicPerformance extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    if (performance.isEmpty){
+      return Expanded(
+        child: Center(
+          child: EmptyExamsWidget()
+        )
+      );
+    }
     return Expanded(
       child: PageView.builder(
         controller: controller,

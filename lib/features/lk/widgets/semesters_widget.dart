@@ -25,21 +25,30 @@ class SemestersWidget extends StatefulWidget {
 
 class _SemestersWidgetState extends State<SemestersWidget> {
 
-  int currentIndex = 0;
+  int? currentIndex;
 
   final itemScrollController = ItemScrollController();
 
   @override
   void initState() {
     super.initState();
+    currentIndex = widget.controller.initialPage;
     widget.controller.addListener(onChangePage);
+
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      itemScrollController.scrollTo(
+        index: widget.controller.initialPage,
+        duration: Duration(milliseconds: 300),
+        alignment: 0.5
+      );
+    });
   }
 
   void onChangePage(){
     final newIndex = widget.controller.page?.round();
-    if (newIndex != null){
+    if (newIndex != null && newIndex != currentIndex){
       itemScrollController.scrollTo(
-        index: currentIndex,
+        index: newIndex,
         duration: Duration(milliseconds: 300),
         alignment: 0.5
       );
