@@ -8,12 +8,15 @@ import 'package:scrollable_positioned_list/scrollable_positioned_list.dart';
 
 class SemestersWidget extends StatefulWidget {
 
-  final PageController? controller;
+  final PageController controller;
   final List<SemesterEntity> semesters;
   final void Function(SemesterEntity, int)? onChangeSemester;
 
   const SemestersWidget({
-    super.key, required this.semesters, this.onChangeSemester, this.controller
+    super.key,
+    required this.semesters,
+    this.onChangeSemester,
+    required this.controller
   });
 
   @override
@@ -29,11 +32,16 @@ class _SemestersWidgetState extends State<SemestersWidget> {
   @override
   void initState() {
     super.initState();
-    widget.controller?.addListener(onChangePage);
+    try {
+      currentIndex = widget.controller.page?.round() ?? 0;
+    } on AssertionError catch(_){
+      currentIndex = widget.controller.initialPage;
+    }
+    widget.controller.addListener(onChangePage);
   }
 
   void onChangePage(){
-    final newIndex = widget.controller!.page?.round();
+    final newIndex = widget.controller.page?.round();
     if (newIndex != null){
       itemScrollController.scrollTo(
         index: currentIndex,
@@ -48,7 +56,6 @@ class _SemestersWidgetState extends State<SemestersWidget> {
 
   @override
   Widget build(BuildContext context) {
-    final reversed = widget.semesters.reversed.toList();
     return SizedBox(
       height: 24.h,
       child: ScrollablePositionedList.separated(
@@ -56,19 +63,18 @@ class _SemestersWidgetState extends State<SemestersWidget> {
         padding: EdgeInsets.symmetric(horizontal: horizontalPaddingPage),
         scrollDirection: Axis.horizontal,
         itemCount: widget.semesters.length,
-        reverse: true,
         separatorBuilder: (context, index) => 10.hs(),
         itemBuilder: (context, index) => SemesterItem(
           isSelected: index == currentIndex,
-          semester: reversed[index],
+          semester: widget.semesters[index],
           onTap: () {
-            widget.controller?.animateToPage(
+            widget.controller.animateToPage(
               index,
               duration: Duration(milliseconds: 300),
               curve: Curves.linear
             );
             if (widget.onChangeSemester != null){
-              widget.onChangeSemester!(reversed[index], index);
+              widget.onChangeSemester!(widget.semesters[index], index);
             }
           },
         )

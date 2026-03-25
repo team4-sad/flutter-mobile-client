@@ -2,18 +2,25 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_it/get_it.dart';
 import 'package:miigaik/core/extensions/num_widget_extension.dart';
+import 'package:miigaik/core/widgets/placeholder_widget.dart';
 import 'package:miigaik/core/widgets/simple_app_bar.dart';
 import 'package:miigaik/features/lk/features/education-plan/bloc/education_plan_cubit.dart';
+import 'package:miigaik/features/lk/features/education-plan/widgets/loaded_education_plan.dart';
+import 'package:miigaik/features/lk/features/education-plan/widgets/loading_education_plan.dart';
 import 'package:miigaik/features/lk/widgets/loading_semester_widget.dart';
 import 'package:miigaik/features/lk/widgets/semesters_widget.dart';
 
 class EducationPlanPage extends StatelessWidget {
   const EducationPlanPage({super.key});
 
+
   @override
   Widget build(BuildContext context) {
+    final pageController = PageController();
     final cubit = GetIt.I.get<EducationPlanCubit>();
+
     cubit.fetchEducationPlan();
+
     return Scaffold(
       appBar: SimpleAppBar(title: "Учебный план"),
       body: Column(
@@ -26,6 +33,7 @@ class EducationPlanPage extends StatelessWidget {
                 EducationPlanInitial() => LoadingSemestersWidget(),
                 EducationPlanLoading() => LoadingSemestersWidget(),
                 EducationPlanLoaded(data: var plan) => SemestersWidget(
+                  controller: pageController,
                   semesters: plan.map((e) => e.toEntity()).toList()
                 ),
                 EducationPlanError() => SizedBox()
@@ -33,19 +41,20 @@ class EducationPlanPage extends StatelessWidget {
             },
           ),
           20.vs(),
-          // BlocBuilder<EducationPlanCubit, EducationPlanState>(
-          //   bloc: GetIt.I.get(),
-          //   builder: (context, state) {
-          //     return switch(state) {
-          //       EducationPlanInitial() => LoadingSemestersWidget(),
-          //       EducationPlanLoading() => LoadingSemestersWidget(),
-          //       EducationPlanLoaded(data: var plan) => SemestersWidget(
-          //         semesters: plan.map((e) => e.toEntity()).toList()
-          //       ),
-          //       EducationPlanError(error: var err) => PlaceholderWidget.fromException(err)
-          //     };
-          //   },
-          // ),
+          BlocBuilder<EducationPlanCubit, EducationPlanState>(
+            bloc: GetIt.I.get(),
+            builder: (context, state) {
+              return switch(state) {
+                EducationPlanInitial() => LoadingEducationPlan(),
+                EducationPlanLoading() => LoadingEducationPlan(),
+                EducationPlanError(error: var err) => PlaceholderWidget.fromException(err),
+                EducationPlanLoaded(data: var plan) => LoadedEducationPlan(
+                  controller: pageController,
+                  plan: plan,
+                )
+              };
+            },
+          ),
         ],
       ),
     );
