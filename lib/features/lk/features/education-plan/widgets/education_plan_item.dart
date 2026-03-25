@@ -28,7 +28,7 @@ class EducationPlanItem extends StatelessWidget {
         children: [
           Text(
             educationDisciplineModel.discipline,
-            style: TS.medium16.use(context.palette.text)
+            style: TS.medium15.use(context.palette.text)
           ),
           5.vs(),
           Text(

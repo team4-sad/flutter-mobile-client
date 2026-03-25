@@ -32,11 +32,6 @@ class _SemestersWidgetState extends State<SemestersWidget> {
   @override
   void initState() {
     super.initState();
-    try {
-      currentIndex = widget.controller.page?.round() ?? 0;
-    } on AssertionError catch(_){
-      currentIndex = widget.controller.initialPage;
-    }
     widget.controller.addListener(onChangePage);
   }
 
@@ -59,6 +54,7 @@ class _SemestersWidgetState extends State<SemestersWidget> {
     return SizedBox(
       height: 24.h,
       child: ScrollablePositionedList.separated(
+        physics: const ClampingScrollPhysics(),
         itemScrollController: itemScrollController,
         padding: EdgeInsets.symmetric(horizontal: horizontalPaddingPage),
         scrollDirection: Axis.horizontal,

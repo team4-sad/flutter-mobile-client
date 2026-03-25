@@ -5,26 +5,31 @@ import 'package:miigaik/core/extensions/num_widget_extension.dart';
 import 'package:miigaik/core/widgets/placeholder_widget.dart';
 import 'package:miigaik/core/widgets/simple_app_bar.dart';
 import 'package:miigaik/features/lk/features/academic-performance/bloc/academic_performance_cubit.dart';
-import 'package:miigaik/features/lk/features/academic-performance/widgets/academic_performance_list_widget.dart';
+import 'package:miigaik/features/lk/features/academic-performance/widgets/loaded_academic_performance.dart';
 import 'package:miigaik/features/lk/features/academic-performance/widgets/loading_performance_list_widget.dart';
 import 'package:miigaik/features/lk/widgets/loading_semester_widget.dart';
 import 'package:miigaik/features/lk/widgets/semesters_widget.dart';
 
 class AcademicPerformancePage extends StatelessWidget {
-  AcademicPerformancePage({super.key});
+  const AcademicPerformancePage({super.key});
 
-  final cubit = GetIt.I.get<AcademicPerformanceCubit>();
-
-  final pageController = PageController();
 
   @override
   Widget build(BuildContext context) {
+
+    late PageController pageController;
+
+    final cubit = GetIt.I.get<AcademicPerformanceCubit>();
     cubit.fetchPerformance();
+
     return Scaffold(
       appBar: SimpleAppBar(title: "Успеваемость"),
       body: BlocBuilder<AcademicPerformanceCubit, AcademicPerformanceState>(
         bloc: cubit,
         builder: (context, state) {
+          if (state is AcademicPerformanceLoadedState){
+            pageController = PageController(initialPage: state.data.length);
+          }
           return Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -41,18 +46,12 @@ class AcademicPerformancePage extends StatelessWidget {
               switch(state){
                 AcademicPerformanceInitialState() => LoadingPerformanceListWidget(),
                 AcademicPerformanceLoadingState() => LoadingPerformanceListWidget(),
-                AcademicPerformanceErrorState(error: var error) => PlaceholderWidget.fromException(error),
-                AcademicPerformanceLoadedState(data: var performance) => Expanded(
-                  child: PageView.builder(
-                    controller: pageController,
-                    reverse: true,
-                    itemBuilder: (context, index){
-                      return AcademicPerformanceListWidget(
-                        performance: performance[performance.length-1-index],
-                      );
-                    },
-                    itemCount: performance.length,
-                  ),
+                AcademicPerformanceErrorState(error: var error) => PlaceholderWidget.fromException(
+                  error
+                ),
+                AcademicPerformanceLoadedState(data: var performance) => LoadedAcademicPerformance(
+                  controller: pageController,
+                  performance: performance,
                 )
               }
             ],
