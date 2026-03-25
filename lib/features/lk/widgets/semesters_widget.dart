@@ -36,10 +36,9 @@ class _SemestersWidgetState extends State<SemestersWidget> {
     widget.controller.addListener(onChangePage);
 
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      itemScrollController.scrollTo(
-        index: widget.controller.initialPage,
-        duration: Duration(milliseconds: 300),
-        alignment: 0.5
+      itemScrollController.jumpTo(
+        index: currentIndex!,
+        alignment: 0
       );
     });
   }
