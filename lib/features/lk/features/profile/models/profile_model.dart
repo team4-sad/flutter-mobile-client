@@ -126,6 +126,8 @@ class EducationInfo {
     profile: json['profile'],
   );
 
+  String get displayProfile => (profile.isEmpty) ? "-" : profile;
+
   Map<String, dynamic> toJson() => {
     "faculty": faculty,
     "form": form,

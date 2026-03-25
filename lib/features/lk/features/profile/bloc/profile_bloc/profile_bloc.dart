@@ -16,7 +16,7 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
       try {
         emit(ProfileLoading());
         final profile = await getProfileUseCase();
-        emit(ProfileLoaded(profile));
+        emit(ProfileLoaded(profile: profile));
       } on Object catch(e){
         emit(ProfileError(error: e));
       }
