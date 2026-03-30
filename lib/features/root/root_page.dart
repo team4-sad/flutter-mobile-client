@@ -11,7 +11,7 @@ import 'package:miigaik/core/features/bottom-nav-bar/items_nav_bar.dart';
 import 'package:miigaik/features/home/home_page.dart';
 import 'package:miigaik/features/map/map_page.dart';
 import 'package:miigaik/features/notes/notes_page.dart';
-import 'package:miigaik/features/profile/profile_page.dart';
+import 'package:miigaik/features/lk/features/profile/profile_page.dart';
 import 'package:miigaik/features/schedule/schedule_page.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 import 'package:talker_flutter/talker_flutter.dart';

@@ -3,13 +3,17 @@ import 'package:get_it/get_it.dart';
 import 'package:miigaik/core/features/bottom-nav-bar/bloc/bottom_nav_bar_bloc.dart';
 import 'package:miigaik/core/features/bottom-nav-bar/items_nav_bar.dart';
 import 'package:miigaik/core/features/network-connection/bloc/network_connection_bloc.dart';
-import 'package:miigaik/features/academic-performance/bloc/academic_performance_cubit.dart';
-import 'package:miigaik/features/academic-performance/repository/academic_performance_repository.dart';
+import 'package:miigaik/features/lk/bloc/auth_cubit/auth_cubit.dart';
+import 'package:miigaik/features/lk/features/academic-performance/bloc/academic_performance_cubit.dart';
+import 'package:miigaik/features/lk/features/academic-performance/repository/academic_performance_repository.dart';
+import 'package:miigaik/features/lk/features/education-plan/bloc/education_plan_cubit.dart';
+import 'package:miigaik/features/lk/features/education-plan/repository/education_plan_repository.dart';
 import 'package:miigaik/features/map/bloc/floor_map_cubit/floor_map_cubit.dart';
 import 'package:miigaik/features/map/bloc/map_cubit/map_cubit.dart';
 import 'package:miigaik/features/news/bloc/news_list_bloc/news_list_bloc.dart';
 import 'package:miigaik/features/news/bloc/news_page_mode_bloc/news_page_mode_bloc.dart';
 import 'package:miigaik/features/news/bloc/search_news_bloc/search_news_bloc.dart';
+import 'package:miigaik/features/news/features/single-news/repository/single_news_repository.dart';
 import 'package:miigaik/features/news/repository/news_repository.dart';
 import 'package:miigaik/features/news/repository/search_news_repository.dart';
 import 'package:miigaik/features/notes/bloc/notes_bloc/notes_bloc.dart';
@@ -17,12 +21,8 @@ import 'package:miigaik/features/notes/bloc/notes_mode_cubit/notes_mode_cubit.da
 import 'package:miigaik/features/notes/bloc/search_notes_bloc/search_notes_bloc.dart';
 import 'package:miigaik/features/notes/features/note/repositories/attachment_repository.dart';
 import 'package:miigaik/features/notes/repository/notes_repository.dart';
-import 'package:miigaik/features/profile/bloc/auth_cubit/auth_cubit.dart';
-import 'package:miigaik/features/profile/bloc/profile_bloc/profile_bloc.dart';
-import 'package:miigaik/features/profile/repository/lk_repository.dart';
-import 'package:miigaik/features/profile/use_case/auto_login_use_case.dart';
-import 'package:miigaik/features/profile/use_case/login_use_case.dart';
-import 'package:miigaik/features/profile/use_case/logout_use_case.dart';
+import 'package:miigaik/features/lk/features/profile/bloc/profile_bloc/profile_bloc.dart';
+import 'package:miigaik/features/lk/repository/auth_repository.dart';
 import 'package:miigaik/features/schedule/bloc/current_time_cubit/current_time_cubit.dart';
 import 'package:miigaik/features/schedule/bloc/schedule_bloc/schedule_bloc.dart';
 import 'package:miigaik/features/schedule/bloc/schedule_selected_day_bloc/schedule_selected_day_bloc.dart';
@@ -32,7 +32,6 @@ import 'package:miigaik/features/schedule/repository/schedule_repository.dart';
 import 'package:miigaik/features/schedule/features/schedule-choose/bloc/signature_schedule_bloc/signature_schedule_bloc.dart';
 import 'package:miigaik/features/schedule/features/schedule-choose/repository/signature_schedule_repository.dart';
 import 'package:miigaik/features/settings/bloc/switch-theme/theme_bloc.dart';
-import 'package:miigaik/features/single-news/repository/single_news_repository.dart';
 import 'package:miigaik/theme/app_theme.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 
@@ -89,11 +88,14 @@ class AppDI {
     final noteAttachmentRepository = NoteAttachmentRepository();
     GetIt.I.registerSingleton<INoteAttachmentRepository>(noteAttachmentRepository);
 
-    final lkRepository = LkRepositoryImpl(dio: defaultDio);
-    GetIt.I.registerSingleton<LkRepository>(lkRepository);
+    final lkRepository = AuthRepositoryImpl(dio: defaultDio);
+    GetIt.I.registerSingleton<AuthRepository>(lkRepository);
 
     final academicPerformanceRepository = ApiAcademicPerformanceRepository(dio: defaultDio);
     GetIt.I.registerSingleton<IAcademicPerformanceRepository>(academicPerformanceRepository);
+
+    final educationPlanRepository = ApiEducationPlanRepository(dio: defaultDio);
+    GetIt.I.registerSingleton<IEducationPlanRepository>(educationPlanRepository);
   }
 
   static void registerBlocs() {
@@ -109,19 +111,13 @@ class AppDI {
     GetIt.I.registerSingleton(NotesBloc());
     GetIt.I.registerSingleton(SearchNotesBloc());
     GetIt.I.registerSingleton(ProfileBloc());
-
     GetIt.I.registerSingleton(NotesModeCubit());
     GetIt.I.registerSingleton(CurrentTimeCubit());
     GetIt.I.registerSingleton(MapCubit());
     GetIt.I.registerSingleton(FloorMapCubit());
     GetIt.I.registerSingleton(SelectingScheduleChoosePageCubit());
-
-    GetIt.I.registerSingleton(AuthCubit(
-      loginUseCase: LoginUseCase(repository: GetIt.I.get(), sessionStorage: GetIt.I.get()),
-      autoLoginUseCase: AutoLoginUseCase(sessionStorage: GetIt.I.get()),
-      logoutUseCase: LogoutUseCase(sessionStorage: GetIt.I.get())
-    ));
-
+    GetIt.I.registerSingleton(AuthCubit());
     GetIt.I.registerSingleton(AcademicPerformanceCubit());
+    GetIt.I.registerSingleton(EducationPlanCubit());
   }
 }
