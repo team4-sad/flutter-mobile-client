@@ -85,7 +85,7 @@ class RootPage extends StatelessWidget {
             child: Align(
               alignment: Alignment.bottomCenter,
               child: BottomNavBarGradient(
-                bottomNavBar: BottomNavBar()
+                child: BottomNavBar()
               )
             ),
           ),

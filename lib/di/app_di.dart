@@ -6,6 +6,8 @@ import 'package:miigaik/core/features/network-connection/bloc/network_connection
 import 'package:miigaik/features/lk/bloc/auth_cubit/auth_cubit.dart';
 import 'package:miigaik/features/lk/features/academic-performance/bloc/academic_performance_cubit.dart';
 import 'package:miigaik/features/lk/features/academic-performance/repository/academic_performance_repository.dart';
+import 'package:miigaik/features/lk/features/documents/features/orders_documents/bloc/orders_document_cubit.dart';
+import 'package:miigaik/features/lk/features/documents/repository/documents_repository.dart';
 import 'package:miigaik/features/lk/features/education-plan/bloc/education_plan_cubit.dart';
 import 'package:miigaik/features/lk/features/education-plan/repository/education_plan_repository.dart';
 import 'package:miigaik/features/map/bloc/floor_map_cubit/floor_map_cubit.dart';
@@ -96,6 +98,9 @@ class AppDI {
 
     final educationPlanRepository = ApiEducationPlanRepository(dio: defaultDio);
     GetIt.I.registerSingleton<IEducationPlanRepository>(educationPlanRepository);
+
+    final documentsRepository = ApiDocumentsRepository(dio: defaultDio);
+    GetIt.I.registerSingleton<IDocumentsRepository>(documentsRepository);
   }
 
   static void registerBlocs() {
@@ -119,5 +124,6 @@ class AppDI {
     GetIt.I.registerSingleton(AuthCubit());
     GetIt.I.registerSingleton(AcademicPerformanceCubit());
     GetIt.I.registerSingleton(EducationPlanCubit());
+    GetIt.I.registerSingleton(OrdersDocumentCubit());
   }
 }

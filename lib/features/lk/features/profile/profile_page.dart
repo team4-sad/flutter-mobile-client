@@ -6,6 +6,7 @@ import 'package:miigaik/core/extensions/num_widget_extension.dart';
 import 'package:miigaik/core/widgets/square_icon_button.dart';
 import 'package:miigaik/features/lk/bloc/auth_cubit/auth_cubit.dart';
 import 'package:miigaik/features/lk/features/academic-performance/academic_performance_page.dart';
+import 'package:miigaik/features/lk/features/documents/features/orders_documents/orders_documents_page.dart';
 import 'package:miigaik/features/lk/features/education-plan/education_plan_page.dart';
 import 'package:miigaik/features/lk/features/student_inforamtion/student_information_page.dart';
 import 'package:miigaik/features/other-services/other_services_page.dart';
@@ -141,7 +142,14 @@ class ProfilePage extends StatelessWidget {
                       ),
                     ItemProfileWidget(
                       title: "Услуги",
-                      onTap: (() {})
+                      onTap: (() {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => OrdersDocumentsPage()
+                          )
+                        );
+                      })
                     ),
                     ItemProfileWidget(
                       title: "Другие сервисы",

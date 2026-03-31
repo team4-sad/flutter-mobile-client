@@ -3,9 +3,9 @@ import 'package:miigaik/theme/app_theme_extensions.dart';
 
 class BottomNavBarGradient extends StatelessWidget {
 
-  final Widget bottomNavBar;
+  final Widget child;
 
-  const BottomNavBarGradient({super.key, required this.bottomNavBar});
+  const BottomNavBarGradient({super.key, required this.child});
 
   @override
   Widget build(BuildContext context) {
@@ -20,7 +20,7 @@ class BottomNavBarGradient extends StatelessWidget {
           end: Alignment.topCenter,
         )
       ),
-      child: bottomNavBar
+      child: child
     );
   }
 }
