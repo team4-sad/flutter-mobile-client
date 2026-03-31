@@ -5,6 +5,7 @@ import 'package:get_it/get_it.dart';
 import 'package:miigaik/core/features/bottom-nav-bar/bottom_nav_bar_gradient.dart';
 import 'package:miigaik/core/widgets/placeholder_widget.dart';
 import 'package:miigaik/core/widgets/simple_app_bar.dart';
+import 'package:miigaik/features/lk/features/documents/features/new_order_document/new_order_document_page.dart';
 import 'package:miigaik/features/lk/features/documents/features/orders_documents/bloc/orders_document_cubit.dart';
 import 'package:miigaik/features/lk/features/documents/features/orders_documents/widgets/empty_orders.dart';
 import 'package:miigaik/features/lk/features/documents/features/orders_documents/widgets/loaded_orders_widget.dart';
@@ -54,7 +55,12 @@ class OrdersDocumentsPage extends StatelessWidget {
                     width: double.infinity,
                     child: FilledButton(
                       onPressed: (){
-
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => NewOrderDocumentPage()
+                          )
+                        );
                       },
                       child: Text("Заказать документ", style: TS.medium15,)
                     ),
