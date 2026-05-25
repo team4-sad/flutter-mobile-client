@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:miigaik/core/extensions/num_widget_extension.dart';
 import 'package:miigaik/core/extensions/iterable_extensions.dart';
 import 'package:miigaik/generated/icons.g.dart';
@@ -24,8 +25,8 @@ class SimpleAppBar extends StatelessWidget implements PreferredSizeWidget {
       padding: EdgeInsets.only(
         left: horizontalPaddingPage,
         right: horizontalPaddingPage,
-        top: 59,
-        bottom: 8,
+        top: 38.h,
+        bottom: 8.h,
       ),
       child: Row(
         children: [
@@ -58,5 +59,5 @@ class SimpleAppBar extends StatelessWidget implements PreferredSizeWidget {
   }
 
   @override
-  Size get preferredSize => Size.fromHeight(kToolbarHeight);
+  Size get preferredSize => Size.fromHeight((kToolbarHeight * 1.5).h);
 }
