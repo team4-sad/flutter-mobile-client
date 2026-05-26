@@ -1,5 +1,6 @@
 package com.sadik.miigaik
 
+import com.sadik.miigaik.R
 import android.app.PendingIntent
 import android.appwidget.AppWidgetManager
 import android.appwidget.AppWidgetProvider
